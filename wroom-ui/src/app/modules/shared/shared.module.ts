@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-//u ovaj modul bacajte sve vase material ui importe i ostale stvari koje biste preneli u sve module
+//u ovaj modul bacajte sve ostale komponente koje biste preneli u neke module (npr loading spinner)
 @NgModule({
   declarations: [
 
