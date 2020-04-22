@@ -1,0 +1,18 @@
+.container {
+    height: 100%;
+}
+
+.image {
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url('../../../../assets/headlights.jpg');
+    height: 100%;
+    width: 100%;
+}
+
+.text-wrapper {
+    color: rgba(255, 255, 255, 0.473);
+    text-align: center;
+    padding-top: 150px;
+}

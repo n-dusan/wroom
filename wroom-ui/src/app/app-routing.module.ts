@@ -8,7 +8,9 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
   { path: 'rents', loadChildren: () => import('./modules/rents/rent.module').then(mod => mod.RentModule)},
-  { path: 'neki vas import, razmisljajte o podeli na module!', redirectTo: 'rents', pathMatch: 'full' }
+  { path: 'neki vas import, razmisljajte o podeli na module!', redirectTo: 'rents', pathMatch: 'full' },
+  { path: '', redirectTo: '/agent', pathMatch: 'full' },
+  { path: 'agent', loadChildren: './modules/agent/agent.module#AgentModule' }
 ];
 
 @NgModule({
