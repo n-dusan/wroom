@@ -7,10 +7,11 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 //gledao sam kurs folder 22 - Angular Modules & Optimizing Angular Apps
 
 const routes: Routes = [
+  { path: '', redirectTo: '/agent', pathMatch: 'full' },
+  { path: 'agent', loadChildren: () => import('./modules/agent/agent.module').then(mod => mod.AgentModule)},
   { path: 'rents', loadChildren: () => import('./modules/rents/rent.module').then(mod => mod.RentModule)},
   { path: 'neki vas import, razmisljajte o podeli na module!', redirectTo: 'rents', pathMatch: 'full' },
-  { path: '', redirectTo: '/agent', pathMatch: 'full' },
-  { path: 'agent', loadChildren: './modules/agent/agent.module#AgentModule' }
+  
 ];
 
 @NgModule({
