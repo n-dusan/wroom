@@ -14,7 +14,7 @@ const routes: Routes = [
       // he gets his links. Example: 
       // http://wroom.com/agent ---> Register a Car ---> http://wroom.com/agent/register-car
       { path: 'home', component: HomeAgentComponent },
-      { path: 'making-vehicles-form', component: MakingVehiclesFormComponent }
+      { path: 'new-vehicle', component: MakingVehiclesFormComponent }
     ]
   }
 ];
