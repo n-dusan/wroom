@@ -20,3 +20,9 @@ mat-form-field {
 .mat-error{
     color:red;
 }
+
+.mat-option{
+    background-color: rgb(63, 61, 61);
+    color:white;
+}
+

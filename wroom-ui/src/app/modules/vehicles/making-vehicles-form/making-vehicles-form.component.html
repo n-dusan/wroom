@@ -1,10 +1,12 @@
-<section fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 25px;" *ngIf="!success">
-  <h1 style="font-size:30px; text-shadow: 2px 2px 7px lightgray;">New Vehicle</h1>
-  <mat-horizontal-stepper [linear]="isLinear" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" #stepper>
+<section fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 25px; color:white"
+   *ngIf="!success">
+  <h1 style="font-size:30px; color: white;">New Vehicle</h1>
+  <mat-horizontal-stepper style="background-color: rgb(63, 61, 61);padding: 15px" [linear]="isLinear" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" #stepper>
 
-    <mat-step>
-      <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" (ngSubmit)="onNext1Click()">
-        <ng-template matStepLabel>General</ng-template>
+    <mat-step style="color:white">
+      <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" (ngSubmit)="onNext1Click()"
+      style="background-color: rgb(63, 61, 61);color: white;padding: 15px">
+        <ng-template  matStepLabel>General</ng-template>
 
         <mat-form-field>
           <input type="text" matInput placeholder="Vehicle Brand" ngModel name="vehicleBrand" required #vehicleBrandInput="ngModel"> 
@@ -86,14 +88,12 @@
 
 </section>
 
-
-<!-- <div *ngIf="success" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center"
-  style="margin-top:100px; text-align: center;  ">
-  <div>
-  <h1>Congratulations!</h1>
-  <h3>You have successfully created a vehicle!</h3>
-  <h4>Back to <a routerLink="/">Home page</a></h4>
+<div *ngIf="success" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top:25px">
+  <img style=" display: block; margin-left: auto; margin-right: auto; width: 20%;"
+ *ngIf="success"class="loadingIcon" src="https://media.giphy.com/media/dZoDigtipLngohGPEk/giphy.gif">
+  <h1 style="margin-top: 15px; color:white;">Loading...</h1>
+  <h3 style="color:white;">Your request is being processed.</h3>
 </div>
-</div> -->
-<img style=" display: block; margin-left: auto;margin-right: auto; width: 40%;"
- *ngIf="success"class="loadingIcon" src="https://cdn.dribbble.com/users/187444/screenshots/2928490/dribbble.gif">
+
+
+ 
