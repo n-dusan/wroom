@@ -9,18 +9,25 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { SharedModule } from '../shared/shared.module';
+import { MakingVehiclesFormComponent } from '../vehicles/making-vehicles-form/making-vehicles-form.component';
+import { MaterialModule } from '../shared/material.module';
+import { RouterModule } from '@angular/router';
 
 
 
 @NgModule({
   declarations: [
+    MakingVehiclesFormComponent,
     HomeAgentComponent
+    
   ],
   imports: [
     AgentRoutingModule, 
+    MaterialModule,
     SharedModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     FlexLayoutModule,
     MatButtonModule,
     MatSidenavModule,

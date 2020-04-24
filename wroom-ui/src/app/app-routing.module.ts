@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'agent', loadChildren: () => import('./modules/agent/agent.module').then(mod => mod.AgentModule)},
   { path: 'rents', loadChildren: () => import('./modules/rents/rent.module').then(mod => mod.RentModule)},
   { path: 'neki vas import, razmisljajte o podeli na module!', redirectTo: 'rents', pathMatch: 'full' },
-  { path: 'making-vehicles-form', component: MakingVehiclesFormComponent }
+  // { path: 'making-vehicles-form', redirectTo: 'agent', pathMatch: 'full' }
+  // { path: 'making-vehicles-form', component: MakingVehiclesFormComponent }
 ];
 
 @NgModule({

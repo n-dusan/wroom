@@ -53,7 +53,6 @@ export class MakingVehiclesFormComponent implements OnInit {
   }
 
   doneClick(){
-    this.bar = true;
     this.success = true;
   }
 }
