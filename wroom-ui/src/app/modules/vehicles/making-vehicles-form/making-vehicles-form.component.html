@@ -1,0 +1,99 @@
+<section fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 25px;" *ngIf="!success">
+  <h1 style="font-size:30px; text-shadow: 2px 2px 7px lightgray;">New Vehicle</h1>
+  <mat-horizontal-stepper [linear]="isLinear" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" #stepper>
+
+    <mat-step>
+      <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" (ngSubmit)="onNext1Click()">
+        <ng-template matStepLabel>General</ng-template>
+
+        <mat-form-field>
+          <input type="text" matInput placeholder="Vehicle Brand" ngModel name="vehicleBrand" required #vehicleBrandInput="ngModel"> 
+          <mat-error *ngIf="vehicleBrandInput.hasError('required')" color="accent">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="text" matInput placeholder="Vehicle Model" ngModel name="vehicleModel" required #vehicleModelInput="ngModel">
+          <mat-error *ngIf="vehicleModelInput.hasError('required')" color="accent">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="text" matInput placeholder="Fuel Type" ngModel name="fuelType" required #fuelTypeInput="ngModel">
+          <mat-error *ngIf="fuelTypeInput.hasError('required')" color="accent">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="text" matInput placeholder="Body Type" ngModel name="bodyType" required #bodyTypeInput="ngModel">
+          <mat-error *ngIf="bodyTypeInput.hasError('required')" color="accent">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Gearbox</mat-label>
+          <mat-select ngModel [formControl]="selected" name="select">
+            <mat-option value="automatic">Automatic</mat-option>
+            <mat-option value="manuel">Manuel</mat-option>
+            <mat-option value="secondTemplate">Semi Automatic</mat-option>
+          </mat-select>
+          <mat-error *ngIf="selected.hasError('required')" color="accent">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+        <div>
+          <button mat-raised-button color="accent" type="button" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <form fxFlex="80%" fxLayout="column" fxLayoutAlign="center center" (ngSubmit)="onNext1Click()">
+        <ng-template matStepLabel>Mileage</ng-template>
+        <mat-form-field>
+          <input type="number" matInput placeholder="Mileage" ngModel name="mileage" required #mileageInput="ngModel">
+          <mat-error *ngIf="mileageInput.hasError('required')" color="accent">Field must not be empty!</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button color="accent" type="button" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <form fxFlex="100%" fxLayout="column" fxLayoutAlign="center center">
+        <ng-template matStepLabel>Other</ng-template>
+        <mat-form-field>
+          <input type="number" matInput placeholder="Child Seats" ngModel name="childSeats" required #childSeatsInput="ngModel">
+          <mat-error *ngIf="childSeatsInput.hasError('required')" color="accent">Field must not be empty!</mat-error>
+        </mat-form-field>
+        <mat-checkbox ngModel name="agree" required color="primary">Collision Damage Waiver</mat-checkbox>
+        <div>
+          <button mat-raised-button color="accent" type="button" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <form fxFlex="100%" fxLayout="column" fxLayoutAlign="center center">
+        <ng-template matStepLabel>Images</ng-template>
+          <img *ngFor='let url of urls'  [src]="url" height="200"> <br/>
+          <div >
+            <button mat-mini-fab color="accent" (click)="fileInput.click()"><mat-icon>attach_file</mat-icon></button>
+            <label matLabel>
+            Select images
+            </label>
+          </div>
+          <input #fileInput type='file' (change)="onSelectFile($event)" multiple style="display:none;">
+          <br>
+          <button mat-raised-button color="accent" type="submit" fancyBtn (click)="doneClick()" matStepperNext>Done</button>
+        
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+</section>
+
+
+<!-- <div *ngIf="success" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center"
+  style="margin-top:100px; text-align: center;  ">
+  <div>
+  <h1>Congratulations!</h1>
+  <h3>You have successfully created a vehicle!</h3>
+  <h4>Back to <a routerLink="/">Home page</a></h4>
+</div>
+</div> -->
+<img style=" display: block; margin-left: auto;margin-right: auto; width: 40%;"
+ *ngIf="success"class="loadingIcon" src="https://cdn.dribbble.com/users/187444/screenshots/2928490/dribbble.gif">
