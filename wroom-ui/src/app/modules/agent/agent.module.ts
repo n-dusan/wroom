@@ -4,12 +4,14 @@ import { AgentRoutingModule } from './agent-routing.module';
 import { HomeAgentComponent } from './home-agent/home-agent.component';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from '../shared/material.module';
+import { AgentComponent } from './agent.component';
 
 
 
 @NgModule({
   declarations: [
-    HomeAgentComponent
+    HomeAgentComponent,
+    AgentComponent
   ],
   imports: [
     AgentRoutingModule, 
