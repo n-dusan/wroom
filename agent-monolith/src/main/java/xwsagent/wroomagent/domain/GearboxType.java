@@ -5,22 +5,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Stub {
+public class GearboxType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="message")
-    private String message;
-    
-    public Stub(String message) {
-        this.message = message;
-    }
+    @Column(nullable = false)
+    private String name;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "gearboxType")
+    private Set<Vehicle> vehicles;
+
 }

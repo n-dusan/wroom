@@ -4,23 +4,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Stub {
+
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="message")
-    private String message;
-    
-    public Stub(String message) {
-        this.message = message;
-    }
 }

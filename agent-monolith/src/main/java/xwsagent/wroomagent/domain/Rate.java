@@ -6,21 +6,23 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-
 @Entity
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
-public class Stub {
+public class Rate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="message")
-    private String message;
-    
-    public Stub(String message) {
-        this.message = message;
-    }
+    @Column(nullable = false)
+    private Integer rating;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private User client;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Ad ad;
+
 }
