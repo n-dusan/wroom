@@ -10,7 +10,7 @@ RUN ["npm", "run", "build", "--prod"]
 FROM maven:3.6.3-ibmjava-8-alpine AS agentMonolith
 
 WORKDIR /usr/src/agent
-COPY wroom-agent .
+COPY agent-monolith .
 COPY --from=agentFront /usr/src/agent/dist/agent-ui ./src/main/resources/static
 
 RUN ["mvn", "package", "-DskipTests"]

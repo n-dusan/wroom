@@ -16,6 +16,7 @@ public class StubController {
     @Autowired
     private StubRepository repository;
 
+
     @GetMapping(value="/test")
     public ResponseEntity<Stub> test() {
         String message = "I'm being tested";

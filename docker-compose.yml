@@ -18,8 +18,10 @@ services:
       DATABASE_PASSWORD: root
       DATABASE_DOMAIN: mysql
       DATABASE_SCHEMA: wroom
+      RMQ_HOST: rabbitmq-broker
     depends_on: 
       - mysql
+
 
 # build ui seperately from agent
 #  agent-ui:
@@ -48,6 +50,7 @@ services:
 
     ports:
         - "3306:3306"
+
 
 volumes:
   mysql-data:
