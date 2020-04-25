@@ -22,10 +22,7 @@ public class Vehicle {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
-	@Column(name = "gearboxtype")
-	private GearboxType gearboxType;
-	
+
 	@Column(name = "mileage")
 	private Integer mileage;
 	

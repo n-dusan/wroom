@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xwsagent.wroomagent.domain.Stub;
+import xwsagent.wroomagent.producer.MailProducer;
 import xwsagent.wroomagent.repository.StubRepository;
 
 @RestController
@@ -16,9 +17,15 @@ public class StubController {
     @Autowired
     private StubRepository repository;
 
+    @Autowired
+    private MailProducer mailProducer;
+
 
     @GetMapping(value="/test")
     public ResponseEntity<Stub> test() {
+
+        mailProducer.send("MORNING YOUR LORDSHIP");
+
         String message = "I'm being tested";
         Stub stub = new Stub(message);
         this.repository.save(stub);
