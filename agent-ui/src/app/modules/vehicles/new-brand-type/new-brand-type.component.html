@@ -1,0 +1,23 @@
+<section  fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 300px;"
+*ngIf="!success">
+<h1>Create new Brand Type</h1>
+<br>
+<form [formGroup]="createForm" fxLayout="column" fxLayoutAlign="center center" (ngSubmit)="onSubmit()">
+
+
+    <mat-form-field>
+        <input type="text" matInput formControlName="name" placeholder="Name" required>
+    </mat-form-field>
+    <div>
+        <button mat-raised-button color="accent" type="submit">Create</button>
+    </div>
+</form>
+</section>
+
+
+<div *ngIf="success" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center"
+    style="margin-top:25px; text-align: center;">
+    <h1>Success</h1>
+    <h3>Brand Type successfully created.</h3>
+    <h4>Back to <a routerLink="/">Home page</a></h4>
+</div>
