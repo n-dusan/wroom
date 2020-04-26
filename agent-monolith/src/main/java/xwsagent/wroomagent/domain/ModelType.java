@@ -23,9 +23,13 @@ public class ModelType {
 
 	@Column(nullable = false)
 	private String name;
+	
+	@Column(name = "deleted")
+	private boolean deleted;
 
 	public ModelType(ModelTypeDTO dto) {
 		this.name = dto.getName();
+		this.deleted = false;
 	}
 	
 }

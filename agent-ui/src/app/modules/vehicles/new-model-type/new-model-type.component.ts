@@ -10,7 +10,6 @@ import { ModelTypeService } from 'src/app/services/model-type.service';
 })
 export class NewModelTypeComponent implements OnInit {
   createForm: FormGroup;  
-  spin = false;
   success = false;
   modelType: ModelType = new ModelType();
 
@@ -23,15 +22,12 @@ export class NewModelTypeComponent implements OnInit {
   }
 
   save() {  
-    this.spin = true;
     this.modelTypeService.create(this.modelType)
       .subscribe(data => {
-        this.spin = false;
         this.success = true;
       console.log(data);
     },
     error => console.log("Error !"));
-    this.spin = false;
   }
 
   onSubmit() {

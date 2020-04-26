@@ -26,4 +26,16 @@ public class ModelTypeService {
 			return false;
 		}
 	}
+	
+	public boolean delete(String name) {
+		if(findByName(name) != null) {
+			ModelType modelType = findByName(name);
+			modelType.setDeleted(true);
+			modelTypeRepository.save(modelType);
+			return true;
+		}else {
+			return false;
+		}
+		
+	}
 }

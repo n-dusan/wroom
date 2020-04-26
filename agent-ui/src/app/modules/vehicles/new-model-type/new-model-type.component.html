@@ -1,5 +1,5 @@
 <section  fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 300px;"
-*ngIf="!success && !spin">
+*ngIf="!success">
 <h1>Create new Model Type</h1>
 <br>
 <form [formGroup]="createForm" fxLayout="column" fxLayoutAlign="center center" (ngSubmit)="onSubmit()">
@@ -14,14 +14,8 @@
 </form>
 </section>
 
-<div *ngIf="spin" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top:25px">
-    <img style=" display: block; margin-left: auto; margin-right: auto; width: 20%;"
-class="loadingIcon" src="https://media.giphy.com/media/dZoDigtipLngohGPEk/giphy.gif">
-    <h1 style="margin-top: 15px">Just a little moment...</h1>
-    <h3>Your request is being processed.</h3>
-</div>
 
-<div *ngIf="success && !spin" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center"
+<div *ngIf="success" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center"
     style="margin-top:25px; text-align: center;">
     <h1>Success</h1>
     <h3>Model Type successfully created.</h3>
