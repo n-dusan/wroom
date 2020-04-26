@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,15 +27,17 @@ public class RentRequest {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
-	@Column(name = "status")
+
+	@Enumerated(EnumType.STRING)
 	private RequestStatus status;
 	
-	@ManyToOne()
-	private User user;
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private User requestedUser;
 
-	//ovo treba jos pogledati
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Ad> ad;
+	private Set<Ad> ads;
+
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private RentReport rentReport;
 
 }

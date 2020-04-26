@@ -1,6 +1,6 @@
 package xwsagent.wroomagent.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,27 +29,33 @@ public class Ad {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
-	@Column(name = "publishdate")
+
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date publishDate;
-	
-	@Column(name = "availablefrom")
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date availableFrom;
-	
-	@Column(name = "availableto")
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	private Date availableTo;
 	
-	@Column(name = "milelimit")
+	@Column
 	private Double mileLimit;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Vehicle vehicle;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private PriceList priceList;
-	
-	@OneToMany
-	private Set<Image> image;
 
-	
+	@OneToMany(mappedBy = "ad")
+	private Set<Rate> rates;
+
+
+	@OneToMany(mappedBy="vehicle")
+	private Set<Image> image;
 }

@@ -13,7 +13,7 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $wroom-ui-primary: mat-palette($mat-gray, 700, 900, 600);
-$wroom-ui-accent: mat-palette($mat-red, 700, 900, 400);
+$wroom-ui-accent: mat-palette($mat-red, 800, 900, 400);
 
 // The warn palette is optional (defaults to red).
 $wroom-ui-warn: mat-palette($mat-gray, 900);

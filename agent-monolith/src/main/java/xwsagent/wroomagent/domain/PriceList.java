@@ -5,10 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,17 +23,21 @@ public class PriceList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@Column(name = "priceperday")
+
+	@Column(nullable = false)
 	private Double pricePerDay;
 	
-	@Column(name = "pricepermile")
-	private Double pricaPerMile;
+	@Column
+	private Double pricePerMile;
 	
-	@Column(name = "pricecdw")
+	@Column
 	private Double priceCDW;
 	
-	@Column(name = "discount")
+	@Column
 	private Double discount;
+
+	@OneToMany(mappedBy = "priceList")
+	private Set<Ad> ads;
 
 	
 }

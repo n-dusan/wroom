@@ -1,7 +1,4 @@
 package xwsagent.wroomagent.domain;
-
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,26 +19,35 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class User {
-	
+	//needs CRUD details, like deleted and review data
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@Column(name = "name")
+
+	@Column(nullable = false)
 	private String name;
 	
-	@Column(name = "surname")
+	@Column(nullable = false)
 	private String surname;
 	
-	@Column(name = "email", nullable = false, unique = true)
+	@Column(nullable = false, unique = true)
 	private String email;
 	
-	@Column(name = "password")
+	@Column(nullable = false)
 	private String password;
-	
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
-	private List<RentRequest> rentRequestList;
 
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "requestedUser")
+	private Set<RentRequest> rentRequests;
+
+	@OneToMany(mappedBy = "owner")
+	private Set<Vehicle> vehicles;
+
+	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Set<Comment> comments;
+
+	@OneToMany(mappedBy = "client")
+	private Set<Rate> rates;
 	
 }

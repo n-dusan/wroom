@@ -10,15 +10,25 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import javax.persistence.*;
+import java.util.Set;
+
+
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 public class GearboxType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+
+    @Column(nullable = false)
     private String name;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "gearboxType")
+    private Set<Vehicle> vehicles;
+
 }

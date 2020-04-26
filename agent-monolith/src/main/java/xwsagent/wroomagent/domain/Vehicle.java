@@ -9,9 +9,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -23,20 +27,30 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@Column(name = "mileage")
-	private Integer mileage;
+	@Column(nullable = false)
+	private Double mileage;
 	
-	@Column(name = "childseats")
+	@Column(nullable = false)
 	private Integer childSeats;
 	
-	@Column(name = "cdw")
-	private boolean cdw;
+	@Column(nullable = false)
+	private Boolean cdw;
+
+	@Column(nullable = false)
+	private Boolean gps;
+
+	//active true-> vehicle isn't already reserved by hand (ručno)
+	@Column(nullable = false)
+	private Boolean active;
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private User owner;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private VehicleBrand vehicleBrand;
+	private BrandType brandType;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private VehicleModel vehicleModel;
+	private ModelType modelType;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private FuelType fuelType;
@@ -46,5 +60,11 @@ public class Vehicle {
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private GearboxType gearboxType;
+
+	@OneToMany(mappedBy = "vehicle")
+	private Set<Image> image;
+
+	@OneToMany(mappedBy = "vehicle")
+	private Set<Ad> ads;
 
 }

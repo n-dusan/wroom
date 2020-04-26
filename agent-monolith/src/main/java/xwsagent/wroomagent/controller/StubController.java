@@ -12,6 +12,8 @@ import xwsagent.wroomagent.repository.StubRepository;
 
 @RestController
 @RequestMapping(value="api/stub")
+
+//neka stuba za sad, sluzi za proveru rada dokera
 public class StubController {
 
     @Autowired
