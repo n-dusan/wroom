@@ -15,6 +15,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 const modules = [
   MatButtonModule,
@@ -33,7 +35,8 @@ const modules = [
   MatIconModule,
   MatSidenavModule,
   MatToolbarModule,
-  MatListModule
+  MatListModule,
+  MatDialogModule
 ]
 
 @NgModule({

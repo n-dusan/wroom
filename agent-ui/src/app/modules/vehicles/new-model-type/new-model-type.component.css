@@ -1,0 +1,28 @@
+#section{
+    border: solid 5px transparent;
+}
+
+.header-section {
+    display: block;
+    text-align: center;
+    padding: 25px;
+}
+
+
+.form-section {
+    margin: 5px;
+}
+
+mat-form-field {
+    width: 400px;
+}
+
+.mat-error{
+    color:red;
+}
+
+.mat-option{
+    background-color: rgb(63, 61, 61);
+    color:white;
+}
+
