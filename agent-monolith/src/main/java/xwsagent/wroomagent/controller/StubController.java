@@ -26,7 +26,7 @@ public class StubController {
     @GetMapping(value="/test")
     public ResponseEntity<Stub> test() {
 
-        mailProducer.send("MORNING YOUR LORDSHIP");
+        mailProducer.send();
 
         String message = "I'm being tested";
         Stub stub = new Stub(message);

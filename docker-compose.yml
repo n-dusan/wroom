@@ -19,16 +19,16 @@ services:
       DATABASE_DOMAIN: mysql
       DATABASE_SCHEMA: wroom
       RMQ_HOST: rabbitmq-broker
-    depends_on: 
+    depends_on:
       - mysql
       - rabbitmq-broker
 
 
   mail:
-    build: 
+    build:
       context: ./ampq-mail-service
       dockerfile: Dockerfile
-      
+
     image: mail:1.0.0
     container_name: mail
     restart: on-failure
