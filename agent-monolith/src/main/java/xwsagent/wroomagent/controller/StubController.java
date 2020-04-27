@@ -28,5 +28,11 @@ public class StubController {
         Stub s = this.repository.findOneById(1L);
         return new ResponseEntity<Stub>(s, HttpStatus.OK);
     }
-    
+
+    @PostMapping(value="/test", produces = "application/json")
+    public ResponseEntity<Stub> testPost() {
+        Stub s = new Stub("YES, MY SWEET CHILD");
+        return new ResponseEntity<>(s, HttpStatus.OK);
+    }
+
 }
