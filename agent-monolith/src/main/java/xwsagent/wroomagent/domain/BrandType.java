@@ -23,5 +23,16 @@ public class BrandType {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "brandType")
 	private Set<Vehicle> vehicles;
+	
+	@Column(name = "deleted")
+	private boolean deleted;
 
+	public BrandType(Long id, String name, boolean deleted) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.deleted = false;
+	}
+
+	
 }
