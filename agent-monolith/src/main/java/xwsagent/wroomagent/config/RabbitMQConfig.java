@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfiguration {
+public class RabbitMQConfig {
 
     public static final String EXCHANGE_NAME = "tips_tx";
     public static final String DEFAULT_PARSING_QUEUE = "default_parser_q";

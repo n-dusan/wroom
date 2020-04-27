@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import xwsagent.wroomagent.config.RabbitMQConfiguration;
+import xwsagent.wroomagent.config.RabbitMQConfig;
 
 @Service
 public class MailProducer {
@@ -19,7 +19,7 @@ public class MailProducer {
 
     public void send() {
         MailMessage mailMessage = new MailMessage("testboy@maildrop.cc,", "Hello!", "Yes, my child.");
-        rabbitTemplate.convertAndSend(RabbitMQConfiguration.EXCHANGE_NAME, RabbitMQConfiguration.ROUTING_KEY, mailMessage);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
         log.info("Sent a message to >"+mailMessage.getRecipient());
     }
 }
