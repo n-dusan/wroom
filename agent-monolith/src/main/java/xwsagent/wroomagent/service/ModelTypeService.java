@@ -10,7 +10,8 @@ import xwsagent.wroomagent.repository.ModelTypeRepository;
 @Service
 public class ModelTypeService {
 
-	@Autowired ModelTypeRepository modelTypeRepository;
+	@Autowired
+	ModelTypeRepository modelTypeRepository;
 	
 	public ModelType findByName(String name) {
 		return modelTypeRepository.findByName(name);
