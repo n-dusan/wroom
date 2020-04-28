@@ -20,7 +20,7 @@ public class BodyTypeService {
 	public boolean create(BodyTypeDTO bodyTypeDTO) {
 		if(findByName(bodyTypeDTO.getName()) == null) {
 			BodyType bodyType = new BodyType();
-			bodyType.setName(bodyTypeDTO.getName());;
+			bodyType.setName(bodyTypeDTO.getName());
 			bodyTypeRepository.save(bodyType);
 			return true;
 		}else {
