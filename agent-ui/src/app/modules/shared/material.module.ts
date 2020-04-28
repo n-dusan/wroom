@@ -11,11 +11,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatDialogModule} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 const modules = [
@@ -26,7 +26,6 @@ const modules = [
   MatTabsModule,
   MatStepperModule,
   MatCardModule,
-  MatFormFieldModule,
   MatSelectModule,
   MatCheckboxModule,
   MatIconModule,
@@ -36,7 +35,8 @@ const modules = [
   MatSidenavModule,
   MatToolbarModule,
   MatListModule,
-  MatDialogModule
+  MatDialogModule,
+  MatFormFieldModule
 ]
 
 @NgModule({

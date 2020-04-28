@@ -6,9 +6,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NewBrandTypeComponent } from './new-brand-type/new-brand-type.component';
+import { NewBodyTypeComponent } from './new-body-type/new-body-type.component';
 
 @NgModule({
-  declarations: [NewModelTypeComponent, NewBrandTypeComponent],
+  declarations: [NewModelTypeComponent, NewBrandTypeComponent, NewBodyTypeComponent],
   imports: [
     MaterialModule,
     VehiclesRoutingModule,
