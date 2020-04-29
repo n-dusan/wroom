@@ -5,8 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class MailMessage {
 
     private String recipient;
-    private String subject;
+    private String subject; //naslov mejla
     private String text;
+
 
     public MailMessage() {}
 

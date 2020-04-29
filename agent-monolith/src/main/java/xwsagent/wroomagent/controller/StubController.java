@@ -29,7 +29,7 @@ public class StubController {
     @GetMapping(value="/test")
     public ResponseEntity<Stub> test() {
 
-        //mailProducer.send();
+        mailProducer.send();
 
         String message = "I'm being tested";
         Stub stub = new Stub(message);

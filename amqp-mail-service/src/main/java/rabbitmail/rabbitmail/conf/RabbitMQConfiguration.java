@@ -4,12 +4,10 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
-import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -41,10 +39,24 @@ public class RabbitMQConfiguration {
         return new Jackson2JsonMessageConverter();
     }
 
+    @Bean
+    public ConnectionFactory connectionFactory() {
+        System.out.println("AAAAAAAA");
+        String uri = System.getenv("CLOUDAMQP_URL");
+        System.out.println("TELL ME WHAT IT IS " + uri);
+        if (uri == null) {
+            uri = "amqp://guest:guest@localhost";
+        }
+        CachingConnectionFactory connectionFactory =
+                new CachingConnectionFactory();
+        connectionFactory.setUri(uri);
+        return connectionFactory;
+    }
+
 
     @Bean
-    public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+    public RabbitTemplate rabbitTemplate() {
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(this.connectionFactory());
         rabbitTemplate.setMessageConverter(messageConverter());
         return rabbitTemplate;
     }

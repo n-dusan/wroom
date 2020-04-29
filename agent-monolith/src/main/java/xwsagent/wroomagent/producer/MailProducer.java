@@ -18,7 +18,9 @@ public class MailProducer {
     }
 
     public void send() {
+        log.info("Sending a message>>> ... ");
         MailMessage mailMessage = new MailMessage("testboy@maildrop.cc,", "Hello!", "Yes, my child.");
+
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
         log.info("Sent a message to >"+mailMessage.getRecipient());
     }
