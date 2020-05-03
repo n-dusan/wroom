@@ -1,5 +1,5 @@
-<section  fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 300px;"
-*ngIf="!success">
+<section  fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 100px;"
+*ngIf="!success && !errorMessage && data.isAdd">
 <h1>Create new Brand Type</h1>
 <br>
 <form [formGroup]="createForm" fxLayout="column" fxLayoutAlign="center center" (ngSubmit)="onSubmit()">
@@ -21,3 +21,26 @@
     <h3>Brand Type successfully created.</h3>
     <h4>Back to <a routerLink="/">Home page</a></h4>
 </div>
+
+<div *ngIf="errorMessage"  fxFlex="100%" fxLayout="column" fxLayoutAlign="center center"
+style="margin-top:25px; text-align: center;">
+    <h1>Naming Brand Type failed</h1>
+    <h3>The Brand Type with entered name already exists.</h3>
+    <h4>Back to <a routerLink="new-brand-type" (click)="back()">Creating Brand Type</a></h4>
+</div>
+
+<section  fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 100px;"
+*ngIf="!data.isAdd">
+<h1>Update Brand Type</h1>
+<br>
+<form [formGroup]="brandUpdateForm" fxLayout="column" fxLayoutAlign="center center" *ngIf="!data.isAdd">
+
+
+    <mat-form-field>
+        <input type="text" matInput formControlName="name" placeholder="Name" required [(ngModel)]="local_data.name">
+    </mat-form-field>
+    <div>
+        <button mat-raised-button color="accent" type="submit" (click)="onSubmitUpdate(local_data.id)">Edit</button>
+    </div>
+</form>
+</section>

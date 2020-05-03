@@ -12,8 +12,19 @@ export class BodyTypeService {
     constructor(private http: HttpClient){}
 
     create(bodyType: BodyType): Observable<any> {
-        return this.http.post(this.baseUrl + "/add", bodyType);
+        return this.http.post(this.baseUrl + "", bodyType);
     }
 
+    getBodyTypes(): Observable<any> {
+        return this.http.get(`${this.baseUrl}` + '');
+    }
+
+    delete(name: string): Observable<any>{
+        return this.http.delete(`${this.baseUrl}/${name}`);
+    }
+
+    update(id: number, value: any){
+        return this.http.put(`${this.baseUrl}/${id}`, value);
+    }
 
 }

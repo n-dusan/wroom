@@ -1,5 +1,8 @@
 package xwsagent.wroomagent.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,21 @@ public class ModelTypeService {
 	
 	public ModelType findByName(String name) {
 		return modelTypeRepository.findByName(name);
+	}
+	
+	public ModelType findById(Long id){
+		ModelType mt = modelTypeRepository.findById(id).orElseGet(null);
+		return mt;
+	}
+	
+	public List<ModelType> findAll(){
+		List<ModelType> list = new ArrayList<ModelType>();
+		for(ModelType modelType :  modelTypeRepository.findAll()) {
+			if(modelType.isDeleted() == false) {
+				list.add(modelType);
+			}		
+		}
+		return list;
 	}
 	
 	public boolean create(ModelTypeDTO modelTypeDTO) {
@@ -36,7 +54,17 @@ public class ModelTypeService {
 			return true;
 		}else {
 			return false;
-		}
-		
+		}	
 	}
+	
+	public boolean update(ModelType mt, ModelTypeDTO modelTypeDTO) {
+		if(modelTypeDTO != null && (findByName(modelTypeDTO.getName()) == null)) {
+			mt.setName(modelTypeDTO.getName());
+			this.modelTypeRepository.save(mt);
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
 }

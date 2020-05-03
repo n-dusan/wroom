@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FuelType } from 'src/app/models/fuel-type.model';
 import { FuelTypeService } from 'src/app/services/fuel-type.service';
 import { Router } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';
 
 @Component({
   selector: 'app-new-fuel-type',
@@ -14,8 +16,15 @@ export class NewFuelTypeComponent implements OnInit {
   success = false;
   errorMessage = false
   fuelType: FuelType = new FuelType();
+  new: FuelType = new FuelType();
 
-  constructor(private formBuilder: FormBuilder, private fuelTypeService: FuelTypeService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private fuelTypeService: FuelTypeService, private router: Router,
+    private fuelService: FuelTypeService,
+    public dialogRef: MatDialogRef<FeaturesOverviewComponent>,
+    //@Optional() is used to prevent error if no data is passed
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  local_data = this.data;  
 
   ngOnInit(): void {
     this.createForm = this.formBuilder.group({
@@ -28,6 +37,7 @@ export class NewFuelTypeComponent implements OnInit {
       .subscribe(data => {
       this.success = true;
       console.log(data);
+      window.location.reload();
     },
     error => this.errorMessage = true);
   }
@@ -42,5 +52,18 @@ export class NewFuelTypeComponent implements OnInit {
     this.success = false;
     
   }
+
+  onSubmitUpdate(id: number){
+    this.fuelTypeService.update(id,this.local_data).subscribe(
+      data => {
+        this.new.name = this.fuelUpdateForm.value.name;
+        window.location.reload();
+      },
+      error => console.log('Error!'));
+  }
+
+  fuelUpdateForm = new FormGroup({
+    name: new FormControl({ value: this.local_data.name, disabled: false}, Validators.required)
+  });
 
 }

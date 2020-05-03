@@ -8,9 +8,10 @@ import { CommonModule } from '@angular/common';
 import { NewBrandTypeComponent } from './new-brand-type/new-brand-type.component';
 import { NewBodyTypeComponent } from './new-body-type/new-body-type.component';
 import { NewFuelTypeComponent } from './new-fuel-type/new-fuel-type.component';
+import { FeaturesOverviewComponent } from './features-overview/features-overview.component';
 
 @NgModule({
-  declarations: [NewModelTypeComponent, NewBrandTypeComponent, NewBodyTypeComponent, NewFuelTypeComponent],
+  declarations: [NewModelTypeComponent, NewBrandTypeComponent, NewBodyTypeComponent, NewFuelTypeComponent, FeaturesOverviewComponent],
   imports: [
     MaterialModule,
     VehiclesRoutingModule,

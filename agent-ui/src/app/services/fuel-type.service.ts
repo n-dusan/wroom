@@ -12,8 +12,18 @@ export class FuelTypeService {
     constructor(private http: HttpClient){}
 
     create(fuelType: FuelType): Observable<any> {
-        return this.http.post(this.baseUrl + "/add", fuelType);
+        return this.http.post(this.baseUrl + "", fuelType);
     }
 
+    getFuelTypes(): Observable<any> {
+        return this.http.get(`${this.baseUrl}` + '');
+    }
 
+    delete(name: string): Observable<any>{
+        return this.http.delete(`${this.baseUrl}/${name}`);
+    }
+
+    update(id: number, value: any){
+        return this.http.put(`${this.baseUrl}/${id}`, value);
+    }
 }

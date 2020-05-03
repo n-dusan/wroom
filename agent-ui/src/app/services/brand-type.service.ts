@@ -12,8 +12,19 @@ export class BrandTypeService {
     constructor(private http: HttpClient){}
 
     create(brandType: BrandType): Observable<any> {
-        return this.http.post(this.baseUrl + "/add", brandType);
+        return this.http.post(this.baseUrl + "", brandType);
     }
 
+    getBrandTypes(): Observable<any> {
+        return this.http.get(`${this.baseUrl}` + '');
+    }
+
+    delete(name: string): Observable<any>{
+        return this.http.delete(`${this.baseUrl}/${name}`);
+    }
+    
+    update(id: number, value: any){
+        return this.http.put(`${this.baseUrl}/${id}`, value);
+    }
 
 }

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BodyType } from 'src/app/models/body-type.model';
 import { BodyTypeService } from 'src/app/services/body-type.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';
 
 @Component({
   selector: 'app-new-body-type',
@@ -11,9 +13,17 @@ import { BodyTypeService } from 'src/app/services/body-type.service';
 export class NewBodyTypeComponent implements OnInit {
   createForm: FormGroup;
   success = false;
+  errorMessage = false
   bodyType: BodyType = new BodyType();
+  new: BodyType = new BodyType();
   
-  constructor(private formBuilder: FormBuilder, private bodyTypeService: BodyTypeService) { }
+  constructor(private formBuilder: FormBuilder, private bodyTypeService: BodyTypeService,
+    private bodyService: BodyTypeService,
+    public dialogRef: MatDialogRef<FeaturesOverviewComponent>,
+    //@Optional() is used to prevent error if no data is passed
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  local_data = this.data;
 
   ngOnInit(): void {
     this.createForm = this.formBuilder.group({
@@ -26,13 +36,34 @@ export class NewBodyTypeComponent implements OnInit {
       .subscribe(data => {
       this.success = true;
       console.log(data);
+      window.location.reload();
     },
-    error => console.log("Error !"));
+    error => this.errorMessage = true);
   }
 
   onSubmit() {
     this.bodyType.name = this.createForm.value.name;
     this.save();
   }
+
+  back(){
+    this.errorMessage = false;
+    this.success = false;
+    
+  }
+
+  onSubmitUpdate(id: number){
+    this.bodyTypeService.update(id,this.local_data).subscribe(
+      data => {
+        this.new.name = this.bodyUpdateForm.value.name;
+        window.location.reload();
+      },
+      error => console.log('Error!'));
+  
+  }
+
+  bodyUpdateForm = new FormGroup({
+    name: new FormControl({ value: this.local_data.name, disabled: false}, Validators.required)
+  });
 
 }
