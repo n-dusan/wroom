@@ -5,7 +5,7 @@ services:
     build:
       context: ./ #here was wroom-agent context
       dockerfile: Dockerfile
-
+      
     image: agent:1.0.0
     container_name: agent
     restart: on-failure

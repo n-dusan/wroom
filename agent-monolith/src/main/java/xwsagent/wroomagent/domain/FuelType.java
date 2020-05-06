@@ -29,5 +29,7 @@ public class FuelType {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "fuelType")
 	private Set<Vehicle> vehicles;
-
+	
+	@Column(name = "deleted")
+	private boolean deleted;
 }

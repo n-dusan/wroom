@@ -7,14 +7,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     //csrf dodat zbog bezbednosti, ali kad se front upakuje u .jar ne igra nikakvu ulogu
-    @Override
+   @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .cors().and()
@@ -23,10 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .httpBasic().disable()
-
-
         ;
-
 
     }
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { ControlMessagesComponent } from './control-messages/control-messages.component';
 
 const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
 
@@ -8,7 +9,7 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
   declarations: [
     // This is where all declared components go! (if you add new component,
     // import it here!)
-
+    ControlMessagesComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +20,8 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     // you need to export it. This is because this module is imported in
     // AppModule, so everything that is exported here will be imported in AppModule
     CommonModule,
-    AngularYandexMapsModule
+    AngularYandexMapsModule,
+    ControlMessagesComponent
   ]
 })
 export class SharedModule { }

@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: '',
     //component: AAAAAAA,
     children: [
-      //{ path: 'aaaaaaaaaa', component: AAAAA}
+      //{ path: 'price-lists', component: AAAAA}
   ] }
 ];
 

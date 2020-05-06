@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PriceListsComponent } from './price-lists/price-lists.component';
 
 
 const routes: Routes = [
   { path: '',
-    //component: AAAAAAA,
     children: [
-      //{ path: 'aaaaaaaaaa', component: AAAAA}
+      { path: 'price-lists', component: PriceListsComponent}
   ] }
 ];
 

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xwsagent.wroomagent.dto.ModelTypeDTO;
 
 @Entity
 @Getter
@@ -22,6 +23,13 @@ public class ModelType {
 
 	@Column(nullable = false)
 	private String name;
+	
+	@Column(name = "deleted")
+	private boolean deleted;
 
+	public ModelType(ModelTypeDTO dto) {
+		this.name = dto.getName();
+		this.deleted = false;
+	}
 	
 }

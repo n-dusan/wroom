@@ -32,5 +32,15 @@ public class BodyType {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bodyType")
 	private Set<Vehicle> vehicles;
+	
+	@Column(name = "deleted")
+	private boolean deleted;
+	
+	public BodyType(Long id, String name, boolean deleted) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.deleted = false;
+	}
 
 }

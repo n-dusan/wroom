@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xwsagent.wroomagent.domain.Stub;
-import xwsagent.wroomagent.producer.MailMessage;
 import xwsagent.wroomagent.producer.MailProducer;
 import xwsagent.wroomagent.repository.StubRepository;
 
@@ -28,7 +27,7 @@ public class StubController {
     @GetMapping(value="/test")
     public ResponseEntity<Stub> test() {
 
-        mailProducer.send();
+        //mailProducer.send();
 
         String message = "I'm being tested";
         Stub stub = new Stub(message);
@@ -38,8 +37,8 @@ public class StubController {
     }
 
     @PostMapping(value="/test", produces = "application/json")
-    public ResponseEntity<MailMessage> testPost() {
-        MailMessage mm = new MailMessage("A", "B", "C");
-        return new ResponseEntity<>(mm, HttpStatus.OK);
+    public ResponseEntity<Stub> testPost() {
+        Stub s = new Stub("YES, MY SWEET CHILD");
+        return new ResponseEntity<>(s, HttpStatus.OK);
     }
 }
