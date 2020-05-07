@@ -16,7 +16,7 @@ COPY --from=agentFront /usr/src/agent/dist/agent-ui ./src/main/resources/static
 RUN ["mvn", "package", "-DskipTests"]
 
 
-FROM openjdk:8-jdk-alpine
+FROM openjdk:14-jdk-alpine
 WORKDIR /app
 COPY --from=agentMonolith /usr/src/agent/target/wroom-agent-0.0.1-SNAPSHOT.jar ./
 
