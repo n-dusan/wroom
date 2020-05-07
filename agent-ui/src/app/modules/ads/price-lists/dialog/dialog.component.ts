@@ -28,8 +28,6 @@ export class DialogComponent implements OnInit {
   errorMessage: string = '';
 
   ngOnInit(): void {
-    console.log(`Dialog data: `, this.data);
-
     this.dialogRef.updateSize('50%','65%')
 
     if(this.data.type) {
@@ -81,7 +79,6 @@ export class DialogComponent implements OnInit {
 
         this.priceListService.create(new PriceList(null, pricePerDay, pricePerMile, discount, priceCDW))
           .subscribe( (response: PriceList) => {
-
               console.log('success response', response);
               this.dialogRef.close();
           }, (error) => {

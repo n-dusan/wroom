@@ -55,7 +55,6 @@ export class PriceListsComponent implements OnInit, OnDestroy {
 
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
       this.refresh()
     });
   }
@@ -71,13 +70,11 @@ export class PriceListsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
-      console.log(`Dialog result: ${result}`);
       this.refresh()
     });
   }
 
   onDeletePriceListClick(priceList: PriceList) {
-    console.log('i am', priceList)
     this.priceListService.remove(priceList.id).subscribe( response => {
       this.refresh();
     })
@@ -87,7 +84,6 @@ export class PriceListsComponent implements OnInit, OnDestroy {
 
     let dialogRef = this.dialog.open(PriceListSelectComponent);
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
