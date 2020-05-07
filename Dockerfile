@@ -4,8 +4,9 @@ LABEL maintainer="nikolic.dusan@uns.ac.rs"
 WORKDIR /usr/src/agent
 COPY agent-ui .
 RUN ["npm", "install"]
-RUN ["npm", "install", "is-promise@2.1.0"] #node smart guys didnt patch their package
-
+#node smart guys didnt patch their package
+RUN ["npm", "install", "is-promise@2.1.0"]
+RUN ["npm", "run", "build", "--prod"]
 FROM maven:3.6.3-ibmjava-8-alpine AS agentMonolith
 
 WORKDIR /usr/src/agent
@@ -19,5 +20,5 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /app
 COPY --from=agentMonolith /usr/src/agent/target/wroom-agent-0.0.1-SNAPSHOT.jar ./
 
-EXPOSE 8081
+EXPOSE 8080
 CMD ["java", "-jar", "wroom-agent-0.0.1-SNAPSHOT.jar"]
