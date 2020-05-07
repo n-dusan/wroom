@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FuelType } from 'src/app/modules/shared/models/fuel-type.model';
-import { FuelTypeService } from 'src/app/services/vehicle-features/fuel-type.service';
+import { FuelTypeService } from '../services/vehicle-features/fuel-type.service';
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';

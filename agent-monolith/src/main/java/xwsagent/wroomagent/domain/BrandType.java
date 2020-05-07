@@ -9,9 +9,7 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class BrandType {
 
 	@Id

@@ -12,9 +12,7 @@ import lombok.Setter;
 import xwsagent.wroomagent.dto.ModelTypeDTO;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class ModelType {
 
 	@Id

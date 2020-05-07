@@ -1,22 +1,23 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { FuelType } from '../../modules/shared/models/fuel-type.model';
-import { environment } from '../../../environments/environment'
+import { BrandType } from '../../../shared/models/brand-type.model'
+import { environment } from '../../../../../environments/environment'
 
 @Injectable({
     providedIn: 'root'
 })
-export class FuelTypeService {
-  private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/fuel-type';
+export class BrandTypeService {
+
+    private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/brand-type';
 
     constructor(private http: HttpClient){}
 
-    create(fuelType: FuelType): Observable<any> {
-        return this.http.post(this.baseUrl + "", fuelType);
+    create(brandType: BrandType): Observable<any> {
+        return this.http.post(this.baseUrl + "", brandType);
     }
 
-    getFuelTypes(): Observable<any> {
+    getBrandTypes(): Observable<any> {
         return this.http.get(`${this.baseUrl}` + '');
     }
 
@@ -27,4 +28,5 @@ export class FuelTypeService {
     update(id: number, value: any){
         return this.http.put(`${this.baseUrl}/${id}`, value);
     }
+
 }

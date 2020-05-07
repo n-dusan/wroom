@@ -15,16 +15,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Setter
-@Getter
-@NoArgsConstructor
+@Setter @Getter @NoArgsConstructor
 public class User {
-	//needs CRUD details, like deleted and review data
+	//needs CRUD details, like deleted field and review data
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-	
 
 	@Column(nullable = false)
 	private String name;

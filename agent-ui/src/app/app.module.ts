@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 import { MaterialModule } from './modules/shared/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TestComponentComponent } from './test-component/test-component.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TestComponentComponent
   ],
   imports: [
     BrowserModule,

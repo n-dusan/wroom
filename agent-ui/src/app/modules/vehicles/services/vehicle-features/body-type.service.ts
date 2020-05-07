@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BodyType } from '../../modules/shared/models/body-type.model';
-import { environment } from '../../../environments/environment'
+import { BodyType } from '../../../shared/models/body-type.model';
+import { environment } from '../../../../../environments/environment'
 @Injectable({
     providedIn: 'root'
 })

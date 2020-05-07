@@ -21,9 +21,7 @@ import lombok.Setter;
 
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class Ad {
 
 	@Id

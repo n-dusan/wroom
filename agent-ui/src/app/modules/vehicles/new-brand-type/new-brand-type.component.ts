@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BrandType } from 'src/app/modules/shared/models/brand-type.model';
-import { BrandTypeService } from 'src/app/services/vehicle-features/brand-type.service';
+import { BrandTypeService } from '../services/vehicle-features/brand-type.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';
 

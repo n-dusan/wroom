@@ -17,9 +17,7 @@ import java.util.Set;
 
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class BodyType {
 
 	@Id

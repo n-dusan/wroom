@@ -1,5 +1,6 @@
 package xwsagent.wroomagent.domain;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,9 +20,7 @@ import lombok.Setter;
 import xwsagent.wroomagent.domain.enums.RequestStatus;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class RentRequest {
 
 	@Id
@@ -30,6 +29,14 @@ public class RentRequest {
 
 	@Enumerated(EnumType.STRING)
 	private RequestStatus status;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
+	private Date fromDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
+	private Date toDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private User requestedUser;
