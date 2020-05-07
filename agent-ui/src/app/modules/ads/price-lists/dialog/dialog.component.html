@@ -1,0 +1,47 @@
+<div *ngIf="!loadingData">
+<h2 mat-dialog-title> {{ title }} price list </h2>
+<mat-dialog-content class="mat-typography">
+
+  <form [formGroup]="priceListForm" (submit)="onFormSubmit()">
+    <mat-form-field>
+      <mat-label for="pricePerDay">Price per day: </mat-label>
+      <input id="pricePerDay" matInput type="number" name="pricePerDay" required formControlName="pricePerDay">
+    </mat-form-field>
+    <control-messages [control]="priceListForm.get('pricePerDay')"></control-messages>
+    <br>
+    <mat-form-field>
+      <mat-label for="pricePerMile">Price per mile: </mat-label>
+      <input id="pricePerMile" matInput type="number" name="pricePerMile" required formControlName="pricePerMile">
+    </mat-form-field>
+    <control-messages [control]="priceListForm.get('pricePerMile')"></control-messages>
+    <br>
+    <mat-form-field>
+      <mat-label for="priceCDW">Collision damage waiver (if exists): </mat-label>
+      <input id="priceCDW" matInput type="number" name="priceCDW" formControlName="priceCDW">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label for="discount">Discount (if 30 days have passed) </mat-label>
+      <input id="discount" matInput type="number" name="discount" formControlName="discount">
+    </mat-form-field>
+  </form>
+
+
+  <!-- <br/>
+  <h3 *ngIf="status"> Server responded with - {{status}}</h3>
+  <mat-progress-spinner diameter="30" *ngIf="loading" mode="indeterminate"></mat-progress-spinner>
+
+  <br/>
+  <br/> -->
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+  <button mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="!priceListForm.valid"> {{ title === 'New' ? 'Create' : 'Edit'}}
+  </button>
+</mat-dialog-actions>
+
+</div>

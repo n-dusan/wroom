@@ -5,7 +5,7 @@ services:
     build:
       context: ./ #here was wroom-agent context
       dockerfile: Dockerfile
-
+      
     image: agent:1.0.0
     container_name: agent
     restart: on-failure
@@ -18,18 +18,41 @@ services:
       DATABASE_PASSWORD: root
       DATABASE_DOMAIN: mysql
       DATABASE_SCHEMA: wroom
-    depends_on: 
+#      RMQ_HOST: rabbitmq-broker
+      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+    depends_on:
       - mysql
+#      - rabbitmq-broker
 
-# build ui seperately from agent
-#  agent-ui:
+
+#  mail:
 #    build:
-#      context: ./agent-ui
+#      context: ./amqp-mail-service
 #      dockerfile: Dockerfile
-#    image: wroom/agent-ui:1.0.0
-#    container_name: agent-ui
+#
+#    image: mail:1.0.0
+#    container_name: mail
+#    restart: on-failure
+##    networks:
+##      - demo
+##    ports:
+##      - 8081:8080
+#    environment:
+##      RMQ_HOST: rabbitmq-broker
+#      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+##    depends_on:
+##      - rabbitmq-broker
+
+
+
+#  rabbitmq-broker:
+#    image: rabbitmq:management-alpine
+#    container_name: rabbitmq-broker
 #    ports:
-#      - 4200:80
+#      - 5672:5672
+#      - 15672:15672
+#    networks:
+#      - demo
 
 
   mysql:
@@ -48,6 +71,17 @@ services:
 
     ports:
         - "3306:3306"
+        
+# build ui seperately from agent
+#  agent-ui:
+#    build:
+#      context: ./agent-ui
+#      dockerfile: Dockerfile
+#    image: wroom/agent-ui:1.0.0
+#    container_name: agent-ui
+#    ports:
+#      - 4200:80
+
 
 volumes:
   mysql-data:

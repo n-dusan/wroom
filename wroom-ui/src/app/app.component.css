@@ -1,0 +1,35 @@
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+    height: 100%;
+}
+
+mat-sidenav-content {
+    background-color: rgb(36, 36, 36);
+}
+
+mat-sidenav {
+    width: 250px;
+}
+
+router-outlet {
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover,
+a:active {
+    color: lightgray;
+}
+
+.navigation-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navigation-items li {
+    font-size: 16px;
+}
