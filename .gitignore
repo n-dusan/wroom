@@ -28,3 +28,9 @@ rabbit.sh
 #env docker variables
 .env
 
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
