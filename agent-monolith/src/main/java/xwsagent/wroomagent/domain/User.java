@@ -1,4 +1,6 @@
 package xwsagent.wroomagent.domain;
+
+import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -8,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import lombok.Getter;
@@ -15,23 +20,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Setter @Getter @NoArgsConstructor
+@Setter
+@Getter
+@NoArgsConstructor
 public class User {
-	//needs CRUD details, like deleted field and review data
+	// needs CRUD details, like deleted field and review data
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
 	@Column(nullable = false)
 	private String name;
-	
+
 	@Column(nullable = false)
 	private String surname;
-	
+
 	@Column(nullable = false, unique = true)
 	private String email;
-	
+
 	@Column(nullable = false)
 	private String password;
 
@@ -46,5 +53,14 @@ public class User {
 
 	@OneToMany(mappedBy = "client")
 	private Set<Rate> rates;
+
+	@ManyToMany
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	private Collection<Role> roles;
+
+	@Column
+	private boolean enabled;
 	
+	@Column
+	private boolean tokenExpired;
 }
