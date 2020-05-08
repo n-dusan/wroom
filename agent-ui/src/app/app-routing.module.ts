@@ -4,7 +4,8 @@ import { TestComponentComponent } from './test-component/test-component.componen
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/vehicles', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
+  { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(mod => mod.AuthModule)},
   { path: 'rents', loadChildren: () => import('./modules/rents/rents.module').then(mod => mod.RentsModule)},
   { path: 'ads', loadChildren: () => import('./modules/ads/ads.module').then(mod => mod.AdsModule)},
   { path: 'vehicles', loadChildren: () => import('./modules/vehicles/vehicles.module').then(mod => mod.VehiclesModule)},
