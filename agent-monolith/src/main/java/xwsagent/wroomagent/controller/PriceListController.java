@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xwsagent.wroomagent.converter.PriceListConverter;
-import xwsagent.wroomagent.dto.PriceListDTO;
+import xwsagent.wroomagent.domain.dto.PriceListDTO;
 import xwsagent.wroomagent.service.PriceListService;
 
 import java.util.List;

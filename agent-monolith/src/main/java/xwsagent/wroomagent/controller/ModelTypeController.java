@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import xwsagent.wroomagent.domain.ModelType;
-import xwsagent.wroomagent.dto.ModelTypeDTO;
+import xwsagent.wroomagent.domain.dto.ModelTypeDTO;
 import xwsagent.wroomagent.service.ModelTypeService;
 
 @RestController

@@ -1,4 +1,4 @@
-package xwsagent.wroomagent.controller;
+package xwsagent.wroomagent.exception;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

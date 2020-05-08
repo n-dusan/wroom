@@ -2,6 +2,6 @@ export const environment = {
   production: true,
   protocol: 'http',
   domain: 'localhost',
-  port: '8080',
+  port: '8081',
   api: '/api/',
 };

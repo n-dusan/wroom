@@ -9,7 +9,7 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xwsagent.wroomagent.dto.ModelTypeDTO;
+import xwsagent.wroomagent.domain.dto.ModelTypeDTO;
 
 @Entity
 @Getter @Setter @NoArgsConstructor

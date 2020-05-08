@@ -1,7 +1,7 @@
 package xwsagent.wroomagent.converter;
 
 import xwsagent.wroomagent.domain.PriceList;
-import xwsagent.wroomagent.dto.PriceListDTO;
+import xwsagent.wroomagent.domain.dto.PriceListDTO;
 
 public class PriceListConverter extends AbstractConverter {
 

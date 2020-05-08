@@ -1,4 +1,4 @@
-package xwsagent.wroomagent.dto;
+package xwsagent.wroomagent.domain.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

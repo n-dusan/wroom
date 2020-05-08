@@ -3,7 +3,7 @@ package xwsagent.wroomagent.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.domain.PriceList;
-import xwsagent.wroomagent.dto.PriceListDTO;
+import xwsagent.wroomagent.domain.dto.PriceListDTO;
 import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.exception.InvalidPriceListReferenceException;
 import xwsagent.wroomagent.repository.PriceListRepository;
