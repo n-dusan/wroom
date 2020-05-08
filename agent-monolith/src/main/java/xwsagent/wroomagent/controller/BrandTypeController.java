@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import xwsagent.wroomagent.converter.BrandTypeConverter;
+import xwsagent.wroomagent.converter.ModelTypeConverter;
 import xwsagent.wroomagent.domain.BrandType;
-import xwsagent.wroomagent.domain.dto.BrandTypeDTO;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.service.BrandTypeService;
 
 @RestController
@@ -25,37 +28,36 @@ public class BrandTypeController {
 	private BrandTypeService brandTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<BrandTypeDTO> create(@RequestBody BrandTypeDTO brandTypeDTO){
-		if(brandTypeService.create(brandTypeDTO)) {
-			return new ResponseEntity<>(brandTypeDTO, HttpStatus.CREATED);
-		}else {
-			return new ResponseEntity<>(brandTypeDTO, HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO brandTypeDTO){
+		
+		return new ResponseEntity<>(
+				BrandTypeConverter.fromEntity(brandTypeService.save(BrandTypeConverter.toEntity(brandTypeDTO))),
+				HttpStatus.CREATED
+		);
 	}
 	
 	@DeleteMapping(value = "/{name}")
 	public ResponseEntity<Void> delete(@PathVariable("name") String name){
-		if(brandTypeService.delete(name)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		brandTypeService.delete(name);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping
-	public ResponseEntity<List<BrandType>> getModelTypes(){
-		List<BrandType> all = brandTypeService.findAll();
+	@GetMapping(value="/all", produces = "application/json")
+	public ResponseEntity<List<FeatureDTO>> getModelTypes(){
 		
-		return new ResponseEntity<>(all, HttpStatus.OK);
+		return new ResponseEntity<>(
+				BrandTypeConverter.fromEntityList(brandTypeService.getAll(), BrandTypeConverter::fromEntity),
+				HttpStatus.OK
+		);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> update(@RequestBody BrandTypeDTO brandTypeDTO, @PathVariable("id")Long id){
+	public ResponseEntity<?> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id")Long id){
 		BrandType bt = brandTypeService.findById(id);
-		if(this.brandTypeService.update(bt,brandTypeDTO)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		
+		return new ResponseEntity<>(
+			BrandTypeConverter.fromEntity(brandTypeService.update(bt, featureDTO)),
+			HttpStatus.OK
+		);
 	}
 }

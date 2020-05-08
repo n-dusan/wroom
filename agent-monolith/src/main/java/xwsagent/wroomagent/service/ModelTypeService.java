@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.domain.ModelType;
-import xwsagent.wroomagent.domain.dto.ModelTypeDTO;
+import xwsagent.wroomagent.domain.PriceList;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
+import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.repository.ModelTypeRepository;
 
 @Service
@@ -15,6 +17,20 @@ public class ModelTypeService {
 
 	@Autowired
 	ModelTypeRepository modelTypeRepository;
+	
+	public List<ModelType> getAll() {
+		List<ModelType> ret = new ArrayList<ModelType>();
+        for(ModelType mt : modelTypeRepository.findAll()) {
+        	if(mt.isDeleted() == false) {
+        		ret.add(mt);
+        	}
+        }
+        return ret;
+    }
+	
+	public ModelType save(ModelType modelType) {
+	    return modelTypeRepository.save(modelType);
+	}
 	
 	public ModelType findByName(String name) {
 		return modelTypeRepository.findByName(name);
@@ -25,46 +41,21 @@ public class ModelTypeService {
 		return mt;
 	}
 	
-	public List<ModelType> findAll(){
-		List<ModelType> list = new ArrayList<ModelType>();
-		for(ModelType modelType :  modelTypeRepository.findAll()) {
-			if(modelType.isDeleted() == false) {
-				list.add(modelType);
-			}		
-		}
-		return list;
+	public void delete(String name) {
+		ModelType modelType = findByName(name);
+		modelType.setDeleted(true);
+		modelTypeRepository.save(modelType);
+			
 	}
 	
-	public boolean create(ModelTypeDTO modelTypeDTO) {
-		if(findByName(modelTypeDTO.getName()) == null) {
-			ModelType modelType = new ModelType();
-			modelType.setName(modelTypeDTO.getName());
-			modelTypeRepository.save(modelType);
-			return true;
-		}else {
-			return false;
-		}
-	}
-	
-	public boolean delete(String name) {
-		if(findByName(name) != null) {
-			ModelType modelType = findByName(name);
-			modelType.setDeleted(true);
-			modelTypeRepository.save(modelType);
-			return true;
-		}else {
-			return false;
+	public ModelType update(ModelType mt, FeatureDTO featureDTO) {
+		if(featureDTO == null) {
+			throw new InvalidDataException("Forwarded DTO is null");
 		}	
-	}
-	
-	public boolean update(ModelType mt, ModelTypeDTO modelTypeDTO) {
-		if(modelTypeDTO != null && (findByName(modelTypeDTO.getName()) == null)) {
-			mt.setName(modelTypeDTO.getName());
-			this.modelTypeRepository.save(mt);
-			return true;
-		}else {
-			return false;
-		}
+		
+		mt.setName(featureDTO.getName());
+		this.modelTypeRepository.save(mt);
+		return mt;
 	}
 	
 }

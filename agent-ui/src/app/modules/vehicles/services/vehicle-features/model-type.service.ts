@@ -17,7 +17,7 @@ export class ModelTypeService {
     }
 
     getModelTypes(): Observable<any> {
-         return this.http.get(`${this.baseUrl}` + '');
+         return this.http.get(this.baseUrl + "/all");
     }
 
     delete(name: string): Observable<any>{

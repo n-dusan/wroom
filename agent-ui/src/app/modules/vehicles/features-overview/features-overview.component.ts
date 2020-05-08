@@ -135,8 +135,7 @@ export class FeaturesOverviewComponent implements OnInit {
   deleteModel(name: string){
     this.modelService.delete(name).subscribe(
       data => {
-        console.log('Deleted');
-        window.location.reload();
+        this.loadModelData();
       }
     )
   }
@@ -144,8 +143,7 @@ export class FeaturesOverviewComponent implements OnInit {
   deleteBody(name: string){
     this.bodyService.delete(name).subscribe(
       data => {
-        console.log('Deleted');
-        window.location.reload();
+        this.loadBodyData();
       }
     )
   }
@@ -153,8 +151,7 @@ export class FeaturesOverviewComponent implements OnInit {
   deleteBrand(name: string){
     this.brandService.delete(name).subscribe(
       data => {
-        console.log('Deleted');
-        window.location.reload();
+        this.loadBrandData();
       }
     )
   }
@@ -162,8 +159,7 @@ export class FeaturesOverviewComponent implements OnInit {
   deleteFuel(name: string){
     this.fuelService.delete(name).subscribe(
       data => {
-        console.log('Deleted');
-        window.location.reload();
+        this.loadFuelData();
       }
     )
   }
