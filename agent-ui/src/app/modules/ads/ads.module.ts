@@ -7,12 +7,14 @@ import { DialogComponent } from './price-lists/dialog/dialog.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { PriceListSelectComponent } from './price-lists/price-list-select/price-list-select.component';
+import { CreateAdComponent } from './create-ad/create-ad.component';
 
 @NgModule({
   declarations: [
     PriceListsComponent,
     DialogComponent,
-    PriceListSelectComponent
+    PriceListSelectComponent,
+    CreateAdComponent
   ],
   imports: [
     MaterialModule,
