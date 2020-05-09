@@ -191,8 +191,57 @@
                   <br/>
                 <button mat-button color="primary" (click)="openFuelDialog()">Add</button>
                 <button mat-button color="warn" (click)="prevStep()">Previous</button>
-                <button mat-button color="primary" (click)="nextStep()">End</button>
+                <button mat-button color="primary" (click)="nextStep()">Next</button>
               </mat-action-row>
         </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle class="gearbox_panel">
+          <mat-expansion-panel-header>
+              <mat-panel-title><b>
+                  Gearbox Type
+                </b></mat-panel-title>
+              <mat-panel-description>
+                  Click for preview...
+              </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-action-row fxLayout="column" class="gearbox_action">
+              <table mat-table [dataSource]="dataGearboxSource" class="mat-elevation-z8">
+
+                  <!-- Position Column -->
+                  <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> Id </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                  </ng-container>
+                
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef> Delete </th>
+                    <td mat-cell *matCellDef="let element" >  
+                      <button mat-button (click)="deleteGearbox(element.name)"><mat-icon>delete</mat-icon></button> 
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="edit">
+                    <th mat-header-cell *matHeaderCellDef> Edit </th>
+                    <td mat-cell *matCellDef="let element" >  
+                    <button mat-button (click)="editGearbox(element)"><mat-icon>edit</mat-icon></button> 
+                    </td>
+                  </ng-container>
+                
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <br/>
+              <button mat-button color="primary" (click)="openGearboxDialog()">Add</button>
+              <button mat-button color="warn" (click)="prevStep()">Previous</button>
+              <button mat-button color="primary" (click)="nextStep()">End</button>
+            </mat-action-row>
+      </mat-expansion-panel>
     </mat-accordion>
 </section>
