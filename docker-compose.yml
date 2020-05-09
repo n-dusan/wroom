@@ -1,29 +1,74 @@
 version: "3"
 services:
 
-  agent:
+  eureka:
     build:
-      context: ./ #here was wroom-agent context
+      context: ./eureka-service-registry
       dockerfile: Dockerfile
-      
-    image: agent:1.0.0
-    container_name: agent
+
+    image: xws:eureka
+    container_name: eureka
+    ports:
+    - 8761:8761
+    networks:
+      - xws-network
+
+  zuul:
+    build:
+      context: ./zuul-api-gateway
+      dockerfile: Dockerfile
+
+    image: xws:zuul
+    container_name: zuul
+    ports:
+      - 8762:8762
+    environment:
+      REGISTRY_HOST: eureka
+    networks:
+      - xws-network
+    depends_on:
+      - eureka
+
+  search-service:
+    build:
+      context: ./search-service
+      dockerfile: Dockerfile
+    image: xws:search-service
+    container_name: search-service
     restart: on-failure
     networks:
-      - demo
-    ports:
-      - 8080:8080
+      - xws-network
     environment:
-      DATABASE_USERNAME: root
-      DATABASE_PASSWORD: root
-      DATABASE_DOMAIN: mysql
-      DATABASE_SCHEMA: wroom
-#      RMQ_HOST: rabbitmq-broker
-      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+          REGISTRY_HOST: eureka
+          DATABASE_USERNAME: root
+          DATABASE_PASSWORD: root
+          DATABASE_DOMAIN: mysql
+          DATABASE_SCHEMA: wroom
+    ports:
+      - 8091:8091
     depends_on:
+      - eureka
       - mysql
-#      - rabbitmq-broker
-
+#  agent:
+#    build:
+#      context: ./ #here was wroom-agent context
+#      dockerfile: Dockerfile
+#
+#    image: xws:agent
+#    container_name: agent
+#    restart: on-failure
+#    networks:
+#      - xws-network
+#    ports:
+#      - 8080:8080
+#    environment:
+#      DATABASE_USERNAME: root
+#      DATABASE_PASSWORD: root
+#      DATABASE_DOMAIN: mysql
+#      DATABASE_SCHEMA: wroom
+#      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+#    depends_on:
+#      - mysql
 
 #  mail:
 #    build:
@@ -34,7 +79,7 @@ services:
 #    container_name: mail
 #    restart: on-failure
 ##    networks:
-##      - demo
+##      - xws-network
 ##    ports:
 ##      - 8081:8080
 #    environment:
@@ -52,7 +97,7 @@ services:
 #      - 5672:5672
 #      - 15672:15672
 #    networks:
-#      - demo
+#      - xws-network
 
 
   mysql:
@@ -60,7 +105,7 @@ services:
     container_name: mysql
     restart: always
     networks:
-      - demo
+      - xws-network
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_USER: root
@@ -87,5 +132,5 @@ volumes:
   mysql-data:
 
 networks:
-  demo:
+  xws-network:
     driver: bridge
