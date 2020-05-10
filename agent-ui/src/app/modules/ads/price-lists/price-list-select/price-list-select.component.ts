@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { PriceList } from 'src/app/modules/shared/models/price-list.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { PriceListService } from '../../services/price-list.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-price-list-select',
@@ -10,6 +12,8 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./price-list-select.component.css']
 })
 export class PriceListSelectComponent implements OnInit {
+
+  private ngUnsubscribe = new Subject();
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -20,24 +24,27 @@ export class PriceListSelectComponent implements OnInit {
 
   selectedPriceList: string = '';
 
-  constructor() { }
+  constructor(
+    private priceListService: PriceListService
+  ) { }
 
 
   ngOnInit(): void {
 
-    this.dataSource.data = [
-      {
-        pricePerMile: 32,
-        pricePerDay: 2,
-        priceCDW: 55,
-        discount: 55
-      }
-    ];
+    this.dataSource.data = [];
+    this.fetch();
     this.dataSource.paginator = this.paginator;
 
   }
 
+  fetch() {
+    this.priceListService.findAllActive().pipe(takeUntil(this.ngUnsubscribe)).subscribe((result: PriceList[]) => {
+      this.dataSource.data = result;
+    })
+  }
+
   onSelectChange(row: any) {
+    //todo: on row selected, forward the data to the create-ad component (via dialog close data)
     console.log('wat i got', row)
   }
 
