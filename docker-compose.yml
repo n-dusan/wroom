@@ -49,26 +49,27 @@ services:
     depends_on:
       - eureka
       - mysql
-#  agent:
-#    build:
-#      context: ./ #here was wroom-agent context
-#      dockerfile: Dockerfile
-#
-#    image: xws:agent
-#    container_name: agent
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    ports:
-#      - 8080:8080
-#    environment:
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
-#    depends_on:
-#      - mysql
+
+  agent:
+    build:
+      context: ./ #here was wroom-agent context
+      dockerfile: Dockerfile
+
+    image: xws:agent
+    container_name: agent
+    restart: on-failure
+    networks:
+      - xws-network
+    ports:
+      - 8081:8081
+    environment:
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+    depends_on:
+      - mysql
 
 #  mail:
 #    build:

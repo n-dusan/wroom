@@ -20,5 +20,5 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /app
 COPY --from=agentMonolith /usr/src/agent/target/wroom-agent-0.0.1-SNAPSHOT.jar ./
 
-EXPOSE 8080
+EXPOSE 8081
 CMD ["java", "-jar", "wroom-agent-0.0.1-SNAPSHOT.jar"]
