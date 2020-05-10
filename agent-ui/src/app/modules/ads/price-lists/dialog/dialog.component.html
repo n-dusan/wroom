@@ -2,7 +2,7 @@
 <h2 mat-dialog-title> {{ title }} price list </h2>
 <mat-dialog-content class="mat-typography">
 
-  <form [formGroup]="priceListForm" (submit)="onFormSubmit()">
+  <form [formGroup]="priceListForm">
     <mat-form-field>
       <mat-label for="pricePerDay">Price per day: </mat-label>
       <input id="pricePerDay" matInput type="number" name="pricePerDay" required formControlName="pricePerDay">
@@ -34,12 +34,18 @@
   <br/>
   <br/> -->
 
+  <div *ngIf="errorMessage"
+    class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Close</button>
   <button mat-raised-button
           color="primary"
-          type="submit"
+          type="button"
+          (click)="onFormSubmit()"
           [disabled]="!priceListForm.valid"> {{ title === 'New' ? 'Create' : 'Edit'}}
   </button>
 </mat-dialog-actions>

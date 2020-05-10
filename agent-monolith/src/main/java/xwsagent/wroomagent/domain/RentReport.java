@@ -8,9 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class RentReport {
 
     @Id

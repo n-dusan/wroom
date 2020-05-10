@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.domain.ModelType;
-import xwsagent.wroomagent.dto.ModelTypeDTO;
+import xwsagent.wroomagent.domain.dto.ModelTypeDTO;
 import xwsagent.wroomagent.repository.ModelTypeRepository;
 
 @Service

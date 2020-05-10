@@ -1,12 +1,12 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ModelType } from 'src/app/modules/shared/models/model-type.model';
 import { Observable } from 'rxjs';
-import { ModelTypeService } from 'src/app/services/vehicle-features/model-type.service';
+import { ModelTypeService } from '../services/vehicle-features/model-type.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { BodyTypeService } from 'src/app/services/vehicle-features/body-type.service';
-import { BrandTypeService } from 'src/app/services/vehicle-features/brand-type.service';
-import { FuelTypeService } from 'src/app/services/vehicle-features/fuel-type.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BodyTypeService } from '../services/vehicle-features/body-type.service';
+import { BrandTypeService } from '../services/vehicle-features/brand-type.service';
+import { FuelTypeService } from '../services/vehicle-features/fuel-type.service';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NewModelTypeComponent } from '../new-model-type/new-model-type.component';
 import { NewBodyTypeComponent } from '../new-body-type/new-body-type.component';
 import { NewBrandTypeComponent } from '../new-brand-type/new-brand-type.component';

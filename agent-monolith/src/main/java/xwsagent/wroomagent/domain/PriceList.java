@@ -6,6 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,9 +17,7 @@ import lombok.Setter;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
+@Getter @Setter @NoArgsConstructor
 public class PriceList {
 
 	@Id
@@ -33,7 +34,12 @@ public class PriceList {
 	private Double priceCDW;
 	
 	@Column
+	@Min(0)
+	@Max(100)
 	private Double discount;
+
+	@Column(nullable = false)
+	private boolean deleted;
 
 	@OneToMany(mappedBy = "priceList")
 	private Set<Ad> ads;

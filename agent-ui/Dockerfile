@@ -3,6 +3,7 @@ FROM node:alpine3.11 as node
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
+RUN ["npm", "install", "is-promise@2.1.0"]
 COPY . .
 RUN npm run build --prod
 

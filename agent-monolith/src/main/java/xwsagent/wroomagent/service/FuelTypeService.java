@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.domain.FuelType;
-import xwsagent.wroomagent.dto.FuelTypeDTO;
+import xwsagent.wroomagent.domain.dto.FuelTypeDTO;
 import xwsagent.wroomagent.repository.FuelTypeRepository;
 
 @Service

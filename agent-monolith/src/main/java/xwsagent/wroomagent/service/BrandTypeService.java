@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.domain.BrandType;
-import xwsagent.wroomagent.dto.BrandTypeDTO;
+import xwsagent.wroomagent.domain.dto.BrandTypeDTO;
 import xwsagent.wroomagent.repository.BrandTypeRepository;
 
 @Service

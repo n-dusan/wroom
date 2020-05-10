@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.domain.BodyType;
-import xwsagent.wroomagent.dto.BodyTypeDTO;
+import xwsagent.wroomagent.domain.dto.BodyTypeDTO;
 import xwsagent.wroomagent.repository.BodyTypeRepository;
 
 @Service

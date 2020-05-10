@@ -7,9 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Setter
-@Getter
-@NoArgsConstructor
+@Setter @Getter @NoArgsConstructor
 public class Rate {
 
     @Id

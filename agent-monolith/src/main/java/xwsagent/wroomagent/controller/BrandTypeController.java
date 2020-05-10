@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import xwsagent.wroomagent.domain.BrandType;
-import xwsagent.wroomagent.dto.BrandTypeDTO;
+import xwsagent.wroomagent.domain.dto.BrandTypeDTO;
 import xwsagent.wroomagent.service.BrandTypeService;
 
 @RestController
