@@ -1,6 +1,10 @@
 package xwsagent.wroomagent.security;
 
+import org.apache.catalina.Context;
+import org.apache.tomcat.util.descriptor.web.SecurityCollection;
+import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -67,7 +71,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest().authenticated().and()
 //                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
 //						BasicAuthenticationFilter.class);
+
+		//redirect http -> https
+	   .requiresChannel().anyRequest().requiresSecure()
         ;
 
     }
+
+
+//	@Bean
+//	public TomcatServletWebServerFactory httpsRedirectConfig() {
+//		return new TomcatServletWebServerFactory() {
+//			@Override
+//			protected void postProcessContext(Context context) {
+//				SecurityConstraint securityConstraint = new SecurityConstraint();
+//				securityConstraint.setUserConstraint("CONFIDENTIAL");
+//				SecurityCollection collection = new SecurityCollection();
+//				collection.addPattern("/*");
+//				securityConstraint.addCollection(collection);
+//				context.addConstraint(securityConstraint);
+//			}
+//		};
+//	}
 }

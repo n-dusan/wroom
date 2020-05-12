@@ -1,0 +1,1 @@
+Ovde dolazi readme za model aplikacije
