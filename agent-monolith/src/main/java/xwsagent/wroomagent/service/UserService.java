@@ -13,8 +13,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import xwsagent.wroomagent.converter.SignupRequestConverter;
 import xwsagent.wroomagent.domain.Privilege;
 import xwsagent.wroomagent.domain.Role;
+import xwsagent.wroomagent.domain.SignupRequest;
 import xwsagent.wroomagent.domain.User;
 import xwsagent.wroomagent.dto.SignupRequestDTO;
 import xwsagent.wroomagent.repository.RoleRepository;
@@ -77,16 +79,13 @@ public class UserService implements UserDetailsService {
 	 * Saves a signup request in DB and returns it.
 	 */
 	public SignupRequestDTO signup(SignupRequestDTO requestDTO) {
-		SignupRequestDTO ret = new SignupRequestDTO();
-		
 		User user = this.findByEmail(requestDTO.getEmail());
 		if(user != null) {
 			return null;
 		}
 		
-//		TODO: CONVERTER
-		
-		return ret;
+		SignupRequest ret = this.signupRequestRepository.save(SignupRequestConverter.toEntity(requestDTO));
+		return SignupRequestConverter.fromEntity(ret);
 	}
 	
 	public User findByEmail(String email) {
