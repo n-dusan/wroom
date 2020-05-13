@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SignupRequest } from './model/signup-request.model';
 import { AuthService } from './service/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-auth',
@@ -16,7 +17,8 @@ export class AuthComponent implements OnInit {
   login: boolean = true;
 
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthService) { }
+              private authService: AuthService,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
 
@@ -42,7 +44,10 @@ export class AuthComponent implements OnInit {
     
     this.authService.signup(signupData).subscribe(
       data => {
-        console.log('Your request is sent!')
+        this.toastr.success('Your request is sent!', 'Success')
+      },
+      error => {
+        this.toastr.error('There was an error with your request!', 'Error')
       }
     );
   }
