@@ -30,4 +30,7 @@ public class SignupRequest {
 	@Column
 	private String surname;
 	
+	@Column
+	private boolean approved;
+	
 }

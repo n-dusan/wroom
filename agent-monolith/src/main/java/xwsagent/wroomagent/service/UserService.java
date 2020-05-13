@@ -13,11 +13,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import xwsagent.wroomagent.converter.RequestToUserConverter;
 import xwsagent.wroomagent.converter.SignupRequestConverter;
+import xwsagent.wroomagent.converter.UserConverter;
 import xwsagent.wroomagent.domain.Privilege;
 import xwsagent.wroomagent.domain.Role;
 import xwsagent.wroomagent.domain.SignupRequest;
 import xwsagent.wroomagent.domain.User;
+import xwsagent.wroomagent.domain.dto.UserDTO;
 import xwsagent.wroomagent.dto.SignupRequestDTO;
 import xwsagent.wroomagent.repository.RoleRepository;
 import xwsagent.wroomagent.repository.SignupRequestRepository;
@@ -76,7 +79,7 @@ public class UserService implements UserDetailsService {
 	}
 
 	/*
-	 * Saves a signup request in DB and returns it.
+	 * Stores a signup request in DB and returns it.
 	 */
 	public SignupRequestDTO signup(SignupRequestDTO requestDTO) {
 		User user = this.findByEmail(requestDTO.getEmail());
@@ -90,5 +93,24 @@ public class UserService implements UserDetailsService {
 	
 	public User findByEmail(String email) {
 		return this.userRepository.findByEmail(email);
+	}
+	
+	/*
+	 * Admin approving signup request.
+	 * Creates an User from SignupRequest and stores it in DB.
+	 */
+	public UserDTO approveRequest(Long id) {
+		SignupRequest request = this.signupRequestRepository.findById(id).get();
+		if(request == null) {
+			return null;
+		}
+		
+		request.setApproved(true);
+		this.signupRequestRepository.save(request);
+		
+		User newUser = RequestToUserConverter.fromRequest(request);
+		//TODO: Set roles
+		
+		return UserConverter.fromEntity(newUser);
 	}
 }
