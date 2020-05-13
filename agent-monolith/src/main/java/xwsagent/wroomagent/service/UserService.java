@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.converter.RequestToUserConverter;
@@ -37,6 +38,9 @@ public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private SignupRequestRepository signupRequestRepository;
+	
+	@Autowired
+    private PasswordEncoder passwordEncoder;
 
 //	Good for now
 	@Override
@@ -87,6 +91,7 @@ public class UserService implements UserDetailsService {
 			return null;
 		}
 		
+		requestDTO.setPassword(this.passwordEncoder.encode(requestDTO.getPassword()));
 		SignupRequest ret = this.signupRequestRepository.save(SignupRequestConverter.toEntity(requestDTO));
 		return SignupRequestConverter.fromEntity(ret);
 	}
@@ -106,10 +111,11 @@ public class UserService implements UserDetailsService {
 		}
 		
 		request.setApproved(true);
-		this.signupRequestRepository.save(request);
+		this.signupRequestRepository.saveAndFlush(request);
 		
 		User newUser = RequestToUserConverter.fromRequest(request);
 		//TODO: Set roles
+		this.userRepository.save(newUser);
 		
 		return UserConverter.fromEntity(newUser);
 	}

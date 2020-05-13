@@ -4,8 +4,7 @@ import xwsagent.wroomagent.domain.SignupRequest;
 import xwsagent.wroomagent.dto.SignupRequestDTO;
 
 public class SignupRequestConverter extends AbstractConverter {
-
-	//TODO: Hash password 
+ 
 	public static SignupRequestDTO fromEntity(SignupRequest entity) {
 		return new SignupRequestDTO(
 				entity.getEmail(),
