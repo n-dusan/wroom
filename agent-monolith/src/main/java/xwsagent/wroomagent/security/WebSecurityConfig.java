@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //						BasicAuthenticationFilter.class);
 
 		//redirect http -> https
-	   .requiresChannel().anyRequest().requiresSecure()
+	  // .requiresChannel().anyRequest().requiresSecure()
         ;
 
     }
