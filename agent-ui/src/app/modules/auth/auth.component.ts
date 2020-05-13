@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { SignupRequest } from './model/signup-request.model';
+import { AuthService } from './service/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -13,7 +15,8 @@ export class AuthComponent implements OnInit {
 
   login: boolean = true;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -30,6 +33,18 @@ export class AuthComponent implements OnInit {
       'surname': new FormControl(null, Validators.required)
     });
 
+  }
+
+
+  signupSubmit() {
+    const formValue = this.signupForm.value;
+    const signupData = new SignupRequest(formValue.email, formValue.pass, formValue.name, formValue.surname);
+    
+    this.authService.signup(signupData).subscribe(
+      data => {
+        console.log('Your request is sent!')
+      }
+    );
   }
 
 }

@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.domain.Privilege;
 import xwsagent.wroomagent.domain.Role;
 import xwsagent.wroomagent.domain.User;
+import xwsagent.wroomagent.dto.SignupRequestDTO;
 import xwsagent.wroomagent.repository.RoleRepository;
+import xwsagent.wroomagent.repository.SignupRequestRepository;
 import xwsagent.wroomagent.repository.UserRepository;
 
 @Service
@@ -27,6 +29,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private SignupRequestRepository signupRequestRepository;
 
 //	Good for now
 	@Override
@@ -39,7 +44,7 @@ public class UserService implements UserDetailsService {
 
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
 				user.isEnabled(), true, true, true, getAuthorities(user.getRoles()));
-		
+
 	}
 
 	private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
@@ -68,4 +73,23 @@ public class UserService implements UserDetailsService {
 		return authorities;
 	}
 
+	/*
+	 * Saves a signup request in DB and returns it.
+	 */
+	public SignupRequestDTO signup(SignupRequestDTO requestDTO) {
+		SignupRequestDTO ret = new SignupRequestDTO();
+		
+		User user = this.findByEmail(requestDTO.getEmail());
+		if(user != null) {
+			return null;
+		}
+		
+//		TODO: CONVERTER
+		
+		return ret;
+	}
+	
+	public User findByEmail(String email) {
+		return this.userRepository.findByEmail(email);
+	}
 }

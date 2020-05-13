@@ -3,7 +3,7 @@
     <mat-card class="example-card" fxFlex style="width: 30%; padding: 15px;">
         <form [formGroup]="loginForm" *ngIf="login">
             <mat-card-content style="text-align: center;">
-                <h1>Log In</h1>
+                <h1>Welcome back!</h1>
                 <!-- 'legacy' | 'standard' | 'fill' | 'outline'; -->
                 <div fxLayout="column" fxLayoutAlign="center">
                     <mat-form-field fxFlex appearance="outline">
@@ -27,7 +27,7 @@
             </mat-card-actions>
         </form>
 
-        <form [formGroup]="signupForm" *ngIf="!login">
+        <form [formGroup]="signupForm" *ngIf="!login" (submit)="signupSubmit()">
             <mat-card-content style="text-align: center;">
                 <h1>Join us!</h1>
                 <div fxLayout="column" fxLayoutAlign="center">
