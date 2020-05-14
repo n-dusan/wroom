@@ -1,7 +1,7 @@
 package xwsagent.wroomagent.converter;
 
 import xwsagent.wroomagent.domain.SignupRequest;
-import xwsagent.wroomagent.dto.SignupRequestDTO;
+import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 
 public class SignupRequestConverter extends AbstractConverter {
  

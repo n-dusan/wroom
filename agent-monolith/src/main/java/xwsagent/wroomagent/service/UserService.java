@@ -1,7 +1,6 @@
 package xwsagent.wroomagent.service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,8 +20,8 @@ import xwsagent.wroomagent.domain.Privilege;
 import xwsagent.wroomagent.domain.Role;
 import xwsagent.wroomagent.domain.SignupRequest;
 import xwsagent.wroomagent.domain.User;
+import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.domain.dto.UserDTO;
-import xwsagent.wroomagent.dto.SignupRequestDTO;
 import xwsagent.wroomagent.repository.RoleRepository;
 import xwsagent.wroomagent.repository.SignupRequestRepository;
 import xwsagent.wroomagent.repository.UserRepository;
@@ -42,18 +41,18 @@ public class UserService implements UserDetailsService {
 	@Autowired
     private PasswordEncoder passwordEncoder;
 
-//	Good for now
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userRepository.findByEmail(email);
-		if (user == null) {
-			return new org.springframework.security.core.userdetails.User(" ", " ", true, true, true, true,
-					getAuthorities(Arrays.asList(roleRepository.findByName("ROLE_USER"))));
-		}
-
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-				user.isEnabled(), true, true, true, getAuthorities(user.getRoles()));
-
+//		if (user == null) {
+//			return new org.springframework.security.core.userdetails.User(" ", " ", true, true, true, true,
+//					getAuthorities(Arrays.asList(roleRepository.findByName("ROLE_USER"))));
+//		}
+//
+//		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+//				user.isEnabled(), true, true, true, getAuthorities(user.getRoles()));
+		return user;
+		
 	}
 
 	private Collection<? extends GrantedAuthority> getAuthorities(Collection<Role> roles) {
@@ -114,7 +113,8 @@ public class UserService implements UserDetailsService {
 		this.signupRequestRepository.saveAndFlush(request);
 		
 		User newUser = RequestToUserConverter.fromRequest(request);
-		//TODO: Set roles
+		Role role = this.roleRepository.findByName("END_USER");
+		newUser.getRoles().add(role);
 		this.userRepository.save(newUser);
 		
 		return UserConverter.fromEntity(newUser);

@@ -117,19 +117,21 @@ public class User implements UserDetails {
 	// Indicates whether the user's account has expired. An expired account cannot be authenticated.
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	// Indicates whether the user is locked or unlocked. A locked user cannot be authenticated.
 	@Override
 	public boolean isAccountNonLocked() {
-		return false;
+		return true;
 	}
 
 	// Indicates whether the user's credentials (password) has expired. Expired
 	// credentials prevent authentication.
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return false;
+		return true;
 	}
+	
+	
 }

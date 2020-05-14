@@ -5,12 +5,14 @@ import { MaterialModule } from '../shared/material.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { SignupRequestSentComponent } from './components/signup-request-sent/signup-request-sent.component';
 
 
 
 @NgModule({
   declarations: [
-    AuthComponent
+    AuthComponent,
+    SignupRequestSentComponent
   ],
   imports: [
     MaterialModule,
