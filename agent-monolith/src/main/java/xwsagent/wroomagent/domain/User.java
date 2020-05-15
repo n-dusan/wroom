@@ -35,6 +35,11 @@ import lombok.Setter;
 public class User implements UserDetails {
 	// needs CRUD details, like deleted field and review data
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -64,9 +69,11 @@ public class User implements UserDetails {
 	private Set<Rate> rates;
 
 	@ManyToMany
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private Collection<Role> roles;
-
+	@JoinTable(name = "users_privileges", 
+			   joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), 
+			   inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
+	private Collection<Privilege> privileges;
+	
 	@Column
 	private boolean enabled;
 
@@ -86,28 +93,12 @@ public class User implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		List<String> privileges = this.getPrivileges();
-		for (String privilege : privileges) {
-			authorities.add(new SimpleGrantedAuthority(privilege));
+		for (Privilege privilege : privileges) {
+			authorities.add(new SimpleGrantedAuthority(privilege.getAuthority()));
 		}
 		return authorities;
 	}
 
-	/*
-	 * RBAC privileges are 'same' as Spring Security authorities
-	 */
-	private List<String> getPrivileges() {
-		List<String> privileges = new ArrayList<>();
-		List<Privilege> collection = new ArrayList<>();
-		
-		for (Role role : roles) {
-			collection.addAll(role.getPrivileges());
-		}
-		for (Privilege item : collection) {
-			privileges.add(item.getName());
-		}
-		return privileges;
-	}
 
 	@Override
 	public String getUsername() {

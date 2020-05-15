@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 import xwsagent.wroomagent.domain.Comment;
+import xwsagent.wroomagent.domain.Privilege;
 import xwsagent.wroomagent.domain.RentRequest;
-import xwsagent.wroomagent.domain.Role;
 import xwsagent.wroomagent.domain.SignupRequest;
 import xwsagent.wroomagent.domain.User;
 
@@ -22,7 +22,7 @@ public class RequestToUserConverter extends AbstractConverter {
         		null,
         		new HashSet<Comment>(),
         		null,
-        		new ArrayList<Role>(),
+        		new ArrayList<Privilege>(),
         		true,
         		false,
         		null

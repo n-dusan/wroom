@@ -69,4 +69,8 @@ export class AuthComponent implements OnInit {
       }
     )
   }
+
+  testClick() {
+    this.authService.test().subscribe();
+  }
 }

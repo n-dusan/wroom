@@ -36,4 +36,8 @@ export class AuthService {
       this.loggedUserSubject.next(res);
     }));
   }
+
+  test(): Observable<string> {
+    return this.httpClient.get<string>('http://localhost:8081/api/stub' + '/test-auth');
+  }
 }

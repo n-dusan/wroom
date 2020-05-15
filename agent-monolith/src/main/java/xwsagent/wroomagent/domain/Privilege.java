@@ -1,13 +1,12 @@
 package xwsagent.wroomagent.domain;
 
-import java.util.Collection;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+
+import org.springframework.security.core.GrantedAuthority;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,12 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Privilege {
+public class Privilege implements GrantedAuthority {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +29,10 @@ public class Privilege {
 	
 	@Column
 	private String name;
-	 
-    @ManyToMany(mappedBy = "privileges")
-    private Collection<Role> roles;
+
+	@Override
+	public String getAuthority() {
+		return name;
+	}
 	
 }

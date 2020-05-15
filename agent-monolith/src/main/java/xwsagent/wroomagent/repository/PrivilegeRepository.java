@@ -8,4 +8,6 @@ import xwsagent.wroomagent.domain.Privilege;
 @Repository
 public interface PrivilegeRepository extends JpaRepository<Privilege, Long> {
 
+	public Privilege findByName(String name);
+	
 }

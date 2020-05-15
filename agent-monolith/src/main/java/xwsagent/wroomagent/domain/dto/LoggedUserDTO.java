@@ -1,5 +1,7 @@
 package xwsagent.wroomagent.domain.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,7 @@ public class LoggedUserDTO {
 
 	private Long id;
 	private String email;
-	private RoleDTO role;
+	private List<String> privileges;
 	private String token;
 	
 }

@@ -59,14 +59,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic().disable()
                 
-//                .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
-//
-//                .authorizeRequests().antMatchers("/api/auth/**").permitAll().and()
+                .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
+
+                .authorizeRequests().antMatchers("/api/auth/**").permitAll().and()
+                .authorizeRequests().antMatchers("/api/user/**").permitAll()
 //                .authorizeRequests().antMatchers("/api/stub/**").permitAll()
-//
-//                .anyRequest().authenticated().and()
-//                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
-//						BasicAuthenticationFilter.class);
+
+                .anyRequest().authenticated().and()
+                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
+						BasicAuthenticationFilter.class);
         ;
 
     }

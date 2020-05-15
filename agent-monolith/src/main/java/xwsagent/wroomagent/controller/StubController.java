@@ -3,10 +3,12 @@ package xwsagent.wroomagent.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import xwsagent.wroomagent.domain.Stub;
 import xwsagent.wroomagent.producer.MailProducer;
 import xwsagent.wroomagent.repository.StubRepository;
@@ -40,5 +42,11 @@ public class StubController {
     public ResponseEntity<Stub> testPost() {
         Stub s = new Stub("YES, MY SWEET CHILD");
         return new ResponseEntity<>(s, HttpStatus.OK);
+    }
+
+    @GetMapping(value="/test-auth")
+    @PreAuthorize("hasAuthority('RENT_REQUESTS_CREATE')")
+    public ResponseEntity<String> testAuth() {
+        return new ResponseEntity<>( HttpStatus.OK);
     }
 }

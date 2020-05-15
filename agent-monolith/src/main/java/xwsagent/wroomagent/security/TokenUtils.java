@@ -1,5 +1,6 @@
 package xwsagent.wroomagent.security;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,11 +13,16 @@ import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import xwsagent.wroomagent.domain.Privilege;
 import xwsagent.wroomagent.domain.User;
+import xwsagent.wroomagent.repository.UserRepository;
 import xwsagent.wroomagent.security.auth.TimeProvider;
 
 @Component
 public class TokenUtils {
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Value("wroom")
 	private String APP_NAME;
@@ -44,21 +50,35 @@ public class TokenUtils {
 	// Using SHA512 algorithm
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
 
-	
 	public String generateToken(String username) {
-		return Jwts.builder()
+		return Jwts.builder().setIssuer(APP_NAME).setSubject(username).setAudience(generateAudience())
 				.setIssuer(APP_NAME)
 				.setSubject(username)
 				.setAudience(generateAudience())
 				.setIssuedAt(timeProvider.now())
 				.setExpiration(generateExpirationDate())
-				// .claim("role", role) // it is possible, but...
+				.claim("privileges", getPrivilegesFromUser(username))
 				.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
+	}
+
+	private String getPrivilegesFromUser(String username) {
+		String ret = "";
+		User user = this.userRepository.findByEmail(username);
+
+		for (Privilege p : user.getPrivileges()) {
+			if(user.getPrivileges().size() <= 1) {
+				ret = ret + p.getName();
+			} else {
+				ret = ret + "|" + p.getName();
+			}
+		}
+
+		return ret;
 	}
 
 	private String generateAudience() {
 //		Moze se iskoristiti org.springframework.mobile.device.Device objekat za odredjivanje tipa uredjaja sa kojeg je zahtev stigao.
-		
+
 //		String audience = AUDIENCE_UNKNOWN;
 //		if (device.isNormal()) {
 //			audience = AUDIENCE_WEB;
@@ -79,9 +99,7 @@ public class TokenUtils {
 		try {
 			final Claims claims = this.getAllClaimsFromToken(token);
 			claims.setIssuedAt(timeProvider.now());
-			refreshedToken = Jwts.builder()
-					.setClaims(claims)
-					.setExpiration(generateExpirationDate())
+			refreshedToken = Jwts.builder().setClaims(claims).setExpiration(generateExpirationDate())
 					.signWith(SIGNATURE_ALGORITHM, SECRET).compact();
 		} catch (Exception e) {
 			refreshedToken = null;
@@ -99,7 +117,7 @@ public class TokenUtils {
 		User user = (User) userDetails;
 		final String username = getUsernameFromToken(token);
 		final Date created = getIssuedAtDateFromToken(token);
-		
+
 		return (username != null && username.equals(userDetails.getUsername())
 				&& !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate()));
 	}
@@ -166,7 +184,7 @@ public class TokenUtils {
 	public String getAuthHeaderFromHeader(HttpServletRequest request) {
 		return request.getHeader(AUTH_HEADER);
 	}
-	
+
 	private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
 		return (lastPasswordReset != null && created.before(lastPasswordReset));
 	}
@@ -186,14 +204,17 @@ public class TokenUtils {
 	private Claims getAllClaimsFromToken(String token) {
 		Claims claims;
 		try {
-			claims = Jwts.parser()
-					.setSigningKey(SECRET)
-					.parseClaimsJws(token)
-					.getBody();
+			claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token).getBody();
 		} catch (Exception e) {
 			claims = null;
 		}
 		return claims;
 	}
 	
+	public String getPrivilegesFromToken(String token) {
+		Claims claims = this.getAllClaimsFromToken(token);
+		String privileges = (String)claims.get("privileges");
+		return privileges;
+	}
+
 }
