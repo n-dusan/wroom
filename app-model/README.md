@@ -1,6 +1,6 @@
 Ovde dolazi readme za model: aplikacije
 
-
+```
 MIKROSERVISI: 
 	- auth ( logovanje, registracija, upravljanje permisijama, prihvatanje zahteva za registraciju)
 		entiteti: {
@@ -84,3 +84,4 @@ MIKROSERVISI:
 		
 		
 		
+```

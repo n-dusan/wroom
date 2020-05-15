@@ -1,15 +1,20 @@
-<div fxLayout="column" fxLayoutAlign="center">
+<div fxLayout="column" fxLayoutAlign="center center">
     <mat-toolbar color="primary" fxLayout="row">
-      Rent a Car
-      <div fxFlex></div>
-      <div fxFlex="20%" fxLayoutAlign="end">
-        <!-- <button mat-icon-button color="accent" routerLink="/messages">
+        <a routerLink="/" fxFlex="15%">
+            <img src="../assets/logo.png" alt="MONOLITH" style="width: 100%;">
+        </a>
+        
+        <div fxFlex></div>
+        <div fxFlex="20%" fxLayoutAlign="end">
+            <!-- <button mat-icon-button color="accent" routerLink="/messages">
           <mat-icon>email</mat-icon>
         </button> -->
-      </div>
+            <button mat-raised-button color="accent" routerLink="/auth">
+                Log In
+            </button>
+        </div>
     </mat-toolbar>
-    
+
     <router-outlet fxFlex></router-outlet>
-  
-  </div>
-  
+
+</div>
