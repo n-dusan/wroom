@@ -54,7 +54,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
 	}
 
-    //csrf dodat zbog bezbednosti, ali kad se front upakuje u .jar ne igra nikakvu ulogu
+	@Value("${server.ssl.enabled}")
+	private boolean requireHttps;
+
    @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -74,10 +76,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
 //						BasicAuthenticationFilter.class);
 
-		//redirect http -> https
-	   //.requiresChannel().anyRequest().requiresSecure()
-        ;
 
+	    ;
+	   //redirect http -> https
+	   if(this.requireHttps) {
+	   	httpSecurity.requiresChannel().anyRequest().requiresSecure();
+	   }
     }
 
 
