@@ -3,6 +3,7 @@ package xwsagent.wroomagent.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xwsagent.wroomagent.domain.auth.User;
 
 import javax.persistence.*;
 

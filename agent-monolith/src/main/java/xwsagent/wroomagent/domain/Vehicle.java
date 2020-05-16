@@ -14,6 +14,7 @@ import javax.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xwsagent.wroomagent.domain.auth.User;
 
 import java.util.Set;
 

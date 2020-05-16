@@ -1,4 +1,4 @@
-package xwsagent.wroomagent.security.auth;
+package xwsagent.wroomagent.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtAuthenticationRequest {
+public class LoginRequestDTO {
 
-	private String username;
-    private String password;
+	private String email;
+	private String password;
 	
-    
 }
