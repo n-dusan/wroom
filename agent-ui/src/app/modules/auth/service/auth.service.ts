@@ -31,10 +31,20 @@ export class AuthService {
 
   login(data: LoginRequest): Observable<any> {
     return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(map((res: LoggedUser) => {
-      console.log(res, 'res')
-      localStorage.setItem('LoggedUser', JSON.stringify(res));
+      localStorage.setItem('token', JSON.stringify(res.token));
       this.loggedUserSubject.next(res);
     }));
+  }
+
+  getLoggedUser() {
+    return this.loggedUser;
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.loggedUserSubject.next(null);
+    this.loggedUser = this.loggedUserSubject.asObservable();
+    this.router.navigate(['/auth']);
   }
 
   test(): Observable<string> {
