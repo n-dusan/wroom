@@ -30,6 +30,9 @@ export class AppComponent implements OnInit {
     this.authService.getLoggedUser().subscribe(
       data => {
         this.user = data;
+        if(data == null) {
+          //send whoami to server to re-authenticate
+        }
       }
     );
 

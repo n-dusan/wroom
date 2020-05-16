@@ -61,7 +61,8 @@ export class AuthComponent implements OnInit {
 
     this.authService.login(request).subscribe(
       data => {
-        this.toastr.success('You are now logged in!', 'Success')
+        this.toastr.success('You are now logged in!', 'Success');
+        this.router.navigateByUrl('/home');
       },
       error => {
         console.log(error)
