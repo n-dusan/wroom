@@ -1,6 +1,5 @@
 package xwsagent.wroomagent.security;
 
-
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -31,72 +30,65 @@ import xwsagent.wroomagent.service.DomainUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-		securedEnabled = true,
-		jsr250Enabled = true,
-		prePostEnabled = true
-	)
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-    private DomainUserDetailsService domainUserDetailsService;
+	private DomainUserDetailsService domainUserDetailsService;
 
 	@Autowired
-    private JwtAuthenticationEntryPoint unauthorizedHandler;
-	
+	private JwtAuthenticationEntryPoint unauthorizedHandler;
+
 	@Bean
-    public SecurityEvaluationContextExtension securityEvaluationContextExtension(){
-        return new SecurityEvaluationContextExtension();
-    }
+	public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
+		return new SecurityEvaluationContextExtension();
+	}
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter();
-    }
-    
-    @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-            .userDetailsService(domainUserDetailsService)
-            .passwordEncoder(passwordEncoder());
-    }
-    
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+	@Bean
+	public JwtAuthenticationFilter jwtAuthenticationFilter() {
+		return new JwtAuthenticationFilter();
+	}
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-    	http 
-       .cors().and()
-       .csrf()
-       .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
-       .httpBasic().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		
-		.authorizeRequests()
+	@Override
+	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+		authenticationManagerBuilder.userDetailsService(domainUserDetailsService).passwordEncoder(passwordEncoder());
+	}
 
-		.antMatchers("/api/auth/**").permitAll()
-		.antMatchers("/api/stub/**").permitAll()
-		.antMatchers("/api/user/**").permitAll()
-		
-		.anyRequest().authenticated().and()
-		
-		.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-    	
-    	http.csrf().disable();
-    	
-    }
-	
+	@Bean(BeanIds.AUTHENTICATION_MANAGER)
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
-    //csrf dodat zbog bezbednosti, ali kad se front upakuje u .jar ne igra nikakvu ulogu
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http
+				.cors().and()
+				.csrf()
+				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
+				.httpBasic().disable()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+
+				.authorizeRequests()
+
+				.antMatchers("/api/auth/**").permitAll().antMatchers("/api/stub/**").permitAll()
+				.antMatchers("/api/user/**").permitAll()
+
+				.anyRequest().authenticated().and()
+
+				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
+//		http.csrf().disable();
+
+	}
+
+	// csrf dodat zbog bezbednosti, ali kad se front upakuje u .jar ne igra nikakvu
+	// ulogu
 //   @Override
 //    protected void configure(HttpSecurity httpSecurity) throws Exception {
 //        httpSecurity
@@ -117,12 +109,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
 //						BasicAuthenticationFilter.class);
 
-		//redirect http -> https
-	   //.requiresChannel().anyRequest().requiresSecure()
-        ;
-
-    }
-
-
+	// redirect http -> https
+	// .requiresChannel().anyRequest().requiresSecure()
+	;
 
 }
