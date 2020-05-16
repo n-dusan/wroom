@@ -9,10 +9,16 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,10 +30,10 @@ import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.domain.Vehicle;
 
 @Entity
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "users")
+@NamedEntityGraph(name = "User.Roles.Permissions", attributeNodes = @NamedAttributeNode(value = "roles", subgraph = "permissions"), subgraphs = @NamedSubgraph(name = "permissions", attributeNodes = @NamedAttributeNode("permissions")))
+@Inheritance(strategy = InheritanceType.JOINED)
+@Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class User {
 	// needs CRUD details, like deleted field and review data
 
@@ -62,12 +68,11 @@ public class User {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private boolean enabled;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private boolean nonLocked;
 
-	
 }
