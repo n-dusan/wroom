@@ -45,7 +45,7 @@ public class StubController {
     }
 
     @GetMapping(value="/test-auth")
-    @PreAuthorize("hasAuthority('RENT_REQUESTS_CREATE')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<String> testAuth() {
         return new ResponseEntity<>( HttpStatus.OK);
     }

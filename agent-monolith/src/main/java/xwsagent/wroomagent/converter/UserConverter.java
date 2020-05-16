@@ -1,6 +1,6 @@
 package xwsagent.wroomagent.converter;
 
-import xwsagent.wroomagent.domain.User;
+import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.UserDTO;
 
 public class UserConverter extends AbstractConverter {

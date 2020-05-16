@@ -1,21 +1,21 @@
 package xwsagent.wroomagent.service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import xwsagent.wroomagent.domain.Privilege;
-import xwsagent.wroomagent.domain.User;
-import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
-import xwsagent.wroomagent.security.TokenUtils;
-import xwsagent.wroomagent.security.auth.JwtAuthenticationRequest;
+import xwsagent.wroomagent.domain.Comment;
+import xwsagent.wroomagent.domain.RentRequest;
+import xwsagent.wroomagent.domain.auth.RoleName;
+import xwsagent.wroomagent.domain.auth.SignupRequestDTO;
+import xwsagent.wroomagent.domain.auth.User;
+import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
+import xwsagent.wroomagent.repository.RoleRepository;
+import xwsagent.wroomagent.repository.UserRepository;
 
 @Service
 public class AuthenticationService {
@@ -24,36 +24,43 @@ public class AuthenticationService {
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-    private TokenUtils tokenUtils;
+	private UserRepository userRepository;
 	
+	@Autowired
+	private RoleRepository roleRepository;
 	
-	public LoggedUserDTO login(JwtAuthenticationRequest request) {
-		final Authentication auth = this.authenticationManager
-				.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-		
-		SecurityContextHolder.getContext().setAuthentication(auth);
-		
-		String username = ((User) auth.getPrincipal()).getEmail();
-		
-		List<Privilege> privileges = (List<Privilege>) ((User) auth.getPrincipal()).getPrivileges();
-		ArrayList<String> privStr = new ArrayList<String>();
-		for( Privilege p : privileges ) {
-			privStr.add(p.getName());
+	@Autowired
+    PasswordEncoder encoder;
+
+//	
+//	public LoggedUserDTO login(LoginRequest request) {
+//		
+//	}
+//	
+
+	public boolean signup(SignupRequestDTO request) throws UsernameAlreadyExistsException {
+		if (userRepository.existsByEmail(request.getEmail())) {
+			throw new UsernameAlreadyExistsException("Username already exists!");
 		}
+
+		User user = new User(null, 
+							request.getName(), 
+							request.getSurname(), 
+							request.getEmail(), 
+							encoder.encode(request.getPassword()), 
+							new HashSet<RentRequest>(), 
+							null, new HashSet<Comment>(), 
+							null, 
+							Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)), 
+							false, 
+							true);
 		
-		if(username == null) {
-			return null;
-		}
-		
-		System.out.println("------>" + " " + username + " IS LOGGED IN!");
-		
-		String jwt = tokenUtils.generateToken(username);
-//		int expiresIn = tokenUtils.getExpiredIn();
-		
-		String privs = tokenUtils.getPrivilegesFromToken(jwt);
-		System.out.println("PRIVILEGES: " + privs);
-		
-		return new LoggedUserDTO(null, username, privStr , jwt);
+		user.setEnabled(false);
+
+		userRepository.save(user);
+		return true;
 	}
 
+	
+	
 }

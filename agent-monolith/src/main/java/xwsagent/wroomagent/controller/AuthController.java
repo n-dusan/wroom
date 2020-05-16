@@ -1,59 +1,43 @@
 package xwsagent.wroomagent.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import xwsagent.wroomagent.domain.User;
-import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
-import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
-import xwsagent.wroomagent.security.auth.JwtAuthenticationRequest;
+import xwsagent.wroomagent.domain.auth.SignupRequestDTO;
+import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.service.AuthenticationService;
-import xwsagent.wroomagent.service.UserService;
 
 @RestController
 @RequestMapping(value = "api/auth")
 public class AuthController {
 
 	@Autowired
-	private UserService userService;
-
-	@Autowired
 	private AuthenticationService authService;
 
-	@PostMapping(value = "/signup")
-	public ResponseEntity<SignupRequestDTO> signup(@RequestBody SignupRequestDTO requestDTO) {
-		SignupRequestDTO ret = this.userService.signup(requestDTO);
-
-		if (ret == null) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-
-	@PostMapping(value = "/login")
-	public ResponseEntity<LoggedUserDTO> login(@RequestBody JwtAuthenticationRequest request) {
+//	@PostMapping(value = "/login")
+//	public ResponseEntity<LoggedUserDTO> login(@RequestBody JwtAuthenticationRequest request) {
+//		
+//	}
+//
+	@PostMapping("/signup")
+	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestDTO signUpRequest) {
 		try {
-			LoggedUserDTO ret = this.authService.login(request);
-			if (ret == null) {
-				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			if (this.authService.signup(signUpRequest)) {
+				return new ResponseEntity<>(HttpStatus.CREATED);
 			}
-			return new ResponseEntity<>(ret, HttpStatus.ACCEPTED);
-		} catch (AuthenticationException exc) {
-//			if(never logged in)
-			exc.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		} catch (UsernameAlreadyExistsException e) {
+			return new ResponseEntity<>(HttpStatus.IM_USED);
 		}
-
-		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
+	
+	
 
 }
