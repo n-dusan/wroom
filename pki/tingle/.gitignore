@@ -19,8 +19,6 @@
 *.tar.gz
 *.rar
 
-#app-properties
-src/main/resources/application.properties
 
 
 # certificate 
@@ -60,9 +58,7 @@ build/
 
 ### VS Code ###
 .vscode/
-src/main/resources/application.properties
-.jks/end-entity.jks
-.jks/intermediate.jks
-.jks/root.jks
-.ks/end-entity.p12
-.ks/root.p12
+.keystores/end-entity.p12
+.keystores/intermediate.p12
+.keystores/root.p12
+.truststore/truststore.p12
