@@ -1,4 +1,4 @@
-package xwsagent.wroomagent.domain.auth;
+package wroom.authservice.domain;
 
 public enum RoleName {
 
