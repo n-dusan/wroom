@@ -21,12 +21,10 @@ import xwsagent.wroomagent.exception.InvalidJWTokenException;
 @Component
 public class JwtTokenProvider {
 
-//	@Value("${auth.app.jwtSecret}")
-	@Value("sometopsecret")
+	@Value("${auth.app.jwtSecret}")
 	private String jwtSecret;
 
-//	@Value("${auth.app.jwtExpiration}")
-	@Value("8000")
+	@Value("${auth.app.jwtExpiration}")
 	private int jwtExpirationInMs;
 
 	public String generateToken(Authentication authentication) {

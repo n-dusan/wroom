@@ -33,11 +33,16 @@ export class AuthService {
     return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(map((res: LoggedUser) => {
       localStorage.setItem('token', JSON.stringify(res.token));
       this.loggedUserSubject.next(res);
+      console.log(this.loggedUser)
     }));
   }
 
   getLoggedUser() {
     return this.loggedUser;
+  }
+
+  getToken() {
+    return this.loggedUserSubject.value.token;
   }
 
   logout() {
