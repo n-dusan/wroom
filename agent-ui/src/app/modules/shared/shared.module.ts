@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AngularYandexMapsModule } from 'angular8-yandex-maps';
 import { ControlMessagesComponent } from './control-messages/control-messages.component';
+import { HomeComponent } from './components/home/home.component';
 
 const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
 
@@ -9,7 +10,8 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
   declarations: [
     // This is where all declared components go! (if you add new component,
     // import it here!)
-    ControlMessagesComponent
+    ControlMessagesComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

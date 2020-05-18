@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from './modules/auth/service/auth.service';
+import { LoggedUser } from './modules/auth/model/logged-user.model';
 
 @Component({
   selector: 'app-root',
@@ -7,9 +9,12 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'frontend-agent';
+  title = 'Monolith';
 
-  constructor(private http: HttpClient) {}
+  user: LoggedUser;
+
+  constructor(private http: HttpClient,
+    private authService: AuthService) {}
 
   ngOnInit(): void {
     // console.log('Greetings! Attempting to establish http communication with monolith back-end...');
@@ -22,5 +27,19 @@ export class AppComponent implements OnInit {
     //   })
     // })
 
+    this.authService.getLoggedUser().subscribe(
+      data => {
+        this.user = data;
+        if(data == null) {
+          //send whoami to server to re-authenticate
+        }
+      }
+    );
+
+  }
+
+  logout() {
+    this.authService.logout();
+    this.user = null;
   }
 }

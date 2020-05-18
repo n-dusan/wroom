@@ -3,15 +3,23 @@
         <a routerLink="/" fxFlex="15%">
             <img src="../assets/logo.png" alt="MONOLITH" style="width: 100%;">
         </a>
-        
+
         <div fxFlex></div>
         <div fxFlex="20%" fxLayoutAlign="end">
             <!-- <button mat-icon-button color="accent" routerLink="/messages">
           <mat-icon>email</mat-icon>
         </button> -->
-            <button mat-raised-button color="accent" routerLink="/auth">
-                Log In
-            </button>
+            <div *ngIf="!user">
+                <button mat-raised-button color="accent" routerLink="/auth">
+                    Log In
+                </button>
+            </div>
+            <div *ngIf="user">
+                <button mat-raised-button  (click)="logout()">
+                    Log out
+                </button>
+            </div>
+
         </div>
     </mat-toolbar>
 
