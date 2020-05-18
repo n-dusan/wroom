@@ -1,0 +1,1 @@
+ovde ce, najverovatnije, potpasti modul za likvidaturu, poslovna informatika
