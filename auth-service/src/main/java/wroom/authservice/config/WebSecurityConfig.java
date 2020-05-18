@@ -70,6 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
 				
 				.authorizeRequests()
+				.antMatchers("/**").permitAll()
 				.antMatchers("/api/auth/**").permitAll()
 				.antMatchers("/api/user/**").permitAll()
 
@@ -105,6 +106,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	// redirect http -> https
 	// .requiresChannel().anyRequest().requiresSecure()
-	;
+//	;
 
 }
