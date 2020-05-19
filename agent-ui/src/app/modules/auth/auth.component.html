@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center center">
     <img fxFlex src="../../../assets/logo.png" alt="MONOLITH" style="width: 30%;">
     <mat-card class="example-card" fxFlex style="width: 30%; padding: 15px;">
-        <form [formGroup]="loginForm" *ngIf="login">
+        <form [formGroup]="loginForm" *ngIf="login" (submit)="loginSubmit()">
             <mat-card-content style="text-align: center;">
                 <h1>Welcome back!</h1>
                 <!-- 'legacy' | 'standard' | 'fill' | 'outline'; -->
@@ -64,4 +64,6 @@
             </mat-card-actions>
         </form>
     </mat-card>
+
+    <button type="button" mat-raised-button color="primary" (click)="testClick()">TEST ME</button>
 </div>

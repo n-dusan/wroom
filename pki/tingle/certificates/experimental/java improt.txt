@@ -1,0 +1,11 @@
+ keytool -import -keystore ${JAVA_HOME}/jre/lib/security/cacerts -file root.crt -alias tingleRoot
+Enter keystore password:  changeit
+
+
+cat root.crt > root.pem
+
+#zuul
+$ openssl pkcs12 -export -name 655575225830 -inkey END_ENTITY-655575225830.key -in END_ENTITY-655575225830.crt -certfile root.pem -passout "pass:password" -out "zuul-server.p12"
+
+
+> ELEVATED SHELL: keytool -import -v -trustcacerts -alias zuul -file END_ENTITY-655575225830.crt -keystore c:/'Program Files'/Java/jdk1.8.0_191/jre/lib/security/cacerts -storepass changeit

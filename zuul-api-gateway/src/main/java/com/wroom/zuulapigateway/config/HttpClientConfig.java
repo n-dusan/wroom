@@ -20,31 +20,31 @@ import java.security.cert.X509Certificate;
 @Configuration
 public class HttpClientConfig {
 
-    @Bean
-    public Client feignClient()
-    {
-        Client trustSSLSockets = new Client.Default(getSSLSocketFactory(), new NoopHostnameVerifier());
-        return trustSSLSockets;
-    }
-
-
-    private SSLSocketFactory getSSLSocketFactory() {
-        try {
-            TrustStrategy acceptingTrustStrategy = new TrustStrategy() {
-                @Override
-                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                    return true;
-                }
-            };
-
-            SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
-            return sslContext.getSocketFactory();
-        } catch (Exception exception) {
-            //Do something
-        }
-
-        return null;
-    }
+//    @Bean
+//    public Client feignClient()
+//    {
+//        System.out.println("MY JAVA HOME: " + System.getProperty("java.home"));
+//        Client trustSSLSockets = new Client.Default(getSSLSocketFactory(), new NoopHostnameVerifier());
+//        return trustSSLSockets;
+//    }
+//
+//
+//    private SSLSocketFactory getSSLSocketFactory() {
+//        try {
+//            TrustStrategy acceptingTrustStrategy = new TrustStrategy() {
+//                @Override
+//                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+//                    //Do your validations
+//                    return true;
+//                }
+//            };
+//
+//            SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+//            return sslContext.getSocketFactory();
+//        } catch (Exception exception) {
+//            throw new RuntimeException(exception);
+//        }
+//    }
 
 //    @Bean
 //    public CloseableHttpClient httpClient() throws Throwable {
@@ -55,7 +55,7 @@ public class HttpClientConfig {
 //
 //        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
 //                sslcontext,
-//                new String[] { "TLSv1.3" },
+//                new String[] { "TLSv1.2" },
 //                null,
 //                SSLConnectionSocketFactory.getDefaultHostnameVerifier());
 //        CloseableHttpClient httpclient = HttpClients.custom()
