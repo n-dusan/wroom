@@ -47,16 +47,16 @@ services:
     networks:
       - xws-network
     environment:
-          REGISTRY_HOST: eureka
-          DATABASE_USERNAME: root
-          DATABASE_PASSWORD: root
-          DATABASE_DOMAIN: mysql
-          DATABASE_SCHEMA: wroom
-          KEYSTORE: /etc/certificates/search-service/search-server.p12
-          KEYSTORE_PASSWORD: password
-          KEYSTORE_ALIAS: 348124495475
-          TRUSTSTORE: /etc/truststore.p12
-          TRUSTSTORE_PASSWORD: password
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+      KEYSTORE: /etc/certificates/search-service/search-server.p12
+      KEYSTORE_PASSWORD: password
+      KEYSTORE_ALIAS: 348124495475
+      TRUSTSTORE: /etc/truststore.p12
+      TRUSTSTORE_PASSWORD: password
     ports:
       - 8091:8091
     depends_on:
@@ -137,14 +137,14 @@ services:
         - "3306:3306"
         
 # build ui seperately from agent
-#  agent-ui:
-#    build:
-#      context: ./agent-ui
-#      dockerfile: Dockerfile
-#    image: wroom/agent-ui:1.0.0
-#    container_name: agent-ui
-#    ports:
-#      - 4200:80
+  agent-ui:
+    build:
+      context: ./agent-ui
+      dockerfile: Dockerfile
+    image: xws:agent-ui
+    container_name: agent-ui
+    ports:
+      - 4200:80
 
 
 volumes:
