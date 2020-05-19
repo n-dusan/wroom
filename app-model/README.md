@@ -1,7 +1,5 @@
-Ovde dolazi readme za model: aplikacije
-
 ```
-MIKROSERVISI: 
+Predlog mikroservisa : 
 	- auth:
 		funkcionalnosti: {
 			(   -logovanje, 
