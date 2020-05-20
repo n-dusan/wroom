@@ -3,12 +3,15 @@ package xwsagent.wroomagent.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import xwsagent.wroomagent.domain.Role;
+import xwsagent.wroomagent.domain.auth.Role;
+import xwsagent.wroomagent.domain.auth.RoleName;
+
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
+	Role findByName(RoleName name);
 	
-	public Role findByName(String name);
+	boolean existsByName(RoleName name);
 	
 }

@@ -2,17 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './modules/shared/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TestComponentComponent } from './test-component/test-component.component';
+import { ToastrModule } from 'ngx-toastr';
+import { TokenInterceptor } from './modules/auth/interceptor/token.interceptor';
+import { AuthGuard } from './modules/auth/guards/auth.guard';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    TestComponentComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -20,10 +20,16 @@ import { TestComponentComponent } from './test-component/test-component.componen
     HttpClientModule,
     MaterialModule,
     BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule
+    ToastrModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    AuthGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
