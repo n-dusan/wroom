@@ -8,19 +8,10 @@ services:
       dockerfile: Dockerfile
     image: xws:eureka
     container_name: eureka
-    environment:
-      KEYSTORE: /etc/certificates/eureka/eureka-server.p12
-      KEYSTORE_PASSWORD: password
-      KEYSTORE_ALIAS: 466079810404
-      TRUSTSTORE: /etc/truststore.p12
-      TRUSTSTORE_PASSWORD: password
     ports:
     - 8761:8761
     networks:
       - xws-network
-    volumes:
-      - ./pki/tingle/certificates:/etc/certificates
-      - ./pki/tingle/.truststore:/etc
 
   zuul:
     build:
@@ -62,11 +53,6 @@ services:
       DATABASE_PASSWORD: root
       DATABASE_DOMAIN: mysql
       DATABASE_SCHEMA: wroom
-      KEYSTORE: /etc/certificates/search-service/search-server.p12
-      KEYSTORE_PASSWORD: password
-      KEYSTORE_ALIAS: 348124495475
-      TRUSTSTORE: /etc/truststore.p12
-      TRUSTSTORE_PASSWORD: password
     ports:
       - 8091:8091
     depends_on:
@@ -74,9 +60,6 @@ services:
       - mysql
     links:
       - eureka
-    volumes:
-    - ./pki/tingle/certificates:/etc/certificates
-    - ./pki/tingle/.truststore:/etc
 
 #  vehicle-service:
 #    build:
@@ -196,7 +179,7 @@ services:
 #
 ##  agent:
 ##    build:
-##      context: ./ #here was wroom-agent context
+##      context: ./
 ##      dockerfile: Dockerfile
 ##
 ##    image: xws:agent
@@ -261,7 +244,25 @@ services:
 
     ports:
         - "3306:3306"
-        
+
+  wroom-ui:
+    build:
+      context: ./microservice-ui
+      dockerfile: Dockerfile
+    image: xws:wroom-ui
+    container_name: wroom-ui
+    environment:
+      KEYSTORE: /etc/certificates/wroom-client/wroom-client.p12
+      KEYSTORE_PASSWORD: password
+      KEYSTORE_ALIAS: 248621907453
+      TRUSTSTORE: /etc/truststore.p12
+      TRUSTSTORE_PASSWORD: password
+    ports:
+    - 4201:4201
+    volumes:
+      - ./pki/tingle/certificates:/etc/certificates
+      - ./pki/tingle/.truststore:/etc
+
 # build ui seperately from agent
 #  agent-monolith-ui:
 #   # build:
@@ -271,25 +272,6 @@ services:
 #    container_name: agent-ui
 #    ports:
 #      - 4200:80
-
-#  wroom-ui:
-#    build:
-#      context: ./microservice-ui
-#      dockerfile: Dockerfile
-#    image: xws:wroom-ui
-#    container_name: wroom-ui
-#    environment:
-#      KEYSTORE: /etc/certificates/wroom-client/wroom-client.p12
-#      KEYSTORE_PASSWORD: password
-#      KEYSTORE_ALIAS: 248621907453
-#      TRUSTSTORE: /etc/truststore.p12
-#      TRUSTSTORE_PASSWORD: password
-#    ports:
-#    - 4201:4201
-#    volumes:
-#      - ./pki/tingle/certificates:/etc/certificates
-#      - ./pki/tingle/.truststore:/etc
-
 volumes:
   mysql-data:
 
