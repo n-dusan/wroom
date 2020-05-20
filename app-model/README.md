@@ -1,4 +1,6 @@
 ```
+* Graficki prikaz mikroservisa: ucitati microservices.xml u draw.io
+
 Predlog mikroservisa : 
 	- auth:
 		funkcionalnosti: {
