@@ -38,7 +38,6 @@ export class NewGearboxTypeComponent implements OnInit {
       .subscribe(data => {
         this.success = true;
       console.log(data);
-      window.location.reload();
     },
 
     error => this.errorMessage = true);
@@ -58,16 +57,11 @@ export class NewGearboxTypeComponent implements OnInit {
   }
 
   onSubmitUpdate(id: number){
-
-
     this.gearboxService.update(id,this.local_data).subscribe(
       data => {
         this.new.name = this.gearboxUpdateForm.value.name;
-        window.location.reload();
       },
       error => console.log('Error!'));
-
-
   }
 
   gearboxUpdateForm = new FormGroup({

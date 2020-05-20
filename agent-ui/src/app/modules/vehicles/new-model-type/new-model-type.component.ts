@@ -36,9 +36,8 @@ export class NewModelTypeComponent implements OnInit {
   save() {
     this.modelService.create(this.modelType)
       .subscribe(data => {
-        this.success = true;
+        
       console.log(data);
-      window.location.reload();
     },
 
     error => this.errorMessage = true);
@@ -63,7 +62,6 @@ export class NewModelTypeComponent implements OnInit {
     this.modelService.update(id,this.local_data).subscribe(
       data => {
         this.new.name = this.modelUpdateForm.value.name;
-        window.location.reload();
       },
       error => console.log('Error!'));
 

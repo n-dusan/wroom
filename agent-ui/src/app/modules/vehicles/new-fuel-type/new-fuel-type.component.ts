@@ -36,8 +36,7 @@ export class NewFuelTypeComponent implements OnInit {
     this.fuelTypeService.create(this.fuelType)
       .subscribe(data => {
       this.success = true;
-      console.log(data);
-      window.location.reload();
+      console.log(data)
     },
     error => this.errorMessage = true);
   }
@@ -57,7 +56,6 @@ export class NewFuelTypeComponent implements OnInit {
     this.fuelTypeService.update(id,this.local_data).subscribe(
       data => {
         this.new.name = this.fuelUpdateForm.value.name;
-        window.location.reload();
       },
       error => console.log('Error!'));
   }

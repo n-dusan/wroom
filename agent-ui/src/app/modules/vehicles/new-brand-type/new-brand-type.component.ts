@@ -36,7 +36,6 @@ export class NewBrandTypeComponent implements OnInit {
       .subscribe(data => {
       this.success = true;
       console.log(data);
-      window.location.reload();
     },
     error => this.errorMessage = true);
   }
@@ -56,7 +55,6 @@ export class NewBrandTypeComponent implements OnInit {
     this.brandTypeService.update(id,this.local_data).subscribe(
       data => {
         this.new.name = this.brandUpdateForm.value.name;
-        window.location.reload();
       },
       error => console.log('Error!'));
 

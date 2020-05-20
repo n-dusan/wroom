@@ -36,7 +36,6 @@ export class NewBodyTypeComponent implements OnInit {
       .subscribe(data => {
       this.success = true;
       console.log(data);
-      window.location.reload();
     },
     error => this.errorMessage = true);
   }
@@ -56,7 +55,6 @@ export class NewBodyTypeComponent implements OnInit {
     this.bodyTypeService.update(id,this.local_data).subscribe(
       data => {
         this.new.name = this.bodyUpdateForm.value.name;
-        window.location.reload();
       },
       error => console.log('Error!'));
 

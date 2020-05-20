@@ -104,9 +104,10 @@ export class FeaturesOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadModelData();
     });
     console.log(this.isAdd)
+    
   }
 
   openBodyDialog(): void {
@@ -117,7 +118,7 @@ export class FeaturesOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadBodyData();
     });
   }
 
@@ -129,7 +130,7 @@ export class FeaturesOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadBrandData();
     });
   }
 
@@ -141,7 +142,7 @@ export class FeaturesOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadFuelData();
     });
   }
 
@@ -153,7 +154,7 @@ export class FeaturesOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadGearboxData();
     });
   }
 
@@ -203,7 +204,9 @@ export class FeaturesOverviewComponent implements OnInit {
       width: '500px',
       height: '400px',
       data: element
-
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadModelData();
     });
 
   }
@@ -214,7 +217,9 @@ export class FeaturesOverviewComponent implements OnInit {
       width: '500px',
       height: '400px',
       data: element
-
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadBodyData();
     });
 
   }
@@ -225,7 +230,9 @@ export class FeaturesOverviewComponent implements OnInit {
       width: '500px',
       height: '400px',
       data: element
-
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadBrandData();
     });
 
   }
@@ -236,7 +243,9 @@ export class FeaturesOverviewComponent implements OnInit {
       width: '500px',
       height: '400px',
       data: element
-
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadFuelData();
     });
 
   }
@@ -247,9 +256,10 @@ export class FeaturesOverviewComponent implements OnInit {
       width: '500px',
       height: '400px',
       data: element
-
     });
-
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadGearboxData();
+    });
   }
 
 }
