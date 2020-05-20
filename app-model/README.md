@@ -1,19 +1,24 @@
-Ovde dolazi readme za model: aplikacije
-
 ```
-MIKROSERVISI: 
-	- auth ( logovanje, registracija, upravljanje permisijama, prihvatanje zahteva za registraciju)
+Predlog mikroservisa : 
+	- auth:
+		funkcionalnosti: {
+			(   -logovanje, 
+				-registracija, 
+				-upravljanje permisijama, 
+				-prihvatanje zahteva za registraciju
+			)
+		}
 		entiteti: {
 			- User
 			- SignupRequest
 		}
-	- search ( napredna pretraga )
-			entiteti: {
-			- User
+		
+	- vehicle 
+		-funkcionalnosti: {
+			(crud vozila, crud vehicle-features(menjac, tip modela auta, tip marke auta, itd.)) 
+		}
+		-entiteti: {
 			- Vehicle
-			- Ad
-			- Image
-			- PriceList
 			- BrandType
 			- ModelType
 			- GearboxType
@@ -21,67 +26,76 @@ MIKROSERVISI:
 			- BodyType
 			- Image
 		}
-	- ads ( crud oglasa, rucni unos zauzeca vozila, crud vozila?, crud price-list, statistika vozila (obraca se rents (za rent report) i  comments (za top komentare)?)
+		
+	- search 
+			funkcionalnosti: {
+				( napredna pretraga )
+			}
 			entiteti: {
 			- Ad
-			- Image
+		}
+		
+	- ads 
+			funkcionalnosti: {
+				( crud oglasa, crud cenovnika, statistika za vozilo)
+			}
+			entiteti: {
+			- User
+			- Ad
 			- Vehicle
 			- PriceList
-			- BrandType
-			- ModelType
-			- GearboxType
-			- FuelType
-			- BodyType
-			- RentRequest* (pitati asistenta za hendlovanje rucnog unosa, tj da li se obracati drugom mikroservisu?)
-			- User
-		}
-	- messaging ( dopisivanje )
-			entiteti: {
-			- User
-			- RentRequest
-			- Ad? (komunicira ka ad modulu)
-		
-		}
-	- rents (prihvatanje i odbijanje zahteva, istorija zahteva, otkazivanje zahteva, izvestaj o iznajmljivanju (rent report))
-			entiteti: {
-			- RentRequest
-			- User
-			- RentReport
-			- Ad? (komunicira ka ad modulu)
-		
-		}
-	- comments and rating
-			entiteti: {
-			- User
 			- Comment
-			- Ad? (komunicira ka ad modulu)
 		}
-	- admin (crud vehicle-features, banovanje,  brisanje korisnika, odbijanje i prihvatanje komentara, registrovanje firme)
+		
+	- messaging 
+			-funckionalnosti: {
+				( dopisivanje )
+			}
 			entiteti: {
-			- BrandType
-			- ModelType
-			- GearboxType
-			- FuelType
-			- BodyType
+			- Message
+		}
+		
+	- rents 
+			-funckionalnosti: {
+				(
+				rucni unos zauzeca vozila, 
+				prihvatanje i odbijanje zahteva, 
+				istorija zahteva, 
+				otkazivanje zahteva, 
+				izvestaj o iznajmljivanju (rent report)
+				)
+			}
+			
+			entiteti: {
+			- RentRequest
+			- User (id)
+			- RentReport
+			- Ad (komunicira ka ad modulu - id)
+		}
+		
+	- admin 
+			funckionalnosti: {
+			(banovanje,  brisanje korisnika, odbijanje i prihvatanje komentara, registrovanje firme)
+			}
+			entiteti: {
 			- User
 			- Comments
 		}
+		
 	- tingle (pki):
 			entiteti: {
 			- // is ready to mingle
-		
 		}
-	- likvidatura ( zatvaranje faktura (RESERVED -> PAID) )
+		
+	- likvidatura ili prodaja ()
 			entiteti: {
-			- // u sustini treba modelovati na mendixu 
-		
+			- // treba modelovati na mendixu 
 		}
+		
 	- gps (vozilo salje koordinate)
 			entiteti: {
 			- nista
 			- //salje koordinate ka message queue
 		}
-		
-		
 		
 ```

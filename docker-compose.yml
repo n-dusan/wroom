@@ -1,11 +1,11 @@
 version: "3"
 services:
 
+##<begin> MIKROSERVISI
   eureka:
     build:
       context: ./eureka-service-registry
       dockerfile: Dockerfile
-
     image: xws:eureka
     container_name: eureka
     ports:
@@ -17,17 +17,26 @@ services:
     build:
       context: ./zuul-api-gateway
       dockerfile: Dockerfile
-
     image: xws:zuul
     container_name: zuul
     ports:
       - 8762:8762
     environment:
       REGISTRY_HOST: eureka
+      KEYSTORE: /etc/certificates/zuul/zuul-server.p12
+      KEYSTORE_PASSWORD: password
+      KEYSTORE_ALIAS: 655575225830
+      TRUSTSTORE: /etc/truststore.p12
+      TRUSTSTORE_PASSWORD: password
     networks:
       - xws-network
     depends_on:
       - eureka
+    links:
+      - eureka
+    volumes:
+      - ./pki/tingle/certificates:/etc/certificates
+      - ./pki/tingle/.truststore:/etc
 
   search-service:
     build:
@@ -39,68 +48,194 @@ services:
     networks:
       - xws-network
     environment:
-          REGISTRY_HOST: eureka
-          DATABASE_USERNAME: root
-          DATABASE_PASSWORD: root
-          DATABASE_DOMAIN: mysql
-          DATABASE_SCHEMA: wroom
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+      KEYSTORE: /etc/certificates/search-service/search-server.p12
+      KEYSTORE_PASSWORD: password
+      KEYSTORE_ALIAS: 348124495475
+      TRUSTSTORE: /etc/truststore.p12
+      TRUSTSTORE_PASSWORD: password
     ports:
       - 8091:8091
     depends_on:
       - eureka
       - mysql
+    links:
+      - eureka
+    volumes:
+    - ./pki/tingle/certificates:/etc/certificates
+    - ./pki/tingle/.truststore:/etc
 
-  agent:
+  vehicle-service:
     build:
-      context: ./ #here was wroom-agent context
+      context: ./vehicle-service
       dockerfile: Dockerfile
-
-    image: xws:agent
-    container_name: agent
+    image: xws:vehicle-service
+    container_name: vehicle-service
     restart: on-failure
     networks:
       - xws-network
-    ports:
-      - 8081:8081
     environment:
+      REGISTRY_HOST: eureka
       DATABASE_USERNAME: root
       DATABASE_PASSWORD: root
       DATABASE_DOMAIN: mysql
       DATABASE_SCHEMA: wroom
-      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+    ports:
+      - 8093:8093
     depends_on:
+      - eureka
       - mysql
-
-#  mail:
-#    build:
-#      context: ./amqp-mail-service
-#      dockerfile: Dockerfile
+    links:
+      - eureka
 #
-#    image: mail:1.0.0
-#    container_name: mail
+#  ads-service:
+#    build:
+#      context: ./ads-service
+#      dockerfile: Dockerfile
+#    image: xws:ads-service
+#    container_name: ads-service
 #    restart: on-failure
+#    networks:
+#      - xws-network
+#    environment:
+#      REGISTRY_HOST: eureka
+#      DATABASE_USERNAME: root
+#      DATABASE_PASSWORD: root
+#      DATABASE_DOMAIN: mysql
+#      DATABASE_SCHEMA: wroom
+#    ports:
+#      - 8094:8094
+#    depends_on:
+#      - eureka
+#      - mysql
+#    links:
+#      - eureka
+#
+#  renting-service:
+#    build:
+#      context: ./renting-service
+#      dockerfile: Dockerfile
+#    image: xws:renting-service
+#    container_name: renting-service
+#    restart: on-failure
+#    networks:
+#      - xws-network
+#    environment:
+#      REGISTRY_HOST: eureka
+#      DATABASE_USERNAME: root
+#      DATABASE_PASSWORD: root
+#      DATABASE_DOMAIN: mysql
+#      DATABASE_SCHEMA: wroom
+#    ports:
+#      - 8095:8095
+#    depends_on:
+#      - eureka
+#      - mysql
+#    links:
+#      - eureka
+#
+#  administrator-service:
+#    build:
+#      context: ./administrator-service
+#      dockerfile: Dockerfile
+#    image: xws:administrator-service
+#    container_name: administrator-service
+#    restart: on-failure
+#    networks:
+#      - xws-network
+#    environment:
+#      REGISTRY_HOST: eureka
+#      DATABASE_USERNAME: root
+#      DATABASE_PASSWORD: root
+#      DATABASE_DOMAIN: mysql
+#      DATABASE_SCHEMA: wroom
+#    ports:
+#      - 8096:8096
+#    depends_on:
+#      - eureka
+#      - mysql
+#    links:
+#      - eureka
+#
+#  message-service:
+#    build:
+#      context: ./messaging-service
+#      dockerfile: Dockerfile
+#    image: xws:message-service
+#    container_name: message-service
+#    restart: on-failure
+#    networks:
+#      - xws-network
+#    environment:
+#      REGISTRY_HOST: eureka
+#      DATABASE_USERNAME: root
+#      DATABASE_PASSWORD: root
+#      DATABASE_DOMAIN: mysql
+#      DATABASE_SCHEMA: wroom
+#    ports:
+#      - 8097:8097
+#    depends_on:
+#      - eureka
+#      - mysql
+#    links:
+#      - eureka
+###</begin> MIKROSERVISI
+#
+##  agent:
+##    build:
+##      context: ./ #here was wroom-agent context
+##      dockerfile: Dockerfile
+##
+##    image: xws:agent
+##    container_name: agent
+##    restart: on-failure
 ##    networks:
 ##      - xws-network
 ##    ports:
-##      - 8081:8080
-#    environment:
-##      RMQ_HOST: rabbitmq-broker
-#      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+##      - 8081:8081
+##    environment:
+##      DATABASE_USERNAME: root
+##      DATABASE_PASSWORD: root
+##      DATABASE_DOMAIN: mysql
+##      DATABASE_SCHEMA: wroom
+##      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
 ##    depends_on:
-##      - rabbitmq-broker
-
-
-
-#  rabbitmq-broker:
-#    image: rabbitmq:management-alpine
-#    container_name: rabbitmq-broker
-#    ports:
-#      - 5672:5672
-#      - 15672:15672
-#    networks:
-#      - xws-network
-
-
+##      - mysql
+#
+##  mail:
+##    build:
+##      context: ./amqp-mail-service
+##      dockerfile: Dockerfile
+##
+##    image: mail:1.0.0
+##    container_name: mail
+##    restart: on-failure
+###    networks:
+###      - xws-network
+###    ports:
+###      - 8081:8080
+##    environment:
+###      RMQ_HOST: rabbitmq-broker
+##      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+###    depends_on:
+###      - rabbitmq-broker
+#
+#
+#
+##  rabbitmq-broker:
+##    image: rabbitmq:management-alpine
+##    container_name: rabbitmq-broker
+##    ports:
+##      - 5672:5672
+##      - 15672:15672
+##    networks:
+##      - xws-network
+#
+#
   mysql:
     image: mysql:8.0.19
     container_name: mysql
@@ -119,15 +254,32 @@ services:
         - "3306:3306"
         
 # build ui seperately from agent
-#  agent-ui:
-#    build:
-#      context: ./agent-ui
-#      dockerfile: Dockerfile
-#    image: wroom/agent-ui:1.0.0
+#  agent-monolith-ui:
+#   # build:
+#     # context: ./agent-ui
+#    #  dockerfile: Dockerfile
+#    image: xws:agent-ui
 #    container_name: agent-ui
 #    ports:
 #      - 4200:80
 
+  wroom-ui:
+    build:
+      context: ./microservice-ui
+      dockerfile: Dockerfile
+    image: xws:wroom-ui
+    container_name: wroom-ui
+    environment:
+      KEYSTORE: /etc/certificates/wroom-client/wroom-client.p12
+      KEYSTORE_PASSWORD: password
+      KEYSTORE_ALIAS: 248621907453
+      TRUSTSTORE: /etc/truststore.p12
+      TRUSTSTORE_PASSWORD: password
+    ports:
+    - 4201:4201
+    volumes:
+      - ./pki/tingle/certificates:/etc/certificates
+      - ./pki/tingle/.truststore:/etc
 
 volumes:
   mysql-data:

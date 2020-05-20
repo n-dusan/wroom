@@ -1,13 +1,8 @@
 package xwsagent.wroomagent.security;
 
-import org.apache.catalina.Context;
-import org.apache.catalina.connector.Connector;
-import org.apache.tomcat.util.descriptor.web.SecurityCollection;
-import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +34,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private JwtAuthenticationEntryPoint unauthorizedHandler;
 
+	@Value("${server.ssl.enabled}")
+	private boolean httpsRequired;
+
 	@Bean
 	public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
 		return new SecurityEvaluationContextExtension();
@@ -65,6 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
+	@Value("${server.ssl.enabled}")
+	private boolean requireHttps;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -76,41 +77,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.authorizeRequests()
 
-				.antMatchers("/api/auth/**").permitAll().antMatchers("/api/stub/**").permitAll()
+				.antMatchers("/api/auth/**").permitAll()
+				.antMatchers("/api/stub/**").permitAll()
 				.antMatchers("/api/user/**").permitAll()
 
 				.anyRequest().authenticated().and()
 
-				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-//		http.csrf().disable();
-
+				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+		;
+		if(httpsRequired) {
+			http.requiresChannel().anyRequest().requiresSecure();
+		}
 	}
-
-	// csrf dodat zbog bezbednosti, ali kad se front upakuje u .jar ne igra nikakvu
-	// ulogu
-//   @Override
-//    protected void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//                .cors().and()
-//                .csrf()
-//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .httpBasic().disable()
-//                
-//                .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
-//
-//                .authorizeRequests().antMatchers("/api/auth/**").permitAll().and()
-//                .authorizeRequests().antMatchers("/api/user/**").permitAll()
-////                .authorizeRequests().antMatchers("/api/stub/**").permitAll()
-//
-//                .anyRequest().authenticated().and()
-//                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
-//						BasicAuthenticationFilter.class);
-
-	// redirect http -> https
-	// .requiresChannel().anyRequest().requiresSecure()
-	;
-
 }
