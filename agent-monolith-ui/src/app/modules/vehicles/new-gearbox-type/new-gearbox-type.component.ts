@@ -4,6 +4,7 @@ import { GearboxType } from '../../shared/models/gearbox-type.model';
 import { GearboxTypeService } from '../services/vehicle-features/gearbox-type.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-gearbox-type',
@@ -20,6 +21,7 @@ export class NewGearboxTypeComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private gearboxService: GearboxTypeService,
+    private toastr: ToastrService,
     public dialogRef: MatDialogRef<FeaturesOverviewComponent>,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -36,8 +38,7 @@ export class NewGearboxTypeComponent implements OnInit {
   save() {
     this.gearboxService.create(this.gearboxType)
       .subscribe(data => {
-        this.success = true;
-      console.log(data);
+        this.toastr.success('You have successfully added Gearbox Type!', 'Success')
     },
 
     error => this.errorMessage = true);

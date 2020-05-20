@@ -12,6 +12,7 @@ import { BrandType } from '../../shared/models/brand-type.model';
 import { BodyType } from '../../shared/models/body-type.model';
 import { GearboxType } from '../../shared/models/gearbox-type.model';
 import { FuelType } from '../../shared/models/fuel-type.model';
+import { ToastrService } from 'ngx-toastr';
 
 class ImageSnippet {
   pending: boolean = false;
@@ -43,12 +44,13 @@ export class NewVehicleComponent implements OnInit {
   imageNew: any[] = [];
   selectedFiles: File[]=[];
   newVehicle: Vehicle;
+  
   message: string;
 
   constructor(private formBuilder: FormBuilder, private modelService: ModelTypeService, 
     private vehicleService: VehicleService, private brandService: BrandTypeService,
     private bodyService: BodyTypeService, private fuelService: FuelTypeService,
-    private gearboxService: GearboxTypeService) { }
+    private gearboxService: GearboxTypeService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
       this.firstFormGroup = this.formBuilder.group({
@@ -101,7 +103,6 @@ export class NewVehicleComponent implements OnInit {
 
   }
 
-
   
   localUrl: any[];
   urls = [];
@@ -126,19 +127,22 @@ export class NewVehicleComponent implements OnInit {
     
     this.vehicleService.create(vehicle).subscribe(
       data => {
-        console.log('Uspesno')
+        this.toastr.success('You have successfully added a vehicle!', 'Success')
+        this.newVehicle = data;
+        this.vehicleService.upload(this.selectedFiles, this.newVehicle.id).subscribe(
+          data => {
+            console.log('Uspesno!')
+          });
       },
       error=> 
-        console.log('Neuspesno')
+      this.toastr.error('Error !', 'Error')
     );
     
 
   }
 
   doneClick(){
-    this.vehicleService.upload(this.selectedFiles).subscribe(
-      data => {
-        this.imageUrls = data;
+    
         const modelType = this.firstFormGroup.value.selectModel;
         const mType = this.modelList.find(x => x.id == modelType);
 
@@ -160,11 +164,10 @@ export class NewVehicleComponent implements OnInit {
 
         const cdw = this.thirdFormGroup.value.cdw;
         
-        const newVehicle = new Vehicle(mileage, childSeats, cdw, mType,brType,bType,fType,gType,this.imageUrls);
+        const newVehicle = new Vehicle(mileage, childSeats, cdw, mType,brType,bType,fType,gType);
         
         this.save(newVehicle); 
-        }
-    )
+      
     
   }
 

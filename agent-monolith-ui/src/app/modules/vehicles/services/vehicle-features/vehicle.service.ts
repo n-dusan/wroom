@@ -16,7 +16,7 @@ export class VehicleService {
         return this.http.post(this.baseUrl, vehicle);
     }
 
-    upload(file: File[]): Observable<any>{
+    upload(file: File[], id: number): Observable<any>{
         let formData = new FormData();
             for(let i = 0; i < file.length;i++){
             let formD : FormData;
@@ -24,6 +24,6 @@ export class VehicleService {
             
             }
     
-        return this.http.post(this.baseUrl + '/upload', formData);
+        return this.http.post(`${this.baseUrl}/upload/` + id, formData);
     }
 }

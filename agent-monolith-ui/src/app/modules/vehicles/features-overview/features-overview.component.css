@@ -2,12 +2,12 @@
     margin-left: 8px;
   }
 
-.model_panel, .body_panel, .brand_panel, .fuel_panel, .gearbox_panel{
-    background: rgb(82, 204, 82);
+ .model_panel, .body_panel, .brand_panel, .fuel_panel, .gearbox_panel{
+    background: rgb(212, 113, 106);
 }
 
 .model_action, .body_action, .brand_action, .fuel_action, .gearbox_action{
-  background: rgb(255, 255, 215);
+  background: rgb(255, 255, 255); 
 }
 
 table {

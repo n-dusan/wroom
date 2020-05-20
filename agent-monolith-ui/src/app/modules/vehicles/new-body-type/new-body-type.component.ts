@@ -4,6 +4,7 @@ import { BodyType } from 'src/app/modules/shared/models/body-type.model';
 import { BodyTypeService } from '../services/vehicle-features/body-type.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-body-type',
@@ -19,6 +20,7 @@ export class NewBodyTypeComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private bodyTypeService: BodyTypeService,
     private bodyService: BodyTypeService,
+    private toastr: ToastrService,
     public dialogRef: MatDialogRef<FeaturesOverviewComponent>,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -34,8 +36,7 @@ export class NewBodyTypeComponent implements OnInit {
   save() {
     this.bodyTypeService.create(this.bodyType)
       .subscribe(data => {
-      this.success = true;
-      console.log(data);
+      this.toastr.success('You have successfully added Body Type!', 'Success')
     },
     error => this.errorMessage = true);
   }

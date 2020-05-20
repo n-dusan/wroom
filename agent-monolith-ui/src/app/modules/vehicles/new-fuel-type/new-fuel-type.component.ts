@@ -5,6 +5,7 @@ import { FuelTypeService } from '../services/vehicle-features/fuel-type.service'
 import { Router } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-fuel-type',
@@ -20,6 +21,7 @@ export class NewFuelTypeComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private fuelTypeService: FuelTypeService, private router: Router,
     private fuelService: FuelTypeService,
+    private toastr: ToastrService,
     public dialogRef: MatDialogRef<FeaturesOverviewComponent>,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -35,8 +37,7 @@ export class NewFuelTypeComponent implements OnInit {
   save() {
     this.fuelTypeService.create(this.fuelType)
       .subscribe(data => {
-      this.success = true;
-      console.log(data)
+        this.toastr.success('You have successfully added Fuel Type!', 'Success')
     },
     error => this.errorMessage = true);
   }

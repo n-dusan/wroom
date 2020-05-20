@@ -15,8 +15,7 @@ public class VehicleConverter extends AbstractConverter {
 				entity.getBrandType(),
 				entity.getBodyType(),
 				entity.getFuelType(),
-				entity.getGearboxType(),
-				entity.getImages()
+				entity.getGearboxType()
 		);
 	}
 	
@@ -30,7 +29,6 @@ public class VehicleConverter extends AbstractConverter {
 		vehicle.setBodyType(dto.getBodyType());
 		vehicle.setFuelType(dto.getFuelType());
 		vehicle.setGearboxType(dto.getGearboxType());
-		vehicle.setImages(dto.getImages());
 		return vehicle;
 	}
 }

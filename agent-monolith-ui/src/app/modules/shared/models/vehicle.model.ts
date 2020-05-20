@@ -15,10 +15,9 @@ export class Vehicle{
     brandType:BrandType;
     fuelType:FuelType;
     gearboxType:GearboxType;
-    images:Image[] =[];
 
     constructor( mileage?: number, childSeats?: number, cdw?: boolean, modelType?: ModelType, brandType?: BrandType, bodyType?: BodyType,  fuelType?: FuelType,
-        gearboxType?: GearboxType,images?: Image[]){
+        gearboxType?: GearboxType){
       
         this.mileage = mileage;
         this.childSeats = childSeats;
@@ -28,6 +27,5 @@ export class Vehicle{
         this.brandType = brandType;
         this.fuelType = fuelType;
         this.gearboxType = gearboxType;
-        this.images = images;
     }
 }

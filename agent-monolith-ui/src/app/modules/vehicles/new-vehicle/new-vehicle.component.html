@@ -1,6 +1,6 @@
 <section fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 25px;"
    *ngIf="!success">
-  <h1 style="font-size:30px; color:rgb(30, 94, 46)">New Vehicle</h1>
+  <h1 style="font-size:30px; color:rgb(0, 0, 0)">New Vehicle</h1>
   <mat-horizontal-stepper style="padding: 15px" [linear]="isLinear" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" #stepper>
 
     <mat-step>
@@ -84,7 +84,7 @@
     <mat-step>
       <form fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" method="post" enctype="multipart/form-data"  [formGroup] = "fourthFormGroup">
         <ng-template matStepLabel>Images</ng-template>
-        <div id="divImages" class="grid-container" style="border-style: solid; padding:10px;border-top-color: hsl(89, 43%, 51%);">
+        <div id="divImages" class="grid-container" style="border-style: solid; padding:10px;border-top-color: rgb(212, 113, 106);">
           <img *ngFor='let localUrl of urls'  [src]="localUrl" height="150" width="120"> 
         </div>
           <div>

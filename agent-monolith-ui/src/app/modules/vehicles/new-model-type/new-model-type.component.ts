@@ -4,6 +4,7 @@ import { ModelType } from 'src/app/modules/shared/models/model-type.model';
 import { ModelTypeService } from '../services/vehicle-features/model-type.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-model-type',
@@ -20,6 +21,7 @@ export class NewModelTypeComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private modelService: ModelTypeService,
+    private toastr: ToastrService,
     public dialogRef: MatDialogRef<FeaturesOverviewComponent>,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -36,11 +38,11 @@ export class NewModelTypeComponent implements OnInit {
   save() {
     this.modelService.create(this.modelType)
       .subscribe(data => {
-        
-      console.log(data);
+      this.toastr.success('You have successfully added Model Type!', 'Success')
     },
 
-    error => this.errorMessage = true);
+    error => 
+      this.errorMessage = true);
 
   }
 

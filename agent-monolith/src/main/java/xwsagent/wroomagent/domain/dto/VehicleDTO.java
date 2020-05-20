@@ -29,6 +29,5 @@ public class VehicleDTO {
 	private BodyType bodyType;
 	private FuelType fuelType;
 	private GearboxType gearboxType;
-	private Set<Image> images;
 	
 }
