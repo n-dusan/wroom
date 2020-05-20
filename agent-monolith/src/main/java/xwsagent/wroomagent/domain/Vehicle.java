@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
+import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
 
 import lombok.Getter;
@@ -25,6 +25,7 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+	
 	@Column(nullable = false)
 	private Double mileage;
 	

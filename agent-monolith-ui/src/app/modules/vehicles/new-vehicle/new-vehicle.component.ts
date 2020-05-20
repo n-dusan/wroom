@@ -12,9 +12,6 @@ import { BrandType } from '../../shared/models/brand-type.model';
 import { BodyType } from '../../shared/models/body-type.model';
 import { GearboxType } from '../../shared/models/gearbox-type.model';
 import { FuelType } from '../../shared/models/fuel-type.model';
-import { Image } from '../../shared/models/image.model';
-import { HttpClient } from '@angular/common/http';
-import { ImageService } from '../services/vehicle-features/image.service';
 
 class ImageSnippet {
   pending: boolean = false;
