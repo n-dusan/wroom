@@ -13,8 +13,7 @@ public interface AuthClient {
 
 	@GetMapping("/hello")
     public ResponseEntity<String> get();
-	
+
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@RequestBody SignupRequestDTO signUpRequest);
-	
 }
