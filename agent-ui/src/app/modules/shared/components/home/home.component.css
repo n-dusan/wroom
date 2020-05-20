@@ -1,0 +1,15 @@
+.content {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.image {
+    background-image: url('../../../../../assets/rental.jpg');
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    height: 500px;
+    width: 1550px;
+    padding: 25px;
+}

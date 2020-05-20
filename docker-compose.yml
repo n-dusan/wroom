@@ -1,6 +1,5 @@
 version: "3"
 services:
-
   eureka:
     build:
       context: ./eureka-service-registry
@@ -9,7 +8,7 @@ services:
     image: xws:eureka
     container_name: eureka
     ports:
-    - 8761:8761
+      - 8761:8761
     networks:
       - xws-network
 
@@ -29,77 +28,95 @@ services:
     depends_on:
       - eureka
 
-  search-service:
+  # search-service:
+  #   build:
+  #     context: ./search-service
+  #     dockerfile: Dockerfile
+  #   image: xws:search-service
+  #   container_name: search-service
+  #   restart: on-failure
+  #   networks:
+  #     - xws-network
+  #   environment:
+  #         REGISTRY_HOST: eureka
+  #         DATABASE_USERNAME: root
+  #         DATABASE_PASSWORD: root
+  #         DATABASE_DOMAIN: mysql
+  #         DATABASE_SCHEMA: wroom
+  #   ports:
+  #     - 8091:8091
+  #   depends_on:
+  #     - eureka
+  #     - mysql
+
+  auth-service:
     build:
-      context: ./search-service
+      context: ./auth-service
       dockerfile: Dockerfile
-    image: xws:search-service
-    container_name: search-service
+    image: xws:auth-service
+    container_name: auth-service
     restart: on-failure
     networks:
       - xws-network
     environment:
-          REGISTRY_HOST: eureka
-          DATABASE_USERNAME: root
-          DATABASE_PASSWORD: root
-          DATABASE_DOMAIN: mysql
-          DATABASE_SCHEMA: wroom
-    ports:
-      - 8091:8091
-    depends_on:
-      - eureka
-      - mysql
-
-  agent:
-    build:
-      context: ./ #here was wroom-agent context
-      dockerfile: Dockerfile
-
-    image: xws:agent
-    container_name: agent
-    restart: on-failure
-    networks:
-      - xws-network
-    ports:
-      - 8081:8081
-    environment:
+      REGISTRY_HOST: eureka
       DATABASE_USERNAME: root
       DATABASE_PASSWORD: root
       DATABASE_DOMAIN: mysql
       DATABASE_SCHEMA: wroom
-      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+    ports:
+      - 8092:8092
     depends_on:
+      - eureka
       - mysql
 
-#  mail:
-#    build:
-#      context: ./amqp-mail-service
-#      dockerfile: Dockerfile
-#
-#    image: mail:1.0.0
-#    container_name: mail
-#    restart: on-failure
-##    networks:
-##      - xws-network
-##    ports:
-##      - 8081:8080
-#    environment:
-##      RMQ_HOST: rabbitmq-broker
-#      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
-##    depends_on:
-##      - rabbitmq-broker
+  # agent:
+  #   build:
+  #     context: ./ #here was wroom-agent context
+  #     dockerfile: Dockerfile
 
+  #   image: xws:agent
+  #   container_name: agent
+  #   restart: on-failure
+  #   networks:
+  #     - xws-network
+  #   ports:
+  #     - 8081:8081
+  #   environment:
+  #     DATABASE_USERNAME: root
+  #     DATABASE_PASSWORD: root
+  #     DATABASE_DOMAIN: mysql
+  #     DATABASE_SCHEMA: wroom
+  #     CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+  #   depends_on:
+  #     - mysql
 
+  #  mail:
+  #    build:
+  #      context: ./amqp-mail-service
+  #      dockerfile: Dockerfile
+  #
+  #    image: mail:1.0.0
+  #    container_name: mail
+  #    restart: on-failure
+  ##    networks:
+  ##      - xws-network
+  ##    ports:
+  ##      - 8081:8080
+  #    environment:
+  ##      RMQ_HOST: rabbitmq-broker
+  #      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+  ##    depends_on:
+  ##      - rabbitmq-broker
 
-#  rabbitmq-broker:
-#    image: rabbitmq:management-alpine
-#    container_name: rabbitmq-broker
-#    ports:
-#      - 5672:5672
-#      - 15672:15672
-#    networks:
-#      - xws-network
-
+  #  rabbitmq-broker:
+  #    image: rabbitmq:management-alpine
+  #    container_name: rabbitmq-broker
+  #    ports:
+  #      - 5672:5672
+  #      - 15672:15672
+  #    networks:
+  #      - xws-network
 
   mysql:
     image: mysql:8.0.19
@@ -116,8 +133,8 @@ services:
       - mysql-data:/var/lib/mysql
 
     ports:
-        - "3306:3306"
-        
+      - "3306:3306"
+
 # build ui seperately from agent
 #  agent-ui:
 #    build:
@@ -127,7 +144,6 @@ services:
 #    container_name: agent-ui
 #    ports:
 #      - 4200:80
-
 
 volumes:
   mysql-data:
