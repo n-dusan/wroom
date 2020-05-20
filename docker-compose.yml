@@ -91,99 +91,99 @@ services:
       - mysql
     links:
       - eureka
-#
-#  ads-service:
-#    build:
-#      context: ./ads-service
-#      dockerfile: Dockerfile
-#    image: xws:ads-service
-#    container_name: ads-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8094:8094
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
-#
-#  renting-service:
-#    build:
-#      context: ./renting-service
-#      dockerfile: Dockerfile
-#    image: xws:renting-service
-#    container_name: renting-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8095:8095
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
-#
-#  administrator-service:
-#    build:
-#      context: ./administrator-service
-#      dockerfile: Dockerfile
-#    image: xws:administrator-service
-#    container_name: administrator-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8096:8096
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
-#
-#  message-service:
-#    build:
-#      context: ./messaging-service
-#      dockerfile: Dockerfile
-#    image: xws:message-service
-#    container_name: message-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8097:8097
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
-###</begin> MIKROSERVISI
+
+  ads-service:
+    build:
+      context: ./ads-service
+      dockerfile: Dockerfile
+    image: xws:ads-service
+    container_name: ads-service
+    restart: on-failure
+    networks:
+      - xws-network
+    environment:
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+    ports:
+      - 8094:8094
+    depends_on:
+      - eureka
+      - mysql
+    links:
+      - eureka
+
+  renting-service:
+    build:
+      context: ./renting-service
+      dockerfile: Dockerfile
+    image: xws:renting-service
+    container_name: renting-service
+    restart: on-failure
+    networks:
+      - xws-network
+    environment:
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+    ports:
+      - 8095:8095
+    depends_on:
+      - eureka
+      - mysql
+    links:
+      - eureka
+
+  administrator-service:
+    build:
+      context: ./administrator-service
+      dockerfile: Dockerfile
+    image: xws:administrator-service
+    container_name: administrator-service
+    restart: on-failure
+    networks:
+      - xws-network
+    environment:
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+    ports:
+      - 8096:8096
+    depends_on:
+      - eureka
+      - mysql
+    links:
+      - eureka
+
+  message-service:
+    build:
+      context: ./messaging-service
+      dockerfile: Dockerfile
+    image: xws:message-service
+    container_name: message-service
+    restart: on-failure
+    networks:
+      - xws-network
+    environment:
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+    ports:
+      - 8097:8097
+    depends_on:
+      - eureka
+      - mysql
+    links:
+      - eureka
+##</begin> MIKROSERVISI
 #
 ##  agent:
 ##    build:
