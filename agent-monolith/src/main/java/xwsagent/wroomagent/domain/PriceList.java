@@ -1,21 +1,17 @@
 package xwsagent.wroomagent.domain;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
-import java.util.Set;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
@@ -35,8 +31,8 @@ public class PriceList {
 	private Double priceCDW;
 	
 	@Column
-	@Min(0)
-	@Max(100)
+//	@Min(0)
+//	@Max(100)
 	private Double discount;
 
 	@Column(nullable = false)
