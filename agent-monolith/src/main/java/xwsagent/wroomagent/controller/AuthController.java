@@ -1,7 +1,5 @@
 package xwsagent.wroomagent.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +33,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequestDTO signUpRequest) {
+	public ResponseEntity<?> registerUser(@RequestBody SignupRequestDTO signUpRequest) {
 		try {
 			if (this.authService.signup(signUpRequest)) {
 				return new ResponseEntity<>(HttpStatus.CREATED);
