@@ -23,8 +23,8 @@ import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.jwt.JwtTokenProvider;
 import xwsagent.wroomagent.jwt.UserPrincipal;
-import xwsagent.wroomagent.repository.RoleRepository;
-import xwsagent.wroomagent.repository.UserRepository;
+import xwsagent.wroomagent.repository.rbac.RoleRepository;
+import xwsagent.wroomagent.repository.rbac.UserRepository;
 
 @Service
 public class AuthenticationService {

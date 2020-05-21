@@ -1,4 +1,4 @@
-package xwsagent.wroomagent.repository;
+package xwsagent.wroomagent.repository.rbac;
 
 import java.util.List;
 import java.util.Optional;
