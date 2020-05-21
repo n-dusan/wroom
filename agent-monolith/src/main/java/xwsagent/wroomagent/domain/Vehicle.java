@@ -1,5 +1,7 @@
 package xwsagent.wroomagent.domain;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,15 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
-import javax.persistence.*;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xwsagent.wroomagent.domain.auth.User;
-
-import java.util.Set;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
