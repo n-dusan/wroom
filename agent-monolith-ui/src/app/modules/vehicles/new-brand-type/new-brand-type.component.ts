@@ -4,6 +4,7 @@ import { BrandType } from 'src/app/modules/shared/models/brand-type.model';
 import { BrandTypeService } from '../services/vehicle-features/brand-type.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-new-brand-type',
@@ -19,6 +20,7 @@ export class NewBrandTypeComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private brandTypeService: BrandTypeService,
     private brandService: BrandTypeService,
+    private toastr: ToastrService,
     public dialogRef: MatDialogRef<FeaturesOverviewComponent>,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
@@ -34,9 +36,7 @@ export class NewBrandTypeComponent implements OnInit {
   save() {
     this.brandTypeService.create(this.brandType)
       .subscribe(data => {
-      this.success = true;
-      console.log(data);
-      window.location.reload();
+      this.toastr.success('You have successfully added Brand Type!', 'Success')
     },
     error => this.errorMessage = true);
   }
@@ -56,7 +56,6 @@ export class NewBrandTypeComponent implements OnInit {
     this.brandTypeService.update(id,this.local_data).subscribe(
       data => {
         this.new.name = this.brandUpdateForm.value.name;
-        window.location.reload();
       },
       error => console.log('Error!'));
 

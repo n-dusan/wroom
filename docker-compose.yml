@@ -23,7 +23,7 @@ services:
       - 8762:8762
     environment:
       REGISTRY_HOST: eureka
-      KEYSTORE: /etc/certificates/zuul/zuul-server.p12
+      KEYSTORE: /etc/certificates/experimental/zuul-server.p12
       KEYSTORE_PASSWORD: password
       KEYSTORE_ALIAS: 655575225830
       TRUSTSTORE: /etc/truststore.p12
@@ -53,11 +53,6 @@ services:
       DATABASE_PASSWORD: root
       DATABASE_DOMAIN: mysql
       DATABASE_SCHEMA: wroom
-      KEYSTORE: /etc/certificates/search-service/search-server.p12
-      KEYSTORE_PASSWORD: password
-      KEYSTORE_ALIAS: 348124495475
-      TRUSTSTORE: /etc/truststore.p12
-      TRUSTSTORE_PASSWORD: password
     ports:
       - 8091:8091
     depends_on:
@@ -65,9 +60,6 @@ services:
       - mysql
     links:
       - eureka
-    volumes:
-    - ./pki/tingle/certificates:/etc/certificates
-    - ./pki/tingle/.truststore:/etc
 
   vehicle-service:
     build:
@@ -91,103 +83,103 @@ services:
       - mysql
     links:
       - eureka
-#
-#  ads-service:
-#    build:
-#      context: ./ads-service
-#      dockerfile: Dockerfile
-#    image: xws:ads-service
-#    container_name: ads-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8094:8094
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
-#
-#  renting-service:
-#    build:
-#      context: ./renting-service
-#      dockerfile: Dockerfile
-#    image: xws:renting-service
-#    container_name: renting-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8095:8095
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
-#
-#  administrator-service:
-#    build:
-#      context: ./administrator-service
-#      dockerfile: Dockerfile
-#    image: xws:administrator-service
-#    container_name: administrator-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8096:8096
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
-#
-#  message-service:
-#    build:
-#      context: ./messaging-service
-#      dockerfile: Dockerfile
-#    image: xws:message-service
-#    container_name: message-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8097:8097
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
-###</begin> MIKROSERVISI
-#
+
+  ads-service:
+    build:
+      context: ./ads-service
+      dockerfile: Dockerfile
+    image: xws:ads-service
+    container_name: ads-service
+    restart: on-failure
+    networks:
+      - xws-network
+    environment:
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+    ports:
+      - 8094:8094
+    depends_on:
+      - eureka
+      - mysql
+    links:
+      - eureka
+
+  renting-service:
+    build:
+      context: ./renting-service
+      dockerfile: Dockerfile
+    image: xws:renting-service
+    container_name: renting-service
+    restart: on-failure
+    networks:
+      - xws-network
+    environment:
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+    ports:
+      - 8095:8095
+    depends_on:
+      - eureka
+      - mysql
+    links:
+      - eureka
+
+  administrator-service:
+    build:
+      context: ./administrator-service
+      dockerfile: Dockerfile
+    image: xws:administrator-service
+    container_name: administrator-service
+    restart: on-failure
+    networks:
+      - xws-network
+    environment:
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+    ports:
+      - 8096:8096
+    depends_on:
+      - eureka
+      - mysql
+    links:
+      - eureka
+
+  message-service:
+    build:
+      context: ./messaging-service
+      dockerfile: Dockerfile
+    image: xws:message-service
+    container_name: message-service
+    restart: on-failure
+    networks:
+      - xws-network
+    environment:
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+    ports:
+      - 8097:8097
+    depends_on:
+      - eureka
+      - mysql
+    links:
+      - eureka
+##</begin> MIKROSERVISI
+
 ##  agent:
 ##    build:
-##      context: ./ #here was wroom-agent context
+##      context: ./
 ##      dockerfile: Dockerfile
 ##
 ##    image: xws:agent
@@ -252,16 +244,6 @@ services:
 
     ports:
         - "3306:3306"
-        
-# build ui seperately from agent
-#  agent-monolith-ui:
-#   # build:
-#     # context: ./agent-ui
-#    #  dockerfile: Dockerfile
-#    image: xws:agent-ui
-#    container_name: agent-ui
-#    ports:
-#      - 4200:80
 
   wroom-ui:
     build:
@@ -281,6 +263,15 @@ services:
       - ./pki/tingle/certificates:/etc/certificates
       - ./pki/tingle/.truststore:/etc
 
+# build ui seperately from agent
+#  agent-monolith-ui:
+#   # build:
+#     # context: ./agent-ui
+#    #  dockerfile: Dockerfile
+#    image: xws:agent-ui
+#    container_name: agent-ui
+#    ports:
+#      - 4200:80
 volumes:
   mysql-data:
 

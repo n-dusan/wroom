@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xwsagent.wroomagent.converter.BodyTypeConverter;
 import xwsagent.wroomagent.domain.BodyType;
-import xwsagent.wroomagent.domain.dto.BodyTypeDTO;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.service.BodyTypeService;
 
 @RestController
@@ -26,37 +27,36 @@ public class BodyTypeController {
 	private BodyTypeService bodyTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<BodyTypeDTO> create(@RequestBody BodyTypeDTO bodyTypeDTO){
-		if(bodyTypeService.create(bodyTypeDTO)) {
-			return new ResponseEntity<>(bodyTypeDTO, HttpStatus.CREATED);
-		}else {
-			return new ResponseEntity<>(bodyTypeDTO, HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO featureDTO){
+
+		return new ResponseEntity<>(
+				BodyTypeConverter.fromEntity(bodyTypeService.save(BodyTypeConverter.toEntity(featureDTO))),
+				HttpStatus.CREATED
+		);
 	}
 	
 	@DeleteMapping(value = "/{name}")
 	public ResponseEntity<Void> delete(@PathVariable("name") String name){
-		if(bodyTypeService.delete(name)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		bodyTypeService.delete(name);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping
-	public ResponseEntity<List<BodyType>> getBodyTypes(){
-		List<BodyType> all = bodyTypeService.findAll();
+	@GetMapping(value="/all", produces = "application/json")
+	public ResponseEntity<List<FeatureDTO>> getBodyTypes(){
 		
-		return new ResponseEntity<>(all, HttpStatus.OK);
+		return new ResponseEntity<>(
+				BodyTypeConverter.fromEntityList(bodyTypeService.getAll(), BodyTypeConverter::fromEntity),
+				HttpStatus.OK
+		);
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> update(@RequestBody BodyTypeDTO bodyTypeDTO, @PathVariable("id")Long id){
+	public ResponseEntity<?> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id")Long id){
 		BodyType bt = bodyTypeService.findById(id);
-		if(this.bodyTypeService.update(bt,bodyTypeDTO)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		
+		return new ResponseEntity<>(
+				BodyTypeConverter.fromEntity(bodyTypeService.update(bt, featureDTO)),
+				HttpStatus.OK
+		);
 	}
 }

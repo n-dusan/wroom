@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xwsagent.wroomagent.converter.ModelTypeConverter;
 import xwsagent.wroomagent.domain.ModelType;
-import xwsagent.wroomagent.domain.dto.ModelTypeDTO;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.service.ModelTypeService;
 
 @RestController
@@ -26,38 +28,38 @@ public class ModelTypeController {
 	private ModelTypeService modelTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<ModelTypeDTO> create(@RequestBody ModelTypeDTO modelTypeDTO){
-		if(modelTypeService.create(modelTypeDTO)) {
-			return new ResponseEntity<>(modelTypeDTO, HttpStatus.CREATED);
-	    }else {
-	    	return new ResponseEntity<>(modelTypeDTO, HttpStatus.BAD_REQUEST);
-	    }
+	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO modelTypeDTO){
+
+		return new ResponseEntity<>(
+				ModelTypeConverter.fromEntity(modelTypeService.save(ModelTypeConverter.toEntity(modelTypeDTO))),
+				HttpStatus.CREATED
+		);
+				
 	}
 	
 	@DeleteMapping(value = "/{name}")
 	public ResponseEntity<Void> delete(@PathVariable("name") String name){
-		if(modelTypeService.delete(name)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}else {
-	    	return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	    }
+		modelTypeService.delete(name);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping
-	public ResponseEntity<List<ModelType>> getModelTypes(){
-		List<ModelType> all = modelTypeService.findAll();
+	@GetMapping(value="/all", produces = "application/json")
+	public ResponseEntity<List<FeatureDTO>> getAll(){
 		
-		return new ResponseEntity<>(all, HttpStatus.OK);
+		return new ResponseEntity<>(
+				ModelTypeConverter.fromEntityList(modelTypeService.getAll(), ModelTypeConverter::fromEntity),
+				HttpStatus.OK
+		);
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> update(@RequestBody ModelTypeDTO modelTypeDTO, @PathVariable("id")Long id){
+	@PutMapping(value = "/{id}", produces = "application/json")
+	public ResponseEntity<FeatureDTO> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id")Long id){
 		ModelType mt = modelTypeService.findById(id);
-		if(this.modelTypeService.update(mt,modelTypeDTO)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		
+		return new ResponseEntity<>(
+				ModelTypeConverter.fromEntity(modelTypeService.update(mt, featureDTO)),
+				HttpStatus.OK
+		);
 	}
 	
 }

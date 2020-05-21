@@ -12,9 +12,6 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
 
-    @Value("${server.ssl.enabled}")
-    private boolean requireHttps;
-
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -26,10 +23,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  {
                 .httpBasic().disable()
 
         ;
-        //redirect http -> https
-        if(this.requireHttps) {
-            httpSecurity.requiresChannel().anyRequest().requiresSecure();
-        }
     }
 
 }

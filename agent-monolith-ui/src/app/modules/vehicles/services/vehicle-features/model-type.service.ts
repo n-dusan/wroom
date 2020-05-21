@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ModelType } from '../../../shared/models/model-type.model';
 import { environment } from '../../../../../environments/environment'
+import { ModelType } from 'src/app/modules/shared/models/model-type.model';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +17,7 @@ export class ModelTypeService {
     }
 
     getModelTypes(): Observable<any> {
-         return this.http.get(`${this.baseUrl}` + '');
+         return this.http.get(this.baseUrl + "/all");
     }
 
     delete(name: string): Observable<any>{

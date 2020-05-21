@@ -11,6 +11,8 @@ import { NewModelTypeComponent } from '../new-model-type/new-model-type.componen
 import { NewBodyTypeComponent } from '../new-body-type/new-body-type.component';
 import { NewBrandTypeComponent } from '../new-brand-type/new-brand-type.component';
 import { NewFuelTypeComponent } from '../new-fuel-type/new-fuel-type.component';
+import { GearboxTypeService } from '../services/vehicle-features/gearbox-type.service';
+import { NewGearboxTypeComponent } from '../new-gearbox-type/new-gearbox-type.component';
 
 
 @Component({
@@ -25,11 +27,13 @@ export class FeaturesOverviewComponent implements OnInit {
   dataBodySource : MatTableDataSource<any>;
   dataBrandSource : MatTableDataSource<any>;
   dataFuelSource : MatTableDataSource<any>;
+  dataGearboxSource : MatTableDataSource<any>;
   models: Observable<ModelType[]>;
   isAdd: boolean = true;
 
   constructor(private modelService: ModelTypeService, private bodyService: BodyTypeService,
-    private brandService: BrandTypeService, private fuelService: FuelTypeService, public dialog: MatDialog,
+    private brandService: BrandTypeService, private fuelService: FuelTypeService,
+    public dialog: MatDialog, private gearboxService: GearboxTypeService,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
@@ -37,6 +41,7 @@ export class FeaturesOverviewComponent implements OnInit {
     this.loadBodyData();
     this.loadBrandData();
     this.loadFuelData();
+    this.loadGearboxData();
   }
 
   setStep(index: number) {
@@ -83,6 +88,14 @@ export class FeaturesOverviewComponent implements OnInit {
     )
   }
 
+  loadGearboxData(){
+    this.gearboxService.getGearboxTypes().subscribe(
+      data => {
+        this.dataGearboxSource = new MatTableDataSource(data);
+      }
+    )
+  }
+
   openModelDialog(): void {
     const dialogRef = this.dialog.open(NewModelTypeComponent, {
       width: '500px',
@@ -91,9 +104,10 @@ export class FeaturesOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadModelData();
     });
     console.log(this.isAdd)
+    
   }
 
   openBodyDialog(): void {
@@ -104,7 +118,7 @@ export class FeaturesOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadBodyData();
     });
   }
 
@@ -116,7 +130,7 @@ export class FeaturesOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadBrandData();
     });
   }
 
@@ -128,15 +142,26 @@ export class FeaturesOverviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.loadFuelData();
+    });
+  }
+
+  openGearboxDialog(): void {
+    const dialogRef = this.dialog.open(NewGearboxTypeComponent, {
+      width: '500px',
+      height: '400px',
+      data: {isAdd: this.isAdd=true}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadGearboxData();
     });
   }
 
   deleteModel(name: string){
     this.modelService.delete(name).subscribe(
       data => {
-        console.log('Deleted');
-        window.location.reload();
+        this.loadModelData();
       }
     )
   }
@@ -144,8 +169,7 @@ export class FeaturesOverviewComponent implements OnInit {
   deleteBody(name: string){
     this.bodyService.delete(name).subscribe(
       data => {
-        console.log('Deleted');
-        window.location.reload();
+        this.loadBodyData();
       }
     )
   }
@@ -153,8 +177,7 @@ export class FeaturesOverviewComponent implements OnInit {
   deleteBrand(name: string){
     this.brandService.delete(name).subscribe(
       data => {
-        console.log('Deleted');
-        window.location.reload();
+        this.loadBrandData();
       }
     )
   }
@@ -162,8 +185,15 @@ export class FeaturesOverviewComponent implements OnInit {
   deleteFuel(name: string){
     this.fuelService.delete(name).subscribe(
       data => {
-        console.log('Deleted');
-        window.location.reload();
+        this.loadFuelData();
+      }
+    )
+  }
+
+  deleteGearbox(name: string){
+    this.gearboxService.delete(name).subscribe(
+      data => {
+        this.loadGearboxData();
       }
     )
   }
@@ -174,7 +204,9 @@ export class FeaturesOverviewComponent implements OnInit {
       width: '500px',
       height: '400px',
       data: element
-
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadModelData();
     });
 
   }
@@ -185,7 +217,9 @@ export class FeaturesOverviewComponent implements OnInit {
       width: '500px',
       height: '400px',
       data: element
-
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadBodyData();
     });
 
   }
@@ -196,7 +230,9 @@ export class FeaturesOverviewComponent implements OnInit {
       width: '500px',
       height: '400px',
       data: element
-
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadBrandData();
     });
 
   }
@@ -207,9 +243,23 @@ export class FeaturesOverviewComponent implements OnInit {
       width: '500px',
       height: '400px',
       data: element
-
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadFuelData();
     });
 
+  }
+
+  editGearbox(element: any): void {
+    console.log(element.name);
+    const dialogRef = this.dialog.open(NewGearboxTypeComponent, {
+      width: '500px',
+      height: '400px',
+      data: element
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadGearboxData();
+    });
   }
 
 }

@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import xwsagent.wroomagent.converter.FuelTypeConverter;
+import xwsagent.wroomagent.converter.ModelTypeConverter;
 import xwsagent.wroomagent.domain.FuelType;
-import xwsagent.wroomagent.domain.dto.FuelTypeDTO;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.service.FuelTypeService;
 
 @RestController
@@ -25,37 +28,36 @@ public class FuelTypeController {
 	private FuelTypeService fuelTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FuelTypeDTO> create(@RequestBody FuelTypeDTO fuelTypeDTO){
-		if(fuelTypeService.create(fuelTypeDTO)) {
-			return new ResponseEntity<>(fuelTypeDTO, HttpStatus.CREATED);
-		}else {
-			return new ResponseEntity<>(fuelTypeDTO, HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO fuelTypeDTO){
+		
+		return new ResponseEntity<>(
+				FuelTypeConverter.fromEntity(fuelTypeService.save(FuelTypeConverter.toEntity(fuelTypeDTO))),
+				HttpStatus.CREATED
+		);
 	}
 	
 	@DeleteMapping(value = "/{name}")
 	public ResponseEntity<Void> delete(@PathVariable("name") String name){
-		if(fuelTypeService.delete(name)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		fuelTypeService.delete(name);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping
-	public ResponseEntity<List<FuelType>> getModelTypes(){
-		List<FuelType> all = fuelTypeService.findAll();
+	@GetMapping(value="/all", produces = "application/json")
+	public ResponseEntity<List<FeatureDTO>> getAll(){
 		
-		return new ResponseEntity<>(all, HttpStatus.OK);
+		return new ResponseEntity<>(
+				FuelTypeConverter.fromEntityList(fuelTypeService.getAll(), FuelTypeConverter::fromEntity),
+				HttpStatus.OK
+		);
 	}
 	
-	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> update(@RequestBody FuelTypeDTO fuelTypeDTO, @PathVariable("id")Long id){
+	@PutMapping(value = "/{id}", produces = "application/json")
+	public ResponseEntity<FeatureDTO> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id")Long id){
 		FuelType ft = fuelTypeService.findById(id);
-		if(this.fuelTypeService.update(ft,fuelTypeDTO)) {
-			return new ResponseEntity<>(HttpStatus.OK);
-		}else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		
+		return new ResponseEntity<>(
+				FuelTypeConverter.fromEntity(fuelTypeService.update(ft, featureDTO)),
+				HttpStatus.OK
+		);
 	}
 }

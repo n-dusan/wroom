@@ -9,6 +9,8 @@ import { NewBrandTypeComponent } from './new-brand-type/new-brand-type.component
 import { NewBodyTypeComponent } from './new-body-type/new-body-type.component';
 import { NewFuelTypeComponent } from './new-fuel-type/new-fuel-type.component';
 import { FeaturesOverviewComponent } from './features-overview/features-overview.component';
+import { NewGearboxTypeComponent } from './new-gearbox-type/new-gearbox-type.component';
+import { NewVehicleComponent } from './new-vehicle/new-vehicle.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { FeaturesOverviewComponent } from './features-overview/features-overview
     NewBrandTypeComponent,
     NewBodyTypeComponent,
     NewFuelTypeComponent,
-    FeaturesOverviewComponent
+    FeaturesOverviewComponent,
+    NewGearboxTypeComponent,
+    NewVehicleComponent
   ],
   imports: [
     MaterialModule,

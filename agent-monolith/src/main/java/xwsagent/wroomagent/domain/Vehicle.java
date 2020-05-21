@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
+import javax.validation.constraints.NotBlank;
 import javax.persistence.*;
 
 import lombok.Getter;
@@ -26,6 +26,7 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+	
 	@Column(nullable = false)
 	private Double mileage;
 	
@@ -35,33 +36,33 @@ public class Vehicle {
 	@Column(nullable = false)
 	private Boolean cdw;
 
-	@Column(nullable = false)
+	@Column(/*nullable = false*/)
 	private Boolean gps;
 
 	//active true-> vehicle isn't already reserved by hand (ručno)
-	@Column(nullable = false)
+	@Column(/*nullable = false*/)
 	private Boolean active;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private User owner;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	private BrandType brandType;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	private ModelType modelType;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	private FuelType fuelType;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	private BodyType bodyType;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	private GearboxType gearboxType;
 
 	@OneToMany(mappedBy = "vehicle")
-	private Set<Image> image;
+	private Set<Image> images;
 
 	@OneToMany(mappedBy = "vehicle")
 	private Set<Ad> ads;
