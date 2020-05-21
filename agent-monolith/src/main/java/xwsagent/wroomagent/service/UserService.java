@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.converter.UserConverter;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.UserDTO;
-import xwsagent.wroomagent.repository.UserRepository;
+import xwsagent.wroomagent.repository.rbac.UserRepository;
 
 @Service
 public class UserService {

@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import xwsagent.wroomagent.domain.FuelType;
-import xwsagent.wroomagent.domain.dto.FuelTypeDTO;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
+import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.repository.FuelTypeRepository;
 
 @Service
@@ -14,6 +16,20 @@ public class FuelTypeService {
 
 	@Autowired
 	FuelTypeRepository fuelTypeRepository;
+	
+	public List<FuelType> getAll() {
+		List<FuelType> ret = new ArrayList<FuelType>();
+        for(FuelType ft : fuelTypeRepository.findAll()) {
+        	if(ft.isDeleted() == false) {
+        		ret.add(ft);
+        	}
+        }
+        return ret;
+    }
+	
+	public FuelType save(FuelType fuelType) {
+	    return fuelTypeRepository.save(fuelType);
+	}
 	
 	public FuelType findByName(String name) {
 		return fuelTypeRepository.findByName(name);
@@ -24,45 +40,20 @@ public class FuelTypeService {
 		return ft;
 	}
 	
-	public List<FuelType> findAll(){
-		List<FuelType> list = new ArrayList<FuelType>();
-		for(FuelType fuelType :  fuelTypeRepository.findAll()) {
-			if(fuelType.isDeleted() == false) {
-				list.add(fuelType);
-			}		
-		}
-		return list;
+	public void delete(String name) {
+		FuelType fuelType = findByName(name);
+		fuelType.setDeleted(true);
+		fuelTypeRepository.save(fuelType);
+			
 	}
 	
-	public boolean create(FuelTypeDTO fuelTypeDTO) {
-		if(findByName(fuelTypeDTO.getName()) == null) {
-			FuelType fuelType = new FuelType();
-			fuelType.setName(fuelTypeDTO.getName());
-			fuelTypeRepository.save(fuelType);
-			return true;
-		}else {
-			return false;
+	public FuelType update(FuelType ft, FeatureDTO featureDTO) {
+		if(featureDTO == null) {
+			throw new InvalidDataException("Forwarded DTO is null");
 		}
-	}
-	
-	public boolean delete(String name) {
-		if(findByName(name) != null) {
-			FuelType fuelType = findByName(name);
-			fuelType.setDeleted(true);
-			fuelTypeRepository.save(fuelType);
-			return true;
-		}else {
-			return false;
-		}
-	}
-	
-	public boolean update(FuelType ft, FuelTypeDTO fuelTypeDTO) {
-		if(fuelTypeDTO != null && (findByName(fuelTypeDTO.getName()) == null)) {
-			ft.setName(fuelTypeDTO.getName());
-			this.fuelTypeRepository.save(ft);
-			return true;
-		}else {
-			return false;
-		}
+		
+		ft.setName(featureDTO.getName());
+		this.fuelTypeRepository.save(ft);
+		return ft;
 	}
 }

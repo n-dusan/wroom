@@ -28,5 +28,8 @@ public class GearboxType {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "gearboxType")
     private Set<Vehicle> vehicles;
+    
+    @Column(name = "deleted")
+	private boolean deleted;
 
 }

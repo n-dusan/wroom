@@ -1,0 +1,49 @@
+<section class="admin-home-banner">
+  <h1>Welcome!</h1>
+  <img src="../../assets/logo.png" alt="Tingle" style="height: 250px;">
+</section>
+<section class="admin-home-content">
+  <div class="container" fxLayout fxLayoutAlign="center" fxLayoutGap="10px">
+    <mat-card class="matcard" fxFlex="30%">
+      <mat-card-header>
+        <mat-card-title>View all certificates. </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Here you can find a list of all existing certificates in the system.
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="accent" routerLink="../all-certificates">View</button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card class="matcard" fxFlex="30%">
+      <mat-card-header>
+        <mat-card-title>Issue a certificate. </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          You can issue a new certificate by filling in all neccessary details.
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="accent" routerLink="../issue">Issue</button>
+      </mat-card-actions>
+    </mat-card>
+      <mat-card class="matcard" fxFlex="30%">
+      <mat-card-header>
+        <mat-card-title>Obtain a certificate status. </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          Make an OCSP request for a specific certificate.
+          &ensp;&nbsp;&ensp;&ensp;
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="accent" (click)="openDialog()">Obtain</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+</section>
