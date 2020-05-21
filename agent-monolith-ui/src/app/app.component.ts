@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   user: LoggedUser;
 
   constructor(private http: HttpClient,
-    private authService: AuthService) {}
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     // console.log('Greetings! Attempting to establish http communication with monolith back-end...');
@@ -30,16 +30,26 @@ export class AppComponent implements OnInit {
     this.authService.getLoggedUser().subscribe(
       data => {
         this.user = data;
-        if(data == null) {
-          //send whoami to server to re-authenticate
-        }
       }
     );
 
+    if (this.user == null) {
+      //send whoami to server to re-authenticate
+      this.authService.whoami().subscribe(
+        data => {
+          this.user = data;
+        },
+        error => {
+          console.log(error)
+        }
+      );
+
+    }
   }
 
   logout() {
     this.authService.logout();
     this.user = null;
   }
+
 }
