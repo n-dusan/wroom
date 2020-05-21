@@ -71,6 +71,11 @@ export class AuthComponent implements OnInit {
   }
 
   testClick() {
-    this.authService.test().subscribe();
+    this.authService.test().subscribe(
+      () => {},
+      error => {
+        this.toastr.error('You are not allowed to test that button!', 'Error')
+      }
+    );
   }
 }
