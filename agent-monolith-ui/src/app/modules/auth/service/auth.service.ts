@@ -3,7 +3,7 @@ import { SignupRequest } from '../model/signup-request.model';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { LoggedUser } from '../model/logged-user.model';
 import { LoginRequest } from '../model/login-request.model';
 import { map } from 'rxjs/operators';
@@ -42,7 +42,12 @@ export class AuthService {
   }
 
   getToken() {
-    return this.loggedUserSubject.value.token;
+    // if(this.loggedUserSubject.value.token) {
+    //   return this.loggedUserSubject.value.token;
+    // }
+    // else {
+      return localStorage.getItem('token');
+    // }
   }
 
   logout() {
@@ -50,6 +55,18 @@ export class AuthService {
     this.loggedUserSubject.next(null);
     this.loggedUser = this.loggedUserSubject.asObservable();
     this.router.navigate(['/auth']);
+  }
+
+  whoami() {
+    const tok = localStorage.getItem('token');
+    console.log('whoami token', tok)
+    if(tok) {
+      return this.httpClient.get<any>(this.baseUrl + '/whoami');
+    }
+    else {
+      this.router.navigate(['/auth']);
+      return new Observable();
+    }
   }
 
   test(): Observable<string> {

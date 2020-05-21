@@ -10,21 +10,23 @@ import { NewVehicleComponent } from './new-vehicle/new-vehicle.component';
 
 
 const routes: Routes = [
-  { path: '',
+  {
+    path: '',
     //component: AAAAAAA,
     children: [
       { path: 'features-overview', component: FeaturesOverviewComponent },
-      { path: 'new-model-type', component: NewModelTypeComponent},
+      { path: 'new-model-type', component: NewModelTypeComponent },
       { path: 'new-brand-type', component: NewBrandTypeComponent },
       { path: 'new-body-type', component: NewBodyTypeComponent },
       { path: 'new-fuel-type', component: NewFuelTypeComponent },
       { path: 'new-gearbox-type', component: NewGearboxTypeComponent },
       { path: 'new-vehicle', component: NewVehicleComponent }
-  ] }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class VehiclesRoutingModule {}
+export class VehiclesRoutingModule { }
