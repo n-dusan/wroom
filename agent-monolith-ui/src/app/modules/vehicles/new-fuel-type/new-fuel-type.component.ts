@@ -39,7 +39,10 @@ export class NewFuelTypeComponent implements OnInit {
       .subscribe(data => {
         this.toastr.success('You have successfully added Fuel Type!', 'Success')
     },
-    error => this.errorMessage = true);
+    error => {
+    this.errorMessage = true
+    console.log('ERROR MY BOYO', error)
+    });
   }
 
   onSubmit() {

@@ -10,9 +10,7 @@ import { NewVehicleComponent } from './new-vehicle/new-vehicle.component';
 
 
 const routes: Routes = [
-  {
-    path: '',
-    //component: AAAAAAA,
+  { path: '',
     children: [
       { path: 'features-overview', component: FeaturesOverviewComponent },
       { path: 'new-model-type', component: NewModelTypeComponent },
