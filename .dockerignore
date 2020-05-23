@@ -3,7 +3,25 @@
 */.git
 */.vscode
 */.editorconfig
+.git
+agent-monolith-ui/node_modules
+.gitignore
+*.md
+docker-compose.yml
 
 stack-file.yml
-docker-compose.yml
 cert
+
+amqp-mail-service
+auth-service
+eureka-service-registry
+gps-service
+microservice-ui
+pinf
+pki
+renting-service
+search-service
+vehicle-service
+XWS-KT1
+zuul-api-gateway
+ads-service
