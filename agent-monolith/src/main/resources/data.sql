@@ -42,3 +42,20 @@ values (2, 2);
 --grga admin
 insert into user_roles(user_id, role_id)
 values (3, 3);
+
+---------------Vehicle features-------------
+insert into model_type(id, deleted, name)
+values (1, false, 'R8');
+
+insert into brand_type(id, deleted, name)
+values (1, false, 'Audi');
+
+insert into body_type(id, deleted, name)
+values (1, false, 'Gradski auto');
+
+insert into fuel_type(id, deleted, name)
+values (1, false, 'Dizel');
+
+insert into gearbox_type(id, deleted, name)
+values (1, false, 'Manuelni');
+--------------------------------------------

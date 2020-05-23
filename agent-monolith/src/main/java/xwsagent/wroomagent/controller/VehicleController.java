@@ -1,28 +1,27 @@
 package xwsagent.wroomagent.controller;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import xwsagent.wroomagent.domain.Image;
+import xwsagent.wroomagent.domain.ErrorResponse;
 import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
-import xwsagent.wroomagent.service.ImageService;
 import xwsagent.wroomagent.service.VehicleService;
 
 @RestController
@@ -32,11 +31,8 @@ public class VehicleController {
 	@Autowired
 	private VehicleService vehicleService;
 	
-	@Autowired
-	private ImageService imageService;
-	
 	@PostMapping(consumes = "application/json")
-	public Vehicle create(@RequestBody VehicleDTO vehicleDTO){
+	public Vehicle create(@Valid @RequestBody VehicleDTO vehicleDTO){
 		Vehicle v = vehicleService.save(vehicleDTO);
 		return v;
 	}
@@ -49,4 +45,13 @@ public class VehicleController {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	@ExceptionHandler(Exception.class)
+    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        String s = ex.getLocalizedMessage();
+        ErrorResponse error = new ErrorResponse(s, details);
+        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
