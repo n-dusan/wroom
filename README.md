@@ -1,4 +1,4 @@
 # wroom
 XWS, rent-a-car
 
-Unutar app-model direktorijuma se nalaze fotografija modela i readme raspodele mikroservisa.
+KT1: XWS-KT1 direktorijum

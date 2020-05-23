@@ -27,8 +27,8 @@ import xwsagent.wroomagent.domain.auth.RoleName;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.jwt.UserPrincipal;
-import xwsagent.wroomagent.repository.RoleRepository;
-import xwsagent.wroomagent.repository.UserRepository;
+import xwsagent.wroomagent.repository.rbac.RoleRepository;
+import xwsagent.wroomagent.repository.rbac.UserRepository;
 
 @Service
 public class DomainUserDetailsService implements UserDetailsService {

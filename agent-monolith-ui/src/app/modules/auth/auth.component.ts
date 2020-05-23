@@ -65,13 +65,17 @@ export class AuthComponent implements OnInit {
         this.router.navigateByUrl('/home');
       },
       error => {
-        console.log(error)
-        this.toastr.error('There was an error with your request!', 'Error')
+        this.toastr.error(error.error, 'Error')
       }
     )
   }
 
   testClick() {
-    this.authService.test().subscribe();
+    this.authService.test().subscribe(
+      () => {},
+      error => {
+        this.toastr.error('You are not allowed to test that button!', 'Error')
+      }
+    );
   }
 }

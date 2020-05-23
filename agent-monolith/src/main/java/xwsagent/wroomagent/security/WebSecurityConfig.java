@@ -95,6 +95,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated().and()
 
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+				.headers().contentSecurityPolicy("script-src 'self' img-src *")
 		;
 		if(httpsRequired) {
 			http.requiresChannel().anyRequest().requiresSecure();

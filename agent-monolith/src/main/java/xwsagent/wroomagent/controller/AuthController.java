@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +37,8 @@ public class AuthController {
 			
 			LoggedUserDTO ret = this.authService.login(request);
 			return new ResponseEntity<>(ret, HttpStatus.OK);
+		} catch(BadCredentialsException ex) {
+			return new ResponseEntity<>("Bad credentials",HttpStatus.BAD_REQUEST);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -57,6 +62,10 @@ public class AuthController {
 		}
 	}
 	
+	@GetMapping("/whoami")
+	public ResponseEntity<?> whoami(Authentication auth) {
+		return new ResponseEntity<>(this.authService.whoami(auth), HttpStatus.OK);
+	}
 	
 	@ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {

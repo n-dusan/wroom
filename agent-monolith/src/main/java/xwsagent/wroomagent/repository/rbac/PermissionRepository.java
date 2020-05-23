@@ -1,4 +1,4 @@
-package xwsagent.wroomagent.repository;
+package xwsagent.wroomagent.repository.rbac;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
