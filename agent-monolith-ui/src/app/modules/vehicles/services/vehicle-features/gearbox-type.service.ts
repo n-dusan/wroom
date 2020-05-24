@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../../../environments/environment'
 import { GearboxType } from 'src/app/modules/shared/models/gearbox-type.model';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -13,11 +14,11 @@ export class GearboxTypeService {
     constructor(private http: HttpClient){}
 
     create(gearboxType: GearboxType): Observable<any> {
-        return this.http.post(this.baseUrl + "", gearboxType);
+        return this.http.post(this.baseUrl + "", gearboxType).pipe(catchError(this.handleException));
     }
 
     getGearboxTypes(): Observable<any> {
-         return this.http.get(this.baseUrl + "/all");
+         return this.http.get(this.baseUrl);
     }
 
     delete(name: string): Observable<any>{
@@ -28,6 +29,8 @@ export class GearboxTypeService {
         return this.http.put(`${this.baseUrl}/${id}`, value);
     }
 
-
+    private handleException(err: HttpErrorResponse): Observable<never> {
+        return throwError(err.error);
+      }
 
 }

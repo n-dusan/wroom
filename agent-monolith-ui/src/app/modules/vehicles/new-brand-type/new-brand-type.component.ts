@@ -17,6 +17,7 @@ export class NewBrandTypeComponent implements OnInit {
   errorMessage = false
   brandType: BrandType = new BrandType();
   new: BrandType = new BrandType();
+  messageError: any;
 
   constructor(private formBuilder: FormBuilder, private brandTypeService: BrandTypeService,
     private brandService: BrandTypeService,
@@ -38,7 +39,8 @@ export class NewBrandTypeComponent implements OnInit {
       .subscribe(data => {
       this.toastr.success('You have successfully added Brand Type!', 'Success')
     },
-    error => this.errorMessage = true);
+    error =>{ this.errorMessage = true
+              this.messageError = error});
   }
 
   onSubmit() {

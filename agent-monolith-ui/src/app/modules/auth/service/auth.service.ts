@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { SignupRequest } from '../model/signup-request.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, throwError } from 'rxjs';
 import { LoggedUser } from '../model/logged-user.model';
 import { LoginRequest } from '../model/login-request.model';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,7 @@ export class AuthService {
 
   signup(data: SignupRequest): Observable<SignupRequest> {
     console.log(this.baseUrl);
-    return this.httpClient.post<SignupRequest>(this.baseUrl + '/signup', data);
+    return this.httpClient.post<SignupRequest>(this.baseUrl + '/signup', data).pipe(catchError(this.handleException));
   }
 
   login(data: LoginRequest): Observable<any> {
@@ -71,5 +71,9 @@ export class AuthService {
 
   test(): Observable<string> {
     return this.httpClient.get<string>('http://localhost:8081/api/stub' + '/test-auth');
+  }
+
+  private handleException(err: HttpErrorResponse): Observable<never> {
+    return throwError(err.error);
   }
 }

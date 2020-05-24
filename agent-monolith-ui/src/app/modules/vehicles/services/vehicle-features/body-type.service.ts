@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { BodyType } from '../../../shared/models/body-type.model';
 import { environment } from '../../../../../environments/environment'
+import { catchError } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
 })
@@ -12,11 +13,11 @@ export class BodyTypeService {
     constructor(private http: HttpClient){}
 
     create(bodyType: BodyType): Observable<any> {
-        return this.http.post(this.baseUrl + "", bodyType);
+        return this.http.post(this.baseUrl + "", bodyType).pipe(catchError(this.handleException));
     }
 
     getBodyTypes(): Observable<any> {
-        return this.http.get(this.baseUrl + "/all");
+        return this.http.get(this.baseUrl);
     }
 
     delete(name: string): Observable<any>{
@@ -26,5 +27,9 @@ export class BodyTypeService {
     update(id: number, value: any){
         return this.http.put(`${this.baseUrl}/${id}`, value);
     }
+
+    private handleException(err: HttpErrorResponse): Observable<never> {
+        return throwError(err.error);
+      }
 
 }

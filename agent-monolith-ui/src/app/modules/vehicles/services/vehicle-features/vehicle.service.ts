@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { environment } from '../../../../../environments/environment'
 import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +14,7 @@ export class VehicleService {
     constructor(private http: HttpClient){}
 
     create(vehicle: Vehicle): Observable<any> {
-        return this.http.post(this.baseUrl, vehicle);
+        return this.http.post(this.baseUrl, vehicle).pipe(catchError(this.handleException));
     }
 
     upload(file: File[], id: number): Observable<any>{
@@ -26,4 +27,8 @@ export class VehicleService {
     
         return this.http.post(`${this.baseUrl}/upload/` + id, formData);
     }
+
+    private handleException(err: HttpErrorResponse): Observable<never> {
+        return throwError(err.error);
+      }
 }

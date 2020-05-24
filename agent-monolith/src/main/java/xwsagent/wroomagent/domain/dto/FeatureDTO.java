@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -18,8 +19,7 @@ public class FeatureDTO {
 
 	private Long id;
 	
-	@Max(5)
-
+	@Size(max = 5, message="must be less than or equal to 5")
 	@NotBlank(message = "Vehicle feature cannot have an empty name!")
 	private String name;
 

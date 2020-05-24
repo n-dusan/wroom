@@ -26,8 +26,10 @@ public class SignupRequestDTO {
 	@Email(regexp = ".+@.+\\..+", message = "Email must be valid.")
 	private String email;
 
-	@Size(min = 5, max = 15, message = "Number of characters must be greater than 4 and less than 16.")
-	@Pattern(regexp = "[^A-Za-z0-9]")
+	@Size(min = 8, max = 20, message = "Number of characters must be greater than 4 and less than 16.")
+	//@Pattern(regexp ="^.*(?=.{8,})((?=.*[!@#$%^&*()\\-_=+{};:,<.>]){1})()(?=.*\\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$")
+	@Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$@!%&*?])[A-Za-z\\d#$@!%&*?]{8,20}$",
+	message="You need to enter 8 characters, uppercase, lowercase, and from the characters you can enter #$@!%&*?")
 	private String password;
 	
 	@NotNull(message = "Name cannot be null.")

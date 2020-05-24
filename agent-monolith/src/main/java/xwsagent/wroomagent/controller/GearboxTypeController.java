@@ -2,6 +2,8 @@ package xwsagent.wroomagent.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ public class GearboxTypeController {
 	private GearboxTypeService gearboxTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO gearboxTypeDTO){
+	public ResponseEntity<FeatureDTO> create(@Valid @RequestBody FeatureDTO gearboxTypeDTO){
 		
 		return new ResponseEntity<>(
 			GearboxTypeConverter.fromEntity(gearboxTypeService.save(GearboxTypeConverter.toEntity(gearboxTypeDTO))),
@@ -41,7 +43,7 @@ public class GearboxTypeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/all", produces = "application/json")
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getAll() {
 		
 		return new ResponseEntity<>(

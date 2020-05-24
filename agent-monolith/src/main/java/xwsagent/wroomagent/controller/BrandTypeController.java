@@ -2,6 +2,8 @@ package xwsagent.wroomagent.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ public class BrandTypeController {
 	private BrandTypeService brandTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO brandTypeDTO){
+	public ResponseEntity<FeatureDTO> create(@Valid @RequestBody FeatureDTO brandTypeDTO){
 		
 		return new ResponseEntity<>(
 				BrandTypeConverter.fromEntity(brandTypeService.save(BrandTypeConverter.toEntity(brandTypeDTO))),
@@ -42,7 +44,7 @@ public class BrandTypeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/all", produces = "application/json")
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getModelTypes(){
 		
 		return new ResponseEntity<>(

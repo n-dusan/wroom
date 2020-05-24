@@ -14,11 +14,11 @@ export class FuelTypeService {
     constructor(private http: HttpClient){}
 
     create(fuelType: FuelType): Observable<any> {
-        return this.http.post(this.baseUrl + "", fuelType).pipe(catchError(this.handleException));;
+        return this.http.post(this.baseUrl + "", fuelType).pipe(catchError(this.handleException));
     }
 
     getFuelTypes(): Observable<any> {
-        return this.http.get(this.baseUrl + "/all");
+        return this.http.get(this.baseUrl);
     }
 
     delete(name: string): Observable<any>{

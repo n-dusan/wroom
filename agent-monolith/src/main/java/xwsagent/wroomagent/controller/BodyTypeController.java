@@ -29,7 +29,7 @@ public class BodyTypeController {
 	private BodyTypeService bodyTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO featureDTO){
+	public ResponseEntity<FeatureDTO> create(@Valid @RequestBody FeatureDTO featureDTO){
 
 		return new ResponseEntity<>(
 				BodyTypeConverter.fromEntity(bodyTypeService.save(BodyTypeConverter.toEntity(featureDTO))),
@@ -43,7 +43,7 @@ public class BodyTypeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/all", produces = "application/json")
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getBodyTypes(){
 		
 		return new ResponseEntity<>(

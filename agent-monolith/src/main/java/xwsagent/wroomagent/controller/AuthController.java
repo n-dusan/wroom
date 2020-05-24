@@ -32,7 +32,7 @@ public class AuthController {
 	private AuthenticationService authService;
 
 	@PostMapping(value = "/login")
-	public ResponseEntity<?> login(@RequestBody LoginRequestDTO request) {
+	public ResponseEntity<?> login(@Valid @RequestBody LoginRequestDTO request) {
 		try {
 			
 			LoggedUserDTO ret = this.authService.login(request);
@@ -67,13 +67,5 @@ public class AuthController {
 		return new ResponseEntity<>(this.authService.whoami(auth), HttpStatus.OK);
 	}
 	
-	@ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        List<String> details = new ArrayList<>();
-        details.add(ex.getLocalizedMessage());
-        String s = ex.getLocalizedMessage();
-        ErrorResponse error = new ErrorResponse(s, details);
-        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
  
 }

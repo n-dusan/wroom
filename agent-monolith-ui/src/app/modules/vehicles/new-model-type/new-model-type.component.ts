@@ -17,7 +17,7 @@ export class NewModelTypeComponent implements OnInit {
   errorMessage = false
   modelType: ModelType = new ModelType();
   new: ModelType = new ModelType();
-
+  messageError: any;
 
   constructor(private formBuilder: FormBuilder,
     private modelService: ModelTypeService,
@@ -41,9 +41,10 @@ export class NewModelTypeComponent implements OnInit {
       this.toastr.success('You have successfully added Model Type!', 'Success')
     },
 
-    error => 
-      this.errorMessage = true);
-
+    error => {
+      this.errorMessage = true;
+      this.messageError = error;
+    });
   }
 
   onSubmit() {

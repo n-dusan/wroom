@@ -1,5 +1,7 @@
 package xwsagent.wroomagent.domain.dto;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -24,28 +26,27 @@ public class VehicleDTO {
 
 	private Long id;
 	
-	@Pattern(regexp = "[0-9]+")
 	private Double mileage;
 	
-	@Size(min = 3, max = 5, message = "The number of seats can be between 3 and 5.")
-	@Pattern(regexp = "[0-9]+")
+	@Min(3)
+	@Max(5)
 	private Integer childSeats;
 	
 	private Boolean cdw;
 	
-	@NotBlank(message = "Model Type may not be blank.")
+	@NotNull(message = "Model Type may not be blank.")
 	private ModelType modelType;
 	
-	@NotBlank(message = "Brand Type may not be blank.")
+	@NotNull(message = "Brand Type may not be blank.")
 	private BrandType brandType;
 	
-	@NotBlank(message = "Body Type may not be blank.")
+	@NotNull(message = "Body Type may not be blank.")
 	private BodyType bodyType;
 	
-	@NotBlank(message = "Fuel Type may not be blank.")
+	@NotNull(message = "Fuel Type may not be blank.")
 	private FuelType fuelType;
 	
-	@NotBlank(message = "Gearbox Type may not be blank.")
+	@NotNull(message = "Gearbox Type may not be blank.")
 	private GearboxType gearboxType;
 	
 }

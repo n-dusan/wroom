@@ -17,7 +17,7 @@ export class NewGearboxTypeComponent implements OnInit {
   errorMessage = false
   gearboxType: GearboxType = new GearboxType();
   new: GearboxType = new GearboxType();
-
+  messageError: any;
 
   constructor(private formBuilder: FormBuilder,
     private gearboxService: GearboxTypeService,
@@ -41,7 +41,8 @@ export class NewGearboxTypeComponent implements OnInit {
         this.toastr.success('You have successfully added Gearbox Type!', 'Success')
     },
 
-    error => this.errorMessage = true);
+    error =>{ this.errorMessage = true
+              this.messageError = error});
 
   }
 

@@ -44,7 +44,7 @@ public class FuelTypeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/all", produces = "application/json")
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getAll(){
 		
 		return new ResponseEntity<>(

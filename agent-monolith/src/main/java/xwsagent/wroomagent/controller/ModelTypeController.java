@@ -30,7 +30,7 @@ public class ModelTypeController {
 	private ModelTypeService modelTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO modelTypeDTO){
+	public ResponseEntity<FeatureDTO> create(@Valid @RequestBody FeatureDTO modelTypeDTO){
 
 		return new ResponseEntity<>(
 				ModelTypeConverter.fromEntity(modelTypeService.save(ModelTypeConverter.toEntity(modelTypeDTO))),
@@ -45,7 +45,7 @@ public class ModelTypeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/all", produces = "application/json")
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getAll(){
 		
 		return new ResponseEntity<>(
