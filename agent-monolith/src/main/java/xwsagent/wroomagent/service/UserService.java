@@ -17,12 +17,21 @@ public class UserService {
 	public User findByEmail(String email) {
 		return this.userRepository.findByEmail(email).get();
 	}
-	
+
 	public UserDTO activate(Long id) {
 		User usr = userRepository.getOne(id);
-		usr.setEnabled(true);
+		usr.setEnabled(true);	//Kad se odradi enablovanje kroz verification token, ovo obrisati
+		usr.setNonLocked(true);
 		userRepository.saveAndFlush(usr);
-		
+
 		return UserConverter.fromEntity(usr);
 	}
+
+//	public UserDTO enable(String token) {
+//		User usr = userRepository.getOne(id);
+//		usr.setEnabled(true);
+//		userRepository.saveAndFlush(usr);
+//
+//		return UserConverter.fromEntity(usr);
+//	}
 }

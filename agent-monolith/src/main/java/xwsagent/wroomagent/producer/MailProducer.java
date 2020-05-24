@@ -24,4 +24,16 @@ public class MailProducer {
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
         log.info("Sent a message to >"+mailMessage.getRecipient());
     }
+
+    public void sendConfirmationMail(String email, String token) {
+        log.info("Sending a message>>> ... ");
+        MailMessage mailMessage = new MailMessage(email, 
+        		"E-Mail Confirmation", 
+        		"Hello, \n\n Please confirm your E-Mail Adress by clicking to following link:"
+        		+ "\n https://localhost:4200/" + token
+        		+ "\n\nKind regards,\nMonolith");
+
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
+        log.info("Sent a message to >"+mailMessage.getRecipient());
+    }
 }

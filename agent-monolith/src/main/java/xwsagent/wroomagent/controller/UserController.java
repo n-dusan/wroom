@@ -3,7 +3,6 @@ package xwsagent.wroomagent.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,4 +30,17 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 	
+	/*
+	 * Endpoint for e-mail confirmation
+	 */
+	@PutMapping("/enable/{token}")
+	public ResponseEntity<?> enable(@PathVariable String token) {
+        try {
+//        	UserDTO user = this.userService.enable(token);
+//        	return new ResponseEntity<>(user, HttpStatus.OK);
+        } catch(Exception e) {
+        	e.printStackTrace();
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
 }
