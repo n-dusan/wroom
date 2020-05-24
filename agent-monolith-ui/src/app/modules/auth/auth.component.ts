@@ -51,7 +51,7 @@ export class AuthComponent implements OnInit {
       },
       error => {
         this.toastr.error('There was an error with your request!', 'Error')
-        console.log('ERROR MY BOYO', error)
+        console.log(error)
       }
     );
   }
@@ -67,7 +67,7 @@ export class AuthComponent implements OnInit {
       },
       error => {
         this.toastr.error(error.error, 'Error')
-        console.log('ERROR MY BOYO', error)
+        console.log(error)
       }
     )
   }
