@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import xwsagent.wroomagent.converter.UserConverter;
 import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.domain.auth.RoleName;
@@ -26,6 +27,7 @@ import xwsagent.wroomagent.domain.auth.VerificationToken;
 import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
+import xwsagent.wroomagent.domain.dto.UserDTO;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.jwt.JwtTokenProvider;
 import xwsagent.wroomagent.jwt.UserPrincipal;
@@ -87,6 +89,7 @@ public class AuthenticationService {
 				Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)), false, true);
 
 		user.setEnabled(false);
+		user.setNonLocked(false);
 
 		userRepository.save(user);
 		
@@ -118,6 +121,14 @@ public class AuthenticationService {
 		
 		String jwt = jwtProvider.generateToken(auth);
 		return new LoggedUserDTO(user.getId(), user.getUsername(), authorities, jwt);
+	}
+	
+	public UserDTO confirm(String token) {
+		VerificationToken vt = this.verificationRepository.findByToken(token);
+		User user = vt.getUser();
+		user.setEnabled(true);
+		this.userRepository.saveAndFlush(user);
+		return UserConverter.fromEntity(user);
 	}
 	
 }

@@ -20,7 +20,7 @@ public class UserService {
 
 	public UserDTO activate(Long id) {
 		User usr = userRepository.getOne(id);
-		usr.setEnabled(true);	//Kad se odradi enablovanje kroz verification token, ovo obrisati
+//		usr.setEnabled(true);	//Enable-ovanje se radi kada se odradi confirm emaila
 		usr.setNonLocked(true);
 		userRepository.saveAndFlush(usr);
 

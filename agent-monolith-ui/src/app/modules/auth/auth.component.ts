@@ -13,6 +13,8 @@ import { LoginRequest } from './model/login-request.model';
 })
 export class AuthComponent implements OnInit {
 
+  initPage = true;
+
   signupForm: FormGroup;
   loginForm: FormGroup;
 
@@ -47,7 +49,9 @@ export class AuthComponent implements OnInit {
 
     this.authService.signup(signupData).subscribe(
       data => {
-        this.toastr.success('Your request is sent!', 'Success')
+        this.initPage = false;
+        this.toastr.success('Please check your E-Mail. We have sent you confirmation link.', 'Your request is sent!');
+        this.router.navigate(['/home'])
       },
       error => {
         this.toastr.error('There was an error with your request!', 'Error')
@@ -61,6 +65,7 @@ export class AuthComponent implements OnInit {
 
     this.authService.login(request).subscribe(
       data => {
+        this.initPage = false;
         this.toastr.success('You are now logged in!', 'Success');
         this.router.navigateByUrl('/home');
       },

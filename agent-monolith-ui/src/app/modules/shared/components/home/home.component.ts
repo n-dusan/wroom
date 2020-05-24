@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
         this.toastr.success('You are allowed to test this button','Congrats!')
       },
       error => {
-        this.toastr.error(error.error,'Error')
+        this.toastr.error('You are not allowed to test that button','Error')
       }
     );
   }

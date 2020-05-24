@@ -30,17 +30,4 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 	
-	/*
-	 * Endpoint for e-mail confirmation
-	 */
-	@PutMapping("/enable/{token}")
-	public ResponseEntity<?> enable(@PathVariable String token) {
-        try {
-//        	UserDTO user = this.userService.enable(token);
-//        	return new ResponseEntity<>(user, HttpStatus.OK);
-        } catch(Exception e) {
-        	e.printStackTrace();
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
 }

@@ -42,12 +42,7 @@ export class AuthService {
   }
 
   getToken() {
-    // if(this.loggedUserSubject.value.token) {
-    //   return this.loggedUserSubject.value.token;
-    // }
-    // else {
       return localStorage.getItem('token');
-    // }
   }
 
   logout() {
@@ -67,6 +62,10 @@ export class AuthService {
       this.router.navigate(['/auth']);
       return new Observable();
     }
+  }
+
+  confirmEmail(token: string) {
+    return this.httpClient.put(this.baseUrl + '/confirm', token);
   }
 
   test(): Observable<string> {
