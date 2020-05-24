@@ -11,11 +11,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -87,7 +89,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
 				.authorizeRequests()
-
 				.antMatchers("/api/auth/**").permitAll()
 				.antMatchers("/api/stub/**").permitAll()
 				.antMatchers("/api/user/**").permitAll()
@@ -95,10 +96,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated().and()
 
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.headers().contentSecurityPolicy("script-src 'self' img-src *")
+				.headers().contentSecurityPolicy("script-src 'self' https://localhost:4200; " +
+				"img-src 'self' https://localhost:4200;")
 		;
 		if(httpsRequired) {
 			http.requiresChannel().anyRequest().requiresSecure();
 		}
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		//Da bi serviranje iz static foldera dozvolio pristup početnoj strani bez potrebe za JWTom
+		web.ignoring().antMatchers(HttpMethod.GET,
+				"/",
+				"/webjars/**",
+				"/*.html",
+				"/favicon.ico",
+				"/**/*.html",
+				"/**/*.css",
+				"/**/*.js",
+				"/**/*.png",
+				"/**/*.jpg");
+		web.ignoring().antMatchers(HttpMethod.POST, "api/auth/login");
+		web.ignoring().antMatchers(HttpMethod.GET, "api/auth/signup");
+		web.ignoring().antMatchers(HttpMethod.GET, "api/auth/whoami");
 	}
 }

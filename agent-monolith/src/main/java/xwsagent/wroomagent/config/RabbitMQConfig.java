@@ -43,7 +43,9 @@ public class RabbitMQConfig {
     public ConnectionFactory connectionFactory() {
         String uri = System.getenv("CLOUDAMQP_URL");
         if (uri == null) {
-            uri = "amqp://guest:guest@localhost";
+            //uri = "amqp://guest:guest@localhost";
+            //for mail testing, use this URL, once you're done, test it with docker and remove it, since it's a secret property
+            uri = "amqp://faihpmmd:2uO5YyUIoPZ0U7ybj4c1CA02odsiAO6r@squid.rmq.cloudamqp.com/faihpmmd";
         }
         CachingConnectionFactory connectionFactory =
                 new CachingConnectionFactory();
