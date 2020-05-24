@@ -2,7 +2,7 @@ FROM node:alpine3.11 AS agentFront
 LABEL maintainer="nikolic.dusan@uns.ac.rs"
 
 WORKDIR /usr/src/agent
-COPY agent-ui .
+COPY agent-monolith-ui .
 RUN ["npm", "install"]
 #node smart guys didnt patch their package
 RUN ["npm", "install", "is-promise@2.1.0"]

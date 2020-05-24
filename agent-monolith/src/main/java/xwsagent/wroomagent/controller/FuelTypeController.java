@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,8 @@ import xwsagent.wroomagent.domain.FuelType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.service.FuelTypeService;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value="/api/fuel-type")
 public class FuelTypeController {
@@ -28,8 +31,7 @@ public class FuelTypeController {
 	private FuelTypeService fuelTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO fuelTypeDTO){
-		
+	public ResponseEntity<FeatureDTO> create(@Valid @RequestBody FeatureDTO fuelTypeDTO)  {
 		return new ResponseEntity<>(
 				FuelTypeConverter.fromEntity(fuelTypeService.save(FuelTypeConverter.toEntity(fuelTypeDTO))),
 				HttpStatus.CREATED

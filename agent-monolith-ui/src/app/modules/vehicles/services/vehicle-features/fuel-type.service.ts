@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { FuelType } from '../../../shared/models/fuel-type.model';
 import { environment } from '../../../../../environments/environment'
 
@@ -13,7 +14,7 @@ export class FuelTypeService {
     constructor(private http: HttpClient){}
 
     create(fuelType: FuelType): Observable<any> {
-        return this.http.post(this.baseUrl + "", fuelType);
+        return this.http.post(this.baseUrl + "", fuelType).pipe(catchError(this.handleException));;
     }
 
     getFuelTypes(): Observable<any> {
@@ -26,5 +27,9 @@ export class FuelTypeService {
 
     update(id: number, value: any){
         return this.http.put(`${this.baseUrl}/${id}`, value);
+    }
+
+    private handleException(err: HttpErrorResponse): Observable<never> {
+      return throwError(err.error);
     }
 }
