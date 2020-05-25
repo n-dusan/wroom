@@ -1,6 +1,9 @@
 package xwsagent.wroomagent.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xwsagent.wroomagent.converter.BodyTypeConverter;
 import xwsagent.wroomagent.domain.BodyType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
+import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.service.BodyTypeService;
 
 @RestController
@@ -27,12 +31,18 @@ public class BodyTypeController {
 	private BodyTypeService bodyTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO featureDTO){
+	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO featureDTO){
 
-		return new ResponseEntity<>(
-				BodyTypeConverter.fromEntity(bodyTypeService.save(BodyTypeConverter.toEntity(featureDTO))),
-				HttpStatus.CREATED
-		);
+		try {
+			return new ResponseEntity<>(
+				    BodyTypeConverter.fromEntity(bodyTypeService.save(BodyTypeConverter.toEntity(featureDTO))),
+					HttpStatus.CREATED
+			);
+		} catch(NullPointerException e) {
+			List<String> errors = new ArrayList<String>();
+			errors.add("Choosen name already exists!");
+			return new ResponseEntity<>(new APIError(HttpStatus.BAD_REQUEST, "Not valid", errors), HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@DeleteMapping(value = "/{name}")
@@ -41,7 +51,7 @@ public class BodyTypeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/all", produces = "application/json")
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getBodyTypes(){
 		
 		return new ResponseEntity<>(

@@ -28,7 +28,13 @@ public class FuelTypeService {
     }
 	
 	public FuelType save(FuelType fuelType) {
-	    return fuelTypeRepository.save(fuelType);
+		FuelType entity = this.fuelTypeRepository.findByName(fuelType.getName());
+		if(entity == null) {
+			return fuelTypeRepository.save(fuelType);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public FuelType findByName(String name) {

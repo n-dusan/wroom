@@ -18,6 +18,7 @@ export class NewFuelTypeComponent implements OnInit {
   errorMessage = false
   fuelType: FuelType = new FuelType();
   new: FuelType = new FuelType();
+  messageError: any;
 
   constructor(private formBuilder: FormBuilder, private fuelTypeService: FuelTypeService, private router: Router,
     private fuelService: FuelTypeService,
@@ -39,7 +40,9 @@ export class NewFuelTypeComponent implements OnInit {
       .subscribe(data => {
         this.toastr.success('You have successfully added Fuel Type!', 'Success')
     },
-    error => this.errorMessage = true);
+    error => {
+      this.toastr.error(error.errors, 'Error')
+    });
   }
 
   onSubmit() {
@@ -58,6 +61,7 @@ export class NewFuelTypeComponent implements OnInit {
       data => {
         this.new.name = this.fuelUpdateForm.value.name;
       },
+
       error => console.log('Error!'));
   }
 

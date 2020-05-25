@@ -72,24 +72,6 @@
 	 * RentReport
 	* Ad (id)
 
-## Messaging
-* funkcionalnosti
-	 * dopisivanje
-
-* entiteti nad kojima rukuje: 
-	* User
-	* Message
-
-## Admin
-* funkcionalnosti
-	* banovanje,  
-	* brisanje korisnika, 
-	* odbijanje i prihvatanje komentara, 
-	* registrovanje firme
-
-* entiteti nad kojima rukuje: 
-	*  User
-	* Comments
 ## GPS
 > šalje jwt koordinate u amqp na osnovu prosledjenog vehicle_id-a koji poseduje tracking uređaj.
 ## PKI

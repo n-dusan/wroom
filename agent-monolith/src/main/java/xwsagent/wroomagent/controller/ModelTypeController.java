@@ -1,10 +1,12 @@
 package xwsagent.wroomagent.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xwsagent.wroomagent.converter.ModelTypeConverter;
 import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
+import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.service.ModelTypeService;
 
 @RestController
@@ -28,13 +31,18 @@ public class ModelTypeController {
 	private ModelTypeService modelTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO modelTypeDTO){
+	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO modelTypeDTO){
 
-		return new ResponseEntity<>(
-				ModelTypeConverter.fromEntity(modelTypeService.save(ModelTypeConverter.toEntity(modelTypeDTO))),
-				HttpStatus.CREATED
-		);
-				
+		try {
+			return new ResponseEntity<>(
+					ModelTypeConverter.fromEntity(modelTypeService.save(ModelTypeConverter.toEntity(modelTypeDTO))),
+					HttpStatus.CREATED
+			);
+		} catch(NullPointerException e) {
+			List<String> errors = new ArrayList<String>();
+			errors.add("Choosen name already exists!");
+			return new ResponseEntity<>(new APIError(HttpStatus.BAD_REQUEST, "Not valid", errors), HttpStatus.BAD_REQUEST);
+		}		
 	}
 	
 	@DeleteMapping(value = "/{name}")
@@ -43,7 +51,7 @@ public class ModelTypeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/all", produces = "application/json")
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getAll(){
 		
 		return new ResponseEntity<>(

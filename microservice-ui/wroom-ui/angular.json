@@ -63,7 +63,9 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "wroom-ui:build"
+            "browserTarget": "wroom-ui:build",
+            "sslCert": "tls/END_ENTITY-248621907453.crt",
+            "sslKey": "tls/END_ENTITY-248621907453.key"
           },
           "configurations": {
             "production": {

@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SignupRequest } from './model/signup-request.model';
 import { AuthService } from './service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginRequest } from './model/login-request.model';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ValidationError } from './model/validation-error';
+import { MatchingPassword } from './validators/matching-password.validator';
 
 @Component({
   selector: 'app-auth',
@@ -13,15 +17,21 @@ import { LoginRequest } from './model/login-request.model';
 })
 export class AuthComponent implements OnInit {
 
+  initPage = true;
+
   signupForm: FormGroup;
   loginForm: FormGroup;
 
   login: boolean = true;
 
+  errorMessage: ValidationError;
+
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
     private toastr: ToastrService,
-    private router: Router) { }
+    private router: Router,
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
 
@@ -36,6 +46,9 @@ export class AuthComponent implements OnInit {
       'pass-rep': new FormControl(null, Validators.required),
       'name': new FormControl(null, Validators.required),
       'surname': new FormControl(null, Validators.required)
+    },
+    {
+      validator: MatchingPassword('pass', 'pass-rep')
     });
 
   }
@@ -45,12 +58,20 @@ export class AuthComponent implements OnInit {
     const formValue = this.signupForm.value;
     const signupData = new SignupRequest(formValue.email, formValue.pass, formValue.name, formValue.surname);
 
+    console.log(this.signupForm);
+
     this.authService.signup(signupData).subscribe(
       data => {
-        this.toastr.success('Your request is sent!', 'Success')
+        this.initPage = false;
+        this.toastr.success('Please check your E-Mail. We have sent you confirmation link.', 'Your request is sent!');
+        this.router.navigate(['/home'])
       },
       error => {
-        this.toastr.error('There was an error with your request!', 'Error')
+        for(let er of error.errors) {
+          this.toastr.error(er, 'Error')
+        }
+        
+        console.log(error)
       }
     );
   }
@@ -61,17 +82,44 @@ export class AuthComponent implements OnInit {
 
     this.authService.login(request).subscribe(
       data => {
+        this.initPage = false;
         this.toastr.success('You are now logged in!', 'Success');
         this.router.navigateByUrl('/home');
       },
       error => {
-        this.toastr.error(error.error, 'Error')
+        this.errorMessage = error;
+        console.log(this.errorMessage)
+        for(let er of error.error.errors) {
+          this.toastr.error(er, 'Error')
+        }
       }
     )
   }
 
-  testClick() {
-    this.authService.test().subscribe(
+  changePasswordClick() {
+    const dialogRef = this.dialog.open(ChangePasswordComponent, {
+      width: '500px',
+      height: '400px',
+      // data: {isAdd: this.isAdd=true }
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   this.loadModelData();
+    // });
+    // console.log(this.isAdd)
+  }
+
+  testRoleClick() {
+    this.authService.testRole().subscribe(
+      () => {},
+      error => {
+        this.toastr.error('You are not allowed to test that button!', 'Error')
+      }
+    );
+  }
+
+  testPermissionClick() {
+    this.authService.testPermission().subscribe(
       () => {},
       error => {
         this.toastr.error('You are not allowed to test that button!', 'Error')

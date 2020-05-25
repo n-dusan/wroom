@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { SignupRequest } from '../model/signup-request.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, throwError } from 'rxjs';
 import { LoggedUser } from '../model/logged-user.model';
 import { LoginRequest } from '../model/login-request.model';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,9 @@ export class AuthService {
   loggedUserSubject: BehaviorSubject<LoggedUser>;
   loggedUser: Observable<LoggedUser>;
 
-  private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/auth'
+  private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/auth';
+  private stubUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/stub';
+
 
   constructor(private httpClient: HttpClient,
     private router: Router) {
@@ -26,11 +28,11 @@ export class AuthService {
 
   signup(data: SignupRequest): Observable<SignupRequest> {
     console.log(this.baseUrl);
-    return this.httpClient.post<SignupRequest>(this.baseUrl + '/signup', data);
+    return this.httpClient.post<SignupRequest>(this.baseUrl + '/signup', data).pipe(catchError(this.handleException));
   }
 
   login(data: LoginRequest): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(map((res: LoggedUser) => {
+    return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(catchError(this.handleException)).pipe(map((res: LoggedUser) => {
       localStorage.setItem('token', JSON.stringify(res.token));
       this.loggedUserSubject.next(res);
       // console.log(this.loggedUser)
@@ -42,12 +44,7 @@ export class AuthService {
   }
 
   getToken() {
-    // if(this.loggedUserSubject.value.token) {
-    //   return this.loggedUserSubject.value.token;
-    // }
-    // else {
       return localStorage.getItem('token');
-    // }
   }
 
   logout() {
@@ -69,7 +66,19 @@ export class AuthService {
     }
   }
 
-  test(): Observable<string> {
-    return this.httpClient.get<string>('http://localhost:8081/api/stub' + '/test-auth');
+  confirmEmail(token: string) {
+    return this.httpClient.put(this.baseUrl + '/confirm', token);
+  }
+
+  testRole(): Observable<string> {
+    return this.httpClient.get<string>(this.stubUrl + '/test-auth-role');
+  }
+
+  testPermission(): Observable<string> {
+    return this.httpClient.get<string>(this.stubUrl + '/test-auth-permission');
+  }
+
+  private handleException(err: HttpErrorResponse): Observable<never> {
+    return throwError(err.error);
   }
 }

@@ -64,7 +64,7 @@ export class NewVehicleComponent implements OnInit {
         mileage: ['', Validators.required]
       });
       this.thirdFormGroup = this.formBuilder.group({
-        childSeats: ['', Validators.compose([Validators.minLength(3), Validators.maxLength(5)])],
+        childSeats: ['', [Validators.max(5), Validators.min(3)]],
         cdw: [false]
       });
       this.fourthFormGroup = this.formBuilder.group({
@@ -131,11 +131,13 @@ export class NewVehicleComponent implements OnInit {
         this.newVehicle = data;
         this.vehicleService.upload(this.selectedFiles, this.newVehicle.id).subscribe(
           data => {
-            console.log('Uspesno!')
+           
           });
       },
-      error=> 
+      error=> {
       this.toastr.error('Error !', 'Error')
+      console.log(error)
+      }
     );
     
 

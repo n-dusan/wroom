@@ -11,6 +11,8 @@ import xwsagent.wroomagent.service.PriceListService;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value="api/price-list")
 public class PriceListController {
@@ -62,7 +64,7 @@ public class PriceListController {
      * @return created price
      */
     @PostMapping
-    public ResponseEntity<PriceListDTO> save(@RequestBody PriceListDTO price) {
+    public ResponseEntity<PriceListDTO> save(@Valid @RequestBody PriceListDTO price) {
         return new ResponseEntity<>(
                 PriceListConverter.fromEntity(priceListService.save(PriceListConverter.toEntity(price))),
                 HttpStatus.OK

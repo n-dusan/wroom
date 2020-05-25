@@ -9,4 +9,5 @@ public interface VehicleClient {
 
     @GetMapping("/hello")
     public ResponseEntity<String> hello();
+
 }

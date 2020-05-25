@@ -71,9 +71,9 @@
       <form fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" [formGroup] = "thirdFormGroup">
         <ng-template matStepLabel>Other</ng-template>
         <mat-form-field>
-          <input type="number" formControlName="childSeats" matInput placeholder="Child Seats" minlength="3" maxlength="5" name="childSeats" required>
+          <input type="number" formControlName="childSeats" matInput placeholder="Child Seats" min="3" max="5"  name="childSeats" required>
           <mat-error *ngIf="thirdFormGroup.get('childSeats').hasError('required')">Field must not be empty!</mat-error>
-
+          <mat-error>Please enter a value between 3 and 5</mat-error>
         </mat-form-field>
         <mat-checkbox name="agree" formControlName="cdw" required color="primary">Collision Damage Waiver</mat-checkbox>
         <div>

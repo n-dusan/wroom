@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="center center">
+<div fxLayout="column" fxLayoutAlign="center center" *ngIf="initPage">
     <img fxFlex src="../../../assets/logo.png" alt="MONOLITH" style="width: 30%;">
     <mat-card class="example-card" fxFlex style="width: 30%; padding: 15px;">
         <form [formGroup]="loginForm" *ngIf="login" (submit)="loginSubmit()">
@@ -13,11 +13,12 @@
                     <mat-form-field fxFlex appearance="outline">
                         <mat-label>Password</mat-label>
                         <input matInput formControlName="pass" type="password">
+                        <!-- <mat-error *ngIf="errorMessage">{{errorMessage.errors[0]}}</mat-error> -->
                     </mat-form-field>
                 </div>
 
                 <p>
-                    <a mat-button routerLink="/change-password">Forgot password</a>
+                    <a mat-button (click)="changePasswordClick()">Forgot password</a>
                 </p>
                 <p>
                     Don't have an account?
@@ -45,6 +46,7 @@
                     <mat-form-field fxFlex appearance="outline">
                         <mat-label>Repeat password</mat-label>
                         <input matInput formControlName="pass-rep" type="password">
+                        <mat-error *ngIf="signupForm && signupForm.controls['pass-rep'].errors && signupForm.controls['pass-rep'].errors.mustMatch">Password doesn't match</mat-error>
                     </mat-form-field>
                     <mat-form-field fxFlex appearance="outline">
                         <mat-label>Name</mat-label>
@@ -68,5 +70,11 @@
         </form>
     </mat-card>
 
-    <button type="button" mat-raised-button color="primary" (click)="testClick()">TEST ME</button>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <button fxFlex="40%" type="button" mat-raised-button color="primary" (click)="testRoleClick()">TEST ROLE</button>
+        <button fxFlex="60%" type="button" mat-raised-button color="primary" (click)="testPermissionClick()">TEST PERMISSION</button>
+    </div>
+    
 </div>
+
+<router-outlet *ngIf="!initPage"></router-outlet>

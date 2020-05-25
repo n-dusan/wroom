@@ -1,5 +1,6 @@
 package xwsagent.wroomagent.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import xwsagent.wroomagent.converter.FuelTypeConverter;
-import xwsagent.wroomagent.converter.ModelTypeConverter;
 import xwsagent.wroomagent.domain.FuelType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
+import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.service.FuelTypeService;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value="/api/fuel-type")
@@ -28,12 +31,17 @@ public class FuelTypeController {
 	private FuelTypeService fuelTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO fuelTypeDTO){
-		
-		return new ResponseEntity<>(
-				FuelTypeConverter.fromEntity(fuelTypeService.save(FuelTypeConverter.toEntity(fuelTypeDTO))),
-				HttpStatus.CREATED
-		);
+	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO fuelTypeDTO)  {
+		try {
+			return new ResponseEntity<>(
+					FuelTypeConverter.fromEntity(fuelTypeService.save(FuelTypeConverter.toEntity(fuelTypeDTO))),
+					HttpStatus.CREATED
+			);
+		} catch(NullPointerException e) {
+			List<String> errors = new ArrayList<String>();
+			errors.add("Choosen name already exists!");
+			return new ResponseEntity<>(new APIError(HttpStatus.BAD_REQUEST, "Not valid", errors), HttpStatus.BAD_REQUEST);
+		}		
 	}
 	
 	@DeleteMapping(value = "/{name}")
@@ -42,7 +50,7 @@ public class FuelTypeController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/all", produces = "application/json")
+	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getAll(){
 		
 		return new ResponseEntity<>(

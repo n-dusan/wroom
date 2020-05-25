@@ -1,8 +1,9 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { BrandType } from '../../../shared/models/brand-type.model'
 import { environment } from '../../../../../environments/environment'
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -14,11 +15,11 @@ export class BrandTypeService {
     constructor(private http: HttpClient){}
 
     create(brandType: BrandType): Observable<any> {
-        return this.http.post(this.baseUrl + "", brandType);
+        return this.http.post(this.baseUrl + "", brandType).pipe(catchError(this.handleException));
     }
 
     getBrandTypes(): Observable<any> {
-        return this.http.get(this.baseUrl + "/all");
+        return this.http.get(this.baseUrl);
     }
 
     delete(name: string): Observable<any>{
@@ -28,5 +29,9 @@ export class BrandTypeService {
     update(id: number, value: any){
         return this.http.put(`${this.baseUrl}/${id}`, value);
     }
+
+    private handleException(err: HttpErrorResponse): Observable<never> {
+        return throwError(err.error);
+      }
 
 }

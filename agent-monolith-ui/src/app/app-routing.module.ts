@@ -3,11 +3,13 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './modules/shared/components/home/home.component';
 import { AlreadyAuthenticatedGuard } from './modules/auth/guards/alreadyAuthenticated.guard';
 import { AuthGuard } from './modules/auth/guards/auth.guard';
+import { EmailConfirmationComponent } from './modules/shared/components/email-confirmation/email-confirmation.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/auth', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent, canActivate:[AuthGuard] },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  { path: 'confirm/:token', component: EmailConfirmationComponent }, 
   { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(mod => mod.AuthModule), canActivate:[AlreadyAuthenticatedGuard]},
   { path: 'rents', loadChildren: () => import('./modules/rents/rents.module').then(mod => mod.RentsModule)},
   { path: 'ads', loadChildren: () => import('./modules/ads/ads.module').then(mod => mod.AdsModule)},
