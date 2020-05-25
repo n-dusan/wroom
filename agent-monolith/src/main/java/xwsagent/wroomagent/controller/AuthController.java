@@ -1,5 +1,8 @@
 package xwsagent.wroomagent.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
+import xwsagent.wroomagent.exception.APIError;
+import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.service.AuthenticationService;
 
@@ -34,7 +39,9 @@ public class AuthController {
 			LoggedUserDTO ret = this.authService.login(request);
 			return new ResponseEntity<>(ret, HttpStatus.OK);
 		} catch(BadCredentialsException ex) {
-			return new ResponseEntity<>("Bad credentials",HttpStatus.BAD_REQUEST);
+			List<String> errors = new ArrayList<String>();
+			errors.add("Bad Credentials");
+			return new ResponseEntity<>(new APIError(HttpStatus.BAD_REQUEST, "Bad Credentials", errors), HttpStatus.BAD_REQUEST);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
