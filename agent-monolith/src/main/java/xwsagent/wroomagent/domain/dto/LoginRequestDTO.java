@@ -16,6 +16,7 @@ public class LoginRequestDTO {
 
 	private String email;
 	
+	@Pattern(regexp ="^[^\\\\\\n\\r'\"\\/]*$", message="You cannot enter \\/\n\r\"'")
 	private String password;
 	
 }

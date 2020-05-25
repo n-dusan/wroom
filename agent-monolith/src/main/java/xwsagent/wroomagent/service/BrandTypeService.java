@@ -28,7 +28,13 @@ public class BrandTypeService {
     }
 	
 	public BrandType save(BrandType brandType) {
-	    return brandTypeRepository.save(brandType);
+		BrandType entity = this.brandTypeRepository.findByName(brandType.getName());
+		if(entity == null) {
+			return brandTypeRepository.save(brandType);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public BrandType findByName(String name) {

@@ -41,9 +41,7 @@ export class NewFuelTypeComponent implements OnInit {
         this.toastr.success('You have successfully added Fuel Type!', 'Success')
     },
     error => {
-    this.errorMessage = true
-    this.messageError = error;
-    console.log(error)
+      this.toastr.error(error.errors, 'Error')
     });
   }
 

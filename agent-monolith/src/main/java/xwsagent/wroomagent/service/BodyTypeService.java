@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.domain.BodyType;
+import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.repository.BodyTypeRepository;
@@ -28,7 +29,13 @@ public class BodyTypeService {
     }
 	
 	public BodyType save(BodyType bodyType) {
-	    return bodyTypeRepository.save(bodyType);
+		BodyType entity = this.bodyTypeRepository.findByName(bodyType.getName());
+		if(entity == null) {
+			return bodyTypeRepository.save(bodyType);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public BodyType findByName(String name) {

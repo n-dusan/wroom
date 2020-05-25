@@ -131,12 +131,12 @@ export class NewVehicleComponent implements OnInit {
         this.newVehicle = data;
         this.vehicleService.upload(this.selectedFiles, this.newVehicle.id).subscribe(
           data => {
-            console.log('Uspesno!')
+           
           });
       },
       error=> {
       this.toastr.error('Error !', 'Error')
-      console.log('ERROR MY BOYO', error)
+      console.log(error)
       }
     );
     

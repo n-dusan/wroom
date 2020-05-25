@@ -6,8 +6,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginRequest } from './model/login-request.model';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { NewModelTypeComponent } from '../vehicles/new-model-type/new-model-type.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ValidationError } from './model/validation-error';
+import { MatchingPassword } from './validators/matching-password.validator';
 
 @Component({
   selector: 'app-auth',
@@ -22,6 +23,8 @@ export class AuthComponent implements OnInit {
   loginForm: FormGroup;
 
   login: boolean = true;
+
+  errorMessage: ValidationError;
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -43,6 +46,9 @@ export class AuthComponent implements OnInit {
       'pass-rep': new FormControl(null, Validators.required),
       'name': new FormControl(null, Validators.required),
       'surname': new FormControl(null, Validators.required)
+    },
+    {
+      validator: MatchingPassword('pass', 'pass-rep')
     });
 
   }
@@ -52,6 +58,8 @@ export class AuthComponent implements OnInit {
     const formValue = this.signupForm.value;
     const signupData = new SignupRequest(formValue.email, formValue.pass, formValue.name, formValue.surname);
 
+    console.log(this.signupForm);
+
     this.authService.signup(signupData).subscribe(
       data => {
         this.initPage = false;
@@ -59,8 +67,11 @@ export class AuthComponent implements OnInit {
         this.router.navigate(['/home'])
       },
       error => {
-        this.toastr.error('There was an error with your request!', 'Error')
-        console.log('ERROR MY BOYO', error)
+        for(let er of error.errors) {
+          this.toastr.error(er, 'Error')
+        }
+        
+        console.log(error)
       }
     );
   }
@@ -76,8 +87,9 @@ export class AuthComponent implements OnInit {
         this.router.navigateByUrl('/home');
       },
       error => {
-        this.toastr.error(error.error, 'Error')
-        console.log('ERROR MY BOYO', error)
+        this.errorMessage = error;
+        console.log(this.errorMessage)
+        this.toastr.error(error.errors, 'Error')
       }
     )
   }

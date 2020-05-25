@@ -41,8 +41,8 @@ export class NewGearboxTypeComponent implements OnInit {
         this.toastr.success('You have successfully added Gearbox Type!', 'Success')
     },
 
-    error =>{ this.errorMessage = true
-              this.messageError = error});
+    error =>{ 
+      this.toastr.error(error.errors, 'Error')});
 
   }
 

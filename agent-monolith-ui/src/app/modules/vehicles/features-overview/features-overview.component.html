@@ -42,8 +42,8 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                   </table>
                   <br/>
-                <button mat-button color="primary" (click)="openModelDialog()">Add</button>
-                <button mat-button color="primary" (click)="nextStep()">Next</button>
+                <button mat-raised-button (click)="openModelDialog()">Add</button>
+                <button mat-raised-button (click)="nextStep()">Next</button>
             </mat-action-row>
         </mat-expansion-panel>
         <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle class="body_panel">
@@ -89,9 +89,9 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                   </table>
                   <br/>
-                <button mat-button color="primary" (click)="openBodyDialog()">Add</button>
-                <button mat-button color="warn" (click)="prevStep()">Previous</button>
-                <button mat-button color="primary" (click)="nextStep()">Next</button>
+                <button mat-raised-button (click)="openBodyDialog()">Add</button>
+                <button mat-raised-button (click)="prevStep()">Previous</button>
+                <button mat-raised-button (click)="nextStep()">Next</button>
               </mat-action-row>
         </mat-expansion-panel>
 
@@ -138,9 +138,9 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                   </table>
                   <br/>
-                <button mat-button color="primary" (click)="openBrandDialog()">Add</button>
-                <button mat-button color="warn" (click)="prevStep()">Previous</button>
-                <button mat-button color="primary" (click)="nextStep()">Next</button>
+                <button mat-raised-button (click)="openBrandDialog()">Add</button>
+                <button mat-raised-button (click)="prevStep()">Previous</button>
+                <button mat-raised-button (click)="nextStep()">Next</button>
               </mat-action-row>
 
            
