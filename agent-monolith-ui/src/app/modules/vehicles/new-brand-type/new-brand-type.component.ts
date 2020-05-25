@@ -39,8 +39,8 @@ export class NewBrandTypeComponent implements OnInit {
       .subscribe(data => {
       this.toastr.success('You have successfully added Brand Type!', 'Success')
     },
-    error =>{ this.errorMessage = true
-              this.messageError = error});
+    error =>{ 
+      this.toastr.error(error.errors, 'Error')});
   }
 
   onSubmit() {

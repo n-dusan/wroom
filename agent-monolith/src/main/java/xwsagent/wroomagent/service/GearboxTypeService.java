@@ -28,7 +28,14 @@ public class GearboxTypeService {
 	}
 	
 	public GearboxType save(GearboxType gearboxType) {
-	    return gearboxTypeRepository.save(gearboxType);
+		GearboxType entity = this.gearboxTypeRepository.findByName(gearboxType.getName());
+		if(entity == null) {
+			return gearboxTypeRepository.save(gearboxType);
+		}
+		else {
+			return null;
+		}
+	    
 	}
 	
 	public GearboxType findByName(String name) {

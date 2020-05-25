@@ -42,10 +42,7 @@ public class ModelTypeController {
 			List<String> errors = new ArrayList<String>();
 			errors.add("Choosen name already exists!");
 			return new ResponseEntity<>(new APIError(HttpStatus.BAD_REQUEST, "Not valid", errors), HttpStatus.BAD_REQUEST);
-		}
-		
-		
-				
+		}		
 	}
 	
 	@DeleteMapping(value = "/{name}")

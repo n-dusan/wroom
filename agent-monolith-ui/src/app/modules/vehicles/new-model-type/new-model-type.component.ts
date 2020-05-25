@@ -43,8 +43,6 @@ export class NewModelTypeComponent implements OnInit {
 
     error => {
       this.toastr.error(error.errors, 'Error')
-      // this.errorMessage = true;
-      // this.messageError = error;
     });
   }
 
