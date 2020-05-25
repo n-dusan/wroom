@@ -69,7 +69,7 @@ export class AuthService {
   }
 
   test(): Observable<string> {
-    return this.httpClient.get<string>('http://localhost:8081/api/stub' + '/test-auth');
+    return this.httpClient.get<string>('https://localhost:8081/api/stub' + '/test-auth');
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {
