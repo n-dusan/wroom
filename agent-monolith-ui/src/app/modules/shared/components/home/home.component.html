@@ -6,7 +6,8 @@
         </div>
         
     </div>
-    <div fxFlex>
-        <button type="button" mat-raised-button color="primary" (click)="testClick()">TEST ME</button>
+    <div fxFlex fxLayout="row" fxLayoutAlign="center center">
+        <button fxFlex="40%" type="button" mat-raised-button color="primary" (click)="testRoleClick()">TEST ROLE</button>
+        <button fxFlex="60%" type="button" mat-raised-button color="primary" (click)="testPermissionClick()">TEST PERMISSION</button>
     </div>
 </div>
