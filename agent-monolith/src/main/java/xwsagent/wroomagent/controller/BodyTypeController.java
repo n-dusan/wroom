@@ -14,17 +14,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.BodyTypeConverter;
 import xwsagent.wroomagent.domain.BodyType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.service.BodyTypeService;
 
 @RestController
-@RequestMapping(value="api/body-type")
+@RequestMapping(value = EndpointConfig.BODY_TYPE_BASE_URL)
 public class BodyTypeController {
-	
-	@Autowired
-	private BodyTypeService bodyTypeService;
+
+	private final BodyTypeService bodyTypeService;
+
+	public BodyTypeController(BodyTypeService bodyTypeService) {
+		this.bodyTypeService = bodyTypeService;
+	}
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<FeatureDTO> create(@RequestBody FeatureDTO featureDTO){

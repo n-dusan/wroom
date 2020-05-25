@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.PriceListConverter;
 import xwsagent.wroomagent.domain.dto.PriceListDTO;
 import xwsagent.wroomagent.service.PriceListService;
@@ -12,11 +13,14 @@ import xwsagent.wroomagent.service.PriceListService;
 import java.util.List;
 
 @RestController
-@RequestMapping(value="api/price-list")
+@RequestMapping(value = EndpointConfig.PRICE_LIST_BASE_URL)
 public class PriceListController {
 
-    @Autowired
-    private PriceListService priceListService;
+    private final PriceListService priceListService;
+
+    public PriceListController(PriceListService priceListService) {
+        this.priceListService = priceListService;
+    }
 
     /**
      * GET /api/price-list

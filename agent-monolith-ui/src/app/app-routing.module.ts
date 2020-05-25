@@ -8,7 +8,7 @@ import { AuthGuard } from './modules/auth/guards/auth.guard';
 const routes: Routes = [
   { path: '', redirectTo: '/auth', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, canActivate:[AuthGuard] },
-  { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(mod => mod.AuthModule), canActivate:[AlreadyAuthenticatedGuard]},
+  { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(mod => mod.AuthModule) /*, canActivate:[AlreadyAuthenticatedGuard]*/},
   { path: 'rents', loadChildren: () => import('./modules/rents/rents.module').then(mod => mod.RentsModule)},
   { path: 'ads', loadChildren: () => import('./modules/ads/ads.module').then(mod => mod.AdsModule)},
   { path: 'vehicles', loadChildren: () => import('./modules/vehicles/vehicles.module').then(mod => mod.VehiclesModule)}

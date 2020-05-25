@@ -9,15 +9,19 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.domain.dto.UserDTO;
 import xwsagent.wroomagent.service.UserService;
 
 @RestController
-@RequestMapping(value="api/user")
+@RequestMapping(value = EndpointConfig.USER_BASE_URL)
 public class UserController {
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+
+	public UserController(UserService userService) {
+		this.userService = userService;
+	}
 	
 //	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value="/activate/{id}")
