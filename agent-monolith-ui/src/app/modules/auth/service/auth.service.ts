@@ -30,7 +30,7 @@ export class AuthService {
   }
 
   login(data: LoginRequest): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(map((res: LoggedUser) => {
+    return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(catchError(this.handleException)).pipe(map((res: LoggedUser) => {
       localStorage.setItem('token', JSON.stringify(res.token));
       this.loggedUserSubject.next(res);
       // console.log(this.loggedUser)

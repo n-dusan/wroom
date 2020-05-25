@@ -13,6 +13,7 @@
                     <mat-form-field fxFlex appearance="outline">
                         <mat-label>Password</mat-label>
                         <input matInput formControlName="pass" type="password">
+                        <!-- <mat-error *ngIf="errorMessage">{{errorMessage.errors[0]}}</mat-error> -->
                     </mat-form-field>
                 </div>
 
@@ -45,6 +46,7 @@
                     <mat-form-field fxFlex appearance="outline">
                         <mat-label>Repeat password</mat-label>
                         <input matInput formControlName="pass-rep" type="password">
+                        <mat-error *ngIf="signupForm && signupForm.controls['pass-rep'].errors && signupForm.controls['pass-rep'].errors.mustMatch">Password doesn't match</mat-error>
                     </mat-form-field>
                     <mat-form-field fxFlex appearance="outline">
                         <mat-label>Name</mat-label>

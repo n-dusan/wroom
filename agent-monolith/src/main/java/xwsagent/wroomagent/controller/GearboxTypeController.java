@@ -1,5 +1,6 @@
 package xwsagent.wroomagent.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import xwsagent.wroomagent.converter.GearboxTypeConverter;
 import xwsagent.wroomagent.domain.GearboxType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
+import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.service.GearboxTypeService;
 
 @RestController
@@ -29,12 +31,17 @@ public class GearboxTypeController {
 	private GearboxTypeService gearboxTypeService;
 	
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<FeatureDTO> create(@Valid @RequestBody FeatureDTO gearboxTypeDTO){
-		
-		return new ResponseEntity<>(
-			GearboxTypeConverter.fromEntity(gearboxTypeService.save(GearboxTypeConverter.toEntity(gearboxTypeDTO))),
-			HttpStatus.CREATED
-		);
+	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO gearboxTypeDTO){
+		try {
+			return new ResponseEntity<>(
+					GearboxTypeConverter.fromEntity(gearboxTypeService.save(GearboxTypeConverter.toEntity(gearboxTypeDTO))),
+					HttpStatus.CREATED
+			);
+		} catch(NullPointerException e) {
+			List<String> errors = new ArrayList<String>();
+			errors.add("Choosen name already exists!");
+			return new ResponseEntity<>(new APIError(HttpStatus.BAD_REQUEST, "Not valid", errors), HttpStatus.BAD_REQUEST);
+		}		
 	}
 	
 	@DeleteMapping(value = "/{name}")

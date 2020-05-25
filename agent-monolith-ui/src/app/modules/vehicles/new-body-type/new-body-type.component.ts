@@ -39,8 +39,8 @@ export class NewBodyTypeComponent implements OnInit {
       .subscribe(data => {
       this.toastr.success('You have successfully added Body Type!', 'Success')
     },
-    error =>{ this.errorMessage = true 
-              this.messageError = error});
+    error =>{ 
+      this.toastr.error(error.errors, 'Error')});
   }
 
   onSubmit() {
