@@ -1,5 +1,6 @@
 package xwsagent.wroomagent.service;
 
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.domain.ModelType;
-import xwsagent.wroomagent.domain.PriceList;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.repository.ModelTypeRepository;
@@ -29,7 +29,14 @@ public class ModelTypeService {
     }
 	
 	public ModelType save(ModelType modelType) {
-	    return modelTypeRepository.save(modelType);
+		ModelType entity = this.modelTypeRepository.findByName(modelType.getName());
+		if(entity == null) {
+			return modelTypeRepository.save(modelType);
+		}
+		else {
+			return null;
+		}
+	    
 	}
 	
 	public ModelType findByName(String name) {
