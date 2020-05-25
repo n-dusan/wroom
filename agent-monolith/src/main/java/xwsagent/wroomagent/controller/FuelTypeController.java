@@ -3,6 +3,7 @@ package xwsagent.wroomagent.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.FuelTypeConverter;
 import xwsagent.wroomagent.domain.FuelType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
@@ -24,11 +26,14 @@ import xwsagent.wroomagent.service.FuelTypeService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value="/api/fuel-type")
+@RequestMapping(value = EndpointConfig.FUEL_TYPE_BASE_URL)
 public class FuelTypeController {
 
-	@Autowired
-	private FuelTypeService fuelTypeService;
+	private final FuelTypeService fuelTypeService;
+
+	public FuelTypeController(FuelTypeService fuelTypeService) {
+		this.fuelTypeService = fuelTypeService;
+	}
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO fuelTypeDTO)  {

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.BrandTypeConverter;
 import xwsagent.wroomagent.domain.BrandType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
@@ -24,11 +25,15 @@ import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.service.BrandTypeService;
 
 @RestController
-@RequestMapping(value="api/brand-type")
+@RequestMapping(value = EndpointConfig.BRAND_TYPE_BASE_URL)
 public class BrandTypeController {
 	
-	@Autowired
-	private BrandTypeService brandTypeService;
+
+	private final BrandTypeService brandTypeService;
+
+	public BrandTypeController(BrandTypeService brandTypeService) {
+		this.brandTypeService = brandTypeService;
+	}
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO brandTypeDTO){

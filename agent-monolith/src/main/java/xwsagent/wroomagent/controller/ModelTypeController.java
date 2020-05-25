@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.ModelTypeConverter;
 import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
@@ -24,11 +25,14 @@ import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.service.ModelTypeService;
 
 @RestController
-@RequestMapping(value="api/model-type")
+@RequestMapping(value = EndpointConfig.MODEL_TYPE_BASE_URL)
 public class ModelTypeController {
-	
-	@Autowired
-	private ModelTypeService modelTypeService;
+
+	private final ModelTypeService modelTypeService;
+
+	public ModelTypeController(ModelTypeService modelTypeService) {
+		this.modelTypeService = modelTypeService;
+	}
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO modelTypeDTO){

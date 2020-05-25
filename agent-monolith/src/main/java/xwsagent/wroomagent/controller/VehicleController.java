@@ -20,16 +20,25 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import xwsagent.wroomagent.domain.ErrorResponse;
+import xwsagent.wroomagent.config.EndpointConfig;
+import xwsagent.wroomagent.domain.Image;
 import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
+import xwsagent.wroomagent.service.ImageService;
 import xwsagent.wroomagent.service.VehicleService;
 
 @RestController
-@RequestMapping(value="api/vehicle")
+@RequestMapping(value = EndpointConfig.VEHICLE_BASE_URL)
 public class VehicleController {
 
-	@Autowired
-	private VehicleService vehicleService;
+	private final VehicleService vehicleService;
+
+	private final ImageService imageService;
+
+	public VehicleController(VehicleService vehicleService, ImageService imageService) {
+		this.vehicleService = vehicleService;
+		this.imageService = imageService;
+	}
 	
 	@PostMapping(consumes = "application/json")
 	public Vehicle create(@Valid @RequestBody VehicleDTO vehicleDTO){

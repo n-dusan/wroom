@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.GearboxTypeConverter;
 import xwsagent.wroomagent.domain.GearboxType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
@@ -24,11 +25,14 @@ import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.service.GearboxTypeService;
 
 @RestController
-@RequestMapping(value = "api/gearbox-type")
+@RequestMapping(value = EndpointConfig.GEARBOX_TYPE_BASE_URL)
 public class GearboxTypeController {
 
-	@Autowired
-	private GearboxTypeService gearboxTypeService;
+	private final GearboxTypeService gearboxTypeService;
+
+	public GearboxTypeController(GearboxTypeService gearboxTypeService) {
+		this.gearboxTypeService = gearboxTypeService;
+	}
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO gearboxTypeDTO){
