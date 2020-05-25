@@ -5,12 +5,14 @@ import { MaterialModule } from '../shared/material.module';
 import { AuthRoutingModule } from './auth-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 
 
 @NgModule({
   declarations: [
-    AuthComponent
+    AuthComponent,
+    ChangePasswordComponent
   ],
   imports: [
     MaterialModule,

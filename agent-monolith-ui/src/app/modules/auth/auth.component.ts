@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SignupRequest } from './model/signup-request.model';
 import { AuthService } from './service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { LoginRequest } from './model/login-request.model';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { NewModelTypeComponent } from '../vehicles/new-model-type/new-model-type.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @Component({
   selector: 'app-auth',
@@ -23,7 +26,9 @@ export class AuthComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
     private toastr: ToastrService,
-    private router: Router) { }
+    private router: Router,
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
 
@@ -75,6 +80,19 @@ export class AuthComponent implements OnInit {
         console.log('ERROR MY BOYO', error)
       }
     )
+  }
+
+  changePasswordClick() {
+    const dialogRef = this.dialog.open(ChangePasswordComponent, {
+      width: '500px',
+      height: '400px',
+      // data: {isAdd: this.isAdd=true }
+    });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   this.loadModelData();
+    // });
+    // console.log(this.isAdd)
   }
 
   testClick() {
