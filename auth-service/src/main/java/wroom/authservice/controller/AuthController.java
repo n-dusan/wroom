@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import wroom.authservice.dto.LoggedUserDTO;
@@ -54,6 +56,20 @@ public class AuthController {
 		} catch (UsernameAlreadyExistsException e) {
 			return new ResponseEntity<>(HttpStatus.IM_USED);
 		}
+	}
+
+	@GetMapping("/whoami")
+	public ResponseEntity<?> whoami(Authentication auth) {
+		return new ResponseEntity<>(this.authService.whoami(auth), HttpStatus.OK);
+	}
+	
+ 
+	/*
+	 * Endpoint for e-mail confirmation
+	 */
+	@PutMapping("/confirm")
+	public ResponseEntity<?> emailConfirmation(@RequestBody String token) {
+		return new ResponseEntity<>(this.authService.confirm(token), HttpStatus.OK);
 	}
 
 }
