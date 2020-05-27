@@ -3,11 +3,13 @@ package wroom.authservice.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -60,52 +62,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-				.cors().and()
-				.csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
-				.httpBasic().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+		http.cors().and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
+				.httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
-				.exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
-				
-				.authorizeRequests()
-				.antMatchers("/**").permitAll()
-				.antMatchers("/api/auth/**").permitAll()
-				.antMatchers("/api/user/**").permitAll()
+//				.exceptionHandling().authenticationEntryPoint(this.unauthorizedHandler).and()
+
+				.authorizeRequests().antMatchers("/**").permitAll().antMatchers("/auth/**").permitAll()
+				.antMatchers("/user/**").permitAll()
 
 				.anyRequest().authenticated().and()
-
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-
-//		http.csrf().disable();
-
+				
+//				.headers()
+//				.contentSecurityPolicy(
+//						"script-src 'self' https://localhost:4200; " + "img-src 'self' https://localhost:4200;");
 	}
 
-	// csrf dodat zbog bezbednosti, ali kad se front upakuje u .jar ne igra nikakvu
-	// ulogu
-//   @Override
-//    protected void configure(HttpSecurity httpSecurity) throws Exception {
-//        httpSecurity
-//                .cors().and()
-//                .csrf()
-//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .httpBasic().disable()
-//                
-//                .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
-//
-//                .authorizeRequests().antMatchers("/api/auth/**").permitAll().and()
-//                .authorizeRequests().antMatchers("/api/user/**").permitAll()
-////                .authorizeRequests().antMatchers("/api/stub/**").permitAll()
-//
-//                .anyRequest().authenticated().and()
-//                .addFilterBefore(new TokenAuthenticationFilter(tokenUtils, jwtUserDetailsService),
-//						BasicAuthenticationFilter.class);
-
-	// redirect http -> https
-	// .requiresChannel().anyRequest().requiresSecure()
-//	;
-
+	
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		//Da bi serviranje iz static foldera dozvolio pristup početnoj strani bez potrebe za JWTom
+		web.ignoring().antMatchers(HttpMethod.GET,
+				"/",
+				"/webjars/**",
+				"/*.html",
+				"/favicon.ico",
+				"/**/*.html",
+				"/**/*.css",
+				"/**/*.js",
+				"/**/*.png",
+				"/**/*.jpg");
+		web.ignoring().antMatchers(HttpMethod.POST, "/login");
+		web.ignoring().antMatchers(HttpMethod.GET, "/signup");
+		web.ignoring().antMatchers(HttpMethod.GET, "/whoami");
+	}
 }
