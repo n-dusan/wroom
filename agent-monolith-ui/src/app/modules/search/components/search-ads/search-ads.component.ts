@@ -26,7 +26,7 @@ export class SearchAdsComponent implements OnInit {
     //   }
     // );
 
-    this.ads.push(new Ad(1,new Date(2020,5,15),new Date(2020,5,15),new Date(2020,6,15),120));
+    this.ads.push(new Ad(1, 1, new Date(2020,5,15),new Date(2020,6,15), 120, true, 1, 'Bulevar oslobodjenja 8', true));
   }
 
 }
