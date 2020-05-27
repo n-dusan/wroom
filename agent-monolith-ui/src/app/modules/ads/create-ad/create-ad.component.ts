@@ -7,6 +7,7 @@ import { VehicleListSelectComponent } from './vehicle-list-select/vehicle-list-s
 import { Location } from '../model/location.model';
 import { CreateCityComponent } from '../create-city/create-city.component';
 import { AdsService } from '../services/ads.service';
+import { PriceList } from '../../shared/models/price-list.model';
 
 @Component({
   selector: 'app-create-ad',
@@ -16,6 +17,7 @@ import { AdsService } from '../services/ads.service';
 export class CreateAdComponent implements OnInit {
 
   locations: Location[] = [];
+  priceList: PriceList;
 
   adForm: FormGroup;
   selectedMileType: string = 'UNLIMITED';
@@ -28,17 +30,19 @@ export class CreateAdComponent implements OnInit {
 
     this.adForm = this.formBuilder.group({
       'vehicle': new FormControl(null, [Validators.required]),
-      'priceList': new FormControl(null, [Validators.required]),
+      'priceList': new FormControl({ value: 'Not selected', disabled: true}, [Validators.required]),
       'availableFrom': new FormControl(null, [Validators.required]),
       'availableTo': new FormControl(null, [Validators.required]),
       'mileLimit': new FormControl(null, [Validators.required]),
       'location': new FormControl(null, [Validators.required]),
       'address': new FormControl(null, [Validators.required])
     });
-    this.adsService.getAllLocations().subscribe( (data: Location[]) => {
-      console.log('location data', data)
-      this.locations = data;
-    } )
+
+    this.adForm.get('location').valueChanges.subscribe((value) => {
+      console.log('my value', value)
+    })
+
+    this.refresh();
   }
 
   openVehicleModal() {
@@ -50,14 +54,32 @@ export class CreateAdComponent implements OnInit {
 
   openPriceListModal() {
     let dialogRef = this.dialog.open(PriceListSelectComponent);
-    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+    dialogRef.afterClosed().pipe(take(1)).subscribe((result: PriceList) => {
+      if(result) {
+        this.priceList = result;
+        this.adForm.get('priceList').setValue('Selected ' + this.priceList.pricePerDay + '$ per day');
+        console.log('set value', this.adForm.get('priceList').value)
+      }
     });
   }
 
   newLocation() {
     let dialogRef = this.dialog.open(CreateCityComponent);
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+      this.refresh()
     });
+  }
+
+
+  onFormSubmit() {
+
+  }
+
+  refresh() {
+    this.adsService.getAllLocations().subscribe( (data: Location[]) => {
+      console.log('location data', data)
+      this.locations = data;
+    } )
   }
 
 }

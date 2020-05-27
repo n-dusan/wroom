@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { PriceListService } from '../../services/price-list.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-price-list-select',
@@ -25,7 +26,8 @@ export class PriceListSelectComponent implements OnInit {
   selectedPriceList: string = '';
 
   constructor(
-    private priceListService: PriceListService
+    private priceListService: PriceListService,
+    public dialogRef: MatDialogRef<any>,
   ) { }
 
 
@@ -46,6 +48,7 @@ export class PriceListSelectComponent implements OnInit {
   onSelectChange(row: any) {
     //todo: on row selected, forward the data to the create-ad component (via dialog close data)
     console.log('wat i got', row)
+    this.dialogRef.close(row);
   }
 
 }

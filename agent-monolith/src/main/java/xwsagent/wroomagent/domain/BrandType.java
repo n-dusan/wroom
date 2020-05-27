@@ -32,5 +32,10 @@ public class BrandType {
 		this.deleted = false;
 	}
 
+	public BrandType(String name) {
+		this.name = name;
+		this.deleted = false;
+	}
+
 	
 }

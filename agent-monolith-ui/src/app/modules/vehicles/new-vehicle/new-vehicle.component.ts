@@ -44,10 +44,10 @@ export class NewVehicleComponent implements OnInit {
   imageNew: any[] = [];
   selectedFiles: File[]=[];
   newVehicle: Vehicle;
-  
+
   message: string;
 
-  constructor(private formBuilder: FormBuilder, private modelService: ModelTypeService, 
+  constructor(private formBuilder: FormBuilder, private modelService: ModelTypeService,
     private vehicleService: VehicleService, private brandService: BrandTypeService,
     private bodyService: BodyTypeService, private fuelService: FuelTypeService,
     private gearboxService: GearboxTypeService, private toastr: ToastrService) { }
@@ -96,42 +96,42 @@ export class NewVehicleComponent implements OnInit {
           this.gearboxList = data;
         }
       );
-      
+
   }
- 
+
   onNext1Click(){
 
   }
 
-  
+
   localUrl: any[];
   urls = [];
-  
+
   onSelectFile(event) {
     if (event.target.files && event.target.files[0]) {
         var filesAmount = event.target.files.length;
         for (let i = 0; i < filesAmount; i++) {
                 var reader = new FileReader();
                 reader.onload = (event:any) => {
-                   this.urls.push(event.target.result); 
+                   this.urls.push(event.target.result);
                 }
-                
+
                 reader.readAsDataURL(event.target.files[i]);
                 this.selectedFile = event.target.files[i];
                 this.selectedFiles.push(this.selectedFile);
         }
-    } 
+    }
   }
 
   save(vehicle: Vehicle){
-    
+    console.log('kakvo mi je vozilo', vehicle)
     this.vehicleService.create(vehicle).subscribe(
       data => {
         this.toastr.success('You have successfully added a vehicle!', 'Success')
         this.newVehicle = data;
         this.vehicleService.upload(this.selectedFiles, this.newVehicle.id).subscribe(
           data => {
-           
+
           });
       },
       error=> {
@@ -139,12 +139,12 @@ export class NewVehicleComponent implements OnInit {
       console.log(error)
       }
     );
-    
+
 
   }
 
   doneClick(){
-    
+
         const modelType = this.firstFormGroup.value.selectModel;
         const mType = this.modelList.find(x => x.id == modelType);
 
@@ -155,25 +155,25 @@ export class NewVehicleComponent implements OnInit {
         const bType = this.bodyList.find(x => x.id == bodyType);
 
         const fuelType = this.firstFormGroup.value.selectFuel;
-        const fType = this.bodyList.find(x => x.id == fuelType);
+        const fType = this.fuelList.find(x => x.id == fuelType);
 
         const gearboxType = this.firstFormGroup.value.selectGearbox;
-        const gType = this.bodyList.find(x => x.id == gearboxType);
-      
+        const gType = this.gearboxList.find(x => x.id == gearboxType);
+
         const mileage = this.secondFormGroup.value.mileage;
 
         const childSeats = this.thirdFormGroup.value.childSeats;
 
         const cdw = this.thirdFormGroup.value.cdw;
-        
+
         const newVehicle = new Vehicle(mileage, childSeats, cdw, mType,brType,bType,fType,gType);
-        
-        this.save(newVehicle); 
-      
-    
+
+        this.save(newVehicle);
+
+
   }
 
-  
-  
+
+
 
 }

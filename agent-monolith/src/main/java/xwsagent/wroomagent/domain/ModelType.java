@@ -23,5 +23,10 @@ public class ModelType {
 	
 	@Column(name = "deleted")
 	private boolean deleted;
+
+	public ModelType(String name) {
+		this.name = name;
+		this.deleted = false;
+	}
 	
 }

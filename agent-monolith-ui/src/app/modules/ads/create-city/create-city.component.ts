@@ -3,6 +3,7 @@ import { AdsService } from '../services/ads.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Location } from '../model/location.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-city',
@@ -15,10 +16,13 @@ export class CreateCityComponent implements OnInit {
 
   cityForm: FormGroup;
 
+  errorMessage: string = '';
+
   constructor(
     private adsService: AdsService,
     public dialogRef: MatDialogRef<any>,
-    private _formBuilder: FormBuilder) { }
+    private _formBuilder: FormBuilder,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.cityForm = this._formBuilder.group({
@@ -31,16 +35,15 @@ export class CreateCityComponent implements OnInit {
     if(this.cityForm.valid) {
       let country = this.cityForm.value.country;
       let city = this.cityForm.value.city;
-      console.log('country' + country + 'city ' + city);
-      let l: Location = new Location(null, country, city);
-      console.log('L is', l);
+
       this.adsService.createLocation(new Location(null, country, city)).subscribe((response) => {
         console.log('wat i got', response)
-      })
-
-      // this.adsService.getAllLocations().subscribe((response: Location) => {
-      //   console.log('wat i got', response)
-      // })
+        this.dialogRef.close();
+      }, (error) => {
+        for(let er of error.errors) {
+          this.toastr.error(er, 'Error')
+        }
+      });
     }
 
   }

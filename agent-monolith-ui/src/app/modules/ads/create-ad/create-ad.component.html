@@ -17,7 +17,10 @@
                 <div fxFlex>
                     <mat-form-field appearance="standard">
                         <mat-label>Price List</mat-label>
-                        <input matInput>
+
+                        <input matInput disabled
+                        value="{{adForm.get('priceList').value}}">
+
                     </mat-form-field>
                     &nbsp;
                     <button mat-raised-button color="primary"  (click)="openPriceListModal();">Choose</button>
@@ -81,7 +84,7 @@
 
             </mat-card-content>
             <mat-card-actions fxLayout="column" fxLayoutAlign="center">
-                <button fxFlex mat-raised-button color="accent">Confirm</button>
+                <button fxFlex mat-raised-button color="accent" (click)="onFormSubmit()">Confirm</button>
             </mat-card-actions>
         </mat-card>
     </form>

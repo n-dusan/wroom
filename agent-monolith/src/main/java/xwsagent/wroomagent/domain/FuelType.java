@@ -30,4 +30,9 @@ public class FuelType {
 	
 	@Column(name = "deleted")
 	private boolean deleted;
+
+	public FuelType(String name) {
+		this.name = name;
+		this.deleted = false;
+	}
 }

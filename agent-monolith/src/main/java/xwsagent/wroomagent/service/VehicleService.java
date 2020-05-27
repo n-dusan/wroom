@@ -7,39 +7,82 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import xwsagent.wroomagent.converter.VehicleConverter;
-import xwsagent.wroomagent.domain.Image;
-import xwsagent.wroomagent.domain.Vehicle;
+import xwsagent.wroomagent.domain.*;
+import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
-import xwsagent.wroomagent.repository.VehicleRepository;
+import xwsagent.wroomagent.jwt.UserPrincipal;
+import xwsagent.wroomagent.repository.*;
+import xwsagent.wroomagent.repository.rbac.UserRepository;
 
 @Service
 public class VehicleService {
 
-	@Autowired
-	VehicleRepository vehicleRepository;
+
+	private final VehicleRepository vehicleRepository;
+	private final ImageService imageService;
+	private final ModelTypeRepository modelTypeRepository;
+	private final BrandTypeRepository brandTypeRepository;
+	private final BodyTypeRepository bodyTypeRepository;
+	private final FuelTypeRepository fuelTypeRepository;
+	private final GearboxTypeRepository gearboxTypeRepository;
+	private final UserRepository userRepository;
+
+	public VehicleService(VehicleRepository vehicleRepository,
+						  ImageService imageService,
+						  ModelTypeRepository modelTypeRepository,
+						  BrandTypeRepository brandTypeRepository,
+						  BodyTypeRepository bodyTypeRepository,
+						  FuelTypeRepository fuelTypeRepository,
+						  GearboxTypeRepository gearboxTypeRepository,
+						  UserRepository userRepository) {
+		this.vehicleRepository = vehicleRepository;
+		this.imageService = imageService;
+		this.modelTypeRepository = modelTypeRepository;
+		this.brandTypeRepository = brandTypeRepository;
+		this.bodyTypeRepository = bodyTypeRepository;
+		this.fuelTypeRepository = fuelTypeRepository;
+		this.gearboxTypeRepository = gearboxTypeRepository;
+		this.userRepository = userRepository;
+	}
 	
-	@Autowired 
-	ImageService imageService;
-	
-	public List<Vehicle> getAll(){
-		return vehicleRepository.findAll();	
+	public List<Vehicle> getAllActive(){
+		return vehicleRepository.findAllActive();
 	}
 	
 	public Vehicle findOne(Long id) {
 		return vehicleRepository.findById(id).orElseGet(null);
 	}
-	
-	public Vehicle save(VehicleDTO vehicledto) {
+
+	/**
+	 *
+	 * @param vehicledto
+	 * @param auth - currently logged in user, the one who creates the vehicle
+	 * @return created vehicle
+	 */
+	public Vehicle save(VehicleDTO vehicledto, Authentication auth) {
 		Vehicle entity = VehicleConverter.toEntity(vehicledto);
+		entity.setModelType(this.modelTypeRepository.findByName(vehicledto.getModelType().getName()));
+		entity.setBrandType(this.brandTypeRepository.findByName(vehicledto.getBrandType().getName()));
+		entity.setBodyType(this.bodyTypeRepository.findByName(vehicledto.getBodyType().getName()));
+		entity.setFuelType(this.fuelTypeRepository.findByName(vehicledto.getFuelType().getName()));
+		entity.setGearboxType(this.gearboxTypeRepository.findByName(vehicledto.getGearboxType().getName()));
+		//weird java syntax to set Optional<User>
+		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		Optional<User> loggedInUser = userRepository.findByEmail(user.getUsername());
+		if(loggedInUser.isPresent()) {
+			entity.setOwner(loggedInUser.get());
+		}
 		return vehicleRepository.save(entity);
 	}
-	
+
 	public void postImages(List<MultipartFile> files, Vehicle vehicle) {
 		List<Image> images = new ArrayList<Image>();
 		for(MultipartFile f : files) {

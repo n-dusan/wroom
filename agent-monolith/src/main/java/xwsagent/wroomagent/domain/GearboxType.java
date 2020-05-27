@@ -32,4 +32,8 @@ public class GearboxType {
     @Column(name = "deleted")
 	private boolean deleted;
 
+    public GearboxType(String name) {
+        this.name = name;
+        this.deleted = false;
+    }
 }
