@@ -1,1 +1,59 @@
-<p>search-ads works!</p>
+<div class="content" fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10px">
+
+    <div fxFlex="20%" class="filters">
+        <mat-card class="filters-card">
+            <mat-card-header>
+                <mat-card-title>Filters</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+                <p>
+                    The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+                    A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+                    bred for hunting.
+                </p>
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                <button fxFlex mat-button>Apply</button>
+                <button fxFlex mat-button>Reset</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <div fxFlex="80%" class="ads-containter">
+        <div class="basic-search">
+            <form fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+                <mat-form-field appearance="standard" fxFlex="20%">
+                    <mat-label>Location</mat-label>
+                    <mat-select>
+                      <mat-option value="option">Option</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="standard" fxFlex="20%">
+                    <mat-label>From</mat-label>
+                    <input matInput [matDatepicker]="fromPicker">
+                    <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #fromPicker></mat-datepicker>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="standard" fxFlex="20%">
+                    <mat-label>To</mat-label>
+                    <input matInput [matDatepicker]="toPicker">
+                    <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #toPicker></mat-datepicker>
+                  </mat-form-field>
+
+                  <button mat-mini-fab color="accent" aria-label="Search">
+                    <mat-icon>search</mat-icon>
+                  </button>
+            </form>
+        </div>
+        <mat-selection-list [multiple]="false" style="width: 100%;">
+            <mat-list-option *ngFor="let ad of ads">
+                {{ad.id}}
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+
+</div>

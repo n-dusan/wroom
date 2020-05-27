@@ -82,3 +82,8 @@ values (1, false, 'Dizel');
 insert into gearbox_type(id, deleted, name)
 values (1, false, 'Manuelni');
 --------------------------------------------
+
+--------------  ADS  ----------------
+--"mm-dd-yyyy razmak sat:minut"
+insert into ad(id, available_from, available_to, mile_limit, publish_date, price_list_id, vehicle_id) 
+values(1, '05-17-2020 01:00', '06-17-2020 01:00', 120, '05-17-2020 01:00', null, null);
