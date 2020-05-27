@@ -26,7 +26,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   isLoadingResults: boolean = true;
-  displayedColumns: string[] = ['price per day', 'price per mile', 'collision damage waiver', 'discount %', 'edit', 'delete'];
+  displayedColumns: string[] = ['price-per-day', 'price-per-mile', 'collision-damage-waiver', 'discount-%', 'edit', 'delete'];
 
   dataSource: MatTableDataSource<PriceList> = new MatTableDataSource;
 

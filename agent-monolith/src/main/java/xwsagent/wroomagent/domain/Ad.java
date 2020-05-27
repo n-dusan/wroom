@@ -43,6 +43,12 @@ public class Ad {
 	
 	@Column
 	private Double mileLimit;
+
+	@Column
+	private boolean mileLimitEnabled;
+
+	@Column
+	private String address;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Vehicle vehicle;
@@ -50,10 +56,9 @@ public class Ad {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private PriceList priceList;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Location location;
+
 	@OneToMany(mappedBy = "ad")
 	private Set<Rate> rates;
-
-
-	@OneToMany(mappedBy="vehicle")
-	private Set<Image> image;
 }

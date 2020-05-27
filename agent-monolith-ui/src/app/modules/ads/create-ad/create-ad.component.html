@@ -1,8 +1,8 @@
 <div class="content" fxLayout="column" fxLayoutAlign="center center" style="padding-top: 25px;">
 
-    <h1>Create new Ad</h1>
+    <h1>How about an Ad?</h1>
 
-    <form fxFlex [formGroup]="form">
+    <form fxFlex [formGroup]="adForm">
         <mat-card class="example-card">
             <mat-card-content fxLayout="column" fxLayoutAlign="center">
                 <div fxFlex>
@@ -42,10 +42,41 @@
                 </div>
 
                 <div fxFlex>
-                    <mat-form-field>
-                        <mat-label>Mile Limit</mat-label>
-                        <input matInput type="number">
-                    </mat-form-field>
+                    Mileage: &emsp;
+                    <mat-radio-group [(ngModel)]="selectedMileType" [ngModelOptions]="{standalone: true}">
+
+                      <mat-radio-button name="LIMITED" value="LIMITED"></mat-radio-button>
+                      <mat-label for="LIMITED">Limited </mat-label>
+
+                      <mat-radio-button name="UNLIMITED" value="UNLIMITED"></mat-radio-button>
+                      <mat-label for="UNLIMITED">Unlimited </mat-label>
+                    </mat-radio-group>
+
+                </div>
+                <div fxFlex>
+                  <mat-form-field *ngIf="selectedMileType=='LIMITED'">
+                    <mat-label>Mile limit</mat-label>
+                    <input matInput type="number">
+                  </mat-form-field>
+                </div>
+                <div fxFlex>
+                  <mat-form-field>
+                    <mat-label>Location</mat-label>
+                    <mat-select formControlName="location">
+                      <mat-option *ngFor="let location of locations" selected value={{location.id}}>{{location.city}}, {{location.country}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="adForm.get('location').hasError('required')">Field must not be empty!</mat-error>
+                  </mat-form-field>
+                  &nbsp;
+                    <button mat-raised-button color="primary" (click)="newLocation()">Add</button>
+                </div>
+
+                <div fxFlex>
+                  <mat-form-field>
+                    <mat-label>Address</mat-label>
+                    <input matInput type="text">
+                  </mat-form-field>
+
                 </div>
 
             </mat-card-content>

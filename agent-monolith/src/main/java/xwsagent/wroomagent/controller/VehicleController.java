@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,9 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
-import xwsagent.wroomagent.domain.ErrorResponse;
+import xwsagent.wroomagent.exception.ErrorResponse;
 import xwsagent.wroomagent.config.EndpointConfig;
-import xwsagent.wroomagent.domain.Image;
 import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
 import xwsagent.wroomagent.service.ImageService;

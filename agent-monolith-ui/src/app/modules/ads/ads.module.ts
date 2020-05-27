@@ -9,6 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 import { PriceListSelectComponent } from './price-lists/price-list-select/price-list-select.component';
 import { CreateAdComponent } from './create-ad/create-ad.component';
 import { VehicleListSelectComponent } from './create-ad/vehicle-list-select/vehicle-list-select.component';
+import { CreateCityComponent } from './create-city/create-city.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { VehicleListSelectComponent } from './create-ad/vehicle-list-select/vehi
     DialogComponent,
     PriceListSelectComponent,
     CreateAdComponent,
-    VehicleListSelectComponent
+    VehicleListSelectComponent,
+    CreateCityComponent
   ],
   imports: [
     MaterialModule,

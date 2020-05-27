@@ -5,6 +5,8 @@
 
 delete from users;
 delete from user_roles;
+delete from ad;
+delete from location;
 
 insert into roles(id, name)
 values (1, 'ROLE_USER');

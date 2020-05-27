@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { PriceListSelectComponent } from '../price-lists/price-list-select/price-list-select.component';
 import { MatDialog } from '@angular/material/dialog';
-import { take, takeUntil } from 'rxjs/operators'
+import { take } from 'rxjs/operators'
 import { VehicleListSelectComponent } from './vehicle-list-select/vehicle-list-select.component';
+import { Location } from '../model/location.model';
+import { CreateCityComponent } from '../create-city/create-city.component';
+import { AdsService } from '../services/ads.service';
 
 @Component({
   selector: 'app-create-ad',
@@ -12,23 +15,30 @@ import { VehicleListSelectComponent } from './vehicle-list-select/vehicle-list-s
 })
 export class CreateAdComponent implements OnInit {
 
+  locations: Location[] = [];
 
-  form: FormGroup;
-  
+  adForm: FormGroup;
+  selectedMileType: string = 'UNLIMITED';
 
   constructor(private formBuilder: FormBuilder,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private adsService: AdsService) { }
 
   ngOnInit(): void {
 
-    this.form = this.formBuilder.group({
+    this.adForm = this.formBuilder.group({
       'vehicle': new FormControl(null, [Validators.required]),
       'priceList': new FormControl(null, [Validators.required]),
       'availableFrom': new FormControl(null, [Validators.required]),
       'availableTo': new FormControl(null, [Validators.required]),
       'mileLimit': new FormControl(null, [Validators.required]),
+      'location': new FormControl(null, [Validators.required]),
+      'address': new FormControl(null, [Validators.required])
     });
-
+    this.adsService.getAllLocations().subscribe( (data: Location[]) => {
+      console.log('location data', data)
+      this.locations = data;
+    } )
   }
 
   openVehicleModal() {
@@ -40,6 +50,12 @@ export class CreateAdComponent implements OnInit {
 
   openPriceListModal() {
     let dialogRef = this.dialog.open(PriceListSelectComponent);
+    dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
+    });
+  }
+
+  newLocation() {
+    let dialogRef = this.dialog.open(CreateCityComponent);
     dialogRef.afterClosed().pipe(take(1)).subscribe(result => {
     });
   }
