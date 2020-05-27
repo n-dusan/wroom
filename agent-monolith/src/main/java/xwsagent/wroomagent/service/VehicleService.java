@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.domain.Image;
+import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
 import xwsagent.wroomagent.repository.VehicleRepository;
@@ -28,7 +29,8 @@ public class VehicleService {
 	ImageService imageService;
 	
 	public List<Vehicle> getAll(){
-		return vehicleRepository.findAll();	
+		
+		return vehicleRepository.findAll();
 	}
 	
 	public Vehicle findOne(Long id) {

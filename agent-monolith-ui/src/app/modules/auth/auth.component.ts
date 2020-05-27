@@ -89,7 +89,7 @@ export class AuthComponent implements OnInit {
       error => {
         this.errorMessage = error;
         console.log(this.errorMessage)
-        for(let er of error.error.errors) {
+        for(let er of error.errors) {
           this.toastr.error(er, 'Error')
         }
       }

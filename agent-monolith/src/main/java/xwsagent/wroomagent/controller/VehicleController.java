@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +22,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import xwsagent.wroomagent.domain.ErrorResponse;
 import xwsagent.wroomagent.config.EndpointConfig;
+import xwsagent.wroomagent.converter.ModelTypeConverter;
+import xwsagent.wroomagent.converter.PriceListConverter;
+import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.domain.Image;
 import xwsagent.wroomagent.domain.Vehicle;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
+import xwsagent.wroomagent.domain.dto.PriceListDTO;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
 import xwsagent.wroomagent.service.ImageService;
 import xwsagent.wroomagent.service.VehicleService;
@@ -55,12 +61,12 @@ public class VehicleController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        List<String> details = new ArrayList<>();
-        details.add(ex.getLocalizedMessage());
-        String s = ex.getLocalizedMessage();
-        ErrorResponse error = new ErrorResponse(s, details);
-        return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+	 @GetMapping(produces = "application/json")
+	 public ResponseEntity<List<VehicleDTO>> getAll() {
+	    return new ResponseEntity<>(
+	          VehicleConverter.fromEntityList(vehicleService.getAll(), VehicleConverter::fromEntity),
+	          HttpStatus.OK
+	    );
+	 }
+	
 }
