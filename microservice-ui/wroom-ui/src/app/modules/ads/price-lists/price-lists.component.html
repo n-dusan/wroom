@@ -1,0 +1,69 @@
+<div fxLayout="column wrap"  style="margin-top: 50px; margin-left: 50px; margin-right: 50px;">
+
+  <div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" >
+    <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner mode="indeterminate"></mat-spinner>
+  </div>
+
+  <ng-container matColumnDef="price per day">
+    <th mat-header-cell *matHeaderCellDef> Price per day </th>
+    <td mat-cell *matCellDef="let priceData"> {{ priceData.pricePerDay}} $ </td>
+  </ng-container>
+
+  <ng-container matColumnDef="price per mile">
+    <th mat-header-cell *matHeaderCellDef> Price per mile  </th>
+    <td mat-cell *matCellDef="let priceData"> {{ priceData.pricePerMile }} $ </td>
+  </ng-container>
+
+  <ng-container matColumnDef="collision damage waiver">
+    <th mat-header-cell *matHeaderCellDef> Collision damage waiver </th>
+    <td mat-cell *matCellDef="let priceData"> {{ priceData.priceCDW }} $ </td>
+  </ng-container>
+
+  <ng-container matColumnDef="discount %">
+    <th mat-header-cell *matHeaderCellDef> Discount (%) </th>
+    <td mat-cell *matCellDef="let priceData"> {{ priceData.discount }} % </td>
+  </ng-container>
+
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef>
+      <button mat-button (click)="onAddPriceListClick()"><mat-icon>add</mat-icon></button>
+    </th>
+    <td mat-cell *matCellDef="let priceData">
+      <button mat-button (click)="onEditPriceListClick(priceData)"><mat-icon>edit</mat-icon></button>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="delete">
+    <th mat-header-cell *matHeaderCellDef>  </th>
+    <td mat-cell *matCellDef="let priceData">
+      <button mat-button (click)="onDeletePriceListClick(priceData)"><mat-icon>delete</mat-icon></button>
+    </td>
+  </ng-container>
+
+
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>
+
+<mat-paginator [pageSizeOptions]="[10, 15, 30]"  [length]="dataSource.data?.length" showFirstLastButtons></mat-paginator>
+</div>
+
+<div>
+  <br/>
+  <br/>
+  <h1> hi </h1>
+  <button mat-raised-button
+  color="primary" (click)="openSelect()"> Test my super awesome css  </button>
+
+</div>
+</div>
+
+
+
+
+

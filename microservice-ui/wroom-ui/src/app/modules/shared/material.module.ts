@@ -23,6 +23,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
+
 const modules = [
   MatButtonModule,
   MatTableModule,
@@ -56,6 +57,6 @@ const modules = [
   providers: [
     { provide: MAT_DIALOG_DATA, useValue: {} },
     { provide: MatDialogRef, useValue: {} }
-  ]
+]
 })
 export class MaterialModule { }

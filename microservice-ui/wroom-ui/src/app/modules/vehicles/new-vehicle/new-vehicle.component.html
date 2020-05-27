@@ -1,0 +1,113 @@
+<section fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top: 25px;"
+   *ngIf="!success">
+  <h1 style="font-size:30px; color:rgb(0, 0, 0)">New Vehicle</h1>
+  <mat-horizontal-stepper style="padding: 15px" [linear]="isLinear" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" #stepper>
+
+    <mat-step>
+      <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" (ngSubmit)="onNext1Click()"
+      style="padding: 15px" [formGroup] = "firstFormGroup">
+        <ng-template  matStepLabel>General</ng-template>
+
+        <mat-form-field>
+          <mat-label>Vehicle Brand</mat-label>
+          <mat-select formControlName="selectBrand">
+            <mat-option *ngFor="let brand of brandList" selected value={{brand.id}}>{{brand.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('selectBrand').hasError('required')">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Vehicle Model</mat-label>
+          <mat-select formControlName="selectModel">
+            <mat-option *ngFor="let model of modelList" selected value={{model.id}}>{{model.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('selectModel').hasError('required')">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field>
+          <mat-label>Vehicle Fuel</mat-label>
+          <mat-select formControlName="selectFuel">
+            <mat-option *ngFor="let fuel of fuelList" selected value={{fuel.id}}>{{fuel.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('selectFuel').hasError('required')">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Vehicle Body</mat-label>
+          <mat-select formControlName="selectBody">
+            <mat-option *ngFor="let body of bodyList" selected value={{body.id}}>{{body.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('selectBody').hasError('required')">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Vehicle Gearbox</mat-label>
+          <mat-select formControlName="selectGearbox">
+            <mat-option *ngFor="let gearbox of gearboxList" selected value={{gearbox.id}}>{{gearbox.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="firstFormGroup.get('selectGearbox').hasError('required')">Field must not be empty!</mat-error>
+        </mat-form-field>
+
+        <div>
+          <button mat-raised-button color="accent" type="button" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <form fxFlex="80%" fxLayout="column" fxLayoutAlign="center center" (ngSubmit)="onNext1Click()" 
+      [formGroup] = "secondFormGroup">
+        <ng-template matStepLabel>Mileage</ng-template>
+        <mat-form-field>
+          <input type="number" formControlName="mileage" matInput placeholder="Mileage" name="mileage" required>
+          <mat-error *ngIf="secondFormGroup.get('mileage').hasError('required')">Field must not be empty!</mat-error>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button color="accent" type="button" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step >
+      <form fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" [formGroup] = "thirdFormGroup">
+        <ng-template matStepLabel>Other</ng-template>
+        <mat-form-field>
+          <input type="number" formControlName="childSeats" matInput placeholder="Child Seats" min="3" max="5"  name="childSeats" required>
+          <mat-error *ngIf="thirdFormGroup.get('childSeats').hasError('required')">Field must not be empty!</mat-error>
+          <mat-error>Please enter a value between 3 and 5</mat-error>
+        </mat-form-field>
+        <mat-checkbox name="agree" formControlName="cdw" required color="primary">Collision Damage Waiver</mat-checkbox>
+        <div>
+          <button mat-raised-button color="accent" type="button" matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <form fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" method="post" enctype="multipart/form-data"  [formGroup] = "fourthFormGroup">
+        <ng-template matStepLabel>Images</ng-template>
+        <div id="divImages" class="grid-container" style="border-style: solid; padding:10px;border-top-color: rgb(212, 113, 106);">
+          <img *ngFor='let localUrl of urls'  [src]="localUrl" height="150" width="120"> 
+        </div>
+          <div>
+            <br/>
+            <button mat-mini-fab color="accent" (click)="fileInput.click()"><mat-icon>attach_file</mat-icon></button>
+            <label matLabel>
+            Select images
+            </label>
+          </div>
+          <input #fileInput type='file' id="file" name="file" (change)="onSelectFile($event)" multiple style="display:none;">
+          <br>
+          
+          <button mat-raised-button color="accent" fancyBtn (click)="doneClick()" matStepperNext>Done</button>
+        
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+</section>
+
+<div *ngIf="success" fxFlex="100%" fxLayout="column" fxLayoutAlign="center center" style="margin-top:25px">
+  <img style=" display: block; margin-left: auto; margin-right: auto; width: 20%;"
+ *ngIf="success"class="loadingIcon" src="https://media.giphy.com/media/dZoDigtipLngohGPEk/giphy.gif">
+  <h1 style="margin-top: 15px;">Loading...</h1>
+  <h3>Your request is being processed.</h3>
+</div>
