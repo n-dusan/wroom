@@ -25,19 +25,6 @@ public class AdController {
         this.adService = adService;
     }
 	
-	/**
-     * GET /api/ad
-     * @return all ads
-     */
-    @GetMapping
-    public ResponseEntity<List<AdDTO>> getAll() {
-        return new ResponseEntity<>(
-                AdConverter.fromEntityList(adService.getAll(), AdConverter::fromEntity),
-                HttpStatus.OK
-        );
-    }
-	
-
 
     @PostMapping
     public ResponseEntity<AdDTO> save(@Valid @RequestBody AdDTO adDTO) {
