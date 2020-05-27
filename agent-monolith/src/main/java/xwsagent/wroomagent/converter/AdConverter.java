@@ -1,39 +1,37 @@
 package xwsagent.wroomagent.converter;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 
+
 public class AdConverter extends AbstractConverter {
 
-	public static AdDTO fromEntity(Ad entity) {
-		return new AdDTO(
-				entity.getId(),
-				entity.getPublishDate().toString(),
-				entity.getAvailableFrom().toString(),
-				entity.getAvailableTo().toString(),
-				entity.getMileLimit()
-		);
-	}
-	
-	/**
-	 * 
-	 * @param dateString - String representation of a date
-	 * @return Date in 'dd.MM.yyyy 'at' HH:mm:ss' format
-	 */
-	private static Date parseDate(String dateString) {
-		Date parsed;
-		try {
-		    SimpleDateFormat format =
-		        new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm:ss");
-		    parsed = format.parse(dateString);
-		    return parsed;
-		}
-		catch(ParseException pe) {
-		    throw new IllegalArgumentException(pe);
-		}
-	}
+    public static AdDTO fromEntity(Ad entity) {
+        return new AdDTO(
+                entity.getVehicle().getId(),
+                entity.getPriceList().getId(),
+                entity.getAvailableFrom(),
+                entity.getAvailableTo(),
+                entity.getMileLimit(),
+                entity.isMileLimitEnabled(),
+                entity.getLocation().getId(),
+                entity.getAddress(),
+                entity.isGps()
+        );
+    }
+
+    public static Ad toEntity(AdDTO dto) {
+        Ad ad = new Ad();
+        ad.setAvailableFrom(dto.getAvailableFrom());
+        ad.setAvailableTo(dto.getAvailableTo());
+        if(dto.isMileLimitEnabled()) {
+            ad.setMileLimit(dto.getMileLimit());
+            ad.setMileLimitEnabled(true);
+        } else {
+            ad.setMileLimitEnabled(false);
+        }
+        ad.setAddress(dto.getAddress());
+        ad.setGps(dto.isGps());
+        return ad;
+    }
 }

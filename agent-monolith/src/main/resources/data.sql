@@ -8,6 +8,8 @@ delete from user_roles;
 delete from permission;
 delete from role_permissions;
 delete from roles;
+delete from ad;
+delete from location;
 
 insert into roles(id, name)
 values (1, 'ROLE_USER');

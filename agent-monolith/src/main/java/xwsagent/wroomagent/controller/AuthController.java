@@ -49,7 +49,7 @@ public class AuthController {
 
 		String logContent = String.format(LOG_LOGIN, request.getEmail(), httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
 		try {
-			log.info(logContent + "Trying to login");
+			log.info(logContent);
 			LoggedUserDTO ret = this.authService.login(request);
 			return new ResponseEntity<>(ret, HttpStatus.OK);
 		} catch(BadCredentialsException ex) {

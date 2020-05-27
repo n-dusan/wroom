@@ -1,4 +1,4 @@
-package xwsagent.wroomagent.domain;
+package xwsagent.wroomagent.exception;
 
 import java.util.List;
 

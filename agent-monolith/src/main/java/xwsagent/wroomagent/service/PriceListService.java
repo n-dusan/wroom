@@ -13,8 +13,11 @@ import java.util.List;
 @Service
 public class PriceListService {
 
-    @Autowired
-    private PriceListRepository priceListRepository;
+    private final PriceListRepository priceListRepository;
+
+    public PriceListService(PriceListRepository priceListRepository) {
+        this.priceListRepository = priceListRepository;
+    }
 
     public List<PriceList> getAll() {
         return priceListRepository.findAll();

@@ -8,10 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import xwsagent.wroomagent.domain.BodyType;
 import xwsagent.wroomagent.domain.BrandType;
 import xwsagent.wroomagent.domain.FuelType;
@@ -22,6 +19,7 @@ import xwsagent.wroomagent.domain.ModelType;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class VehicleDTO {
 
 	private Long id;
@@ -35,18 +33,19 @@ public class VehicleDTO {
 	private Boolean cdw;
 	
 	@NotNull(message = "Model Type may not be blank.")
-	private ModelType modelType;
+	private FeatureDTO modelType;
 	
 	@NotNull(message = "Brand Type may not be blank.")
-	private BrandType brandType;
+	private FeatureDTO brandType;
 	
 	@NotNull(message = "Body Type may not be blank.")
-	private BodyType bodyType;
+	private FeatureDTO bodyType;
 	
 	@NotNull(message = "Fuel Type may not be blank.")
-	private FuelType fuelType;
+	private FeatureDTO fuelType;
 	
 	@NotNull(message = "Gearbox Type may not be blank.")
-	private GearboxType gearboxType;
-	
+	private FeatureDTO gearboxType;
+
+
 }

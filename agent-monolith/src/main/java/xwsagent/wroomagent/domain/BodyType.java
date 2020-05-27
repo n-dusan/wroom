@@ -41,4 +41,9 @@ public class BodyType {
 		this.deleted = false;
 	}
 
+	public BodyType(String name) {
+		this.name = name;
+		this.deleted = false;
+	}
+
 }

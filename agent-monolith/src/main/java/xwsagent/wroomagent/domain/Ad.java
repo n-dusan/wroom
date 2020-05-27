@@ -29,7 +29,6 @@ public class Ad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date publishDate;
@@ -44,6 +43,15 @@ public class Ad {
 	
 	@Column
 	private Double mileLimit;
+
+	@Column
+	private boolean mileLimitEnabled;
+
+	@Column
+	private boolean gps;
+
+	@Column
+	private String address;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Vehicle vehicle;
@@ -51,10 +59,9 @@ public class Ad {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private PriceList priceList;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Location location;
+
 	@OneToMany(mappedBy = "ad")
 	private Set<Rate> rates;
-
-
-	@OneToMany(mappedBy="vehicle")
-	private Set<Image> image;
 }

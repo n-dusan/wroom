@@ -2,8 +2,10 @@ package xwsagent.wroomagent.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import xwsagent.wroomagent.domain.Ad;
+import xwsagent.wroomagent.domain.Location;
 
 @Repository
-public interface AdRepository extends JpaRepository<Ad, Long> {
+public interface LocationRepository extends JpaRepository<Location, Long> {
+
+    Location findOneById(Long id);
 }

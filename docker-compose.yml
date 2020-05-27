@@ -82,7 +82,7 @@ services:
 #      - mysql
 #    links:
 #      - eureka
-
+#
 #  vehicle-service:
 #    build:
 #      context: ./vehicle-service
@@ -238,11 +238,11 @@ services:
       - ./pki/tingle/certificates:/etc/certificates
       - ./pki/tingle/.truststore:/etc
 
-# build ui seperately from agent
+## build ui seperately from agent
 #  agent-monolith-ui:
-#   # build:
-#     # context: ./agent-ui
-#    #  dockerfile: Dockerfile
+#    build:
+#      context: ./agent-ui
+#      dockerfile: Dockerfile
 #    image: xws:agent-ui
 #    container_name: agent-ui
 #    ports:

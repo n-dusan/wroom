@@ -5,13 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class AdDTO {
 
-	private Long id;
-	private String publishDate;
-	private String availableFrom;
-	private String availableTo;
-	private Double mileLimit;
-	
+    private Long vehicleId;
+    private Long priceListId;
+    private Date availableFrom;
+    private Date availableTo;
+    private Double mileLimit;
+    private boolean mileLimitEnabled;
+    private Long locationId;
+    private String address;
+    private boolean gps;
 }
