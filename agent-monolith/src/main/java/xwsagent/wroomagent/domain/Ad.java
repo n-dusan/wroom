@@ -28,7 +28,6 @@ public class Ad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date publishDate;
@@ -46,6 +45,9 @@ public class Ad {
 
 	@Column
 	private boolean mileLimitEnabled;
+
+	@Column
+	private boolean gps;
 
 	@Column
 	private String address;

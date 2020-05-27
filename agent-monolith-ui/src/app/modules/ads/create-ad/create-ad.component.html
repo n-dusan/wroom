@@ -8,7 +8,9 @@
                 <div fxFlex>
                     <mat-form-field appearance="standard">
                         <mat-label>Vehicle</mat-label>
-                        <input matInput>
+                        <input matInput formControlName="vehicle"
+                        value="{{adForm.get('vehicle').value}}">
+                        <mat-error *ngIf="adForm.get('vehicle').hasError('required')">Required.</mat-error>
                     </mat-form-field>
                     &nbsp;
                     <button mat-raised-button color="primary" (click)="openVehicleModal();">Choose</button>
@@ -18,9 +20,9 @@
                     <mat-form-field appearance="standard">
                         <mat-label>Price List</mat-label>
 
-                        <input matInput disabled
+                        <input matInput formControlName="priceList"
                         value="{{adForm.get('priceList').value}}">
-
+                        <mat-error *ngIf="adForm.get('priceList').hasError('required')">Required.</mat-error>
                     </mat-form-field>
                     &nbsp;
                     <button mat-raised-button color="primary"  (click)="openPriceListModal();">Choose</button>
@@ -29,7 +31,7 @@
                 <div fxFlex>
                     <mat-form-field>
                         <mat-label>Available from</mat-label>
-                        <input matInput [matDatepicker]="fromPicker">
+                        <input matInput [matDatepicker]="fromPicker" formControlName="availableFrom">
                         <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                         <mat-datepicker #fromPicker></mat-datepicker>
                     </mat-form-field>
@@ -38,7 +40,7 @@
                 <div fxFlex>
                     <mat-form-field>
                         <mat-label>Available to</mat-label>
-                        <input matInput [matDatepicker]="toPicker">
+                        <input matInput [matDatepicker]="toPicker" formControlName="availableTo">
                         <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                         <mat-datepicker #toPicker></mat-datepicker>
                     </mat-form-field>
@@ -59,7 +61,7 @@
                 <div fxFlex>
                   <mat-form-field *ngIf="selectedMileType=='LIMITED'">
                     <mat-label>Mile limit</mat-label>
-                    <input matInput type="number">
+                    <input matInput formControlName="mileLimit" type="number">
                   </mat-form-field>
                 </div>
                 <div fxFlex>
@@ -77,9 +79,16 @@
                 <div fxFlex>
                   <mat-form-field>
                     <mat-label>Address</mat-label>
-                    <input matInput type="text">
+                    <input matInput formControlName="address" type="text">
                   </mat-form-field>
 
+                </div>
+
+                <div fxFlex>
+                    <mat-slide-toggle formControlName="gps"
+                        [checked]="checked">
+                      Track vehicle via GPS
+                </mat-slide-toggle>
                 </div>
 
             </mat-card-content>

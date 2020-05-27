@@ -6,4 +6,6 @@ import xwsagent.wroomagent.domain.Location;
 
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
+
+    Location findOneById(Long id);
 }

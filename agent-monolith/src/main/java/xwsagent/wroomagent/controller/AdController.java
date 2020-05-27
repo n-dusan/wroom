@@ -5,7 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import xwsagent.wroomagent.config.EndpointConfig;
+import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.converter.LocationConverter;
+import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.domain.dto.LocationDTO;
 import xwsagent.wroomagent.service.AdService;
 
@@ -23,6 +25,11 @@ public class AdController {
         this.adService = adService;
     }
 
+
+    @PostMapping
+    public ResponseEntity<AdDTO> save(@Valid @RequestBody AdDTO adDTO) {
+        return new ResponseEntity<>(AdConverter.fromEntity(adService.save((adDTO))), HttpStatus.OK);
+    }
 
     /**
      * POST /api/ads/location

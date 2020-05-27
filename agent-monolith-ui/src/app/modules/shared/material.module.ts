@@ -22,7 +22,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const modules = [
   MatButtonModule,
@@ -48,7 +48,8 @@ const modules = [
   MatPaginatorModule,
   MatRadioModule,
   MatDatepickerModule,
-  MatNativeDateModule
+  MatNativeDateModule,
+  MatSlideToggleModule
 ]
 
 @NgModule({

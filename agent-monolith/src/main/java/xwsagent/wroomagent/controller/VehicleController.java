@@ -49,9 +49,9 @@ public class VehicleController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getVehicles() {
+	public ResponseEntity<?> getVehicles(Authentication auth) {
 		return new ResponseEntity<>(
-				VehicleConverter.fromEntityList(vehicleService.getAllActive(), VehicleConverter::fromEntity),
+				VehicleConverter.fromEntityList(vehicleService.getAllActive(auth), VehicleConverter::fromEntity),
 				HttpStatus.OK
 		);
 	}

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -53,8 +54,8 @@ public class VehicleService {
 		this.userRepository = userRepository;
 	}
 	
-	public List<Vehicle> getAllActive(){
-		return vehicleRepository.findAllActive();
+	public List<Vehicle> getAllActive(Authentication auth){
+		return vehicleRepository.findAllActiveForUser(((UserPrincipal) auth.getPrincipal()).getId());
 	}
 	
 	public Vehicle findOne(Long id) {

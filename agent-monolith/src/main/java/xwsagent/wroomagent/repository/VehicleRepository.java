@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Long>{
 
-    @Query(value="select v.* from vehicle v where deleted=false", nativeQuery=true)
-    List<Vehicle> findAllActive();
+    @Query(value="select v.* from vehicle v where deleted=false and v.owner_id=?1", nativeQuery=true)
+    List<Vehicle> findAllActiveForUser(Long ownerId);
+
+    Vehicle findOneById(Long id);
 }

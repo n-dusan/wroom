@@ -1,0 +1,59 @@
+<div class="content" fxLayout="column" fxLayoutAlign="center center" style="padding-top: 25px;">
+
+    <h1>Create new Ad</h1>
+
+    <form fxFlex [formGroup]="form">
+        <mat-card class="example-card">
+            <mat-card-content fxLayout="column" fxLayoutAlign="center">
+                <div fxFlex>
+                    <mat-form-field appearance="standard">
+                        <mat-label>Vehicle</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    &nbsp;
+                    <button mat-raised-button color="primary" (click)="openVehicleModal();">Choose</button>
+                </div>
+
+                <div fxFlex>
+                    <mat-form-field appearance="standard">
+                        <mat-label>Price List</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    &nbsp;
+                    <button mat-raised-button color="primary"  (click)="openPriceListModal();">Choose</button>
+                </div>
+
+                <div fxFlex>
+                    <mat-form-field>
+                        <mat-label>Available from</mat-label>
+                        <input matInput [matDatepicker]="fromPicker">
+                        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #fromPicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div fxFlex>
+                    <mat-form-field>
+                        <mat-label>Available to</mat-label>
+                        <input matInput [matDatepicker]="toPicker">
+                        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #toPicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div fxFlex>
+                    <mat-form-field>
+                        <mat-label>Mile Limit</mat-label>
+                        <input matInput type="number">
+                    </mat-form-field>
+                </div>
+
+            </mat-card-content>
+            <mat-card-actions fxLayout="column" fxLayoutAlign="center">
+                <button fxFlex mat-raised-button color="accent">Confirm</button>
+            </mat-card-actions>
+        </mat-card>
+    </form>
+
+
+</div>

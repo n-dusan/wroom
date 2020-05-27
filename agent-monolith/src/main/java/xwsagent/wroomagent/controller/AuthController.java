@@ -3,9 +3,9 @@ package xwsagent.wroomagent.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,17 +17,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.log4j.Log4j2;
 import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.exception.APIError;
-import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.service.AuthenticationService;
 import xwsagent.wroomagent.util.RequestCounter;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = EndpointConfig.AUTH_BASE_URL)
