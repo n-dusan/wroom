@@ -5,6 +5,9 @@
 
 delete from users;
 delete from user_roles;
+delete from permission;
+delete from role_permissions;
+delete from roles;
 
 insert into roles(id, name)
 values (1, 'ROLE_USER');
@@ -16,7 +19,7 @@ insert into roles(id, name)
 values (3, 'ROLE_ADMIN');
 
 insert into roles(id, name)
-values (1, 'ROLE_BANNED_USER');
+values (4, 'ROLE_BANNED_USER');
 
 
 ------- Permisije obicnog korisnika -------
