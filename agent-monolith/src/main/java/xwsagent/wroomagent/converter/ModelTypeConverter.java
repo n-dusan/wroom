@@ -8,7 +8,8 @@ public class ModelTypeConverter extends AbstractConverter {
 	public static FeatureDTO fromEntity(ModelType entity) {
 		return new FeatureDTO(
 				entity.getId(),
-				entity.getName());
+				entity.getName(),
+				entity.getBrandType().getId());
 	}
 	
 	public static ModelType toEntity(FeatureDTO dto) {

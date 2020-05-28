@@ -8,7 +8,8 @@ public class GearboxTypeConverter extends AbstractConverter{
 	public static FeatureDTO fromEntity(GearboxType entity) {
 		return new FeatureDTO(
 				entity.getId(),
-				entity.getName()
+				entity.getName(),
+				null
 		);
 	}
 	
