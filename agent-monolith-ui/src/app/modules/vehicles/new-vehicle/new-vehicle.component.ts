@@ -13,11 +13,14 @@ import { BodyType } from '../../shared/models/body-type.model';
 import { GearboxType } from '../../shared/models/gearbox-type.model';
 import { FuelType } from '../../shared/models/fuel-type.model';
 import { ToastrService } from 'ngx-toastr';
+import { Router, ActivatedRoute } from '@angular/router';
 
 class ImageSnippet {
   pending: boolean = false;
   status: string = 'init';
-  constructor(public src: string, public file: File) {}
+
+  constructor(public src: string,
+    public file: File) {}
 }
 
 @Component({
@@ -50,7 +53,8 @@ export class NewVehicleComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private modelService: ModelTypeService,
     private vehicleService: VehicleService, private brandService: BrandTypeService,
     private bodyService: BodyTypeService, private fuelService: FuelTypeService,
-    private gearboxService: GearboxTypeService, private toastr: ToastrService) { }
+    private gearboxService: GearboxTypeService, private toastr: ToastrService,
+    private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
       this.firstFormGroup = this.formBuilder.group({
@@ -124,14 +128,14 @@ export class NewVehicleComponent implements OnInit {
   }
 
   save(vehicle: Vehicle){
-    console.log('kakvo mi je vozilo', vehicle)
     this.vehicleService.create(vehicle).subscribe(
       data => {
         this.toastr.success('You have successfully added a vehicle!', 'Success')
         this.newVehicle = data;
         this.vehicleService.upload(this.selectedFiles, this.newVehicle.id).subscribe(
           data => {
-
+            //after finishing vehicle creation, redirect to table overview
+            this.router.navigate(['../overview'], {relativeTo: this.activatedRoute });
           });
       },
       error=> {

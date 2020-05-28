@@ -38,8 +38,11 @@ export class VehicleService {
 
     getVehicles(): Observable<Vehicle[]> {
         return this.http.get<Vehicle[]>(this.baseUrl, httpOptions);
-   }
+    }
 
+   getImages(id: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getImages/` + id);
+   }  
 
     private handleException(err: HttpErrorResponse): Observable<never> {
         return throwError(err.error);

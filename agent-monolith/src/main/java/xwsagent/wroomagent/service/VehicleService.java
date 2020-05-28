@@ -18,9 +18,11 @@ import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.Image;
 import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
+import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.repository.*;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
+import xwsagent.wroomagent.repository.VehicleRepository;
 
 @Service
 public class VehicleService {
@@ -58,8 +60,9 @@ public class VehicleService {
 		return vehicleRepository.findAllActiveForUser(((UserPrincipal) auth.getPrincipal()).getId());
 	}
 
-	public Vehicle findOne(Long id) {
-		return vehicleRepository.findById(id).orElseGet(null);
+	public Vehicle findById(Long id) {
+		return vehicleRepository.findById(id)
+				.orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " vehicle"));
 	}
 
 	/**
@@ -94,7 +97,7 @@ public class VehicleService {
 		String path = "./src/main/resources/static/images/";
 		File newFile = new File(path + fileName);
 		System.out.println(newFile.getAbsolutePath());
-			System.out.println(newFile.get);
+			//System.out.println(newFile.getP);
 		try {
 			in = f.getInputStream();
 			
