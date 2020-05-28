@@ -83,6 +83,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/auth/**").permitAll()
 				.antMatchers("/api/stub/**").permitAll()
 				.antMatchers("/api/ads/**").permitAll()
+				.antMatchers("/api/vehicle/**").permitAll()
+				
 				
 				.anyRequest().authenticated().and()
 
@@ -112,5 +114,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.GET, "api/auth/signup");
 		web.ignoring().antMatchers(HttpMethod.GET, "api/auth/whoami");
 		web.ignoring().antMatchers(HttpMethod.GET, "api/ads/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "api/vehicle/**");
 	}
 }

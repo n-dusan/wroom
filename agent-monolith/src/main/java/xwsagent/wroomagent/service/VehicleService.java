@@ -56,6 +56,10 @@ public class VehicleService {
 	}
 	
 
+	public List<Vehicle> findAll() {
+		return vehicleRepository.findAll();
+	}
+	
 	public List<Vehicle> getAllActive(Authentication auth) {
 		return vehicleRepository.findAllActiveForUser(((UserPrincipal) auth.getPrincipal()).getId());
 	}

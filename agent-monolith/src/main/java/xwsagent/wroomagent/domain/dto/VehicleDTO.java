@@ -2,19 +2,13 @@ package xwsagent.wroomagent.domain.dto;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 
-import lombok.*;
-import xwsagent.wroomagent.domain.BodyType;
-import xwsagent.wroomagent.domain.BrandType;
-import xwsagent.wroomagent.domain.FuelType;
-import xwsagent.wroomagent.domain.GearboxType;
-import xwsagent.wroomagent.domain.ModelType;
-import xwsagent.wroomagent.domain.auth.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter

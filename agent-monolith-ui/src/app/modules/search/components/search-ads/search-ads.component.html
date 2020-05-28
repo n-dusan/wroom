@@ -153,14 +153,13 @@
                     <div fxFlex>
                         <mat-card-header fxLayout="row" fxLayoutAlign="center">
                             <div fxFlex>
-                                <mat-card-title>*Brand* *Model*</mat-card-title>
-                                <mat-card-subtitle>*Location*</mat-card-subtitle>
+                                <mat-card-title>{{ad?.vehicleObj?.brandType.name}} {{ad?.vehicleObj?.modelType.name}}</mat-card-title>
+                                <mat-card-subtitle>{{ad?.locationObj?.city}}, {{ad?.locationObj?.country}}</mat-card-subtitle>
                             </div>
                             <div fxFlex="20%">
-                                <button mat-icon-button color="accent" aria-label="Price">
-                                    *price by day*
-                                    <mat-icon>attach_money</mat-icon>
-                                </button>
+                                <button mat-mini-fab color="accent" aria-label="Price">
+                                    {{ad?.priceListObj?.pricePerDay}}$
+                                  </button>
                             </div>
                         </mat-card-header>
 
@@ -169,15 +168,15 @@
                                 <tbody>
                                     <tr>
                                         <td>Fuel:</td>
-                                        <td>*fuel*</td>
+                                        <td>{{ad?.vehicleObj?.fuelType.name}}</td>
                                     </tr>
                                     <tr>
                                         <td>Gearbox:</td>
-                                        <td>*gearbox*</td>
+                                        <td>{{ad?.vehicleObj?.gearboxType.name}}</td>
                                     </tr>
                                     <tr>
                                         <td>Body:</td>
-                                        <td>*body*</td>
+                                        <td>{{ad?.vehicleObj?.bodyType.name}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -188,15 +187,21 @@
                                 <tbody>
                                     <tr>
                                         <td>Mileage:</td>
-                                        <td>*mileage*</td>
+                                        <td>{{ad?.vehicleObj?.mileage}}</td>
                                     </tr>
                                     <tr>
                                         <td>Collision Damage Waiver:</td>
-                                        <td>*cdw*</td>
+                                        <td>
+                                            <mat-icon *ngIf="!ad?.vehicleObj?.cdw">close</mat-icon>
+                                            <mat-icon *ngIf="ad?.vehicleObj?.cdw">check</mat-icon>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Child Seats:</td>
-                                        <td>*child seats*</td>
+                                        <td>
+                                            <mat-icon *ngIf="!ad?.vehicleObj?.childSeats">close</mat-icon>
+                                            <mat-icon *ngIf="ad?.vehicleObj?.childSeats">check</mat-icon>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>

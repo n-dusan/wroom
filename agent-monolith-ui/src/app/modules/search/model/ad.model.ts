@@ -1,3 +1,7 @@
+import { Vehicle } from './vehicle.model';
+import { AdLocation } from './ad-location.model';
+import { PriceList } from './price-list.model';
+
 export class Ad {
     constructor(
       public id?: number,
@@ -9,6 +13,9 @@ export class Ad {
       public mileLimitEnabled?: boolean,
       public locationId?: number,
       public address?: string,
-      public gps?: boolean
+      public gps?: boolean,
+      public vehicleObj?: Vehicle,
+      public locationObj?: AdLocation,
+      public priceListObj?: PriceList
     ) {}
   }
