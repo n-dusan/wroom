@@ -9,15 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.tomcat.util.http.parser.Authorization;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import xwsagent.wroomagent.converter.VehicleConverter;
-import xwsagent.wroomagent.domain.*;
 import xwsagent.wroomagent.domain.auth.User;
+import xwsagent.wroomagent.domain.Image;
+import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.repository.*;
@@ -54,10 +53,11 @@ public class VehicleService {
 		this.userRepository = userRepository;
 	}
 	
-	public List<Vehicle> getAllActive(Authentication auth){
+
+	public List<Vehicle> getAllActive(Authentication auth) {
 		return vehicleRepository.findAllActiveForUser(((UserPrincipal) auth.getPrincipal()).getId());
 	}
-	
+
 	public Vehicle findOne(Long id) {
 		return vehicleRepository.findById(id).orElseGet(null);
 	}
@@ -90,9 +90,11 @@ public class VehicleService {
 		InputStream in = null;
 		OutputStream out = null;
 		String fileName = f.getOriginalFilename();
+			System.out.println("File name " + fileName);
 		String path = "./src/main/resources/static/images/";
 		File newFile = new File(path + fileName);
 		System.out.println(newFile.getAbsolutePath());
+			System.out.println(newFile.get);
 		try {
 			in = f.getInputStream();
 			
