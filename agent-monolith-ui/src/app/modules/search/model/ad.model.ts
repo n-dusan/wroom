@@ -1,6 +1,7 @@
-import { Vehicle } from './vehicle.model';
+
 import { AdLocation } from './ad-location.model';
 import { PriceList } from './price-list.model';
+import { Vehicle } from './vehicle.model';
 
 export class Ad {
     constructor(

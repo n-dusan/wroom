@@ -11,26 +11,40 @@ delete from roles;
 delete from ad;
 delete from location;
 
+------------- ROLE -----------------
 insert into roles(id, name)
 values (1, 'ROLE_USER');
-
 insert into roles(id, name)
 values (2, 'ROLE_AGENT');
-
 insert into roles(id, name)
 values (3, 'ROLE_ADMIN');
-
 insert into roles(id, name)
 values (4, 'ROLE_BANNED_USER');
 
+----------- PERMISIJE ----------------
+insert into permission(id, name)
+values (1, 'RENT');
+insert into permission(id, name)
+values (2, 'CHAT');
+insert into permission(id, name)
+values (3, 'RATE');
+insert into permission(id, name)
+values (4, 'RENT_HISTORY');
+insert into permission(id, name)
+values (5, 'POST_ADS');
 
 ------- Permisije obicnog korisnika -------
-insert into permission(id, name)
-values (1, 'RENT_REQUEST_CREATE');
 insert into role_permissions(role_id, permission_id)
 values (1, 1);
+insert into role_permissions(role_id, permission_id)
+values (1, 2);
+insert into role_permissions(role_id, permission_id)
+values (1, 3);
+insert into role_permissions(role_id, permission_id)
+values (1, 4);
+insert into role_permissions(role_id, permission_id)
+values (1, 5);
 ------------------------------------------
-
 
 ------------- Permisije agenta -----------
 
@@ -47,7 +61,7 @@ values (1, 1);
 ------------------------------------------
 
 
-
+------------------ KORISNICI ---------------------
 -- sifre svih usera su <<user>>123, npr mila123
 insert into users(id, email, name, password, surname, enabled, non_locked)
 values (1, 'mila@maildrop.cc', 'Mila', '$2a$10$5EIPh4FLRCczl/.mnQhHP.8GmBJT2tL8kgBS1qDALVaybk6hh5o5.', 'Stojakovic', 1, 1);
@@ -71,26 +85,59 @@ values (3, 3);
 ---------------Vehicle features-------------
 insert into model_type(id, deleted, name)
 values (1, false, 'R8');
+insert into model_type(id, deleted, name)
+values (2, false, 'Octavia');
+insert into model_type(id, deleted, name)
+values (3, false, 'Astra');
 
 insert into brand_type(id, deleted, name)
 values (1, false, 'Audi');
+insert into brand_type(id, deleted, name)
+values (2, false, 'Škoda');
+insert into brand_type(id, deleted, name)
+values (3, false, 'Opel');
+insert into brand_type(id, deleted, name)
+values (4, false, 'Volkswagen');
 
 insert into body_type(id, deleted, name)
-values (1, false, 'Gradski auto');
+values (1, false, 'Sedan');
+insert into body_type(id, deleted, name)
+values (2, false, 'Wagon');
+insert into body_type(id, deleted, name)
+values (3, false, 'Hatchback');
+insert into body_type(id, deleted, name)
+values (4, false, 'Coupe');
+insert into body_type(id, deleted, name)
+values (5, false, 'Pickup');
+insert into body_type(id, deleted, name)
+values (6, false, 'Van');
 
 insert into fuel_type(id, deleted, name)
-values (1, false, 'Dizel');
+values (1, false, 'Diesel');
+insert into fuel_type(id, deleted, name)
+values (2, false, 'Gasoline');
+insert into fuel_type(id, deleted, name)
+values (3, false, 'Petrol');
 
 insert into gearbox_type(id, deleted, name)
-values (1, false, 'Manuelni');
+values (1, false, 'Manual');
+insert into gearbox_type(id, deleted, name)
+values (2, false, 'Automatic');
 --------------------------------------------
 -- Location
 insert into location(id, country, city)
 values (1, 'Arizona', 'Phoenix');
-
 insert into location(id, country, city)
 values (2, 'China', 'Wuhan');
+insert into location(id, country, city)
+values (3, 'Spain', 'Madrid');
+insert into location(id, country, city)
+values (4, 'Italy', 'Rome');
 
 -- Price list
 insert into price_list(id, deleted, discount, pricecdw, price_per_day, price_per_mile)
 values(1, false, 20, 642, 23, 3);
+insert into price_list(id, deleted, discount, pricecdw, price_per_day, price_per_mile)
+values(2, false, 10, 435, 30, 5);
+insert into price_list(id, deleted, discount, pricecdw, price_per_day, price_per_mile)
+values(3, false, 25, 500, 35, 7);

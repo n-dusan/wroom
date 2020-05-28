@@ -13,35 +13,35 @@
                     <mat-form-field appearance="standard" fxFlex>
                         <mat-label>Brand</mat-label>
                         <mat-select>
-                            <mat-option value="option">Option</mat-option>
+                            <mat-option *ngFor="let brand of brands" value="brand.id">{{brand.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="standard" fxFlex>
                         <mat-label>Model</mat-label>
                         <mat-select>
-                            <mat-option value="option">Option</mat-option>
+                            <mat-option *ngFor="let model of models" value="model.id">{{model.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="standard" fxFlex>
                         <mat-label>Fuel</mat-label>
                         <mat-select>
-                            <mat-option value="option">Option</mat-option>
+                            <mat-option *ngFor="let fuel of fuels" value="fuel.id">{{fuel.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="standard" fxFlex>
                         <mat-label>Gearbox</mat-label>
                         <mat-select>
-                            <mat-option value="option">Option</mat-option>
+                            <mat-option *ngFor="let gb of gearboxes" value="gb.id">{{gb.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
                     <mat-form-field appearance="standard" fxFlex>
                         <mat-label>Body</mat-label>
                         <mat-select>
-                            <mat-option value="option">Option</mat-option>
+                            <mat-option *ngFor="let body of bodies" value="body.id">{{body.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -84,7 +84,7 @@
                 <mat-form-field appearance="standard" fxFlex="20%">
                     <mat-label>Location</mat-label>
                     <mat-select>
-                        <mat-option value="option">Option</mat-option>
+                        <mat-option *ngFor="let location of locations" value="location.id">{{location.city}}, {{location.country}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 

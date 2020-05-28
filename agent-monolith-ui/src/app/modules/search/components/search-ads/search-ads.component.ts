@@ -10,6 +10,7 @@ import { VehicleService } from '../../service/vehicle.service';
 import { PriceList } from '../../model/price-list.model';
 import { AdLocation } from '../../model/ad-location.model';
 import { PriceListService } from '../../service/price-list.service';
+import { VehicleFeature } from '../../model/vehicle-feature.model';
 
 @Component({
   selector: 'app-search-ads',
@@ -22,6 +23,13 @@ export class SearchAdsComponent implements OnInit {
   vehicles: Vehicle[] = [];
   locations: AdLocation[] = [];
   priceLists: PriceList[] = [];
+
+  // Filters
+  brands: VehicleFeature[] = [];
+  models: VehicleFeature[] = [];
+  fuels: VehicleFeature[] = [];
+  gearboxes: VehicleFeature[] = [];
+  bodies: VehicleFeature[] = [];
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -94,8 +102,56 @@ export class SearchAdsComponent implements OnInit {
       }
     );
     
+    // Fetching filters
+    this.vehicleService.getBrands().subscribe(
+      data => {
+        this.brands = data;
+        console.log('brands', this.brands)
+      }, 
+      error => {
+        this.toastr.error('There was an error!', 'Brands')
+      }
+    );
 
+    this.vehicleService.getModels().subscribe(
+      data => {
+        this.models = data;
+        console.log('models', this.models)
+      }, 
+      error => {
+        this.toastr.error('There was an error!', 'Models')
+      }
+    );
 
+    this.vehicleService.getFuels().subscribe(
+      data => {
+        this.fuels = data;
+        console.log('fuels', this.fuels)
+      }, 
+      error => {
+        this.toastr.error('There was an error!', 'Fuels')
+      }
+    );
+
+    this.vehicleService.getGearboxes().subscribe(
+      data => {
+        this.gearboxes = data;
+        console.log('gearboxes', this.gearboxes)
+      }, 
+      error => {
+        this.toastr.error('There was an error!', 'Gearboxes')
+      }
+    );
+
+    this.vehicleService.getBodies().subscribe(
+      data => {
+        this.bodies = data;
+        console.log('bodies', this.bodies)
+      }, 
+      error => {
+        this.toastr.error('There was an error!', 'Bodies')
+      }
+    );
   }
 
 
