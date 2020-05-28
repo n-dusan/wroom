@@ -24,6 +24,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatBadgeModule } from '@angular/material/badge';
+
 
 const modules = [
   MatButtonModule,
@@ -51,7 +53,8 @@ const modules = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatSlideToggleModule,
-  MatDividerModule
+  MatDividerModule,
+  MatBadgeModule
 ]
 
 @NgModule({

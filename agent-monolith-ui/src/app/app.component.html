@@ -9,16 +9,27 @@
             <!-- <button mat-icon-button color="accent" routerLink="/messages">
           <mat-icon>email</mat-icon>
         </button> -->
-            <div *ngIf="!user">
+            <div class="navLink" *ngIf="!user">
                 <button mat-raised-button color="accent" routerLink="/auth">
                     Log In
                 </button>
             </div>
-            <div *ngIf="user">
-                <button mat-raised-button  (click)="logout()">
+            <div class="navLink" *ngIf="user">
+                <button mat-icon-button color="accent" >
+                    <mat-icon matBadge="3" matBadgePosition="after" matBadgeColor="warn">mail</mat-icon>
+                </button>
+            </div>
+            <div class="navLink" *ngIf="user">
+                <button mat-icon-button color="accent" >
+                    <mat-icon matBadge="8" matBadgePosition="after" matBadgeColor="warn">shopping_cart</mat-icon>
+                </button>
+            </div>
+            <div class="navLink" *ngIf="user">
+                <button mat-raised-button (click)="logout()">
                     Log out
                 </button>
             </div>
+            
 
         </div>
     </mat-toolbar>

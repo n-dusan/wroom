@@ -70,8 +70,8 @@
                 </form>
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
-                <button fxFlex mat-button>Reset</button>
-                <button fxFlex mat-button>Apply</button>
+                <button fxFlex mat-raised-button>Reset</button>
+                <button fxFlex mat-raised-button color="accent">Apply</button>
             </mat-card-actions>
         </mat-card>
     </div>
@@ -157,8 +157,7 @@
                                 <mat-card-subtitle>*Location*</mat-card-subtitle>
                             </div>
                             <div fxFlex="20%">
-                                <button mat-icon-button color="accent"
-                                    aria-label="Price">
+                                <button mat-icon-button color="accent" aria-label="Price">
                                     *price by day*
                                     <mat-icon>attach_money</mat-icon>
                                 </button>
@@ -212,6 +211,9 @@
                     <button mat-raised-button color="primary" fxFlex>Details</button>
                 </mat-card-actions>
             </mat-card>
+
+            <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]">
+            </mat-paginator>
         </div>
 
     </div>
