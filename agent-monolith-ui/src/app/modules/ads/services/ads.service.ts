@@ -52,6 +52,10 @@ export class AdsService {
     return this.http.post<Location>(this.adsUrl + '/location', location).pipe(catchError(this.handleException));
   }
 
+  findLocation(id: number): Observable<Location> {
+    return this.http.get<Location>(this.adsUrl + '/location/' + id).pipe(catchError(this.handleException));
+  }
+
 
   getAllVehicles(): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(this.vehicleUrl).pipe(catchError(this.handleException));

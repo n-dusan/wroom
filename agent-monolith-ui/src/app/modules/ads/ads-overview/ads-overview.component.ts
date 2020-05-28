@@ -4,13 +4,15 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Ad } from '../model/ad.model';
 import { MatDialog } from '@angular/material/dialog';
-import { PriceListService } from '../services/price-list.service';
 import { AdsService } from '../services/ads.service';
 import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../auth/service/auth.service';
 import { LoggedUser } from '../../auth/model/logged-user.model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
+import { VehicleDetailsComponent } from '../../vehicles/vehicle-details/vehicle-details.component';
+import { VehicleService } from '../services/vehicle.service';
+import { Vehicle } from '../../shared/models/vehicle.model';
 
 @Component({
   selector: 'app-ads-overview',
@@ -31,7 +33,7 @@ export class AdsOverviewComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private priceListService: PriceListService,
+    private vehicleService: VehicleService,
     private adsService: AdsService,
     private authService: AuthService,
     private router: Router,
@@ -75,20 +77,29 @@ export class AdsOverviewComponent implements OnInit {
 
 
   vehicleDetails(ad: Ad) {
+    this.vehicleService.getVehicle(ad.vehicleId).subscribe( (vehicle: Vehicle) => {
+      this.dialog.open(VehicleDetailsComponent, {
+        data: vehicle
+      });
+    })
+  }
+
+  priceListDetails(ad: Ad) {
     this.dialog.open(DetailsDialogComponent, {
       data: {
-        type: "VEHICLE",
-        data: ad.vehicleId
+        type: "PRICE_LIST",
+        id: ad.priceListId
       }
     });
   }
 
-  priceListDetails(ad: Ad) {
-
-  }
-
   locationDetails(ad: Ad) {
-
+    this.dialog.open(DetailsDialogComponent, {
+      data: {
+        type: "LOCATION",
+        id: ad.locationId
+      }
+    });
   }
 
 

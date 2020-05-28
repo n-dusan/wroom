@@ -12,7 +12,8 @@ import { FeaturesOverviewComponent } from './features-overview/features-overview
 import { NewGearboxTypeComponent } from './new-gearbox-type/new-gearbox-type.component';
 import { NewVehicleComponent } from './new-vehicle/new-vehicle.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
-import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
+
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,16 +24,16 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.compo
     FeaturesOverviewComponent,
     NewGearboxTypeComponent,
     NewVehicleComponent,
-    VehicleListComponent,
-    VehicleDetailsComponent
+    VehicleListComponent
   ],
   imports: [
-    MaterialModule,
+    SharedModule,
     VehiclesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    MaterialModule
   ],
   exports: []
 })
