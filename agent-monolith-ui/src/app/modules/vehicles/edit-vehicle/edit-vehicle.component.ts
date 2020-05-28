@@ -12,6 +12,9 @@ import { GearboxType } from '../../shared/models/gearbox-type.model';
 import { FuelType } from '../../shared/models/fuel-type.model';
 import { BrandType } from '../../shared/models/brand-type.model';
 import { BodyType } from '../../shared/models/body-type.model';
+import { VehicleService } from '../services/vehicle-features/vehicle.service';
+import { Vehicle } from '../../shared/models/vehicle.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-vehicle',
@@ -24,6 +27,7 @@ export class EditVehicleComponent implements OnInit {
   bodyList: BodyType[] = [];
   fuelList: FuelType[] = [];
   gearboxList: GearboxType[] = [];
+  new: Vehicle = new Vehicle();
   
   constructor(private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<VehicleListComponent>,
@@ -32,6 +36,8 @@ export class EditVehicleComponent implements OnInit {
     private bodyService: BodyTypeService,
     private fuelService: FuelTypeService,
     private gearboxService: GearboxTypeService,
+    private vehicleService: VehicleService,
+    private toastr: ToastrService,
     //@Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
 
@@ -73,6 +79,23 @@ export class EditVehicleComponent implements OnInit {
         this.gearboxList = data;
       }
     );
+  }
+
+  onSubmitUpdate(id: number){
+    this.vehicleService.update(id,this.local_data.element).subscribe(
+      data => {
+        this.new.childSeats = this.vehicleUpdateForm.value.childSeatsEdit;
+        this.new.mileage = this.vehicleUpdateForm.value.mileageEdit;
+        this.new.modelType = this.vehicleUpdateForm.value.selectModel;
+        this.new.brandType = this.vehicleUpdateForm.value.selectBrand;
+        this.new.bodyType = this.vehicleUpdateForm.value.selectBody;
+        this.new.fuelType = this.vehicleUpdateForm.value.selectFuel;
+        this.new.gearboxType = this.vehicleUpdateForm.value.selectGearbox;
+        this.new.cdw = this.vehicleUpdateForm.value.cdw;
+        this.toastr.success('You have successfully added Body Type!', 'Success')
+      },
+      error => this.toastr.success('Error!', 'Error')
+    )
   }
 
   vehicleUpdateForm = new FormGroup({

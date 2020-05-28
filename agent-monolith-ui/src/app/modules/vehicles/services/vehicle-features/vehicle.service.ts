@@ -52,6 +52,10 @@ export class VehicleService {
     return this.http.delete(this.baseUrl + '/' + id, { responseType: 'text' });
   }
 
+  update(id: number, value: any){
+    return this.http.put(`${this.baseUrl}/${id}`, value);
+  }
+
     private handleException(err: HttpErrorResponse): Observable<never> {
         return throwError(err.error);
       }

@@ -53,7 +53,7 @@
         <mat-checkbox name="cdw" formControlName="cdw" [(ngModel)]="local_data.element.cdw" required color="primary">Collision Damage Waiver</mat-checkbox>
         <br/>        
         <div>
-            <button mat-raised-button color="accent" type="submit">Edit</button>
+            <button mat-raised-button color="accent" type="submit" (click)="onSubmitUpdate(local_data.element.id)">Edit</button>
         </div>
     </form>
 </section>

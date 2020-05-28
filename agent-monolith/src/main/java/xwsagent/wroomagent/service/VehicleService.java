@@ -17,8 +17,11 @@ import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Image;
+import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.Vehicle;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
+import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.repository.*;
@@ -75,6 +78,24 @@ public class VehicleService {
         vehicle.setDeleted(true);
         vehicleRepository.save(vehicle);
     }
+	
+	public Vehicle update(Vehicle vehicle, VehicleDTO vehicleDTO) {
+		if(vehicleDTO == null) {
+			throw new InvalidDataException("Forwarded DTO is null");
+		}	
+		
+		vehicle.setChildSeats(vehicleDTO.getChildSeats());
+		vehicle.setCdw(vehicleDTO.getCdw());
+		vehicle.setMileage(vehicleDTO.getMileage());
+		vehicle.setModelType(this.modelTypeRepository.findByName(vehicleDTO.getModelType().getName()));
+		vehicle.setBrandType(this.brandTypeRepository.findByName(vehicleDTO.getBrandType().getName()));
+		vehicle.setBodyType(this.bodyTypeRepository.findByName(vehicleDTO.getBodyType().getName()));
+		vehicle.setFuelType(this.fuelTypeRepository.findByName(vehicleDTO.getFuelType().getName()));
+		vehicle.setGearboxType(this.gearboxTypeRepository.findByName(vehicleDTO.getGearboxType().getName()));
+		
+		this.vehicleRepository.save(vehicle);
+		return vehicle;
+	}
 
 	/**
 	 *
