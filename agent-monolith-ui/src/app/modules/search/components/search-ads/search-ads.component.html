@@ -80,29 +80,29 @@
 
         <!-- Required for basic search -->
         <div class="basic-search">
-            <form fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+            <form [formGroup]="basicSearchForm" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
                 <mat-form-field appearance="standard" fxFlex="20%">
                     <mat-label>Location</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let location of locations" value="location.id">{{location.city}}, {{location.country}}</mat-option>
+                    <mat-select formControlName="location">
+                        <mat-option *ngFor="let location of locations" value="{{location.id}}">{{location.city}}, {{location.country}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" fxFlex="20%">
                     <mat-label>From</mat-label>
-                    <input matInput [matDatepicker]="fromPicker">
+                    <input formControlName="from" matInput [matDatepicker]="fromPicker">
                     <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                     <mat-datepicker #fromPicker></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" fxFlex="20%">
                     <mat-label>To</mat-label>
-                    <input matInput [matDatepicker]="toPicker">
+                    <input formControlName="to" matInput [matDatepicker]="toPicker">
                     <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                     <mat-datepicker #toPicker></mat-datepicker>
                 </mat-form-field>
 
-                <button mat-mini-fab color="accent" aria-label="Search">
+                <button mat-mini-fab color="accent" aria-label="Search" (click)="searchSubmit()" [disabled]="!basicSearchForm.valid">
                     <mat-icon>search</mat-icon>
                 </button>
             </form>
@@ -199,8 +199,7 @@
                                     <tr>
                                         <td>Child Seats:</td>
                                         <td>
-                                            <mat-icon *ngIf="!ad?.vehicleObj?.childSeats">close</mat-icon>
-                                            <mat-icon *ngIf="ad?.vehicleObj?.childSeats">check</mat-icon>
+                                            {{ad?.vehicleObj?.childSeats}}
                                         </td>
                                     </tr>
                                 </tbody>

@@ -11,6 +11,8 @@ import { PriceList } from '../../model/price-list.model';
 import { AdLocation } from '../../model/ad-location.model';
 import { PriceListService } from '../../service/price-list.service';
 import { VehicleFeature } from '../../model/vehicle-feature.model';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { SearchCriteria } from '../../model/search-criteria.model';
 
 @Component({
   selector: 'app-search-ads',
@@ -33,18 +35,29 @@ export class SearchAdsComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
+  basicSearchForm: FormGroup;
+
   constructor(private adService: AdService,
     private vehicleService: VehicleService,
     private pricelistService: PriceListService,
     private toastr: ToastrService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+
+    this.initAds();
+    this.initFilters();
+    this.initForms();
+
+  }
+
+  initAds() {
     // Fetching all necessary data
     this.adService.all().subscribe(
       data => {
         this.ads = data;
-        console.log('ads', this.ads)
+        // console.log('ads', this.ads)
       },
       error => {
         this.toastr.error('There was an error!', 'Ads')
@@ -54,11 +67,11 @@ export class SearchAdsComponent implements OnInit {
     this.vehicleService.all().subscribe(
       data => {
         this.vehicles = data;
-        console.log('vehicles', this.vehicles)
+        // console.log('vehicles', this.vehicles)
 
         for (let v of this.vehicles) {
           var ad = this.ads.find(obj => { return obj.vehicleId === v.id });
-          if(ad) {
+          if (ad) {
             ad.vehicleObj = v;
           }
         }
@@ -71,13 +84,10 @@ export class SearchAdsComponent implements OnInit {
     this.adService.getLocations().subscribe(
       data => {
         this.locations = data;
-        console.log('locations', this.locations)
+        // console.log('locations', this.locations)
 
-        for (let l of this.locations) {
-          var ad = this.ads.find(obj => { return obj.locationId === l.id });
-          if(ad) {
-            ad.locationObj = l;
-          }
+        for (let a of this.ads) {
+          a.locationObj = this.locations.find(obj => { return obj.id === a.locationId });
         }
       },
       error => {
@@ -88,26 +98,33 @@ export class SearchAdsComponent implements OnInit {
     this.pricelistService.all().subscribe(
       data => {
         this.priceLists = data;
-        console.log('pricelists',this.priceLists)
+        // console.log('pricelists',this.priceLists)
 
-        for (let p of this.priceLists) {
-          var ad = this.ads.find(obj => { return obj.priceListId === p.id });
-          if(ad) {
-            ad.priceListObj = p;
-          }
+        for (let a of this.ads) {
+          a.priceListObj = this.priceLists.find(obj => { return obj.id === a.priceListId });
         }
       },
       error => {
         this.toastr.error('There was an error!', 'Pricelists')
       }
     );
-    
-    // Fetching filters
+
+  }
+
+  initForms() {
+    this.basicSearchForm = this.formBuilder.group({
+      'location': new FormControl(null, [Validators.required]),
+      'from': new FormControl(null, Validators.required),
+      'to': new FormControl(null, Validators.required)
+    });
+  }
+
+  initFilters() {
     this.vehicleService.getBrands().subscribe(
       data => {
         this.brands = data;
-        console.log('brands', this.brands)
-      }, 
+        // console.log('brands', this.brands)
+      },
       error => {
         this.toastr.error('There was an error!', 'Brands')
       }
@@ -116,8 +133,8 @@ export class SearchAdsComponent implements OnInit {
     this.vehicleService.getModels().subscribe(
       data => {
         this.models = data;
-        console.log('models', this.models)
-      }, 
+        // console.log('models', this.models)
+      },
       error => {
         this.toastr.error('There was an error!', 'Models')
       }
@@ -126,8 +143,8 @@ export class SearchAdsComponent implements OnInit {
     this.vehicleService.getFuels().subscribe(
       data => {
         this.fuels = data;
-        console.log('fuels', this.fuels)
-      }, 
+        // console.log('fuels', this.fuels)
+      },
       error => {
         this.toastr.error('There was an error!', 'Fuels')
       }
@@ -136,8 +153,8 @@ export class SearchAdsComponent implements OnInit {
     this.vehicleService.getGearboxes().subscribe(
       data => {
         this.gearboxes = data;
-        console.log('gearboxes', this.gearboxes)
-      }, 
+        // console.log('gearboxes', this.gearboxes)
+      },
       error => {
         this.toastr.error('There was an error!', 'Gearboxes')
       }
@@ -146,14 +163,13 @@ export class SearchAdsComponent implements OnInit {
     this.vehicleService.getBodies().subscribe(
       data => {
         this.bodies = data;
-        console.log('bodies', this.bodies)
-      }, 
+        // console.log('bodies', this.bodies)
+      },
       error => {
         this.toastr.error('There was an error!', 'Bodies')
       }
     );
   }
-
 
   openDetails(adID: number) {
     let dialogRef = this.dialog.open(AdDetailComponent,
@@ -168,4 +184,25 @@ export class SearchAdsComponent implements OnInit {
     //   }
     // });
   }
+
+  searchSubmit() {
+    console.log(this.basicSearchForm);
+
+    const searchCriteria = new SearchCriteria(
+      this.basicSearchForm.value.location,
+      new Date(this.basicSearchForm.value.from),
+      new Date(this.basicSearchForm.value.to)
+    );
+
+    this.adService.search(searchCriteria).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        this.toastr.error('There was an error!', 'Bodies')
+      }
+    );
+
+  }
+
 }

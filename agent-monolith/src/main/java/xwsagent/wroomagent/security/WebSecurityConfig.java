@@ -1,6 +1,5 @@
 package xwsagent.wroomagent.security;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -64,35 +63,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Value("${server.ssl.enabled}")
 	private boolean requireHttps;
-	
-	
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-				.cors().and()
-				.csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
-				.httpBasic().disable()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+		http.cors().and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
+				.httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
 				.authorizeRequests()
+				
+//				TODO: specify full paths
 				.antMatchers("/api/auth/**").permitAll()
 				.antMatchers("/api/stub/**").permitAll()
 				.antMatchers("/api/ads/**").permitAll()
 				.antMatchers("/api/vehicle/**").permitAll()
-				
-				
+				.antMatchers("/api/body-type/**").permitAll()
+				.antMatchers("/api/brand-type/**").permitAll()
+				.antMatchers("/api/fuel-type/**").permitAll()
+				.antMatchers("/api/model-type/**").permitAll()
+				.antMatchers("/api/gearbox-type/**").permitAll()
+				.antMatchers("/api/price-list/**").permitAll()
+
 				.anyRequest().authenticated().and()
 
-				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-				.headers().contentSecurityPolicy("script-src 'self' https://localhost:4200; " +
-				"img-src 'self' https://localhost:4200;")
-		;
-		if(httpsRequired) {
+				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).headers()
+				.contentSecurityPolicy(
+						"script-src 'self' https://localhost:4200; " + "img-src 'self' https://localhost:4200;");
+		if (httpsRequired) {
 			http.requiresChannel().anyRequest().requiresSecure();
 		}
 	}
@@ -115,5 +114,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.GET, "api/auth/whoami");
 		web.ignoring().antMatchers(HttpMethod.GET, "api/ads/**");
 		web.ignoring().antMatchers(HttpMethod.GET, "api/vehicle/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/body-type/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/brand-type/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/fuel-type/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/model-type/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/gearbox-type/**");
+		web.ignoring().antMatchers(HttpMethod.GET, "/api/price-list/**");
+		
+		
 	}
 }

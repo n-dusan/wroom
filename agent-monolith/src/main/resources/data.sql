@@ -6,10 +6,18 @@
 delete from users;
 delete from user_roles;
 delete from permission;
-delete from role_permissions;
 delete from roles;
+delete from role_permissions;
 delete from ad;
 delete from location;
+delete from rent_request;
+delete from rent_request_ads;
+delete from vehicle;
+delete from model_type;
+delete from brand_type;
+delete from gearbox_type;
+delete from fuel_type;
+delete from body_type;
 
 ------------- ROLE -----------------
 insert into roles(id, name)
@@ -83,13 +91,6 @@ insert into user_roles(user_id, role_id)
 values (3, 3);
 
 ---------------Vehicle features-------------
-insert into model_type(id, deleted, name)
-values (1, false, 'R8');
-insert into model_type(id, deleted, name)
-values (2, false, 'Octavia');
-insert into model_type(id, deleted, name)
-values (3, false, 'Astra');
-
 insert into brand_type(id, deleted, name)
 values (1, false, 'Audi');
 insert into brand_type(id, deleted, name)
@@ -98,6 +99,15 @@ insert into brand_type(id, deleted, name)
 values (3, false, 'Opel');
 insert into brand_type(id, deleted, name)
 values (4, false, 'Volkswagen');
+
+insert into model_type(id, deleted, name, brand_type_id)
+values (1, false, 'R8', 1);
+insert into model_type(id, deleted, name, brand_type_id)
+values (2, false, 'Octavia', 2);
+insert into model_type(id, deleted, name, brand_type_id)
+values (3, false, 'Astra', 3);
+insert into model_type(id, deleted, name, brand_type_id)
+values (4, false, 'Passat', 4);
 
 insert into body_type(id, deleted, name)
 values (1, false, 'Sedan');
@@ -141,3 +151,31 @@ insert into price_list(id, deleted, discount, pricecdw, price_per_day, price_per
 values(2, false, 10, 435, 30, 5);
 insert into price_list(id, deleted, discount, pricecdw, price_per_day, price_per_mile)
 values(3, false, 25, 500, 35, 7);
+
+-- Vehicle
+insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id)
+values (1, 1, 0, 0, 50000, 4, 3, 1, 2, 2);
+insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id)
+values (2, 1, 0, 0, 70000, 3, 3, 1, 3, 2);
+insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id)
+values (3, 1, 3, 0, 100000, 1, 2, 2, 3, 1);
+insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id)
+values (4, 1, 4, 0, 90000, 1, 3, 1, 3, 1);
+
+-- Ads
+insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id)
+values(1, 'Via del Corso 15', '2020-05-29 00:00:00.000000', '2020-07-16 00:00:00.000000', 0, 1, null, 0, '2020-05-28 17:20:12.039000', 4, 2, 1);
+insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id)
+values(2, 'Via del Corso 15', '2020-05-29 00:00:00.000000', '2020-07-25 00:00:00.000000', 0, 1, null, 0, '2020-05-28 17:20:12.039000', 4, 2, 2);
+
+insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id)
+values(3, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-07-25 00:00:00.000000', 0, 1, null, 0, '2020-04-28 17:20:12.039000', 2, 2, 3);
+insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id)
+values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00:00.000000', 0, 1, null, 0, '2020-05-15 17:20:12.039000', 2, 2, 4);
+
+
+-- Rent Requests
+insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
+values(1, '2020-05-29 00:00:00.000000', 'PAID', '2020-06-15 00:00:00.000000', null, 1);
+insert into rent_request_ads(rent_request_id, ads_id)
+values(1, 4);

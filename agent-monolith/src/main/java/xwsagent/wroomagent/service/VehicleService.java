@@ -78,7 +78,7 @@ public class VehicleService {
 	public Vehicle save(VehicleDTO vehicledto, Authentication auth) {
 		Vehicle entity = VehicleConverter.toEntity(vehicledto);
 		entity.setModelType(this.modelTypeRepository.findByName(vehicledto.getModelType().getName()));
-		entity.setBrandType(this.brandTypeRepository.findByName(vehicledto.getBrandType().getName()));
+//		entity.setBrandType(this.brandTypeRepository.findByName(vehicledto.getBrandType().getName()));
 		entity.setBodyType(this.bodyTypeRepository.findByName(vehicledto.getBodyType().getName()));
 		entity.setFuelType(this.fuelTypeRepository.findByName(vehicledto.getFuelType().getName()));
 		entity.setGearboxType(this.gearboxTypeRepository.findByName(vehicledto.getGearboxType().getName()));

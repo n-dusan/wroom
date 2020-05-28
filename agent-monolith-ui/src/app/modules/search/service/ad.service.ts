@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Ad } from '../model/ad.model';
 import { environment } from 'src/environments/environment';
 import { AdLocation } from '../model/ad-location.model';
+import { SearchCriteria } from '../model/search-criteria.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,8 @@ export class AdService {
     return this.http.get<AdLocation[]>(this.baseUrl + '/location');
   }
 
-  
+  // Returns a list of ids of ads that obey the criteria
+  public search(searchCriteria: SearchCriteria) : Observable<number[]> {
+    return this.http.post<number[]>(this.baseUrl + '/search', searchCriteria);
+  }
 }
