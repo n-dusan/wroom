@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Location;
+import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.AdRepository;
@@ -21,15 +22,18 @@ public class AdService {
     private final LocationRepository locationRepository;
     private final PriceListRepository priceListRepository;
     private final VehicleRepository vehicleRepository;
+    private final VehicleService vehicleService;
 
     public AdService(LocationRepository locationRepository,
                      AdRepository adRepository,
                      PriceListRepository priceListRepository,
-                     VehicleRepository vehicleRepository) {
+                     VehicleRepository vehicleRepository,
+                     VehicleService vehicleService) {
         this.locationRepository = locationRepository;
         this.adRepository = adRepository;
         this.priceListRepository = priceListRepository;
         this.vehicleRepository = vehicleRepository;
+        this.vehicleService = vehicleService;
     }
 
     public List<Ad> findAll() {
@@ -56,7 +60,7 @@ public class AdService {
 
     public Ad save(AdDTO adDTO) {
         Ad ad = AdConverter.toEntity(adDTO);
-        ad.setVehicle(vehicleRepository.findOneById(adDTO.getVehicleId()));
+        ad.setVehicle(vehicleService.findById(adDTO.getVehicleId()));
         ad.setPriceList(priceListRepository.findOneById(adDTO.getPriceListId()));
         ad.setLocation(locationRepository.findOneById(adDTO.getLocationId()));
         ad.setPublishDate(Calendar.getInstance().getTime());
@@ -66,7 +70,7 @@ public class AdService {
     public Ad update(Long adId, AdDTO dto) {
         Ad ad = AdConverter.toEntity(dto);
         ad.setId(adId);
-        ad.setVehicle(vehicleRepository.findOneById(dto.getVehicleId()));
+        ad.setVehicle(vehicleService.findById(dto.getVehicleId()));
         ad.setPriceList(priceListRepository.findOneById(dto.getPriceListId()));
         ad.setLocation(locationRepository.findOneById(dto.getLocationId()));
         ad.setPublishDate(Calendar.getInstance().getTime());

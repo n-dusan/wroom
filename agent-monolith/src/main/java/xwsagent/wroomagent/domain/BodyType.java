@@ -28,8 +28,8 @@ public class BodyType {
 	@Column(nullable = false, unique=true)
 	private String name;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bodyType")
-	private Set<Vehicle> vehicles;
+//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bodyType")
+//	private Set<Vehicle> vehicles;
 	
 	@Column(name = "deleted")
 	private boolean deleted;
