@@ -8,6 +8,7 @@ public class AdConverter extends AbstractConverter {
 
     public static AdDTO fromEntity(Ad entity) {
         return new AdDTO(
+                entity.getId(),
                 entity.getVehicle().getId(),
                 entity.getPriceList().getId(),
                 entity.getAvailableFrom(),

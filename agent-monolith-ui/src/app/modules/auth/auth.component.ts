@@ -70,7 +70,7 @@ export class AuthComponent implements OnInit {
         for(let er of error.errors) {
           this.toastr.error(er, 'Error')
         }
-        
+
         console.log(error)
       }
     );

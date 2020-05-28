@@ -84,8 +84,13 @@ values (1, false, 'Dizel');
 insert into gearbox_type(id, deleted, name)
 values (1, false, 'Manuelni');
 --------------------------------------------
+-- Location
+insert into location(id, country, city)
+values (1, 'Arizona', 'Phoenix');
 
---------------  ADS  ----------------
---"mm-dd-yyyy razmak sat:minut"
-insert into ad(id, available_from, available_to, mile_limit, publish_date, price_list_id, vehicle_id) 
-values(1, '05-17-2020 01:00', '06-17-2020 01:00', 120, '05-17-2020 01:00', null, null);
+insert into location(id, country, city)
+values (2, 'China', 'Wuhan');
+
+-- Price list
+insert into price_list(id, deleted, discount, pricecdw, price_per_day, price_per_mile)
+values(1, false, 20, 642, 23, 3);

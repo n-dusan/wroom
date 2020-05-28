@@ -19,6 +19,14 @@ export class AdsService {
     return this.http.post<Ad>(this.adsUrl, ad).pipe(catchError(this.handleException));
   }
 
+  deleteAd(adId: number): Observable<string> {
+    return this.http.delete(this.adsUrl + '/' + adId, { responseType: 'text' }).pipe(catchError(this.handleException));
+  }
+
+  getAllActiveForUser(userId: number): Observable<Ad[]> {
+    return this.http.get<Ad[]>(this.adsUrl + '/all/' + userId);
+  }
+
   getAllLocations() : Observable<Location[]> {
     return this.http.get<Location[]>(this.adsUrl + '/location').pipe(catchError(this.handleException));
   }
