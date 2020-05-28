@@ -42,7 +42,15 @@ export class VehicleService {
 
    getImages(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/getImages/` + id);
-   }  
+   } 
+   
+   getAllActiveForUser(userId: number): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(this.baseUrl + '/all/' + userId);
+  }
+
+  delete(id: number): Observable<string> {
+    return this.http.delete(this.baseUrl + '/' + id, { responseType: 'text' });
+  }
 
     private handleException(err: HttpErrorResponse): Observable<never> {
         return throwError(err.error);

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.domain.auth.User;
+import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Image;
 import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
@@ -64,6 +65,16 @@ public class VehicleService {
 		return vehicleRepository.findById(id)
 				.orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " vehicle"));
 	}
+	
+	public List<Vehicle> findAllActiveForUser(Long userId) {
+        return vehicleRepository.findAllActiveForUser(userId);
+    }
+	
+	public void delete(Long id) {
+        Vehicle vehicle = findById(id);
+        vehicle.setDeleted(true);
+        vehicleRepository.save(vehicle);
+    }
 
 	/**
 	 *

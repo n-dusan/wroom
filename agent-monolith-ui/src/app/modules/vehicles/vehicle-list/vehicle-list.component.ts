@@ -1,10 +1,15 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import { VehicleService } from '../services/vehicle-features/vehicle.service';
 import { Vehicle } from '../../shared/models/vehicle.model';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VehicleDetailsComponent } from '../vehicle-details/vehicle-details.component';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../auth/service/auth.service';
+import { Subject } from 'rxjs';
+import { LoggedUser } from '../../auth/model/logged-user.model';
+import { MatPaginator } from '@angular/material/paginator';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -12,16 +17,38 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./vehicle-list.component.css']
 })
 export class VehicleListComponent implements OnInit {
+  private ngUnsubscribe = new Subject();
+  loggedUser: LoggedUser;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['brandType', 'modelType', 'details', 'edit', 'delete'];
-  dataVehicleSource : MatTableDataSource<Vehicle>;
+  dataVehicleSource: MatTableDataSource<Vehicle> = new MatTableDataSource;
   constructor(private vehicleService: VehicleService,
               public dialog: MatDialog,
+              private authService: AuthService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private router: Router,
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.loadVehicleData();
+    //this.loadVehicleData();
+    this.authService.whoami().subscribe(data => {
+      this.loggedUser = data;
+      this.dataVehicleSource.data = [];
+      this.refresh();
+      this.dataVehicleSource.paginator = this.paginator;
+    },
+    error => {
+      console.log(error)
+    }
+
+  );
+  }
+
+  refresh() {
+    this.vehicleService.getAllActiveForUser(this.loggedUser.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe((data: Vehicle[]) => {
+      this.dataVehicleSource.data = data;
+      console.log('my data', data)
+    })
   }
 
   loadVehicleData(){
@@ -53,8 +80,11 @@ export class VehicleListComponent implements OnInit {
     //todo
   }
 
-  onDeleteVehicleClick(element: any) {
-    //todo
+  onDeleteVehicleClick(element: Vehicle) {
+    this.vehicleService.delete(element.id).subscribe(
+      response => {
+        this.refresh();
+    })
   }
 
 }
