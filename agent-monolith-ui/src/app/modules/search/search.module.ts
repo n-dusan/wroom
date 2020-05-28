@@ -5,13 +5,14 @@ import { SearchAdsComponent } from './components/search-ads/search-ads.component
 import { SearchComponent } from './search.component';
 import { MaterialModule } from '../shared/material.module';
 import { AdService } from './service/ad.service';
+import { AdDetailComponent } from './components/ad-detail/ad-detail.component';
 
 
 
 @NgModule({
   declarations: [
     SearchComponent, 
-    SearchAdsComponent
+    SearchAdsComponent, AdDetailComponent
   ],
   imports: [
     CommonModule,

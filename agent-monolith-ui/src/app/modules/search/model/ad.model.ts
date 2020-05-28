@@ -1,5 +1,6 @@
 export class Ad {
     constructor(
+      public id?: number,
       public vehicleId?: number,
       public priceListId?: number,
       public availableFrom?: Date,

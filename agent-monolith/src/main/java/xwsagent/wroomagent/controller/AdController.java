@@ -28,7 +28,17 @@ public class AdController {
     public AdController(AdService adService) {
         this.adService = adService;
     }
-	
+    
+    /**
+     * GET /api/ads
+     * @return list of ads
+     */
+    @GetMapping
+    public ResponseEntity<List<AdDTO>> getAll() {
+        return new ResponseEntity<>(AdConverter.fromEntityList(adService.findAll(), AdConverter::fromEntity),
+                HttpStatus.OK);
+    }
+
 
     /**
      * POST /api/ads

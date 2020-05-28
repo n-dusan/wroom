@@ -19,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import xwsagent.wroomagent.jwt.JwtAuthenticationEntryPoint;
 import xwsagent.wroomagent.jwt.JwtAuthenticationFilter;
@@ -83,8 +82,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers("/api/auth/**").permitAll()
 				.antMatchers("/api/stub/**").permitAll()
-				.antMatchers("/api/ad").permitAll()
-
+				.antMatchers("/api/ads/**").permitAll()
+				
 				.anyRequest().authenticated().and()
 
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -112,6 +111,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		web.ignoring().antMatchers(HttpMethod.POST, "api/auth/login");
 		web.ignoring().antMatchers(HttpMethod.GET, "api/auth/signup");
 		web.ignoring().antMatchers(HttpMethod.GET, "api/auth/whoami");
-		web.ignoring().antMatchers(HttpMethod.GET, "api/ad");
+		web.ignoring().antMatchers(HttpMethod.GET, "api/ads/**");
 	}
 }

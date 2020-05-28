@@ -32,6 +32,10 @@ public class AdService {
         this.vehicleRepository = vehicleRepository;
     }
 
+    public List<Ad> findAll() {
+    	return this.adRepository.findAll();
+    }
+    
     public Location findLocationById(Long id) {
         return locationRepository.findById(id)
                 .orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " location"));
