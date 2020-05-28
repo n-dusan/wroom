@@ -25,8 +25,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(InvalidPriceListReferenceException.class)
-    public ResponseEntity<String> handleInvalidPriceListReferenceException(InvalidPriceListReferenceException e) {
+    @ExceptionHandler(InvalidReferenceException.class)
+    public ResponseEntity<String> handleInvalidPriceListReferenceException(InvalidReferenceException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
     

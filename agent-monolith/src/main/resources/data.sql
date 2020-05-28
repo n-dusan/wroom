@@ -18,7 +18,7 @@ insert into roles(id, name)
 values (3, 'ROLE_ADMIN');
 
 insert into roles(id, name)
-values (1, 'ROLE_BANNED_USER');
+values (4, 'ROLE_BANNED_USER');
 
 
 ------- Permisije obicnog korisnika -------
@@ -81,3 +81,13 @@ values (1, false, 'Dizel');
 insert into gearbox_type(id, deleted, name)
 values (1, false, 'Manuelni');
 --------------------------------------------
+-- Location
+insert into location(id, country, city)
+values (1, 'Arizona', 'Phoenix');
+
+insert into location(id, country, city)
+values (2, 'China', 'Wuhan');
+
+-- Price list
+insert into price_list(id, deleted, discount, pricecdw, price_per_day, price_per_mile)
+values(1, false, 20, 642, 23, 3);

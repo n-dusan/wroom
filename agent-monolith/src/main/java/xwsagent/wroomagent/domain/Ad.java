@@ -50,6 +50,9 @@ public class Ad {
 	private boolean gps;
 
 	@Column
+	private boolean deleted;
+
+	@Column
 	private String address;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

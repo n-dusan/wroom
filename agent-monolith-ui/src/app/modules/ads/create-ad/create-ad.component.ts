@@ -11,6 +11,7 @@ import { PriceList } from '../../shared/models/price-list.model';
 import { Vehicle } from '../../shared/models/vehicle.model';
 import { Ad } from '../model/ad.model';
 import { ToastrService } from 'ngx-toastr';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-ad',
@@ -30,7 +31,9 @@ export class CreateAdComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private adsService: AdsService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
 
@@ -114,9 +117,11 @@ export class CreateAdComponent implements OnInit {
       this.adsService.createAd(ad).subscribe((result:Ad) => {
         console.log(result)
         this.toastr.success('Ya did it.', 'Aww yeah')
+        this.router.navigate(['../overview'], { relativeTo: this.activatedRoute });
       }, error => {
-        console.log(error)
-        this.toastr.error('Welp, check console logs', 'Something went wrong')
+        for(let er of error.errors) {
+          this.toastr.error(er, 'Error')
+        }
       });
     }
   }

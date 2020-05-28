@@ -10,6 +10,7 @@ import { PriceListSelectComponent } from './price-lists/price-list-select/price-
 import { CreateAdComponent } from './create-ad/create-ad.component';
 import { VehicleListSelectComponent } from './create-ad/vehicle-list-select/vehicle-list-select.component';
 import { CreateCityComponent } from './create-city/create-city.component';
+import { AdsOverviewComponent } from './ads-overview/ads-overview.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CreateCityComponent } from './create-city/create-city.component';
     PriceListSelectComponent,
     CreateAdComponent,
     VehicleListSelectComponent,
-    CreateCityComponent
+    CreateCityComponent,
+    AdsOverviewComponent
   ],
   imports: [
     MaterialModule,

@@ -1,11 +1,10 @@
 package xwsagent.wroomagent.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.domain.PriceList;
 import xwsagent.wroomagent.domain.dto.PriceListDTO;
 import xwsagent.wroomagent.exception.InvalidDataException;
-import xwsagent.wroomagent.exception.InvalidPriceListReferenceException;
+import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.PriceListRepository;
 
 import java.util.List;
@@ -29,7 +28,7 @@ public class PriceListService {
 
     public PriceList findById(Long id) {
         return priceListRepository.findById(id)
-                .orElseThrow(() -> new InvalidPriceListReferenceException("Unable to find reference to " + id.toString() + " price list"));
+                .orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " price list"));
     }
 
     public PriceList save(PriceList priceList) {

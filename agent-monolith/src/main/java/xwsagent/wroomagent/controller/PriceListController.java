@@ -96,7 +96,7 @@ public class PriceListController {
     @DeleteMapping(value = "/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> remove(@PathVariable Long id) {
         priceListService.delete(id);
-        return new ResponseEntity<>("Server successfully deleted!", HttpStatus.OK);
+        return new ResponseEntity<>("Price list successfully deleted!", HttpStatus.OK);
     }
 
 }
