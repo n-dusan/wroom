@@ -1,0 +1,59 @@
+<section fxLayout="column" fxLayoutAlign="center center" style="margin-top: 10px;" *ngIf="data.isEdit">
+    <h1 style="color: rgb(212, 113, 106);">Update Vehicle</h1>
+    <br>
+    <form [formGroup]="vehicleUpdateForm" fxLayout="column" *ngIf="data.isEdit">
+        <mat-form-field>
+            <mat-label>Vehicle Model</mat-label>
+            <mat-select formControlName="selectModel" [(ngModel)]="local_data.element.modelType.name">
+                <mat-option *ngFor="let model of modelList" name="selectModel" selected [(value)]="model.name">
+                    {{model.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Vehicle Body</mat-label>
+            <mat-select formControlName="selectBody" [(ngModel)]="local_data.element.bodyType.name">
+                <mat-option *ngFor="let body of bodyList" name="selectBody" selected [(value)]="body.name">{{body.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Vehicle Brand</mat-label>
+            <mat-select formControlName="selectBrand" [(ngModel)]="local_data.element.brandType.name">
+                <mat-option *ngFor="let brand of brandList" name="selectBrand" selected [(value)]="brand.name">
+                    {{brand.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Vehicle Fuel</mat-label>
+            <mat-select formControlName="selectFuel" [(ngModel)]="local_data.element.fuelType.name">
+                <mat-option *ngFor="let fuel of fuelList" name="selectFuel" selected [(value)]="fuel.name">{{fuel.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Vehicle Gearbox</mat-label>
+            <mat-select formControlName="selectGearbox" [(ngModel)]="local_data.element.gearboxType.name">
+                <mat-option *ngFor="let gearbox of gearboxList" name="selectGearbox" selected [(value)]="gearbox.name">
+                    {{gearbox.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input type="number" matInput formControlName="childSeatsEdit" placeholder="Child seats" required
+                [(ngModel)]="local_data.element.childSeats">
+        </mat-form-field>
+
+        <mat-form-field>
+            <input type="number" matInput formControlName="mileageEdit" placeholder="Mileage" required
+                [(ngModel)]="local_data.element.mileage">
+        </mat-form-field>
+        
+       
+        <mat-checkbox name="cdw" formControlName="cdw" [(ngModel)]="local_data.element.cdw" required color="primary">Collision Damage Waiver</mat-checkbox>
+        <br/>        
+        <div>
+            <button mat-raised-button color="accent" type="submit">Edit</button>
+        </div>
+    </form>
+</section>

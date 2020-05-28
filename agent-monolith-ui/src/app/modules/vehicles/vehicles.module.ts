@@ -13,6 +13,7 @@ import { NewGearboxTypeComponent } from './new-gearbox-type/new-gearbox-type.com
 import { NewVehicleComponent } from './new-vehicle/new-vehicle.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.component';
+import { EditVehicleComponent } from './edit-vehicle/edit-vehicle.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { VehicleDetailsComponent } from './vehicle-details/vehicle-details.compo
     NewGearboxTypeComponent,
     NewVehicleComponent,
     VehicleListComponent,
-    VehicleDetailsComponent
+    VehicleDetailsComponent,
+    EditVehicleComponent
   ],
   imports: [
     MaterialModule,

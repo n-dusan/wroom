@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ModelType } from '../../shared/models/model-type.model';
 import { ModelTypeService } from '../services/vehicle-features/model-type.service';
@@ -14,6 +14,8 @@ import { GearboxType } from '../../shared/models/gearbox-type.model';
 import { FuelType } from '../../shared/models/fuel-type.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { VehicleListComponent } from '../vehicle-list/vehicle-list.component';
 
 class ImageSnippet {
   pending: boolean = false;
@@ -56,6 +58,7 @@ export class NewVehicleComponent implements OnInit {
     private gearboxService: GearboxTypeService, private toastr: ToastrService,
     private router: Router, private activatedRoute: ActivatedRoute) { }
 
+
   ngOnInit(): void {
       this.firstFormGroup = this.formBuilder.group({
         selectModel: ['', Validators.required],
@@ -74,6 +77,7 @@ export class NewVehicleComponent implements OnInit {
       this.fourthFormGroup = this.formBuilder.group({
         file: ['']
       });
+      
       this.modelService.getModelTypes().subscribe(
         data => {
           this.modelList = data;
@@ -177,7 +181,5 @@ export class NewVehicleComponent implements OnInit {
 
   }
 
-
-
-
+  
 }

@@ -10,6 +10,8 @@ import { Subject } from 'rxjs';
 import { LoggedUser } from '../../auth/model/logged-user.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { takeUntil } from 'rxjs/operators';
+import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
+import { NewVehicleComponent } from '../new-vehicle/new-vehicle.component';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -19,6 +21,8 @@ import { takeUntil } from 'rxjs/operators';
 export class VehicleListComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   loggedUser: LoggedUser;
+  isEdit: boolean = true;
+
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   displayedColumns: string[] = ['brandType', 'modelType', 'details', 'edit', 'delete'];
   dataVehicleSource: MatTableDataSource<Vehicle> = new MatTableDataSource;
@@ -77,7 +81,14 @@ export class VehicleListComponent implements OnInit {
   }
 
   onEditVehicleClick(element: any) {
-    //todo
+    const dialogRef = this.dialog.open(EditVehicleComponent, {
+      width: '500px',
+      height: '400px',
+      data: {isEdit: this.isEdit=true, element}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.refresh();
+    });
   }
 
   onDeleteVehicleClick(element: Vehicle) {
