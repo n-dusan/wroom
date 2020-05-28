@@ -78,15 +78,7 @@ public class VehicleController {
 		);
 	}
 
-
-//	@GetMapping(produces = "application/json")
-//	public ResponseEntity<List<VehicleDTO>> getAll() {
-//		return new ResponseEntity<>(
-//				VehicleConverter.fromEntityList(vehicleService.getAll(), VehicleConverter::fromEntity),
-//				HttpStatus.OK
-//		);
-//	}
-
+	
 	@GetMapping(value = "/getImages/{id}")
 	public List<byte[]> getFile(@PathVariable("id") Long id) throws IOException {
 		List<Image> listImage = vehicleRepository.findByVehicle(vehicleService.findById(id));
