@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../auth/service/auth.service';
 import { LoggedUser } from '../../auth/model/logged-user.model';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
 
 @Component({
   selector: 'app-ads-overview',
@@ -62,7 +63,7 @@ export class AdsOverviewComponent implements OnInit {
   }
 
   onEditAdClick(ad: Ad) {
-    console.log('edit ad', ad)
+    this.router.navigate(['../new/' + ad.id], { relativeTo: this.activatedRoute });
   }
 
   onDeleteAdClick(ad: Ad) {
@@ -70,6 +71,24 @@ export class AdsOverviewComponent implements OnInit {
     this.adsService.deleteAd(ad.id).subscribe(response => {
       this.refresh()
     })
+  }
+
+
+  vehicleDetails(ad: Ad) {
+    this.dialog.open(DetailsDialogComponent, {
+      data: {
+        type: "VEHICLE",
+        data: ad.vehicleId
+      }
+    });
+  }
+
+  priceListDetails(ad: Ad) {
+
+  }
+
+  locationDetails(ad: Ad) {
+
   }
 
 

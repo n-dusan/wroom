@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: '',
     children: [
       { path: 'price-lists', component: PriceListsComponent},
-      { path: 'new', component: CreateAdComponent },
+      { path: 'new', component: CreateAdComponent},
+      { path: 'new/:id', component: CreateAdComponent },
       { path: 'overview', component: AdsOverviewComponent }
   ] }
 ];

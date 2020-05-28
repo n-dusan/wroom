@@ -14,7 +14,7 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     // import it here!)
     ControlMessagesComponent,
     HomeComponent,
-    EmailConfirmationComponent
+    EmailConfirmationComponent,
   ],
   imports: [
     CommonModule,

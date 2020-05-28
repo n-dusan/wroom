@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.converter.LocationConverter;
+import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.domain.dto.LocationDTO;
 import xwsagent.wroomagent.service.AdService;

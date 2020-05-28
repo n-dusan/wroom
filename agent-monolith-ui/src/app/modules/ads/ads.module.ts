@@ -11,6 +11,7 @@ import { CreateAdComponent } from './create-ad/create-ad.component';
 import { VehicleListSelectComponent } from './create-ad/vehicle-list-select/vehicle-list-select.component';
 import { CreateCityComponent } from './create-city/create-city.component';
 import { AdsOverviewComponent } from './ads-overview/ads-overview.component';
+import { DetailsDialogComponent } from './ads-overview/details-dialog/details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AdsOverviewComponent } from './ads-overview/ads-overview.component';
     CreateAdComponent,
     VehicleListSelectComponent,
     CreateCityComponent,
-    AdsOverviewComponent
+    AdsOverviewComponent,
+    DetailsDialogComponent
   ],
   imports: [
     MaterialModule,

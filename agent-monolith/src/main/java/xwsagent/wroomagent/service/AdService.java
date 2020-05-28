@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Location;
-import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.AdRepository;
