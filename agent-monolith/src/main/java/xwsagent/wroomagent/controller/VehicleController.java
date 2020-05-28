@@ -1,7 +1,14 @@
 package xwsagent.wroomagent.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -30,6 +37,7 @@ import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.domain.dto.PriceListDTO;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
+import xwsagent.wroomagent.repository.VehicleRepository;
 import xwsagent.wroomagent.service.ImageService;
 import xwsagent.wroomagent.service.VehicleService;
 
@@ -37,13 +45,16 @@ import xwsagent.wroomagent.service.VehicleService;
 @RequestMapping(value = EndpointConfig.VEHICLE_BASE_URL)
 public class VehicleController {
 
+	private final VehicleRepository vehicleRepository;
+	
 	private final VehicleService vehicleService;
 
 	private final ImageService imageService;
 
-	public VehicleController(VehicleService vehicleService, ImageService imageService) {
+	public VehicleController(VehicleService vehicleService, ImageService imageService, VehicleRepository vehicleRepository) {
 		this.vehicleService = vehicleService;
 		this.imageService = imageService;
+		this.vehicleRepository = vehicleRepository;
 	}
 	
 	@PostMapping(consumes = "application/json")
@@ -68,5 +79,15 @@ public class VehicleController {
 	          HttpStatus.OK
 	    );
 	 }
-	
-}
+	 
+	 @GetMapping(value="/getImages/{id}")
+	 public List<byte[]> getFile(@PathVariable("id") Long id) throws IOException {
+		 List<Image> listImage = vehicleRepository.findByVehicle(vehicleService.findOne(id));
+		 List<byte[]> arrays = new ArrayList<byte[]>();
+		 for(Image i : listImage) {
+			 Path path = Paths.get(i.getUrlPath());
+			 arrays.add(Files.readAllBytes(path));
+		 }
+		 return arrays;
+	 }
+	 }

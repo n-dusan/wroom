@@ -17,6 +17,7 @@ import xwsagent.wroomagent.domain.BrandType;
 import xwsagent.wroomagent.domain.FuelType;
 import xwsagent.wroomagent.domain.GearboxType;
 import xwsagent.wroomagent.domain.ModelType;
+import xwsagent.wroomagent.domain.auth.User;
 
 @Getter
 @Setter
@@ -48,5 +49,6 @@ public class VehicleDTO {
 	
 	@NotNull(message = "Gearbox Type may not be blank.")
 	private GearboxType gearboxType;
+	
 	
 }
