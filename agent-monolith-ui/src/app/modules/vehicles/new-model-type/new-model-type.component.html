@@ -4,6 +4,12 @@
 <br>
 <form [formGroup]="createForm" fxLayout="column" fxLayoutAlign="center center" (ngSubmit)="onSubmit()">
 
+    <mat-form-field appearance="standard" fxFlex>
+        <mat-label>Brand</mat-label>
+        <mat-select formControlName="brand">
+            <mat-option *ngFor="let brand of brands" value="{{brand.id}}">{{brand.name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
 
     <mat-form-field>
         <input type="text" matInput formControlName="name" placeholder="Name" required>

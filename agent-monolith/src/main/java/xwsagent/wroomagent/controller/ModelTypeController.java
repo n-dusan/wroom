@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,11 +35,11 @@ public class ModelTypeController {
 	
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO modelTypeDTO){
-
+		System.out.println(modelTypeDTO.getBrandId());
 		try {
 			return new ResponseEntity<>(
-					ModelTypeConverter.fromEntity(modelTypeService.save(ModelTypeConverter.toEntity(modelTypeDTO))),
-					HttpStatus.CREATED
+					ModelTypeConverter.fromEntity(modelTypeService.save(modelTypeDTO)),
+					HttpStatus.CREATED 
 			);
 		} catch(NullPointerException e) {
 			List<String> errors = new ArrayList<String>();
