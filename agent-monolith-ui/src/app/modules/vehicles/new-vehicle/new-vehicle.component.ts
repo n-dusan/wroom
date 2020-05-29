@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ModelType } from '../../shared/models/model-type.model';
 import { ModelTypeService } from '../services/vehicle-features/model-type.service';
@@ -14,6 +14,8 @@ import { GearboxType } from '../../shared/models/gearbox-type.model';
 import { FuelType } from '../../shared/models/fuel-type.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { VehicleListComponent } from '../vehicle-list/vehicle-list.component';
 
 class ImageSnippet {
   pending: boolean = false;
@@ -57,51 +59,53 @@ export class NewVehicleComponent implements OnInit {
     private gearboxService: GearboxTypeService, private toastr: ToastrService,
     private router: Router, private activatedRoute: ActivatedRoute) { }
 
+
   ngOnInit(): void {
-    this.firstFormGroup = this.formBuilder.group({
-      selectModel: ['', Validators.required],
-      selectBrand: ['', Validators.required],
-      selectBody: ['', Validators.required],
-      selectFuel: ['', Validators.required],
-      selectGearbox: ['', Validators.required]
-    });
-    this.secondFormGroup = this.formBuilder.group({
-      mileage: ['', Validators.required]
-    });
-    this.thirdFormGroup = this.formBuilder.group({
-      childSeats: ['', [Validators.max(5), Validators.min(3)]],
-      cdw: [false]
-    });
-    this.fourthFormGroup = this.formBuilder.group({
-      file: ['']
-    });
-    this.modelService.getModelTypes().subscribe(
-      data => {
-        this.modelListAll = data;
-        console.log(this.modelListAll)
-      }
-    );
-    this.brandService.getBrandTypes().subscribe(
-      data => {
-        this.brandList = data;
-        console.log('brands', this.brandList)
-      }
-    );
-    this.bodyService.getBodyTypes().subscribe(
-      data => {
-        this.bodyList = data;
-      }
-    );
-    this.fuelService.getFuelTypes().subscribe(
-      data => {
-        this.fuelList = data;
-      }
-    );
-    this.gearboxService.getGearboxTypes().subscribe(
-      data => {
-        this.gearboxList = data;
-      }
-    );
+      this.firstFormGroup = this.formBuilder.group({
+        selectModel: ['', Validators.required],
+        selectBrand: ['', Validators.required],
+        selectBody: ['', Validators.required],
+        selectFuel: ['', Validators.required],
+        selectGearbox: ['', Validators.required]
+      });
+      this.secondFormGroup = this.formBuilder.group({
+        mileage: ['', Validators.required]
+      });
+      this.thirdFormGroup = this.formBuilder.group({
+        childSeats: ['', [Validators.max(5), Validators.min(3)]],
+        cdw: [false]
+      });
+      this.fourthFormGroup = this.formBuilder.group({
+        file: ['']
+      });
+      
+      this.modelService.getModelTypes().subscribe(
+        data => {
+          this.modelListAll = data;
+          console.log(this.modelListAll)
+        }
+      );
+      this.brandService.getBrandTypes().subscribe(
+        data => {
+          this.brandList = data;
+          console.log('brands', this.brandList)
+        }
+      );
+      this.bodyService.getBodyTypes().subscribe(
+        data => {
+          this.bodyList = data;
+        }
+      );
+      this.fuelService.getFuelTypes().subscribe(
+        data => {
+          this.fuelList = data;
+        }
+      );
+      this.gearboxService.getGearboxTypes().subscribe(
+        data => {
+          this.gearboxList = data;
+        }
+      );
 
   }
 

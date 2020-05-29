@@ -222,15 +222,22 @@ export class SearchAdsComponent implements OnInit {
   }
 
   checkDate() {
-    const twoDaysMilliseconds = 1000 * 60 * 60 * 24 * 2
-    const fromDate = new Date(this.basicSearchForm.value.from);
-    var twodaysfromthen = fromDate.getTime() + twoDaysMilliseconds;   // current date's milliseconds - 1,000 ms * 60 s * 60 mins * 24 hrs * (# of days beyond one to go back)
-    const twodaysfromthenDate = new Date(twodaysfromthen);
+    // const twoDaysMilliseconds = 1000 * 60 * 60 * 24 * 2
+    // const fromDate = new Date(this.basicSearchForm.value.from);
+    // var twodaysfromthen = fromDate.getTime() + twoDaysMilliseconds;   // current date's milliseconds - 1,000 ms * 60 s * 60 mins * 24 hrs * (# of days beyond one to go back)
+    // const twodaysfromthenDate = new Date(twodaysfromthen);
 
-    const now = new Date();
-    if ((now.getDate() + 2) > twodaysfromthenDate.getDate()) {
+    const twoDaysFromNow = new Date();
+    twoDaysFromNow.setDate(twoDaysFromNow.getDate() + 2);
+    let fromDate1 = new Date(this.basicSearchForm.value.from);
+
+    if(twoDaysFromNow.getTime() > fromDate1.getTime()) {
       return false;
     }
+
+    // if ((now.getTime() + twoDaysMilliseconds) >= twodaysfromthenDate.getTime()) {
+    //   return false;
+    // }
 
     return true;
   }
