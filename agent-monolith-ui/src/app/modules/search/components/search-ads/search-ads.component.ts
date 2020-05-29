@@ -14,6 +14,7 @@ import { VehicleFeature } from '../../model/vehicle-feature.model';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { SearchCriteria } from '../../model/search-criteria.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { TwoDayValidator } from '../../validators/two-days.validator';
 
 @Component({
   selector: 'app-search-ads',
@@ -23,6 +24,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class SearchAdsComponent implements OnInit {
 
   ads: Ad[] = [];
+  adsAfterSearch: Ad[] = [];
   allAds: Ad[] = [];
   vehicles: Vehicle[] = [];
   locations: AdLocation[] = [];
@@ -40,6 +42,9 @@ export class SearchAdsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   basicSearchForm: FormGroup;
+  filterForm: FormGroup;
+  cdw: boolean = false;
+  cdwClean = true;
 
   constructor(private adService: AdService,
     private vehicleService: VehicleService,
@@ -62,8 +67,8 @@ export class SearchAdsComponent implements OnInit {
       data => {
         this.ads = data;
         this.allAds = data;
+        this.adsAfterSearch = data;
         this.dataSource = new MatTableDataSource(this.allAds);
-        // console.log('ads', this.ads)
       },
       error => {
         this.toastr.error('There was an error!', 'Ads')
@@ -73,7 +78,7 @@ export class SearchAdsComponent implements OnInit {
     this.vehicleService.all().subscribe(
       data => {
         this.vehicles = data;
-        // console.log('vehicles', this.vehicles)
+        console.log('vehicles', this.vehicles)
 
         for (let v of this.vehicles) {
           var ad = this.ads.find(obj => { return obj.vehicleId === v.id });
@@ -122,6 +127,22 @@ export class SearchAdsComponent implements OnInit {
       'location': new FormControl(null, [Validators.required]),
       'from': new FormControl(null, Validators.required),
       'to': new FormControl(null, Validators.required)
+    },
+      {
+        validator: TwoDayValidator('from')
+      });
+
+    this.filterForm = this.formBuilder.group({
+      'brandType': new FormControl(),
+      'modelType': new FormControl(),
+      'fuelType': new FormControl(),
+      'gearboxType': new FormControl(),
+      'bodyType': new FormControl(),
+      'priceMin': new FormControl(),
+      'priceMax': new FormControl(),
+      'mileage': new FormControl(),
+      'cdw': new FormControl(),
+      'childSeats': new FormControl()
     });
   }
 
@@ -195,12 +216,6 @@ export class SearchAdsComponent implements OnInit {
   searchSubmit() {
     console.log(this.basicSearchForm);
 
-    // From date must be at least 2 days from now
-    if (!this.checkDate()) {
-      this.toastr.info('Please choose a date that is at least 2 days from now.', 'Info');
-      return;
-    }
-
     const searchCriteria = new SearchCriteria(
       this.basicSearchForm.value.location,
       new Date(this.basicSearchForm.value.from),
@@ -210,8 +225,8 @@ export class SearchAdsComponent implements OnInit {
     this.adService.search(searchCriteria).subscribe(
       data => {
         console.log(data);
-        // let list: Ad[] = data;
         this.ads = this.allAds.filter(obj => { return data.find(ad => obj.id === ad.id) })
+        this.adsAfterSearch = this.ads;
         this.dataSource = new MatTableDataSource(this.ads);
       },
       error => {
@@ -221,28 +236,82 @@ export class SearchAdsComponent implements OnInit {
 
   }
 
-  checkDate() {
-    const twoDaysMilliseconds = 1000 * 60 * 60 * 24 * 2
-    const fromDate = new Date(this.basicSearchForm.value.from);
-    var twodaysfromthen = fromDate.getTime() + twoDaysMilliseconds;   // current date's milliseconds - 1,000 ms * 60 s * 60 mins * 24 hrs * (# of days beyond one to go back)
-    const twodaysfromthenDate = new Date(twodaysfromthen);
-
-    const now = new Date();
-    if ((now.getDate() + 2) > twodaysfromthenDate.getDate()) {
-      return false;
+  filter() {
+    if(this.adsAfterSearch.length > 0) {
+      this.ads = this.adsAfterSearch;
+    } else {
+      this.ads = this.allAds;
     }
 
-    return true;
+    const brand = this.filterForm.value.brandType;
+    const model = this.filterForm.value.modelType;
+    const fuel = this.filterForm.value.fuelType;
+    const gearbox = this.filterForm.value.gearboxType;
+    const body = this.filterForm.value.bodyType;
+    const priceMin = this.filterForm.value.priceMin;
+    const priceMax = this.filterForm.value.priceMax;
+    const mileage = this.filterForm.value.mileage;
+    const childSeats = this.filterForm.value.childSeats;
+
+
+    if (brand) {
+      this.ads = this.ads.filter(obj => { return obj.vehicleObj.modelType.brandId == brand });
+    }
+
+    if (model) {
+      this.ads = this.ads.filter(obj => { return obj.vehicleObj.modelType.id == model });
+    }
+
+    if (fuel) {
+      this.ads = this.ads.filter(obj => { return obj.vehicleObj.fuelType.id == fuel });
+    }
+
+    if (gearbox) {
+      this.ads = this.ads.filter(obj => { return obj.vehicleObj.gearboxType.id == gearbox });
+    }
+
+    if (body) {
+      this.ads = this.ads.filter(obj => { return obj.vehicleObj.bodyType.id == body });
+    }
+
+    if (priceMin) {
+      this.ads = this.ads.filter(obj => { return obj.priceListObj.pricePerDay >= priceMin });
+    }
+
+    if (priceMax) {
+      this.ads = this.ads.filter(obj => { return obj.priceListObj.pricePerDay <= priceMax });
+    }
+
+    if (mileage) {
+      this.ads = this.ads.filter(obj => { return obj.vehicleObj.mileage <= mileage });
+    }
+
+    if(!this.cdwClean){
+      this.ads = this.ads.filter(obj => { return obj.vehicleObj.cdw == this.cdw });
+    }
+
+    if (childSeats) {
+      this.ads = this.ads.filter(obj => { return obj.vehicleObj.childSeats == childSeats });
+    }
+  }
+
+
+  reset() {
+    this.filterForm.reset();
+    this.ads = this.allAds;
   }
 
   brandChanged(brand: VehicleFeature) {
-    console.log(brand)
     this.models = [];
     for (let m of this.allModels) {
       if (m.brandId === brand.id) {
         this.models.push(m);
       }
     }
+  }
+
+  cdwClick() {
+    this.cdwClean = false;
   }
 
 }

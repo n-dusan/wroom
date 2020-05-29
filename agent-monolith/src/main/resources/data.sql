@@ -156,11 +156,11 @@ values(3, false, 25, 500, 35, 7);
 insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id)
 values (1, 1, 0, 0, 50000, 4, 3, 1, 2, 2);
 insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id)
-values (2, 1, 0, 0, 70000, 3, 3, 1, 3, 2);
+values (2, 0, 0, 0, 70000, 3, 3, 1, 3, 2);
 insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id)
-values (3, 1, 3, 0, 100000, 1, 2, 2, 3, 1);
+values (3, 1, 3, 0, 100000, 1, 2, 2, 4, 1);
 insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id)
-values (4, 1, 4, 0, 90000, 1, 3, 1, 3, 1);
+values (4, 0, 4, 0, 90000, 1, 3, 1, 3, 1);
 
 -- Ads
 insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id)
