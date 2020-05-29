@@ -117,30 +117,14 @@
         <div fxLayout="row" fxLayoutAlign="end">
             <mat-form-field appearance="standard" fxFlex="20%">
                 <mat-label>Sort by</mat-label>
-                <mat-select>
-                    <mat-option value="priceAsc">
-                        Price
-                        <mat-icon>trending_up</mat-icon>
-                    </mat-option>
-                    <mat-option value="priceDesc">
-                        Price
-                        <mat-icon>trending_down</mat-icon>
-                    </mat-option>
-                    <mat-option value="rateAsc">
-                        Rate
-                        <mat-icon>trending_up</mat-icon>
-                    </mat-option>
-                    <mat-option value="rateDesc">
-                        Rate
-                        <mat-icon>trending_down</mat-icon>
-                    </mat-option>
-                    <mat-option value="mileageAsc">
-                        Mileage
-                        <mat-icon>trending_up</mat-icon>
-                    </mat-option>
-                    <mat-option value="mileageDesc">
-                        Mileage
-                        <mat-icon>trending_down</mat-icon>
+                <mat-select  [(value)]="s">
+                    <mat-select-trigger *ngIf="s" class="s">
+                        <span>{{s.name}}</span>
+                        <mat-icon>{{s.icon}}</mat-icon>
+                      </mat-select-trigger>
+                    <mat-option *ngFor="let s of sort" [value]="s" (click)="sortClick()">
+                        {{s.name}}
+                        <mat-icon>{{s.icon}}</mat-icon>
                     </mat-option>
                 </mat-select>
             </mat-form-field>

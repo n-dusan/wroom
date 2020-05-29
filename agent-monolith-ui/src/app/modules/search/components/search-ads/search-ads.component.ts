@@ -45,6 +45,15 @@ export class SearchAdsComponent implements OnInit {
   filterForm: FormGroup;
   cdw: boolean = false;
   cdwClean = true;
+  sort: any[] = [
+    { name: 'Price', icon: 'trending_up', asc: true },
+    { name: 'Price', icon: 'trending_down', asc: false },
+    { name: 'Rate', icon: 'trending_up', asc: true },
+    { name: 'Rate', icon: 'trending_down', asc: false },
+    { name: 'Mileage', icon: 'trending_up', asc: true },
+    { name: 'Mileage', icon: 'trending_down', asc: false }
+  ];
+  s: any = null;
 
   constructor(private adService: AdService,
     private vehicleService: VehicleService,
@@ -237,7 +246,7 @@ export class SearchAdsComponent implements OnInit {
   }
 
   filter() {
-    if(this.adsAfterSearch.length > 0) {
+    if (this.adsAfterSearch.length > 0) {
       this.ads = this.adsAfterSearch;
     } else {
       this.ads = this.allAds;
@@ -286,7 +295,7 @@ export class SearchAdsComponent implements OnInit {
       this.ads = this.ads.filter(obj => { return obj.vehicleObj.mileage <= mileage });
     }
 
-    if(!this.cdwClean){
+    if (!this.cdwClean) {
       this.ads = this.ads.filter(obj => { return obj.vehicleObj.cdw == this.cdw });
     }
 
@@ -295,10 +304,53 @@ export class SearchAdsComponent implements OnInit {
     }
   }
 
-
   reset() {
     this.filterForm.reset();
     this.ads = this.allAds;
+  }
+
+  sortClick() {
+    const sortBy = this.s.name;
+
+    if (sortBy === 'Price') {
+      this.sortByPrice();
+    }
+    else if (sortBy === 'Rate') {
+      this.sortByRate();
+    }
+    else if (sortBy === 'Mileage') {
+      this.sortByMileage();
+    }
+
+  }
+
+  sortByPrice() {
+    if (this.s.asc) {
+      this.ads.sort((a, b) => a.priceListObj.pricePerDay - b.priceListObj.pricePerDay);
+    }
+    else {
+      this.ads.sort((a, b) => a.priceListObj.pricePerDay - b.priceListObj.pricePerDay).reverse();
+    }
+  }
+
+  sortByMileage() {
+    if (this.s.asc) {
+      this.ads.sort((a, b) => a.vehicleObj.mileage - b.vehicleObj.mileage);
+    }
+    else {
+      this.ads.sort((a, b) => a.vehicleObj.mileage - b.vehicleObj.mileage).reverse();
+    }
+  }
+
+  sortByRate() {
+    // gde mi je rate ???
+
+    // if (this.s.asc) {
+    //   this.ads.sort((a, b) => a.priceListObj.pricePerDay - b.priceListObj.pricePerDay);
+    // }
+    // else {
+    //   this.ads.sort((a, b) => a.priceListObj.pricePerDay - b.priceListObj.pricePerDay).reverse();
+    // }
   }
 
   brandChanged(brand: VehicleFeature) {
