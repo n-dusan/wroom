@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { takeUntil } from 'rxjs/operators';
 import { EditVehicleComponent } from '../edit-vehicle/edit-vehicle.component';
 import { NewVehicleComponent } from '../new-vehicle/new-vehicle.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -29,6 +30,7 @@ export class VehicleListComponent implements OnInit {
   constructor(private vehicleService: VehicleService,
               public dialog: MatDialog,
               private authService: AuthService,
+              private toastr: ToastrService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private router: Router,
               private activatedRoute: ActivatedRoute) { }
@@ -96,6 +98,10 @@ export class VehicleListComponent implements OnInit {
     this.vehicleService.delete(element.id).subscribe(
       response => {
         this.refresh();
+        this.toastr.success('You have successfully deleted Vehicle!', 'Success')
+    }, error => {
+      
+      this.toastr.error('There is an ad with this vehicle!', 'Error')
     })
   }
 

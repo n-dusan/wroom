@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -120,6 +123,16 @@ public class VehicleService {
 			entity.setOwner(loggedInUser.get());
 		}
 		return vehicleRepository.save(entity);
+	}
+	
+	public List<byte[]> getFile(Long id) throws IOException {
+		List<Image> listImage = vehicleRepository.findByVehicle(findById(id));
+		List<byte[]> arrays = new ArrayList<byte[]>();
+		for (Image i : listImage) {
+			Path path = Paths.get(i.getUrlPath());
+			arrays.add(Files.readAllBytes(path));
+		}
+		return arrays;
 	}
 
 	public void postImages(List<MultipartFile> files, Vehicle vehicle) {

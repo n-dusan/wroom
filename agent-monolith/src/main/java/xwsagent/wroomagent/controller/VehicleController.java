@@ -31,7 +31,7 @@ import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.converter.ModelTypeConverter;
 import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.config.EndpointConfig;
-
+import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Image;
 import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.Vehicle;
@@ -95,10 +95,17 @@ public class VehicleController {
 	
 	@DeleteMapping(value = "/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
-		System.out.println("Tu je stigao");
-        vehicleService.delete(id);
-        return new ResponseEntity<>("Vehicle deleted.", HttpStatus.OK);
+		Vehicle vehicle = vehicleService.findById(id);
+        List<Ad> ads = vehicleRepository.findByVehicleId(vehicle);
+        if(ads.isEmpty() == true) {
+        	vehicleService.delete(id);
+        	return new ResponseEntity<>("Vehicle deleted.", HttpStatus.OK);
+        }else {
+        	return new ResponseEntity<>("Vehicle not deleted.", HttpStatus.BAD_REQUEST);
+        }
+        
     }
+	
 	@GetMapping(value = "/all")
 	public ResponseEntity<?> getAllVehicles() {
 		return new ResponseEntity<>(
@@ -110,13 +117,7 @@ public class VehicleController {
 	
 	@GetMapping(value = "/getImages/{id}")
 	public List<byte[]> getFile(@PathVariable("id") Long id) throws IOException {
-		List<Image> listImage = vehicleRepository.findByVehicle(vehicleService.findById(id));
-		List<byte[]> arrays = new ArrayList<byte[]>();
-		for (Image i : listImage) {
-			Path path = Paths.get(i.getUrlPath());
-			arrays.add(Files.readAllBytes(path));
-		}
-		return arrays;
+		return vehicleService.getFile(id);
 	}
 	
 	@PutMapping(value = "/{id}", produces = "application/json")
