@@ -8,7 +8,8 @@ public class FuelTypeConverter extends AbstractConverter {
 	public static FeatureDTO fromEntity(FuelType entity) {
 		return new FeatureDTO(
 				entity.getId(),
-				entity.getName());
+				entity.getName(),
+				null);
 	}
 	
 	public static FuelType toEntity(FeatureDTO dto) {

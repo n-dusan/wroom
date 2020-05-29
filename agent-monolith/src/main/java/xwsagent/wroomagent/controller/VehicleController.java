@@ -77,6 +77,14 @@ public class VehicleController {
 				HttpStatus.OK
 		);
 	}
+	
+	@GetMapping(value = "/all")
+	public ResponseEntity<?> getAllVehicles() {
+		return new ResponseEntity<>(
+				VehicleConverter.fromEntityList(vehicleService.findAll(), VehicleConverter::fromEntity),
+				HttpStatus.OK
+		);
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getVehicle(@PathVariable("id") Long id) {

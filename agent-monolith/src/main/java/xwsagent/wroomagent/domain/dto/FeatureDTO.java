@@ -18,6 +18,6 @@ public class FeatureDTO {
 	@NotBlank(message = "Vehicle feature cannot have an empty name!")
 	private String name;
 
-
+	private Long brandId;
 	
 }

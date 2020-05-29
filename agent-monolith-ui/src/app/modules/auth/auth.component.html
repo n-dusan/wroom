@@ -22,7 +22,7 @@
                 </p>
                 <p>
                     Don't have an account?
-                    <button type="button" mat-button (click)="this.login=!this.login">Sign Up!</button>
+                    <button type="button" mat-button (click)="switchForms()">Sign Up!</button>
                 </p>
 
             </mat-card-content>
@@ -60,7 +60,7 @@
                 
                 <p>
                     Already a member?
-                    <button type="button" mat-button (click)="this.login=!this.login;">Log In!</button>
+                    <button type="button" mat-button (click)="switchForms()">Log In!</button>
                 </p>
 
             </mat-card-content>
@@ -70,10 +70,10 @@
         </form>
     </mat-card>
 
-    <div fxLayout="row" fxLayoutAlign="center center">
+    <!-- <div fxLayout="row" fxLayoutAlign="center center">
         <button fxFlex="40%" type="button" mat-raised-button color="primary" (click)="testRoleClick()">TEST ROLE</button>
         <button fxFlex="60%" type="button" mat-raised-button color="primary" (click)="testPermissionClick()">TEST PERMISSION</button>
-    </div>
+    </div> -->
     
 </div>
 

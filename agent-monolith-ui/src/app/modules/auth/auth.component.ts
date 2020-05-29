@@ -83,7 +83,6 @@ export class AuthComponent implements OnInit {
     this.authService.login(request).subscribe(
       data => {
         this.initPage = false;
-        this.toastr.success('You are now logged in!', 'Success');
         this.router.navigateByUrl('/home');
       },
       error => {
@@ -107,6 +106,12 @@ export class AuthComponent implements OnInit {
     //   this.loadModelData();
     // });
     // console.log(this.isAdd)
+  }
+
+  switchForms() {
+    this.login = !this.login;
+    this.loginForm.reset();
+    this.signupForm.reset();
   }
 
   testRoleClick() {

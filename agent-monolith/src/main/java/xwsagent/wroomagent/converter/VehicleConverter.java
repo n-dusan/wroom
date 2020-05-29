@@ -1,9 +1,8 @@
 package xwsagent.wroomagent.converter;
 
-import xwsagent.wroomagent.domain.*;
+import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
-import xwsagent.wroomagent.repository.*;
 
 public class VehicleConverter extends AbstractConverter {
 
@@ -15,11 +14,11 @@ public class VehicleConverter extends AbstractConverter {
 				entity.getMileage(),
 				entity.getChildSeats(),
 				entity.getCdw(),
-				new FeatureDTO(entity.getModelType().getId(), entity.getModelType().getName()),
-				new FeatureDTO(entity.getBrandType().getId(), entity.getBrandType().getName()),
-				new FeatureDTO(entity.getBodyType().getId(), entity.getBodyType().getName()),
-				new FeatureDTO(entity.getFuelType().getId(), entity.getFuelType().getName()),
-				new FeatureDTO(entity.getGearboxType().getId(), entity.getGearboxType().getName())
+				new FeatureDTO(entity.getModelType().getId(), entity.getModelType().getName(), entity.getModelType().getBrandType().getId()),
+				new FeatureDTO(entity.getModelType().getBrandType().getId(), entity.getModelType().getBrandType().getName(), null),
+				new FeatureDTO(entity.getBodyType().getId(), entity.getBodyType().getName(), null),
+				new FeatureDTO(entity.getFuelType().getId(), entity.getFuelType().getName(), null),
+				new FeatureDTO(entity.getGearboxType().getId(), entity.getGearboxType().getName(), null)
 		);
 	}
 	
