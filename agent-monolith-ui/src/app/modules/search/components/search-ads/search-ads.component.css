@@ -22,3 +22,7 @@ mat-card {
 mat-card-content {
     padding-left: 20px;
 }
+
+.mini-button {
+    margin-left: 10px;
+}

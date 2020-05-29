@@ -13,7 +13,7 @@
                     <mat-form-field appearance="standard" fxFlex>
                         <mat-label>Brand</mat-label>
                         <mat-select>
-                            <mat-option *ngFor="let brand of brands" value="brand.id">{{brand.name}}</mat-option>
+                            <mat-option *ngFor="let brand of brands" value="{{brand.id}}" (click)="brandChanged(brand)">{{brand.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -84,12 +84,14 @@
                 <mat-form-field appearance="standard" fxFlex="20%">
                     <mat-label>Location</mat-label>
                     <mat-select formControlName="location">
-                        <mat-option *ngFor="let location of locations" value="{{location.id}}">{{location.city}}, {{location.country}}</mat-option>
+                        <mat-option *ngFor="let location of locations" value="{{location.id}}">{{location.city}},
+                            {{location.country}}</mat-option>
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field appearance="standard" fxFlex="20%">
                     <mat-label>From</mat-label>
+                    <!-- <input matInput type="datetime-local" placeholder="start date"> -->
                     <input formControlName="from" matInput [matDatepicker]="fromPicker">
                     <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                     <mat-datepicker #fromPicker></mat-datepicker>
@@ -102,7 +104,8 @@
                     <mat-datepicker #toPicker></mat-datepicker>
                 </mat-form-field>
 
-                <button mat-mini-fab color="accent" aria-label="Search" (click)="searchSubmit()" [disabled]="!basicSearchForm.valid">
+                <button mat-mini-fab color="accent" aria-label="Search" (click)="searchSubmit()"
+                    [disabled]="!basicSearchForm.valid">
                     <mat-icon>search</mat-icon>
                 </button>
             </form>
@@ -153,13 +156,19 @@
                     <div fxFlex>
                         <mat-card-header fxLayout="row" fxLayoutAlign="center">
                             <div fxFlex>
-                                <mat-card-title>{{ad?.vehicleObj?.brandType.name}} {{ad?.vehicleObj?.modelType.name}}</mat-card-title>
-                                <mat-card-subtitle>{{ad?.locationObj?.city}}, {{ad?.locationObj?.country}}</mat-card-subtitle>
+                                <mat-card-title>{{ad?.vehicleObj?.brandType.name}} {{ad?.vehicleObj?.modelType.name}}
+                                </mat-card-title>
+                                <mat-card-subtitle>{{ad?.locationObj?.city}}, {{ad?.locationObj?.country}}
+                                </mat-card-subtitle>
                             </div>
                             <div fxFlex="20%">
-                                <button mat-mini-fab color="accent" aria-label="Price">
+                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Price">
                                     {{ad?.priceListObj?.pricePerDay}}$
-                                  </button>
+                                </button>
+                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Price">
+                                    <mat-icon>add_shopping_cart</mat-icon>
+                                </button>
+                                
                             </div>
                         </mat-card-header>
 
@@ -217,7 +226,7 @@
             </mat-card>
 
             <!--  [length]="dataSource.data?.length" -->
-            <mat-paginator [pageSize]="10" showFirstLastButtons>
+            <mat-paginator [pageSize]="10" [length]="dataSource?.data?.length" showFirstLastButtons>
             </mat-paginator>
         </div>
 
