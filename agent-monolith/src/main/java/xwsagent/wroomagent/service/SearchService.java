@@ -53,7 +53,8 @@ public class SearchService {
 
 //				A) ----|-*---*-|----
 				if (criteria.getFrom().after(rent.getFromDate()) && criteria.getTo().before(rent.getToDate())) {
-					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED)
+					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED
+							|| rent.getStatus() == RequestStatus.RESERVED)
 						flag = true;
 					System.out.println(">>>> Chosen dates are overlapping");
 					break;
@@ -61,7 +62,8 @@ public class SearchService {
 
 //				B) -*---|---*---|----
 				if (criteria.getFrom().before(rent.getFromDate()) && criteria.getTo().after(rent.getFromDate())) {
-					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED)
+					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED
+							|| rent.getStatus() == RequestStatus.RESERVED)
 						flag = true;
 					System.out.println(">>>> Chosen dates are overlapping");
 					break;
@@ -69,7 +71,8 @@ public class SearchService {
 
 //				C) ----|---*--|--*---
 				if (criteria.getFrom().before(rent.getToDate()) && criteria.getTo().after(rent.getToDate())) {
-					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED)
+					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED
+							|| rent.getStatus() == RequestStatus.RESERVED)
 						flag = true;
 					System.out.println(">>>> Chosen dates are overlapping");
 					break;

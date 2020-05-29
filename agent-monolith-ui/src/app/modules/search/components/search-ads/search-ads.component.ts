@@ -23,6 +23,7 @@ import { MatTableDataSource } from '@angular/material/table';
 export class SearchAdsComponent implements OnInit {
 
   ads: Ad[] = [];
+  allAds: Ad[] = [];
   vehicles: Vehicle[] = [];
   locations: AdLocation[] = [];
   priceLists: PriceList[] = [];
@@ -30,11 +31,12 @@ export class SearchAdsComponent implements OnInit {
   // Filters
   brands: VehicleFeature[] = [];
   models: VehicleFeature[] = [];
+  allModels: VehicleFeature[] = [];
   fuels: VehicleFeature[] = [];
   gearboxes: VehicleFeature[] = [];
   bodies: VehicleFeature[] = [];
 
-  dataSource : MatTableDataSource<Ad>;
+  dataSource: MatTableDataSource<Ad>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   basicSearchForm: FormGroup;
@@ -59,7 +61,8 @@ export class SearchAdsComponent implements OnInit {
     this.adService.all().subscribe(
       data => {
         this.ads = data;
-        this.dataSource = new MatTableDataSource(data);
+        this.allAds = data;
+        this.dataSource = new MatTableDataSource(this.allAds);
         // console.log('ads', this.ads)
       },
       error => {
@@ -136,6 +139,7 @@ export class SearchAdsComponent implements OnInit {
     this.vehicleService.getModels().subscribe(
       data => {
         this.models = data;
+        this.allModels = data;
         // console.log('models', this.models)
       },
       error => {
@@ -191,6 +195,12 @@ export class SearchAdsComponent implements OnInit {
   searchSubmit() {
     console.log(this.basicSearchForm);
 
+    // From date must be at least 2 days from now
+    if (!this.checkDate()) {
+      this.toastr.info('Please choose a date that is at least 2 days from now.', 'Info');
+      return;
+    }
+
     const searchCriteria = new SearchCriteria(
       this.basicSearchForm.value.location,
       new Date(this.basicSearchForm.value.from),
@@ -201,13 +211,38 @@ export class SearchAdsComponent implements OnInit {
       data => {
         console.log(data);
         // let list: Ad[] = data;
-        this.ads = this.ads.filter(obj => {return data.find(ad => obj.id === ad.id) })
+        this.ads = this.allAds.filter(obj => { return data.find(ad => obj.id === ad.id) })
+        this.dataSource = new MatTableDataSource(this.ads);
       },
       error => {
         this.toastr.error('There was an error!', 'Bodies')
       }
     );
 
+  }
+
+  checkDate() {
+    const twoDaysMilliseconds = 1000 * 60 * 60 * 24 * 2
+    const fromDate = new Date(this.basicSearchForm.value.from);
+    var twodaysfromthen = fromDate.getTime() + twoDaysMilliseconds;   // current date's milliseconds - 1,000 ms * 60 s * 60 mins * 24 hrs * (# of days beyond one to go back)
+    const twodaysfromthenDate = new Date(twodaysfromthen);
+
+    const now = new Date();
+    if ((now.getDate() + 2) > twodaysfromthenDate.getDate()) {
+      return false;
+    }
+
+    return true;
+  }
+
+  brandChanged(brand: VehicleFeature) {
+    console.log(brand)
+    this.models = [];
+    for (let m of this.allModels) {
+      if (m.brandId === brand.id) {
+        this.models.push(m);
+      }
+    }
   }
 
 }

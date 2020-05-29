@@ -13,7 +13,7 @@
                     <mat-form-field appearance="standard" fxFlex>
                         <mat-label>Brand</mat-label>
                         <mat-select>
-                            <mat-option *ngFor="let brand of brands" value="brand.id">{{brand.name}}</mat-option>
+                            <mat-option *ngFor="let brand of brands" value="{{brand.id}}" (click)="brandChanged(brand)">{{brand.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -91,6 +91,7 @@
 
                 <mat-form-field appearance="standard" fxFlex="20%">
                     <mat-label>From</mat-label>
+                    <!-- <input matInput type="datetime-local" placeholder="start date"> -->
                     <input formControlName="from" matInput [matDatepicker]="fromPicker">
                     <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                     <mat-datepicker #fromPicker></mat-datepicker>
