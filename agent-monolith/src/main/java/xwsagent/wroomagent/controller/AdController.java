@@ -20,6 +20,7 @@ import lombok.extern.log4j.Log4j2;
 import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.converter.LocationConverter;
+import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.domain.dto.LocationDTO;
 import xwsagent.wroomagent.domain.dto.SearchCriteriaDTO;

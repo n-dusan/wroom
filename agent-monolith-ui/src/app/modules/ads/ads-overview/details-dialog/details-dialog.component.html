@@ -1,0 +1,18 @@
+<h2 mat-dialog-title> {{ priceList ? 'Price list' : 'Location'}}</h2>
+<mat-dialog-content class="mat-typography">
+  <div *ngIf="priceList">
+    <p> <b> Price per day: </b>  &nbsp; {{priceList.pricePerDay}}$ </p>
+    <p> <b> Price per mile: </b> {{priceList.pricePerMile}}$ </p>
+    <p> <b> Collision Damage Waiver: </b> {{priceList.priceCDW}}$ </p>
+    <p> <b> Discount: </b> {{priceList.discount}}% </p>
+  </div>
+
+  <div *ngIf="location">
+    <p> <b> Country: </b>  &nbsp; {{location.country}} </p>
+    <p> <b> City: </b> {{location.city}} </p>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

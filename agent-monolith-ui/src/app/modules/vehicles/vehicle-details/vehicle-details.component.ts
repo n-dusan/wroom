@@ -20,7 +20,7 @@ export class VehicleDetailsComponent implements OnInit {
   base64Data: any;
   retrievedImage: any;
   retrievedImageList: any[] = [];
-  
+
 
   constructor(private formBuilder: FormBuilder,
               private vehicleService: VehicleService,
@@ -28,7 +28,7 @@ export class VehicleDetailsComponent implements OnInit {
               private sanitizer: DomSanitizer,
               @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
   local_data = this.data;
-  
+
   urls = [];
   ngOnInit(): void {
     this.childSeats = this.local_data.childSeats;
@@ -40,13 +40,13 @@ export class VehicleDetailsComponent implements OnInit {
           this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
           this.retrievedImageList.push(this.retrievedImage);
         }
-        
+
       }
-          );  
+          );
   }
 
   public getSantizeUrl(url : any) {
-    
+
     return this.sanitizer.bypassSecurityTrustUrl(url);
 }
 

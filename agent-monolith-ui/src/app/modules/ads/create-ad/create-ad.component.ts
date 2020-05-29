@@ -12,6 +12,7 @@ import { Vehicle } from '../../shared/models/vehicle.model';
 import { Ad } from '../model/ad.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { isNumber } from 'util';
 
 @Component({
   selector: 'app-create-ad',
@@ -22,8 +23,10 @@ export class CreateAdComponent implements OnInit {
 
   locations: Location[] = [];
   priceList: PriceList;
+  location: Location;
   vehicle: Vehicle;
   checked: boolean = false;
+  updateRegime: boolean = false;
 
   adForm: FormGroup;
   selectedMileType: string = 'UNLIMITED';
@@ -37,6 +40,8 @@ export class CreateAdComponent implements OnInit {
 
   ngOnInit(): void {
 
+
+
     this.adForm = this.formBuilder.group({
       'vehicle': new FormControl({ value: 'Not selected', disabled: true } , [Validators.required]),
       'priceList': new FormControl({ value: 'Not selected', disabled: true }, [Validators.required]),
@@ -48,9 +53,58 @@ export class CreateAdComponent implements OnInit {
       'gps': new FormControl(false, [Validators.required])
     });
 
-    this.adForm.get('location').valueChanges.subscribe((locationId) => {
-      console.log('my value', locationId)
-    })
+    if(this.activatedRoute.snapshot.params.id) {
+      //take the id from the url
+      let id = this.activatedRoute.snapshot.params.id;
+        //first fetch the ad that belongs to the request id
+        this.adsService.findAd(+id).subscribe((ad: Ad) => {
+
+          this.updateRegime = true;
+
+          if(ad.mileLimitEnabled) {
+            this.selectedMileType = 'LIMITED'
+          }
+
+          //makes multiple http requests and waits for all of them to complete
+          this.adsService.requestAdData(ad).subscribe(dataList => {
+
+            let vehicleData = dataList[0];
+            let priceListData = dataList[1];
+            let locationData = dataList[2];
+            console.log('vehicle data', vehicleData);
+            console.log('pricelist data', priceListData);
+            console.log('location data', locationData);
+
+            this.vehicle = vehicleData;
+            this.adForm.get('vehicle').setValue('Selected ' + this.vehicle.brandType.name + ' ' + this.vehicle.modelType.name);
+
+            this.priceList = priceListData;
+            this.adForm.get('priceList').setValue('Selected ' + this.priceList.pricePerDay + '$ per day');
+
+            this.location = locationData;
+
+            this.adForm.patchValue({
+              address: ad.address,
+              gps: ad.gps,
+              mileLimit: ad.mileLimit,
+              availableTo: ad.availableTo,
+              availableFrom: ad.availableFrom,
+              location: locationData
+             });
+          }, error => {
+            this.toastr.error('Couldn\'t find location, vehicle or price-list associated with this ad', 'Aw snap');
+          })
+
+
+        }, error => {
+
+          //should redirect to 404 page
+          this.toastr.error('Couldn\'t find an Ad', 'Aw snap');
+        })
+
+
+
+    }
 
     this.refresh();
   }
@@ -73,7 +127,6 @@ export class CreateAdComponent implements OnInit {
       if(priceList) {
         this.priceList = priceList;
         this.adForm.get('priceList').setValue('Selected ' + this.priceList.pricePerDay + '$ per day');
-        console.log('set value', this.adForm.get('priceList').value)
       }
     });
   }
@@ -110,19 +163,31 @@ export class CreateAdComponent implements OnInit {
         ad.mileLimitEnabled = true;
         ad.mileLimit = this.adForm.get('mileLimit').value;
       }
-      ad.locationId = this.adForm.get('location').value;
+      ad.locationId = this.adForm.get('location').value.id;
       ad.address = this.adForm.get('address').value;
       ad.gps = this.adForm.get('gps').value;
 
-      this.adsService.createAd(ad).subscribe((result:Ad) => {
-        console.log(result)
-        this.toastr.success('Ya did it.', 'Aww yeah')
-        this.router.navigate(['../overview'], { relativeTo: this.activatedRoute });
-      }, error => {
-        for(let er of error.errors) {
-          this.toastr.error(er, 'Error')
-        }
-      });
+      if(!this.updateRegime) {
+        this.adsService.createAd(ad).subscribe((result:Ad) => {
+          console.log(result)
+          this.toastr.success('Ya did it.', 'Aww yeah')
+          this.router.navigate(['../overview'], { relativeTo: this.activatedRoute });
+        }, error => {
+          for(let er of error.errors) {
+            this.toastr.error(er, 'Error')
+          }
+        });
+      } else {
+        ad.id = this.activatedRoute.snapshot.params.id
+        this.adsService.updateAd(ad).subscribe((result: Ad) => {
+          this.toastr.success('Ya did it.', 'Aww yeah')
+          this.router.navigate(['../../overview'], { relativeTo: this.activatedRoute });
+        }, error => {
+          for(let er of error.errors) {
+            this.toastr.error(er, 'Error')
+          }
+        })
+      }
     }
   }
 
@@ -132,5 +197,9 @@ export class CreateAdComponent implements OnInit {
       this.locations = data;
     })
   }
+
+  compareFunction(o1: any, o2: any) {
+    return (o1.id == o2.id && o1.country == o2.country && o1.city == o2.city);
+   }
 
 }

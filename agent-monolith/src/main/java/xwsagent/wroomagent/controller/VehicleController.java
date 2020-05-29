@@ -114,6 +114,14 @@ public class VehicleController {
 		);
 	}
 
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getVehicle(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(
+				VehicleConverter.fromEntity(vehicleService.findById(id)),
+				HttpStatus.OK
+		);
+	}
+
 	
 	@GetMapping(value = "/getImages/{id}")
 	public List<byte[]> getFile(@PathVariable("id") Long id) throws IOException {
