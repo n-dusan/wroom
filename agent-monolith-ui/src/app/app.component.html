@@ -14,7 +14,7 @@
     <mat-sidenav-content>
         <mat-toolbar color="primary" fxLayout="row">
             <div>
-                <button mat-icon-button (click)="sidenav.toggle()">
+                <button mat-icon-button (click)="sidenav.toggle()" *ngIf="user">
                     <mat-icon>menu</mat-icon>
                 </button>
             </div>

@@ -1,6 +1,8 @@
 package xwsagent.wroomagent.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,6 +11,8 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,9 +58,16 @@ public class AuthController {
 			return new ResponseEntity<>(ret, HttpStatus.OK);
 		} catch(BadCredentialsException ex) {
 			log.error(logContent + "Bad credentials");
-			List<String> errors = new ArrayList<String>();
-			errors.add("Bad Credentials");
-			return new ResponseEntity<>(new APIError(HttpStatus.BAD_REQUEST, "Bad Credentials", errors), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(
+					new APIError(HttpStatus.BAD_REQUEST, "Bad Credentials", Collections.singletonList("Bad credentials")), HttpStatus.BAD_REQUEST);
+		} catch(LockedException e) {
+			log.error(logContent + "Account locked");
+			return new ResponseEntity<>(
+					new APIError(HttpStatus.BAD_REQUEST, "Account locked", Collections.singletonList("Account locked")), HttpStatus.BAD_REQUEST);
+		} catch(DisabledException e) {
+			log.error(logContent + "Account disabled");
+			return new ResponseEntity<>(
+					new APIError(HttpStatus.BAD_REQUEST, "Account disabled", Collections.singletonList("Account disabled")), HttpStatus.BAD_REQUEST);
 		} catch(Exception e) {
 			log.error(logContent + "General exception");
 			e.printStackTrace();
@@ -91,8 +102,7 @@ public class AuthController {
 	public ResponseEntity<?> whoami(Authentication auth) {
 		return new ResponseEntity<>(this.authService.whoami(auth), HttpStatus.OK);
 	}
-	
- 
+
 	/*
 	 * Endpoint for e-mail confirmation
 	 */

@@ -26,7 +26,6 @@ export class AppComponent implements OnInit {
     //   console.log('POST response: ', response)
     //   })
     // })
-
     this.authService.getLoggedUser().subscribe(
       data => {
         this.user = data;

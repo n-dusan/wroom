@@ -14,7 +14,8 @@ const routes: Routes = [
   { path: 'rents', loadChildren: () => import('./modules/rents/rents.module').then(mod => mod.RentsModule)},
   { path: 'ads', loadChildren: () => import('./modules/ads/ads.module').then(mod => mod.AdsModule)},
   { path: 'vehicles', loadChildren: () => import('./modules/vehicles/vehicles.module').then(mod => mod.VehiclesModule)},
-  { path: 'search', loadChildren: () => import('./modules/search/search.module').then(mod => mod.SearchModule)}
+  { path: 'search', loadChildren: () => import('./modules/search/search.module').then(mod => mod.SearchModule)},
+  { path: 'dashboard', loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule)}
 ];
 
 @NgModule({
