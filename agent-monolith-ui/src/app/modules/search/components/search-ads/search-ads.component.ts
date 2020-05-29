@@ -13,6 +13,7 @@ import { PriceListService } from '../../service/price-list.service';
 import { VehicleFeature } from '../../model/vehicle-feature.model';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { SearchCriteria } from '../../model/search-criteria.model';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-search-ads',
@@ -33,6 +34,7 @@ export class SearchAdsComponent implements OnInit {
   gearboxes: VehicleFeature[] = [];
   bodies: VehicleFeature[] = [];
 
+  dataSource : MatTableDataSource<Ad>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   basicSearchForm: FormGroup;
@@ -57,6 +59,7 @@ export class SearchAdsComponent implements OnInit {
     this.adService.all().subscribe(
       data => {
         this.ads = data;
+        this.dataSource = new MatTableDataSource(data);
         // console.log('ads', this.ads)
       },
       error => {
@@ -197,6 +200,8 @@ export class SearchAdsComponent implements OnInit {
     this.adService.search(searchCriteria).subscribe(
       data => {
         console.log(data);
+        // let list: Ad[] = data;
+        this.ads = this.ads.filter(obj => {return data.find(ad => obj.id === ad.id) })
       },
       error => {
         this.toastr.error('There was an error!', 'Bodies')

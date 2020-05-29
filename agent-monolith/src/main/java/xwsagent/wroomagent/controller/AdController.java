@@ -148,8 +148,7 @@ public class AdController {
      */
     @PostMapping("/search")
     public ResponseEntity<?> search(@RequestBody SearchCriteriaDTO search) {
-    	List<Long> ret = this.searchService.search(search);
-    	return new ResponseEntity<>(ret, HttpStatus.OK);
+    	return new ResponseEntity<>( AdConverter.fromEntityList(this.searchService.search(search), AdConverter::fromEntity), HttpStatus.OK);
         
     }
 }
