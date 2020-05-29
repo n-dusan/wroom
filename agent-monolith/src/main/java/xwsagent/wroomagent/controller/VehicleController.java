@@ -99,6 +99,14 @@ public class VehicleController {
         vehicleService.delete(id);
         return new ResponseEntity<>("Vehicle deleted.", HttpStatus.OK);
     }
+	@GetMapping(value = "/all")
+	public ResponseEntity<?> getAllVehicles() {
+		return new ResponseEntity<>(
+				VehicleConverter.fromEntityList(vehicleService.findAll(), VehicleConverter::fromEntity),
+				HttpStatus.OK
+		);
+	}
+
 	
 	@GetMapping(value = "/getImages/{id}")
 	public List<byte[]> getFile(@PathVariable("id") Long id) throws IOException {

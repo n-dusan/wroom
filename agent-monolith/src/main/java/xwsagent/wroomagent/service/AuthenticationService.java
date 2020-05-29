@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import xwsagent.wroomagent.converter.UserConverter;
 import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.domain.RentRequest;
@@ -37,28 +37,17 @@ import xwsagent.wroomagent.repository.rbac.RoleRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
 
 @Service
+@AllArgsConstructor
 public class AuthenticationService {
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
-
-	@Autowired
-	private UserRepository userRepository;
-
-	@Autowired
-	private RoleRepository roleRepository;
-
-	@Autowired
-	PasswordEncoder encoder;
 	
-	@Autowired
-	private JwtTokenProvider jwtProvider;
-
-	@Autowired
-    private MailProducer mailProducer;
-	
-	@Autowired
-	private VerificationTokenRepository verificationRepository;
+	private final AuthenticationManager authenticationManager;
+	private final UserRepository userRepository;
+	private final RoleRepository roleRepository;
+	private final PasswordEncoder encoder;
+	private final JwtTokenProvider jwtProvider;
+    private final MailProducer mailProducer;
+	private final VerificationTokenRepository verificationRepository;
 	
 	
 	public LoggedUserDTO login(LoginRequestDTO request) {

@@ -11,7 +11,7 @@
         <mat-form-field>
           <mat-label>Vehicle Brand</mat-label>
           <mat-select formControlName="selectBrand">
-            <mat-option *ngFor="let brand of brandList" selected value={{brand.id}}>{{brand.name}}</mat-option>
+            <mat-option *ngFor="let brand of brandList" selected value={{brand.id}} (click)="brandClicked(brand)">{{brand.name}}</mat-option>
           </mat-select>
           <mat-error *ngIf="firstFormGroup.get('selectBrand').hasError('required')">Field must not be empty!</mat-error>
         </mat-form-field>

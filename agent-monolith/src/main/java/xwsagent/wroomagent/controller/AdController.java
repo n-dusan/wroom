@@ -1,19 +1,30 @@
 package xwsagent.wroomagent.controller;
 
-import lombok.extern.log4j.Log4j2;
+import java.util.List;
+
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import lombok.extern.log4j.Log4j2;
 import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.converter.LocationConverter;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.domain.dto.LocationDTO;
+import xwsagent.wroomagent.domain.dto.SearchCriteriaDTO;
 import xwsagent.wroomagent.service.AdService;
-
-import javax.validation.Valid;
-import java.util.List;
+import xwsagent.wroomagent.service.SearchService;
 
 /**
  * Has Ad and Location CRUD.
@@ -24,9 +35,21 @@ import java.util.List;
 public class AdController {
 
     private final AdService adService;
+    private final SearchService searchService;
 
-    public AdController(AdService adService) {
+    public AdController(AdService adService, SearchService searchService) {
         this.adService = adService;
+        this.searchService = searchService;
+    }
+    
+    /**
+     * GET /api/ads
+     * @return list of ads
+     */
+    @GetMapping
+    public ResponseEntity<List<AdDTO>> getAll() {
+        return new ResponseEntity<>(AdConverter.fromEntityList(adService.findAll(), AdConverter::fromEntity),
+                HttpStatus.OK);
     }
 
 
@@ -116,5 +139,17 @@ public class AdController {
     @GetMapping("/location/{id}")
     public ResponseEntity<LocationDTO> getLocation(@PathVariable("id") Long locationId) {
         return new ResponseEntity<>(LocationConverter.fromEntity(adService.findLocationById(locationId)), HttpStatus.OK);
+    }
+    
+    /**
+     * POST /api/ads/search
+     * @param search
+     * @return
+     */
+    @PostMapping("/search")
+    public ResponseEntity<?> search(@RequestBody SearchCriteriaDTO search) {
+    	List<Long> ret = this.searchService.search(search);
+    	return new ResponseEntity<>(ret, HttpStatus.OK);
+        
     }
 }

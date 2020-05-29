@@ -1,19 +1,19 @@
 package xwsagent.wroomagent.service;
 
+import java.util.Calendar;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
+
 import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Location;
-import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.AdRepository;
 import xwsagent.wroomagent.repository.LocationRepository;
 import xwsagent.wroomagent.repository.PriceListRepository;
 import xwsagent.wroomagent.repository.VehicleRepository;
-
-import java.util.Calendar;
-import java.util.List;
 
 @Service
 public class AdService {
@@ -36,6 +36,10 @@ public class AdService {
         this.vehicleService = vehicleService;
     }
 
+    public List<Ad> findAll() {
+    	return this.adRepository.findAll();
+    }
+    
     public Location findLocationById(Long id) {
         return locationRepository.findById(id)
                 .orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " location"));

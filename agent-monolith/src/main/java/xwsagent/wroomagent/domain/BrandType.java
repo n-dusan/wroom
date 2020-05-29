@@ -1,12 +1,17 @@
 package xwsagent.wroomagent.domain;
 
-import javax.persistence.*;
+import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
@@ -19,6 +24,9 @@ public class BrandType {
 	@Column(nullable = false, unique = true)
 	private String name;
 
+	@OneToMany(mappedBy = "brandType")
+	private Set<ModelType> models;
+	
 //	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "brandType")
 //	private Set<Vehicle> vehicles;
 	

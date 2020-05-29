@@ -1,0 +1,226 @@
+<div class="content" fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10px">
+
+    <!-- Filters -->
+    <div fxFlex="20%" class="filters">
+        <mat-card class="filters-card">
+            <mat-card-header>
+                <mat-card-title>Filters</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+                <form fxLayout="column" fxLayoutAlign="center center" style="padding: 10px;">
+
+                    <mat-form-field appearance="standard" fxFlex>
+                        <mat-label>Brand</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let brand of brands" value="brand.id">{{brand.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" fxFlex>
+                        <mat-label>Model</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let model of models" value="model.id">{{model.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" fxFlex>
+                        <mat-label>Fuel</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let fuel of fuels" value="fuel.id">{{fuel.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" fxFlex>
+                        <mat-label>Gearbox</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let gb of gearboxes" value="gb.id">{{gb.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="standard" fxFlex>
+                        <mat-label>Body</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let body of bodies" value="body.id">{{body.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+                        <mat-form-field appearance="standard" fxFlex="20%">
+                            <mat-label>Price min</mat-label>
+                            <input matInput type="number" min="0">
+                        </mat-form-field>
+                        <mat-form-field appearance="standard" fxFlex="20%">
+                            <mat-label>Price max</mat-label>
+                            <input matInput type="number" min="0">
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field appearance="standard" fxFlex="20%">
+                        <mat-label>Mileage</mat-label>
+                        <input matInput type="number" min="0">
+                    </mat-form-field>
+
+                    <mat-checkbox>Collision Damage Waiver</mat-checkbox>
+
+                    <mat-form-field appearance="standard" fxFlex="20%">
+                        <mat-label>Child seats</mat-label>
+                        <input matInput type="number" min="0" max="5">
+                    </mat-form-field>
+                </form>
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+                <button fxFlex mat-raised-button>Reset</button>
+                <button fxFlex mat-raised-button color="accent">Apply</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <div fxFlex="70%" class="ads-containter">
+
+        <!-- Required for basic search -->
+        <div class="basic-search">
+            <form [formGroup]="basicSearchForm" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="15px">
+                <mat-form-field appearance="standard" fxFlex="20%">
+                    <mat-label>Location</mat-label>
+                    <mat-select formControlName="location">
+                        <mat-option *ngFor="let location of locations" value="{{location.id}}">{{location.city}}, {{location.country}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" fxFlex="20%">
+                    <mat-label>From</mat-label>
+                    <input formControlName="from" matInput [matDatepicker]="fromPicker">
+                    <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #fromPicker></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="standard" fxFlex="20%">
+                    <mat-label>To</mat-label>
+                    <input formControlName="to" matInput [matDatepicker]="toPicker">
+                    <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #toPicker></mat-datepicker>
+                </mat-form-field>
+
+                <button mat-mini-fab color="accent" aria-label="Search" (click)="searchSubmit()" [disabled]="!basicSearchForm.valid">
+                    <mat-icon>search</mat-icon>
+                </button>
+            </form>
+        </div>
+
+        <!-- Sorting thingy -->
+        <div fxLayout="row" fxLayoutAlign="end">
+            <mat-form-field appearance="standard" fxFlex="20%">
+                <mat-label>Sort by</mat-label>
+                <mat-select>
+                    <mat-option value="priceAsc">
+                        Price
+                        <mat-icon>trending_up</mat-icon>
+                    </mat-option>
+                    <mat-option value="priceDesc">
+                        Price
+                        <mat-icon>trending_down</mat-icon>
+                    </mat-option>
+                    <mat-option value="rateAsc">
+                        Rate
+                        <mat-icon>trending_up</mat-icon>
+                    </mat-option>
+                    <mat-option value="rateDesc">
+                        Rate
+                        <mat-icon>trending_down</mat-icon>
+                    </mat-option>
+                    <mat-option value="mileageAsc">
+                        Mileage
+                        <mat-icon>trending_up</mat-icon>
+                    </mat-option>
+                    <mat-option value="mileageDesc">
+                        Mileage
+                        <mat-icon>trending_down</mat-icon>
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+
+        <!-- Search results -->
+        <div>
+            <mat-card class="example-card" *ngFor="let ad of ads">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <div fxFlex="20%">
+                        *Image*
+                    </div>
+
+                    <div fxFlex>
+                        <mat-card-header fxLayout="row" fxLayoutAlign="center">
+                            <div fxFlex>
+                                <mat-card-title>{{ad?.vehicleObj?.brandType.name}} {{ad?.vehicleObj?.modelType.name}}</mat-card-title>
+                                <mat-card-subtitle>{{ad?.locationObj?.city}}, {{ad?.locationObj?.country}}</mat-card-subtitle>
+                            </div>
+                            <div fxFlex="20%">
+                                <button mat-mini-fab color="accent" aria-label="Price">
+                                    {{ad?.priceListObj?.pricePerDay}}$
+                                  </button>
+                            </div>
+                        </mat-card-header>
+
+                        <mat-card-content fxLayout="row" fxLayoutAlign="center center">
+                            <table fxFlex="30%">
+                                <tbody>
+                                    <tr>
+                                        <td>Fuel:</td>
+                                        <td>{{ad?.vehicleObj?.fuelType.name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Gearbox:</td>
+                                        <td>{{ad?.vehicleObj?.gearboxType.name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Body:</td>
+                                        <td>{{ad?.vehicleObj?.bodyType.name}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <mat-divider vertical style="height:100px;margin-right: 5px;"></mat-divider>
+
+                            <table fxFlex="50%">
+                                <tbody>
+                                    <tr>
+                                        <td>Mileage:</td>
+                                        <td>{{ad?.vehicleObj?.mileage}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Collision Damage Waiver:</td>
+                                        <td>
+                                            <mat-icon *ngIf="!ad?.vehicleObj?.cdw">close</mat-icon>
+                                            <mat-icon *ngIf="ad?.vehicleObj?.cdw">check</mat-icon>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Child Seats:</td>
+                                        <td>
+                                            {{ad?.vehicleObj?.childSeats}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div fxFlex></div>
+                        </mat-card-content>
+                    </div>
+
+                </div>
+
+                <mat-card-actions fxLayout="row" fxLayoutAlign="end">
+                    <button mat-raised-button color="primary" fxFlex (click)="openDetails(ad.id)">Details</button>
+                </mat-card-actions>
+            </mat-card>
+
+            <!--  [length]="dataSource.data?.length" -->
+            <mat-paginator [pageSize]="10" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+
+    </div>
+
+</div>

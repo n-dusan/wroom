@@ -60,7 +60,7 @@ export class FeaturesOverviewComponent implements OnInit {
     this.modelService.getModelTypes().subscribe(
       data => {
         this.dataModelSource = new MatTableDataSource(data);
-
+        // console.log('model data', this.dataModelSource)
       });
   }
 

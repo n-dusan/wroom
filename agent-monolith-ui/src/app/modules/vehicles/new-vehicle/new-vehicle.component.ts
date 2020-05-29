@@ -39,6 +39,7 @@ export class NewVehicleComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
+  modelListAll: ModelType[] = [];
   modelList: ModelType[] = [];
   brandList: BrandType[] = [];
   bodyList: BodyType[] = [];
@@ -80,13 +81,14 @@ export class NewVehicleComponent implements OnInit {
       
       this.modelService.getModelTypes().subscribe(
         data => {
-          this.modelList = data;
-          console.log(this.modelList)
+          this.modelListAll = data;
+          console.log(this.modelListAll)
         }
       );
       this.brandService.getBrandTypes().subscribe(
         data => {
           this.brandList = data;
+          console.log('brands', this.brandList)
         }
       );
       this.bodyService.getBodyTypes().subscribe(
@@ -181,5 +183,13 @@ export class NewVehicleComponent implements OnInit {
 
   }
 
-  
+  brandClicked(brand: BrandType) {
+    console.log(brand)
+    for(let m of this.modelListAll) {
+      if(m.brandId === brand.id) {
+        this.modelList.push(m);
+      }
+    }
+  }
+
 }
