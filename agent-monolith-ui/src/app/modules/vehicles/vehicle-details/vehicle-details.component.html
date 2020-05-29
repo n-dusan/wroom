@@ -17,7 +17,7 @@
     <mat-divider></mat-divider>
     <mat-list-item>Child seats : {{this.local_data.childSeats}}</mat-list-item>
     <mat-divider></mat-divider>
-    <div *ngIf=retrievedImage>
+    <div id="divImages" class="grid-container">
     <img *ngFor="let imageSource of retrievedImageList" [src]="getSantizeUrl(imageSource)" height="150" width="120">
     </div> 
   </mat-list>

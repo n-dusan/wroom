@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +18,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.domain.auth.User;
+import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Image;
+import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.Vehicle;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
+import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.repository.*;
@@ -68,6 +75,33 @@ public class VehicleService {
 		return vehicleRepository.findById(id)
 				.orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " vehicle"));
 	}
+	
+	public List<Vehicle> findAllActiveForUser(Long userId) {
+        return vehicleRepository.findAllActiveForUser(userId);
+    }
+	
+	public void delete(Long id) {
+        Vehicle vehicle = findById(id);
+        vehicle.setDeleted(true);
+        vehicleRepository.save(vehicle);
+    }
+	
+	public Vehicle update(Vehicle vehicle, VehicleDTO vehicleDTO) {
+		if(vehicleDTO == null) {
+			throw new InvalidDataException("Forwarded DTO is null");
+		}	
+		
+		vehicle.setChildSeats(vehicleDTO.getChildSeats());
+		vehicle.setCdw(vehicleDTO.getCdw());
+		vehicle.setMileage(vehicleDTO.getMileage());
+		vehicle.setModelType(this.modelTypeRepository.findByName(vehicleDTO.getModelType().getName()));
+		vehicle.setBodyType(this.bodyTypeRepository.findByName(vehicleDTO.getBodyType().getName()));
+		vehicle.setFuelType(this.fuelTypeRepository.findByName(vehicleDTO.getFuelType().getName()));
+		vehicle.setGearboxType(this.gearboxTypeRepository.findByName(vehicleDTO.getGearboxType().getName()));
+		
+		this.vehicleRepository.save(vehicle);
+		return vehicle;
+	}
 
 	/**
 	 *
@@ -89,6 +123,16 @@ public class VehicleService {
 			entity.setOwner(loggedInUser.get());
 		}
 		return vehicleRepository.save(entity);
+	}
+	
+	public List<byte[]> getFile(Long id) throws IOException {
+		List<Image> listImage = vehicleRepository.findByVehicle(findById(id));
+		List<byte[]> arrays = new ArrayList<byte[]>();
+		for (Image i : listImage) {
+			Path path = Paths.get(i.getUrlPath());
+			arrays.add(Files.readAllBytes(path));
+		}
+		return arrays;
 	}
 
 	public void postImages(List<MultipartFile> files, Vehicle vehicle) {

@@ -34,21 +34,14 @@ export class VehicleDetailsComponent implements OnInit {
     this.childSeats = this.local_data.childSeats;
     this.vehicleService.getImages(this.local_data.id).subscribe(
       data => {
-        console.log(data);
         this.retrieveResonse = data;
         for(let i = 0;i<this.retrieveResonse.length;i++){
-          console.log(this.retrieveResonse.length + "duzina")
           this.base64Data = this.retrieveResonse[i];
           this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
-          console.log(this.retrievedImage)  
           this.retrievedImageList.push(this.retrievedImage);
         }
         
       }
-         //let objectURL = 'data:image/jpeg;base64,' + baseImage.image;
-
-         // this.thumbnail = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-          
           );  
   }
 
