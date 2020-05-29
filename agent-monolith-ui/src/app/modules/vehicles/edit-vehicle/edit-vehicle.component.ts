@@ -28,6 +28,9 @@ export class EditVehicleComponent implements OnInit {
   fuelList: FuelType[] = [];
   gearboxList: GearboxType[] = [];
   new: Vehicle = new Vehicle();
+  brandTypeList: BrandType[] = [];
+
+  selectedBrandType: string;
   
   constructor(private formBuilder: FormBuilder,
     public dialogRef: MatDialogRef<VehicleListComponent>,
@@ -43,6 +46,8 @@ export class EditVehicleComponent implements OnInit {
 
   local_data = this.data;
   ngOnInit(): void {
+    this.selectedBrandType = this.local_data.element.brandType.name;
+
     this.vehicleUpdateForm = this.formBuilder.group({
       childSeatsEdit: ['', Validators.required],
       mileageEdit: ['', Validators.required],
@@ -64,6 +69,8 @@ export class EditVehicleComponent implements OnInit {
         this.brandList = data;
       }
     );
+    
+    
     this.bodyService.getBodyTypes().subscribe(
       data => {
         this.bodyList = data;
@@ -80,6 +87,8 @@ export class EditVehicleComponent implements OnInit {
       }
     );
   }
+
+ 
 
   onSubmitUpdate(id: number){
     this.vehicleService.update(id,this.local_data.element).subscribe(
@@ -108,5 +117,12 @@ export class EditVehicleComponent implements OnInit {
     selectGearbox: new FormControl({value: this.local_data.element.gearboxType.name, disabled: false}, Validators.required),
     cdw: new FormControl({value: this.local_data.element.cdw, disabled: false}, Validators.required)
   });
+
+
+  modelChanged(model : ModelType) {
+    console.log('selected model', model)
+    this.selectedBrandType = this.brandList.find(obj => { return obj.id === model.brandId }).name;
+    // this.vehicleUpdateForm.value.selectBrand = this.brandList.find(obj => { return obj.id === model.brandId });
+  }
 
 }

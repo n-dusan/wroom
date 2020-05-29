@@ -17,7 +17,7 @@
     <mat-divider></mat-divider>
     <mat-list-item>Child seats : {{this.local_data.childSeats}}</mat-list-item>
     <mat-divider></mat-divider>
-    <div id="divImages" class="grid-container" style="border-style: solid; padding:10px;border-top-color: rgb(212, 113, 106);">
+    <div id="divImages" class="grid-container">
     <img *ngFor="let imageSource of retrievedImageList" [src]="getSantizeUrl(imageSource)" height="150" width="120">
     </div> 
   </mat-list>

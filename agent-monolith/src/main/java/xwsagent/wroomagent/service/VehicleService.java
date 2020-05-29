@@ -92,7 +92,6 @@ public class VehicleService {
 		vehicle.setCdw(vehicleDTO.getCdw());
 		vehicle.setMileage(vehicleDTO.getMileage());
 		vehicle.setModelType(this.modelTypeRepository.findByName(vehicleDTO.getModelType().getName()));
-		vehicle.setBrandType(this.brandTypeRepository.findByName(vehicleDTO.getBrandType().getName()));
 		vehicle.setBodyType(this.bodyTypeRepository.findByName(vehicleDTO.getBodyType().getName()));
 		vehicle.setFuelType(this.fuelTypeRepository.findByName(vehicleDTO.getFuelType().getName()));
 		vehicle.setGearboxType(this.gearboxTypeRepository.findByName(vehicleDTO.getGearboxType().getName()));

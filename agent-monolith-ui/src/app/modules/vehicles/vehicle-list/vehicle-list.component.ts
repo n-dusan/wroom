@@ -68,7 +68,7 @@ export class VehicleListComponent implements OnInit {
     console.log(element.childSeats);
     const dialogRef = this.dialog.open(VehicleDetailsComponent, {
       width: '500px',
-      height: '400px',
+      height: '700px',
       data: element
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -80,10 +80,11 @@ export class VehicleListComponent implements OnInit {
     this.router.navigate(['../new'], { relativeTo: this.activatedRoute });
   }
 
-  onEditVehicleClick(element: any) {
+  onEditVehicleClick(element: Vehicle) {
+    console.log('element', element)
     const dialogRef = this.dialog.open(EditVehicleComponent, {
-      width: '500px',
-      height: '400px',
+      width: '300px',
+      height: '700px',
       data: {isEdit: this.isEdit=true, element}
     });
     dialogRef.afterClosed().subscribe(result => {
