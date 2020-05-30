@@ -13,6 +13,7 @@ import { DetailsDialogComponent } from './details-dialog/details-dialog.componen
 import { VehicleDetailsComponent } from '../../vehicles/vehicle-details/vehicle-details.component';
 import { VehicleService } from '../services/vehicle.service';
 import { Vehicle } from '../../shared/models/vehicle.model';
+import { VehicleOccupancyComponent } from '../../vehicles/vehicle-occupancy/vehicle-occupancy.component';
 
 @Component({
   selector: 'app-ads-overview',
@@ -99,6 +100,17 @@ export class AdsOverviewComponent implements OnInit {
         type: "LOCATION",
         id: ad.locationId
       }
+    });
+  }
+
+  onOccupancyClick(){
+    const dialogRef = this.dialog.open(VehicleOccupancyComponent, {
+      width: '400px',
+      height: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+     
     });
   }
 
