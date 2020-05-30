@@ -1,0 +1,59 @@
+<div class="content" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="10px">
+
+    <div>
+        <h2>Price Details</h2>
+    </div>
+
+    <table class="mat-elevation-z2" fxFlex>
+
+        <tr>
+            <th>Per Day</th>
+            <td>{{pricelist?.pricePerDay}}$</td>
+            <td>
+                <button mat-icon-button 
+                matTooltip="Price per 24h. If there's a mile limit, check Price per Mile." 
+                color="accent">
+                    <mat-icon>help</mat-icon>
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <th>Per Mile</th>
+            <td>{{pricelist?.pricePerMile}}$</td>
+            <td>
+                <button mat-icon-button 
+                matTooltip="In addition to Price per Day, Price per Mile is added to the final price for every mile that is over defined Mile Limit." 
+                color="accent">
+                    <mat-icon>help</mat-icon>
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <th>Collision Damage Wavier</th>
+            <td>{{pricelist?.priceCDW}}$</td>
+            <td>
+                <button mat-icon-button 
+                matTooltip="Collision Damage Waiver is a type of protection that limits how much a company will charge for repairs." 
+                color="accent">
+                    <mat-icon>help</mat-icon>
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <th>Discount</th>
+            <td>{{pricelist?.discount}}%</td>
+            <td>
+                <button mat-icon-button 
+                matTooltip="If rental period is longer than 30 days, discount will be applied to Price per Day." 
+                color="accent">
+                    <mat-icon>help</mat-icon>
+                </button>
+            </td>
+        </tr>
+
+    </table>
+
+    <div fxFlex="10%">
+        <button mat-raised-button color="primary" (click)="close()">OK</button>
+    </div>
+</div>

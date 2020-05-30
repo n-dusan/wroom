@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { SearchCriteria } from '../../model/search-criteria.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { TwoDayValidator } from '../../validators/two-days.validator';
+import { PriceDetailsComponent } from '../price-details/price-details.component';
 
 @Component({
   selector: 'app-search-ads',
@@ -206,6 +207,14 @@ export class SearchAdsComponent implements OnInit {
         this.toastr.error('There was an error!', 'Bodies')
       }
     );
+  }
+
+  priceClick(priceId: number) {
+    console.log(priceId);
+    let dialogRef = this.dialog.open(PriceDetailsComponent,
+      {
+        data: { pricelistId: priceId }
+      });
   }
 
   openDetails(adID: number) {

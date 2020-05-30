@@ -6,13 +6,14 @@ import { SearchComponent } from './search.component';
 import { MaterialModule } from '../shared/material.module';
 import { AdDetailComponent } from './components/ad-detail/ad-detail.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { PriceDetailsComponent } from './components/price-details/price-details.component';
 
 
 
 @NgModule({
   declarations: [
     SearchComponent, 
-    SearchAdsComponent, AdDetailComponent
+    SearchAdsComponent, AdDetailComponent, PriceDetailsComponent
   ],
   imports: [
     CommonModule,

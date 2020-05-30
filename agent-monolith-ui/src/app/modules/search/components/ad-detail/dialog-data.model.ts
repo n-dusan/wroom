@@ -1,3 +1,3 @@
 export interface AdDetailDialogData {
-    adID: number;
-  }
+  adID: number;
+}

@@ -148,10 +148,11 @@
                                 </mat-card-subtitle>
                             </div>
                             <div fxFlex="20%">
-                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Price">
+                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Price" 
+                                (click)="priceClick(ad.priceListObj?.id)" matTooltip="Click for mor info about pricing">
                                     {{ad?.priceListObj?.pricePerDay}}$
                                 </button>
-                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Price">
+                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Price" matTooltip="Add to Cart">
                                     <mat-icon>add_shopping_cart</mat-icon>
                                 </button>
                                 
