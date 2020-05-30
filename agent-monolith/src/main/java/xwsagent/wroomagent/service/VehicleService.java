@@ -17,23 +17,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import xwsagent.wroomagent.converter.VehicleConverter;
-import xwsagent.wroomagent.domain.auth.User;
-import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Image;
-import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.Vehicle;
-import xwsagent.wroomagent.domain.dto.FeatureDTO;
+import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
+import xwsagent.wroomagent.domain.dto.VehicleImageDTO;
 import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.jwt.UserPrincipal;
-import xwsagent.wroomagent.repository.*;
-import xwsagent.wroomagent.repository.rbac.UserRepository;
+import xwsagent.wroomagent.repository.BodyTypeRepository;
+import xwsagent.wroomagent.repository.BrandTypeRepository;
+import xwsagent.wroomagent.repository.FuelTypeRepository;
+import xwsagent.wroomagent.repository.GearboxTypeRepository;
+import xwsagent.wroomagent.repository.ModelTypeRepository;
 import xwsagent.wroomagent.repository.VehicleRepository;
+import xwsagent.wroomagent.repository.rbac.UserRepository;
 
 @Service
 public class VehicleService {
-
 
 	private final VehicleRepository vehicleRepository;
 	private final ImageService imageService;
@@ -44,14 +45,10 @@ public class VehicleService {
 	private final GearboxTypeRepository gearboxTypeRepository;
 	private final UserRepository userRepository;
 
-	public VehicleService(VehicleRepository vehicleRepository,
-						  ImageService imageService,
-						  ModelTypeRepository modelTypeRepository,
-						  BrandTypeRepository brandTypeRepository,
-						  BodyTypeRepository bodyTypeRepository,
-						  FuelTypeRepository fuelTypeRepository,
-						  GearboxTypeRepository gearboxTypeRepository,
-						  UserRepository userRepository) {
+	public VehicleService(VehicleRepository vehicleRepository, ImageService imageService,
+			ModelTypeRepository modelTypeRepository, BrandTypeRepository brandTypeRepository,
+			BodyTypeRepository bodyTypeRepository, FuelTypeRepository fuelTypeRepository,
+			GearboxTypeRepository gearboxTypeRepository, UserRepository userRepository) {
 		this.vehicleRepository = vehicleRepository;
 		this.imageService = imageService;
 		this.modelTypeRepository = modelTypeRepository;
@@ -61,36 +58,35 @@ public class VehicleService {
 		this.gearboxTypeRepository = gearboxTypeRepository;
 		this.userRepository = userRepository;
 	}
-	
 
 	public List<Vehicle> findAll() {
 		return vehicleRepository.findAll();
 	}
-	
+
 	public List<Vehicle> getAllActive(Authentication auth) {
 		return vehicleRepository.findAllActiveForUser(((UserPrincipal) auth.getPrincipal()).getId());
 	}
 
 	public Vehicle findById(Long id) {
-		return vehicleRepository.findById(id)
-				.orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " vehicle"));
+		return vehicleRepository.findById(id).orElseThrow(
+				() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " vehicle"));
 	}
-	
+
 	public List<Vehicle> findAllActiveForUser(Long userId) {
-        return vehicleRepository.findAllActiveForUser(userId);
-    }
-	
+		return vehicleRepository.findAllActiveForUser(userId);
+	}
+
 	public void delete(Long id) {
-        Vehicle vehicle = findById(id);
-        vehicle.setDeleted(true);
-        vehicleRepository.save(vehicle);
-    }
-	
+		Vehicle vehicle = findById(id);
+		vehicle.setDeleted(true);
+		vehicleRepository.save(vehicle);
+	}
+
 	public Vehicle update(Vehicle vehicle, VehicleDTO vehicleDTO) {
-		if(vehicleDTO == null) {
+		if (vehicleDTO == null) {
 			throw new InvalidDataException("Forwarded DTO is null");
-		}	
-		
+		}
+
 		vehicle.setChildSeats(vehicleDTO.getChildSeats());
 		vehicle.setCdw(vehicleDTO.getCdw());
 		vehicle.setMileage(vehicleDTO.getMileage());
@@ -98,7 +94,7 @@ public class VehicleService {
 		vehicle.setBodyType(this.bodyTypeRepository.findByName(vehicleDTO.getBodyType().getName()));
 		vehicle.setFuelType(this.fuelTypeRepository.findByName(vehicleDTO.getFuelType().getName()));
 		vehicle.setGearboxType(this.gearboxTypeRepository.findByName(vehicleDTO.getGearboxType().getName()));
-		
+
 		this.vehicleRepository.save(vehicle);
 		return vehicle;
 	}
@@ -106,7 +102,7 @@ public class VehicleService {
 	/**
 	 *
 	 * @param vehicledto
-	 * @param auth - currently logged in user, the one who creates the vehicle
+	 * @param auth       - currently logged in user, the one who creates the vehicle
 	 * @return created vehicle
 	 */
 	public Vehicle save(VehicleDTO vehicledto, Authentication auth) {
@@ -116,15 +112,15 @@ public class VehicleService {
 		entity.setBodyType(this.bodyTypeRepository.findByName(vehicledto.getBodyType().getName()));
 		entity.setFuelType(this.fuelTypeRepository.findByName(vehicledto.getFuelType().getName()));
 		entity.setGearboxType(this.gearboxTypeRepository.findByName(vehicledto.getGearboxType().getName()));
-		//weird java syntax to set Optional<User>
+		// weird java syntax to set Optional<User>
 		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
 		Optional<User> loggedInUser = userRepository.findByEmail(user.getUsername());
-		if(loggedInUser.isPresent()) {
+		if (loggedInUser.isPresent()) {
 			entity.setOwner(loggedInUser.get());
 		}
 		return vehicleRepository.save(entity);
 	}
-	
+
 	public List<byte[]> getFile(Long id) throws IOException {
 		List<Image> listImage = vehicleRepository.findByVehicle(findById(id));
 		List<byte[]> arrays = new ArrayList<byte[]>();
@@ -137,36 +133,55 @@ public class VehicleService {
 
 	public void postImages(List<MultipartFile> files, Vehicle vehicle) {
 		List<Image> images = new ArrayList<Image>();
-		for(MultipartFile f : files) {
-		InputStream in = null;
-		OutputStream out = null;
-		String fileName = f.getOriginalFilename();
+		for (MultipartFile f : files) {
+			InputStream in = null;
+			OutputStream out = null;
+			String fileName = f.getOriginalFilename();
 			System.out.println("File name " + fileName);
-		String path = "./src/main/resources/static/images/";
-		File newFile = new File(path + fileName);
-		System.out.println(newFile.getAbsolutePath());
-			//System.out.println(newFile.getP);
-		try {
-			in = f.getInputStream();
-			
-			if (!newFile.exists()) {
-                newFile.createNewFile();
-            }
-			
-			out = new FileOutputStream(newFile);
-			int read = 0;
-			byte[] bytes = new byte[1024];
-			while((read = in.read(bytes)) != -1) {
-				out.write(bytes, 0, read);
+			String path = "./src/main/resources/static/images/";
+			File newFile = new File(path + fileName);
+			System.out.println(newFile.getAbsolutePath());
+			// System.out.println(newFile.getP);
+			try {
+				in = f.getInputStream();
+
+				if (!newFile.exists()) {
+					newFile.createNewFile();
+				}
+
+				out = new FileOutputStream(newFile);
+				int read = 0;
+				byte[] bytes = new byte[1024];
+				while ((read = in.read(bytes)) != -1) {
+					out.write(bytes, 0, read);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		}catch(IOException e) {
-			e.printStackTrace();
+			Image image = new Image();
+			image.setUrlPath(newFile.getAbsolutePath());
+			image.setVehicle(vehicle);
+			Image im = imageService.save(image);
+			images.add(im);
 		}
-		Image image = new Image();
-		image.setUrlPath(newFile.getAbsolutePath());
-		image.setVehicle(vehicle);
-		Image im = imageService.save(image);
-		images.add(im);
+	}
+
+	public List<VehicleImageDTO> getVehiclesImage() throws IOException {
+		List<Vehicle> vehicles = this.vehicleRepository.findAll();
+		List<VehicleImageDTO> ret = new ArrayList<VehicleImageDTO>();
+
+		List<Image> vehicleImages;
+		for (Vehicle v : vehicles) {
+			vehicleImages = this.imageService.findByVehicle(v);
+			if (vehicleImages.size() > 0) {
+				Path path = Paths.get(vehicleImages.get(0).getUrlPath());
+				ret.add(new VehicleImageDTO(v.getId(), Files.readAllBytes(path)));
+			} else {
+				ret.add(new VehicleImageDTO(v.getId(), null));
+			}
+
 		}
+
+		return ret;
 	}
 }

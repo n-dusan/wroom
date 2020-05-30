@@ -11,13 +11,13 @@
             <td>{{pricelist?.pricePerDay}}$</td>
             <td>
                 <button mat-icon-button 
-                matTooltip="Price per 24h. If there's a mile limit, check Price per Mile." 
+                matTooltip="Price for every 24h of rental period." 
                 color="accent">
                     <mat-icon>help</mat-icon>
                 </button>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="mileLimit">
             <th>Per Mile</th>
             <td>{{pricelist?.pricePerMile}}$</td>
             <td>
@@ -39,7 +39,7 @@
                 </button>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="pricelist?.discount">
             <th>Discount</th>
             <td>{{pricelist?.discount}}%</td>
             <td>

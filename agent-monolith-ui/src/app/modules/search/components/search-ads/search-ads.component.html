@@ -133,10 +133,12 @@
 
         <!-- Search results -->
         <div>
-            <mat-card class="example-card" *ngFor="let ad of ads">
+            <mat-card *ngFor="let ad of ads">
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <div fxFlex="20%">
-                        *Image*
+                    <div fxFlex="20%" class="image-container" fxLayout="row" fxLayoutAlign="center center">
+                        <img fxFlex *ngIf="ad.image"  
+                        [src]="getSantizeUrl(ad.image)" alt="image" 
+                        height="150" width="120"> 
                     </div>
 
                     <div fxFlex>
@@ -149,7 +151,7 @@
                             </div>
                             <div fxFlex="20%">
                                 <button class="mini-button" mat-mini-fab color="accent" aria-label="Price" 
-                                (click)="priceClick(ad.priceListObj?.id)" matTooltip="Click for mor info about pricing">
+                                (click)="priceClick(ad.priceListObj?.id, ad.mileLimit)" matTooltip="Click for mor info about pricing">
                                     {{ad?.priceListObj?.pricePerDay}}$
                                 </button>
                                 <button class="mini-button" mat-mini-fab color="accent" aria-label="Price" matTooltip="Add to Cart">

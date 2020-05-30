@@ -13,6 +13,7 @@ import { PricelistDetailDialogData } from './pricelist-dialog-data.model';
 export class PriceDetailsComponent implements OnInit {
 
   pricelist: PriceList;
+  mileLimit: number;
 
   constructor(public dialogRef: MatDialogRef<PriceDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: PricelistDetailDialogData,
@@ -22,8 +23,9 @@ export class PriceDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.pricelistService.get(this.data.pricelistId).subscribe(
       data => {
-        console.log(data)
+        console.log(this.data)
         this.pricelist = data;
+        this.mileLimit = this.data.mileLimit;
       },
       () => {
         this.toastr.error('There was an unexpected error during fetching choosen ad.', 'Error')

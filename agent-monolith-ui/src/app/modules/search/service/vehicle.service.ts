@@ -5,6 +5,7 @@ import { Ad } from '../model/ad.model';
 import { environment } from 'src/environments/environment';
 import { Vehicle } from '../model/vehicle.model';
 import { VehicleFeature } from '../model/vehicle-feature.model';
+import { VehicleImage } from '../model/vehicle-image.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +48,9 @@ export class VehicleService {
 
   public getBodies() : Observable<VehicleFeature[]> {
     return this.http.get<VehicleFeature[]>(this.bodyUrl);
+  }
+
+  public getVehicleImage() : Observable<VehicleImage[]> {
+    return this.http.get<VehicleImage[]>(this.baseUrl + '/with-image');
   }
 }

@@ -17,6 +17,7 @@ export class Ad {
       public gps?: boolean,
       public vehicleObj?: Vehicle,
       public locationObj?: AdLocation,
-      public priceListObj?: PriceList
+      public priceListObj?: PriceList,
+      public image?: string
     ) {}
   }

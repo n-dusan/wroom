@@ -2,19 +2,13 @@ package xwsagent.wroomagent.controller;
 
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-
-
 import java.util.List;
 
 import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,17 +21,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import xwsagent.wroomagent.converter.AdConverter;
-import xwsagent.wroomagent.converter.ModelTypeConverter;
-import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.config.EndpointConfig;
+import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.domain.Ad;
-import xwsagent.wroomagent.domain.Image;
-import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.Vehicle;
-import xwsagent.wroomagent.domain.dto.AdDTO;
-import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
+import xwsagent.wroomagent.domain.dto.VehicleImageDTO;
 import xwsagent.wroomagent.repository.VehicleRepository;
 import xwsagent.wroomagent.service.ImageService;
 import xwsagent.wroomagent.service.VehicleService;
@@ -106,6 +95,7 @@ public class VehicleController {
         
     }
 	
+	
 	@GetMapping(value = "/all")
 	public ResponseEntity<?> getAllVehicles() {
 		return new ResponseEntity<>(
@@ -122,6 +112,21 @@ public class VehicleController {
 		);
 	}
 
+	
+	/**
+	 * Used for search, attaches only one image for each vehicle,
+	 * that is going to be shown on Search page.
+	 * @return
+	 */
+	@GetMapping(value = "/with-image")
+	public ResponseEntity<List<VehicleImageDTO>> getVehicleImage() throws IOException {
+		try {
+			return new ResponseEntity<>(vehicleService.getVehiclesImage(), HttpStatus.OK);
+		} catch(Exception e) {
+			System.out.println("Exception is thrown");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 	@GetMapping(value = "/getImages/{id}")
 	public List<byte[]> getFile(@PathVariable("id") Long id) throws IOException {
