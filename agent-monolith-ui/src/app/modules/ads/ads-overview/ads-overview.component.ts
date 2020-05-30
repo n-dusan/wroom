@@ -13,6 +13,7 @@ import { DetailsDialogComponent } from './details-dialog/details-dialog.componen
 import { VehicleDetailsComponent } from '../../vehicles/vehicle-details/vehicle-details.component';
 import { VehicleService } from '../services/vehicle.service';
 import { Vehicle } from '../../shared/models/vehicle.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-ads-overview',
@@ -37,7 +38,8 @@ export class AdsOverviewComponent implements OnInit {
     private adsService: AdsService,
     private authService: AuthService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.authService.whoami().subscribe(data => {

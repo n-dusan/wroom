@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Location;
+import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.AdRepository;
@@ -23,17 +24,20 @@ public class AdService {
     private final PriceListRepository priceListRepository;
     private final VehicleRepository vehicleRepository;
     private final VehicleService vehicleService;
+    private final UserService userService;
 
     public AdService(LocationRepository locationRepository,
                      AdRepository adRepository,
                      PriceListRepository priceListRepository,
                      VehicleRepository vehicleRepository,
-                     VehicleService vehicleService) {
+                     VehicleService vehicleService,
+                     UserService userService) {
         this.locationRepository = locationRepository;
         this.adRepository = adRepository;
         this.priceListRepository = priceListRepository;
         this.vehicleRepository = vehicleRepository;
         this.vehicleService = vehicleService;
+        this.userService = userService;
     }
 
     public List<Ad> findAll() {
@@ -85,6 +89,11 @@ public class AdService {
         Ad ad = findById(adId);
         ad.setDeleted(true);
         adRepository.save(ad);
+    }
+
+    public Integer countAds(Long user_id) {
+        User user = userService.findById(user_id);
+        return adRepository.checkAdCountForUser(user.getId());
     }
 
 }

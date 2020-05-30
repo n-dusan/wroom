@@ -152,4 +152,9 @@ public class AdController {
     	return new ResponseEntity<>( AdConverter.fromEntityList(this.searchService.search(search), AdConverter::fromEntity), HttpStatus.OK);
         
     }
+
+    @GetMapping(value="/count/{user_id}")
+    public ResponseEntity<Integer> countAds(@PathVariable("user_id") Long user_id) {
+        return new ResponseEntity<>(adService.countAds(user_id), HttpStatus.OK);
+    }
 }

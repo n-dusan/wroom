@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment'
-import { Observable, throwError, forkJoin } from 'rxjs';
+import { Observable, throwError, forkJoin, Subject } from 'rxjs';
 import { Location } from '../model/location.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Vehicle } from '../../shared/models/vehicle.model';
 import { Ad } from '../model/ad.model';
+import { AuthService } from '../../auth/service/auth.service';
+import { LoggedUser } from '../../auth/model/logged-user.model';
 
 @Injectable({providedIn: 'root'})
 export class AdsService {
@@ -14,7 +16,8 @@ export class AdsService {
   private vehicleUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/vehicle';
   private priceListUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/price-list';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private authService: AuthService) {}
 
   createAd(ad: Ad): Observable<Ad> {
     return this.http.post<Ad>(this.adsUrl, ad).pipe(catchError(this.handleException));
@@ -60,6 +63,11 @@ export class AdsService {
   getAllVehicles(): Observable<Vehicle[]> {
     return this.http.get<Vehicle[]>(this.vehicleUrl).pipe(catchError(this.handleException));
   }
+
+  checkAdCount(userId: number): Observable<number> {
+     return this.http.get<number>(this.adsUrl + '/count/' + userId).pipe(catchError(this.handleException));
+  }
+
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);
