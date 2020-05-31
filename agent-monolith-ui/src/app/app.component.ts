@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from './modules/auth/service/auth.service';
 import { LoggedUser } from './modules/auth/model/logged-user.model';
 import { Router } from '@angular/router';
+import { ShoppingCartService } from './modules/shared/service/shopping-cart.service';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +15,12 @@ export class AppComponent implements OnInit {
 
   user: LoggedUser;
 
+  cartItemsNum: number = 0;
+
   constructor(private http: HttpClient,
     private authService: AuthService,
-    private router: Router) { }
+    private router: Router,
+    private shoppingCartService: ShoppingCartService) { }
 
   ngOnInit(): void {
     // console.log('Greetings! Attempting to establish http communication with monolith back-end...');
@@ -33,6 +37,12 @@ export class AppComponent implements OnInit {
         this.user = data;
       }
     );
+
+    this.shoppingCartService.getShoppingCartAsObservable().subscribe(
+      data => {
+        this.cartItemsNum = data.length;
+      }
+    )
 
     if (this.user == null) {
       //send whoami to server to re-authenticate
@@ -54,6 +64,10 @@ export class AppComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.user = null;
+  }
+
+  shoppingCartClick() {
+    this.router.navigateByUrl('/cart');
   }
 
 }

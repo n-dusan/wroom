@@ -158,7 +158,8 @@
                                 (click)="priceClick(ad.priceListObj?.id, ad.mileLimit, ad.vehicleObj?.cdw)" matTooltip="Click for mor info about pricing">
                                     {{ad?.priceListObj?.pricePerDay}}$
                                 </button>
-                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Price" matTooltip="Add to Cart">
+                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Cart" 
+                                matTooltip="Add to Cart" (click)="addToCart(ad)">
                                     <mat-icon>add_shopping_cart</mat-icon>
                                 </button>
                                 
