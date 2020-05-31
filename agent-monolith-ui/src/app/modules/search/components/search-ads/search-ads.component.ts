@@ -15,6 +15,10 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { SearchCriteria } from '../../model/search-criteria.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { TwoDayValidator } from '../../validators/two-days.validator';
+import { PriceDetailsComponent } from '../price-details/price-details.component';
+import { VehicleImage } from '../../model/vehicle-image.model';
+import { DomSanitizer } from '@angular/platform-browser';
+import { find } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-ads',
@@ -27,6 +31,7 @@ export class SearchAdsComponent implements OnInit {
   adsAfterSearch: Ad[] = [];
   allAds: Ad[] = [];
   vehicles: Vehicle[] = [];
+  images: VehicleImage[] = [];
   locations: AdLocation[] = [];
   priceLists: PriceList[] = [];
 
@@ -37,6 +42,8 @@ export class SearchAdsComponent implements OnInit {
   fuels: VehicleFeature[] = [];
   gearboxes: VehicleFeature[] = [];
   bodies: VehicleFeature[] = [];
+
+  localUrl: any[];
 
   dataSource: MatTableDataSource<Ad>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -60,7 +67,8 @@ export class SearchAdsComponent implements OnInit {
     private pricelistService: PriceListService,
     private toastr: ToastrService,
     private dialog: MatDialog,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    public sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
 
@@ -72,18 +80,21 @@ export class SearchAdsComponent implements OnInit {
 
   initAds() {
     // Fetching all necessary data
+    // ADS
     this.adService.all().subscribe(
       data => {
         this.ads = data;
         this.allAds = data;
         this.adsAfterSearch = data;
         this.dataSource = new MatTableDataSource(this.allAds);
+        console.log('ads', this.ads)
       },
       error => {
         this.toastr.error('There was an error!', 'Ads')
       }
     );
 
+    // VEHICLES
     this.vehicleService.all().subscribe(
       data => {
         this.vehicles = data;
@@ -100,6 +111,25 @@ export class SearchAdsComponent implements OnInit {
         this.toastr.error('There was an error!', 'Vehicles')
       }
     );
+
+    // IMAGES
+    this.vehicleService.getVehicleImage().subscribe(
+      data => {
+        console.log(data);
+        this.images = data;
+        for (let img of this.images) {
+          if (this.ads.find(obj => { return obj.vehicleId === img.vehicleId })) {
+            if (img.image) {
+              this.ads.find(obj => { return obj.vehicleId === img.vehicleId }).image = "data:image/jpeg;base64," + img.image;
+            }
+          }
+        }
+      },
+      error => {
+        this.toastr.error('There was an error!', 'Images')
+      }
+    );
+
 
     this.adService.getLocations().subscribe(
       data => {
@@ -208,10 +238,25 @@ export class SearchAdsComponent implements OnInit {
     );
   }
 
+  priceClick(priceId: number, mileLimit: number, cdw: boolean) {
+    console.log(priceId);
+    let dialogRef = this.dialog.open(PriceDetailsComponent,
+      {
+        data: {
+          pricelistId: priceId,
+          mileLimit: mileLimit,
+          cdw: cdw
+        }
+      });
+  }
+
   openDetails(adID: number) {
     let dialogRef = this.dialog.open(AdDetailComponent,
       {
-        data: { adID: adID }
+        data: { 
+          adID: adID,
+          pricelist: this.ads.find(obj => { return obj.id === adID }).priceListObj
+        }
       });
     // dialogRef.afterClosed().pipe(take(1)).subscribe((vehicle: Vehicle ) => {
     //   if(vehicle) {
@@ -366,4 +411,13 @@ export class SearchAdsComponent implements OnInit {
     this.cdwClean = false;
   }
 
+  getMyImage(ad) {
+    var img = this.images.find(obj => { return obj.vehicleId === ad.vehicleId })?.image;
+    // console.log(img);
+    return img;
+  }
+
+  public getSantizeUrl(url: any) {
+    return this.sanitizer.bypassSecurityTrustUrl(url);
+  }
 }
