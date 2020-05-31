@@ -8,6 +8,7 @@ import { EmailConfirmationComponent } from './components/email-confirmation/emai
 
 import { VehicleDetailsComponent } from '../vehicles/vehicle-details/vehicle-details.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { AdDetailComponent } from '../search/components/ad-detail/ad-detail.component';
 
 const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
 
@@ -19,7 +20,8 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     HomeComponent,
     EmailConfirmationComponent,
     VehicleDetailsComponent,
-    ShoppingCartComponent
+    ShoppingCartComponent,
+    AdDetailComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     CommonModule,
     AngularYandexMapsModule,
     ControlMessagesComponent,
-    VehicleDetailsComponent
+    VehicleDetailsComponent,
+    AdDetailComponent
   ]
 })
 export class SharedModule { }

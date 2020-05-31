@@ -27,24 +27,11 @@
     <td mat-cell *matCellDef="let adData"> {{ adData.address }}</td>
   </ng-container>
 
-  <ng-container matColumnDef="vehicle">
-    <th mat-header-cell *matHeaderCellDef> Vehicle </th>
-    <td mat-cell *matCellDef="let adData">
-      <button mat-button (click)="vehicleDetails(adData)"> <mat-icon>more_horiz</mat-icon> </button>
-    </td>
-  </ng-container>
 
-  <ng-container matColumnDef="price-list">
-    <th mat-header-cell *matHeaderCellDef> Price list </th>
+  <ng-container matColumnDef="details">
+    <th mat-header-cell *matHeaderCellDef> Details </th>
     <td mat-cell *matCellDef="let adData">
-      <button mat-button (click)="priceListDetails(adData)"> <mat-icon>more_horiz</mat-icon> </button>
-    </td>
-  </ng-container>
-
-  <ng-container matColumnDef="location">
-    <th mat-header-cell *matHeaderCellDef> Location </th>
-    <td mat-cell *matCellDef="let adData">
-      <button mat-button (click)="locationDetails(adData)"> <mat-icon>more_horiz</mat-icon>  </button>
+      <button mat-button (click)="viewDetails(adData)"> <mat-icon>more_horiz</mat-icon>  </button>
     </td>
   </ng-container>
 

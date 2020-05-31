@@ -9,11 +9,11 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../auth/service/auth.service';
 import { LoggedUser } from '../../auth/model/logged-user.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DetailsDialogComponent } from './details-dialog/details-dialog.component';
-import { VehicleDetailsComponent } from '../../vehicles/vehicle-details/vehicle-details.component';
 import { VehicleService } from '../services/vehicle.service';
-import { Vehicle } from '../../shared/models/vehicle.model';
 import { ToastrService } from 'ngx-toastr';
+import { AdDetailComponent } from '../../search/components/ad-detail/ad-detail.component';
+import { PriceListService } from '../services/price-list.service';
+import { PriceList } from '../../shared/models/price-list.model';
 
 @Component({
   selector: 'app-ads-overview',
@@ -28,18 +28,18 @@ export class AdsOverviewComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   isLoadingResults: boolean = true;
-  displayedColumns: string[] = ['from', 'to', 'mile-limit', 'address', 'vehicle', 'price-list', 'location', 'gps', 'edit', 'delete'];
+  displayedColumns: string[] = ['from', 'to', 'mile-limit', 'address', 'details', 'gps', 'edit', 'delete'];
 
   dataSource: MatTableDataSource<Ad> = new MatTableDataSource;
 
   constructor(
     private dialog: MatDialog,
-    private vehicleService: VehicleService,
     private adsService: AdsService,
     private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private priceListService: PriceListService) { }
 
   ngOnInit(): void {
     this.authService.whoami().subscribe(data => {
@@ -78,31 +78,29 @@ export class AdsOverviewComponent implements OnInit {
   }
 
 
-  vehicleDetails(ad: Ad) {
-    this.vehicleService.getVehicle(ad.vehicleId).subscribe( (vehicle: Vehicle) => {
-      this.dialog.open(VehicleDetailsComponent, {
-        data: vehicle
-      });
+  viewDetails(ad: Ad) {
+    let dialogPriceList: PriceList;
+
+    this.priceListService.findById(ad.priceListId).subscribe((priceList: PriceList) => {
+      dialogPriceList = priceList;
+      let dialogRef = this.dialog.open(AdDetailComponent,
+        {
+          data: {
+            adID: ad.id,
+            pricelist:  dialogPriceList
+          }
+        });
     })
-  }
 
-  priceListDetails(ad: Ad) {
-    this.dialog.open(DetailsDialogComponent, {
-      data: {
-        type: "PRICE_LIST",
-        id: ad.priceListId
-      }
-    });
-  }
+      // dialogRef.afterClosed().pipe(take(1)).subscribe((vehicle: Vehicle ) => {
+      //   if(vehicle) {
+      //     console.log('my vehicle', vehicle)
+      //     this.vehicle = vehicle;
+      //     this.adForm.get('vehicle').setValue('Selected ' + this.vehicle.brandType.name + ' ' + this.vehicle.modelType.name);
+      //   }
+      // });
+    }
 
-  locationDetails(ad: Ad) {
-    this.dialog.open(DetailsDialogComponent, {
-      data: {
-        type: "LOCATION",
-        id: ad.locationId
-      }
-    });
-  }
 
 
 }

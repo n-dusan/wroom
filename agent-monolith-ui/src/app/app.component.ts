@@ -32,16 +32,14 @@ export class AppComponent implements OnInit {
     //   console.log('POST response: ', response)
     //   })
     // })
-    this.authService.getLoggedUser().subscribe(
-      data => {
+    this.authService.getLoggedUser().subscribe(data => {
         this.user = data;
-        console.log('privileges u getLogged', this.user?.privileges)
-        let role = this.user.privileges.find(obj => {
-          return obj[0]
-        })
-        console.log('magija', role)
-      }
-    );
+        // if(this.user) {
+        //   let role = this.user.privileges.find(obj => {
+        //     return obj[0]
+        //   })
+        // }
+      });
 
     this.shoppingCartService.getShoppingCartAsObservable().subscribe(
       data => {
@@ -54,11 +52,6 @@ export class AppComponent implements OnInit {
       this.authService.whoami().subscribe(
         data => {
           this.user = data;
-          console.log('privileges u whoAmI', this.user?.privileges)
-          let role = this.user.privileges.find(obj => {
-            return obj[0]
-          })
-          console.log('magija', role)
         },
         error => {
           if(error.status == 401) {
@@ -70,7 +63,6 @@ export class AppComponent implements OnInit {
 
      }
 
-     console.log('privileges', this.user?.privileges)
   }
 
   logout() {
