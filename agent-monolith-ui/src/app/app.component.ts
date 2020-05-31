@@ -57,4 +57,8 @@ export class AppComponent implements OnInit {
     this.user = null;
   }
 
+  shoppingCartClick() {
+    this.router.navigateByUrl('/cart');
+  }
+
 }

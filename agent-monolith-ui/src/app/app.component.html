@@ -39,7 +39,7 @@
                     </button>
                 </div>
                 <div class="navLink" *ngIf="user">
-                    <button mat-icon-button color="accent">
+                    <button mat-icon-button color="accent" (click)="shoppingCartClick()">
                         <mat-icon matBadge="8" matBadgePosition="after" matBadgeColor="warn">shopping_cart</mat-icon>
                     </button>
                 </div>
