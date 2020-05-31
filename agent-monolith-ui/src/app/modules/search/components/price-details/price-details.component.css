@@ -1,17 +1,18 @@
-.table-header {
-    text-align: right;
+table {
+    padding: 10px;
 }
 
-.table-value {
-    text-align: center;
+tr {
+    padding: 5px;
 }
 
 .content {
-    overflow-y: scroll;
-    padding: 30px; 
-    height: 70vh;
-
     background-image: url('../../../../../assets/bcg.png');
     background-size: cover;
     background-repeat: no-repeat;
+    padding: 10px
+}
+
+table {
+    background-color: white;
 }

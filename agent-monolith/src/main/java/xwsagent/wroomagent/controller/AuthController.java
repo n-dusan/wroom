@@ -96,7 +96,11 @@ public class AuthController {
 	
 	@GetMapping("/whoami")
 	public ResponseEntity<?> whoami(Authentication auth) {
-		return new ResponseEntity<>(this.authService.whoami(auth), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(this.authService.whoami(auth), HttpStatus.OK);
+		} catch(NullPointerException e) {
+			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+		}
 	}
 
 	/*

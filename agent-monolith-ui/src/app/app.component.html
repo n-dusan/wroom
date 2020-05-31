@@ -39,8 +39,8 @@
                     </button>
                 </div>
                 <div class="navLink" *ngIf="user">
-                    <button mat-icon-button color="accent">
-                        <mat-icon matBadge="8" matBadgePosition="after" matBadgeColor="warn">shopping_cart</mat-icon>
+                    <button mat-icon-button color="accent" (click)="shoppingCartClick()">
+                        <mat-icon matBadge="{{cartItemsNum}}" matBadgePosition="after" matBadgeColor="warn">shopping_cart</mat-icon>
                     </button>
                 </div>
                 <div class="navLink" *ngIf="user">

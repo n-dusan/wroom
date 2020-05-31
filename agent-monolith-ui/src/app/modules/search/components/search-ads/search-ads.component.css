@@ -26,3 +26,7 @@ mat-card-content {
 .mini-button {
     margin-left: 10px;
 }
+
+.image-container {
+    background-color: rgb(228, 228, 228);
+}
