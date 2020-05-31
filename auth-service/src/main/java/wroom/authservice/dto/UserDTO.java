@@ -15,8 +15,6 @@ public class UserDTO {
 	private String surname;
 	private String email;
 	private Set<String> roles;
-//	private String password;
-//	private boolean enabled;
-//	private boolean nonLocked;
+	private Boolean nonLocked;
 	
 }

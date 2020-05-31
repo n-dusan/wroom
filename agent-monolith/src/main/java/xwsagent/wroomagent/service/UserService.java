@@ -1,10 +1,8 @@
 package xwsagent.wroomagent.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.converter.UserConverter;
-import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.UserDTO;
 import xwsagent.wroomagent.exception.InvalidReferenceException;

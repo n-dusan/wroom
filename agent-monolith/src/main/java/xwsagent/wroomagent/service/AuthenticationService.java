@@ -37,7 +37,6 @@ import xwsagent.wroomagent.repository.rbac.RoleRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
 
 @Service
-@AllArgsConstructor
 public class AuthenticationService {
 
 	
@@ -48,6 +47,22 @@ public class AuthenticationService {
 	private final JwtTokenProvider jwtProvider;
     private final MailProducer mailProducer;
 	private final VerificationTokenRepository verificationRepository;
+
+	public AuthenticationService(AuthenticationManager authenticationManager,
+					   UserRepository userRepository,
+					   RoleRepository roleRepository,
+					   PasswordEncoder passwordEncoder,
+					   JwtTokenProvider jwtProvider,
+					   MailProducer mailProducer,
+					   VerificationTokenRepository verificationRepository) {
+		this.authenticationManager = authenticationManager;
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+		this.encoder = passwordEncoder;
+		this.jwtProvider = jwtProvider;
+		this.mailProducer = mailProducer;
+		this.verificationRepository = verificationRepository;
+	}
 	
 	
 	public LoggedUserDTO login(LoginRequestDTO request) {

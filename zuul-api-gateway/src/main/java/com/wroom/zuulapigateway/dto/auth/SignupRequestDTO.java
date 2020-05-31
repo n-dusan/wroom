@@ -1,4 +1,4 @@
-package com.wroom.zuulapigateway.dto;
+package com.wroom.zuulapigateway.dto.auth;
 
 public class SignupRequestDTO {
 

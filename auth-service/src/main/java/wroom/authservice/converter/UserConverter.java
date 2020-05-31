@@ -7,7 +7,7 @@ import wroom.authservice.domain.Role;
 import wroom.authservice.domain.User;
 import wroom.authservice.dto.UserDTO;
 
-public class UserConverter {
+public class UserConverter extends AbstractConverter{
 
 	public static UserDTO fromEntity(User entity) {
 		return new UserDTO(
@@ -15,7 +15,8 @@ public class UserConverter {
 				entity.getName(),
 				entity.getSurname(),
 				entity.getEmail(),
-				getRoles(entity.getRoles())
+				getRoles(entity.getRoles()),
+				entity.isNonLocked()
 		);
 	}
 	

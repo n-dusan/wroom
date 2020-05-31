@@ -36,8 +36,8 @@
     <th mat-header-cell *matHeaderCellDef>
     </th>
     <td mat-cell *matCellDef="let data">
-      <button mat-button (click)="onLockUserClick(data)" *ngIf="data.nonLocked"><mat-icon>lock</mat-icon></button>
-      <button mat-button (click)="onEnableUserClick(data)" *ngIf="!data.nonLocked"><mat-icon>lock_open</mat-icon></button>
+      <button mat-button (click)="onEnableUserClick(data)" *ngIf="!data.nonLocked"><mat-icon>lock</mat-icon></button>
+      <button mat-button (click)="onLockUserClick(data)" *ngIf="data.nonLocked"><mat-icon>lock_open</mat-icon></button>
     </td>
   </ng-container>
 

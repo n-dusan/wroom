@@ -24,6 +24,7 @@ import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
+import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.AuthenticationService;
 import xwsagent.wroomagent.util.RequestCounter;
 
@@ -34,6 +35,7 @@ public class AuthController {
 
 	private static final String LOG_LOGIN = "action=login user=%s ip_address=%s times=%s ";
 	private static final String LOG_SIGN_UP= "action=signup user=%s ip_address=%s times=%s ";
+	private static final String LOG_CONFIRM = "action=confirm user=%s ip_address=%s times=%s";
 
 	private final AuthenticationService authService;
 	private final RequestCounter requestCounter;
@@ -107,7 +109,11 @@ public class AuthController {
 	 * Endpoint for e-mail confirmation
 	 */
 	@PutMapping("/confirm")
-	public ResponseEntity<?> emailConfirmation(@RequestBody String token) {
+	public ResponseEntity<?> emailConfirmation(@RequestBody String token, Authentication auth, HttpServletRequest httpServletRequest) {
+		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		String logContent = String.format(LOG_CONFIRM, user.getUsername(), httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
+		log.info(logContent);
+
 		return new ResponseEntity<>(this.authService.confirm(token), HttpStatus.OK);
 	}
 

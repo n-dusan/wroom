@@ -24,5 +24,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	@Query("select u from User u where u.id != ?#{principal.id}")
 	List<User> findUsersExceptSelf();
+
+	@Query(value = "select u.* from users u where u.enabled = 1", nativeQuery=true)
+	List<User> findAllEnabled();
 	
 }
