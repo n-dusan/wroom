@@ -157,6 +157,7 @@ export class NewVehicleComponent implements OnInit {
 
     const modelType = this.firstFormGroup.value.selectModel;
     const mType = this.modelList.find(x => x.id == modelType);
+    console.log(mType + 'Izabrani model')
 
     const brandType = this.firstFormGroup.value.selectBrand;
     const brType = this.brandList.find(x => x.id == brandType);

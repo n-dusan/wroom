@@ -13,4 +13,5 @@ public class EndpointConfig {
     public static final String USER_BASE_URL = "/api/user";
     public static final String VEHICLE_BASE_URL = "/api/vehicle";
     public static final String AD_BASE_URL = "/api/ads";
+    public static final String RENT_BASE_URL = "/api/rents";
 }

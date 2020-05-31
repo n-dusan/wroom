@@ -10,6 +10,9 @@ import { VehicleService } from '../../ads/services/vehicle.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AdsOverviewComponent } from '../../ads/ads-overview/ads-overview.component';
+import { RentRequest } from '../../shared/models/rent-request';
+import { RentsService } from '../../rents/services/rents.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vehicle-occupancy',
@@ -22,13 +25,16 @@ export class VehicleOccupancyComponent implements OnInit {
   adsList: Ad[] = [];
   vehicleList: Vehicle[]=[];
   occupancyForm: FormGroup;
+  listAds: Ad[] = [];
 
   constructor(private authService: AuthService,
               private adService: AdsService,
               private vehicleService: VehicleService,
               private formBuilder: FormBuilder,
+              private rentsService: RentsService,
+              private toastr: ToastrService,
               public dialogRef: MatDialogRef<AdsOverviewComponent>,
-               @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
+              @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.authService.whoami().subscribe(data => {
@@ -64,8 +70,25 @@ export class VehicleOccupancyComponent implements OnInit {
     })
   }
 
+  save(rentRequest: RentRequest){
+    this.rentsService.occupy(rentRequest).subscribe(
+      data => {
+        this.toastr.success('You have successfully add a vehicle occupancy request!', 'Success')
+      },
+      error => {
+        this.toastr.error('Please enter a valid date according to the ad and pre-existing requests', 'Error')
+      }
+    );
+  }
+
   onFormSubmit(){
-      
+      const selectAd = this.occupancyForm.value.selectAd;
+      const selectType = this.adsList.find(x => x.id == selectAd);
+      const fromDate = this.occupancyForm.value.availableFrom;
+      const toDate = this.occupancyForm.value.availableTo;
+      this.listAds.push(selectType);
+      const newRentRequest = new RentRequest(fromDate, toDate, this.listAds);
+      this.save(newRentRequest);
   }
 
   

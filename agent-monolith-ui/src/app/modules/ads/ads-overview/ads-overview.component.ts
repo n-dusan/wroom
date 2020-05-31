@@ -108,9 +108,7 @@ export class AdsOverviewComponent implements OnInit {
       width: '400px',
       height: '400px'
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-     
+    dialogRef.afterClosed().subscribe(result => {  
     });
   }
 
