@@ -3,7 +3,7 @@ import { environment } from '../../../../environments/environment'
 import { Observable, throwError, forkJoin, Subject } from 'rxjs';
 import { Location } from '../model/location.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { Vehicle } from '../../shared/models/vehicle.model';
 import { Ad } from '../model/ad.model';
 import { AuthService } from '../../auth/service/auth.service';
@@ -64,8 +64,9 @@ export class AdsService {
     return this.http.get<Vehicle[]>(this.vehicleUrl).pipe(catchError(this.handleException));
   }
 
-  checkAdCount(userId: number): Observable<number> {
-     return this.http.get<number>(this.adsUrl + '/count/' + userId).pipe(catchError(this.handleException));
+  checkAdCount(): Observable<number> {
+      return this.authService.whoami().pipe(switchMap((user: LoggedUser) =>
+      this.http.get<number>(this.adsUrl + '/count/' + user.id).pipe(catchError(this.handleException))));
   }
 
 

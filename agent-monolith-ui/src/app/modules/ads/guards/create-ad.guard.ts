@@ -16,21 +16,13 @@ export class CreateAdGuard implements CanActivate {
 
   canActivate(): Observable<boolean> {
 
-    return this.whoami().pipe(map((user: LoggedUser )=> {
-        this.adsService.checkAdCount(user.id).pipe(map(result => {
-          if(result < 3) {
-            return true;
-          }
-        }))
-        this.toastr.error('Cant read ads', 'Cant');
+    return this.adsService.checkAdCount().pipe(map((data: number) => {
+      if(data < 3) {
+        return true;
+      } else {
+        this.toastr.error('Ad limit exceeded (3)', 'Nope')
         return false;
-    }))
-  }
-
-  whoami() {
-    return this.authService.whoami().pipe(map((user:LoggedUser) => {
-      console.log('i am GUARD', user)
-      return user;
-    }))
+      }
+    }));
   }
 }

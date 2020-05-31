@@ -118,6 +118,7 @@ public class VehicleService {
 		entity.setGearboxType(this.gearboxTypeRepository.findByName(vehicledto.getGearboxType().getName()));
 		//weird java syntax to set Optional<User>
 		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		user.getUsername();
 		Optional<User> loggedInUser = userRepository.findByEmail(user.getUsername());
 		if(loggedInUser.isPresent()) {
 			entity.setOwner(loggedInUser.get());

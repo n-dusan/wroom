@@ -129,7 +129,7 @@ public class VehicleController {
 	}
 	
 	@PutMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<VehicleDTO> update(@RequestBody VehicleDTO vehicleDTO, @PathVariable("id")Long id){
+	public ResponseEntity<VehicleDTO> update(@Valid @RequestBody VehicleDTO vehicleDTO, @PathVariable("id")Long id){
 		Vehicle vehicle = vehicleService.findById(id);
 		
 		return new ResponseEntity<>(

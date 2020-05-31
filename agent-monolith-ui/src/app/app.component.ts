@@ -29,6 +29,11 @@ export class AppComponent implements OnInit {
     this.authService.getLoggedUser().subscribe(
       data => {
         this.user = data;
+        console.log('privileges u getLogged', this.user?.privileges)
+        let role = this.user.privileges.find(obj => {
+          return obj === 'ROLE_USER'
+        })
+        console.log('magija', role)
       }
     );
 
@@ -37,6 +42,11 @@ export class AppComponent implements OnInit {
       this.authService.whoami().subscribe(
         data => {
           this.user = data;
+          console.log('privileges u whoAmI', this.user?.privileges)
+          let role = this.user.privileges.find(obj => {
+            return obj[0]
+          })
+          console.log('magija', role)
         },
         error => {
           console.log(error)
@@ -44,6 +54,8 @@ export class AppComponent implements OnInit {
       );
 
      }
+
+     console.log('privileges', this.user?.privileges)
   }
 
   logout() {

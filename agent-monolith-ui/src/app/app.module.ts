@@ -10,6 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { TokenInterceptor } from './modules/auth/interceptor/token.interceptor';
 import { AuthGuard } from './modules/auth/guards/auth.guard';
 import { AlreadyAuthenticatedGuard } from './modules/auth/guards/alreadyAuthenticated.guard';
+import { CreateAdGuard } from './modules/ads/guards/create-ad.guard';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { AlreadyAuthenticatedGuard } from './modules/auth/guards/alreadyAuthenti
       multi: true
     },
     AuthGuard,
-    AlreadyAuthenticatedGuard
+    AlreadyAuthenticatedGuard,
+    CreateAdGuard
   ],
   bootstrap: [AppComponent]
 })
