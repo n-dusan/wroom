@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
         this.user = data;
         console.log('privileges u getLogged', this.user?.privileges)
         let role = this.user.privileges.find(obj => {
-          return obj === 'ROLE_USER'
+          return obj[0]
         })
         console.log('magija', role)
       }

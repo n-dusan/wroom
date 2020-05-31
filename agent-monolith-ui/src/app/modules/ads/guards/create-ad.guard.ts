@@ -1,6 +1,5 @@
 import { CanActivate } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { AuthService } from '../../auth/service/auth.service';
 import { LoggedUser } from '../../auth/model/logged-user.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -12,7 +11,7 @@ export class CreateAdGuard implements CanActivate {
 
   loggedUser: LoggedUser;
 
-  constructor(private authService: AuthService, private adsService: AdsService, private toastr: ToastrService) {}
+  constructor(private adsService: AdsService, private toastr: ToastrService) {}
 
   canActivate(): Observable<boolean> {
 
