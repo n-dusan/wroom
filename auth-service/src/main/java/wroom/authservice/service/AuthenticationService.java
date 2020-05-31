@@ -2,7 +2,12 @@ package wroom.authservice.service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,10 +18,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 import wroom.authservice.converter.UserConverter;
+import wroom.authservice.domain.Role;
 import wroom.authservice.domain.RoleName;
 import wroom.authservice.domain.User;
 import wroom.authservice.domain.VerificationToken;
@@ -83,9 +86,12 @@ public class AuthenticationService {
 			throw new UsernameAlreadyExistsException("Username already exists!");
 		}
 
+		Set<Role> roles = new HashSet<Role>();
+		roles.add(this.roleRepository.findByName(RoleName.ROLE_USER));
+		roles.add(this.roleRepository.findByName(RoleName.ROLE_RENTING_USER));
 		User user = new User(null, request.getName(), request.getSurname(), request.getEmail(),
 				encoder.encode(request.getPassword()),
-				Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)), false, true);
+				roles, false, true);
 
 		user.setEnabled(false);
 		user.setNonLocked(false);

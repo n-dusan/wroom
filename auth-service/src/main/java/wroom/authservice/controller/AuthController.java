@@ -4,15 +4,24 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collections;
 
-import lombok.extern.log4j.Log4j2;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.log4j.Log4j2;
 import wroom.authservice.config.EndpointConfig;
 import wroom.authservice.dto.LoggedUserDTO;
 import wroom.authservice.dto.LoginRequestDTO;
@@ -22,9 +31,6 @@ import wroom.authservice.exception.UsernameAlreadyExistsException;
 import wroom.authservice.jwt.UserPrincipal;
 import wroom.authservice.service.AuthenticationService;
 import wroom.authservice.util.RequestCounter;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = EndpointConfig.AUTH_BASE_URL)
@@ -103,6 +109,8 @@ public class AuthController {
 	}
 
 
+//	Do we need to preauthorize whoami?
+	@PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_AGENT') or hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/whoami")
 	public ResponseEntity<?> whoami(Authentication auth) {
 		try {
