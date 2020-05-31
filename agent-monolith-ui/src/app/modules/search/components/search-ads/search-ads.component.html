@@ -139,7 +139,11 @@
                         <img fxFlex *ngIf="ad.image"  
                         [src]="getSantizeUrl(ad.image)" alt="image" 
                         height="150" width="120"> 
+                        <img fxFlex *ngIf="!ad.image"  
+                        src="../../../../../assets/noimage.png" alt="image" 
+                        height="150" width="120"> 
                     </div>
+                    
 
                     <div fxFlex>
                         <mat-card-header fxLayout="row" fxLayoutAlign="center">
@@ -151,7 +155,7 @@
                             </div>
                             <div fxFlex="20%">
                                 <button class="mini-button" mat-mini-fab color="accent" aria-label="Price" 
-                                (click)="priceClick(ad.priceListObj?.id, ad.mileLimit)" matTooltip="Click for mor info about pricing">
+                                (click)="priceClick(ad.priceListObj?.id, ad.mileLimit, ad.vehicleObj?.cdw)" matTooltip="Click for mor info about pricing">
                                     {{ad?.priceListObj?.pricePerDay}}$
                                 </button>
                                 <button class="mini-button" mat-mini-fab color="accent" aria-label="Price" matTooltip="Add to Cart">

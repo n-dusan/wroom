@@ -5,3 +5,14 @@ table {
 tr {
     padding: 5px;
 }
+
+.content {
+    background-image: url('../../../../../assets/bcg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    padding: 10px
+}
+
+table {
+    background-color: white;
+}

@@ -18,6 +18,17 @@
             </td>
         </tr>
         <tr *ngIf="mileLimit">
+            <th>Mile Limit</th>
+            <td>{{mileLimit}} miles</td>
+            <td>
+                <button mat-icon-button 
+                matTooltip="If this mileage is crossed during rental period, price per every additional mile is defined in a row below. " 
+                color="accent">
+                    <mat-icon>help</mat-icon>
+                </button>
+            </td>
+        </tr>
+        <tr *ngIf="mileLimit">
             <th>Per Mile</th>
             <td>{{pricelist?.pricePerMile}}$</td>
             <td>
@@ -28,7 +39,7 @@
                 </button>
             </td>
         </tr>
-        <tr>
+        <tr *ngIf="cdw">
             <th>Collision Damage Wavier</th>
             <td>{{pricelist?.priceCDW}}$</td>
             <td>

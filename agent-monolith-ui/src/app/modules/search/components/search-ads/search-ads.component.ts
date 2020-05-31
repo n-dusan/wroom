@@ -18,6 +18,7 @@ import { TwoDayValidator } from '../../validators/two-days.validator';
 import { PriceDetailsComponent } from '../price-details/price-details.component';
 import { VehicleImage } from '../../model/vehicle-image.model';
 import { DomSanitizer } from '@angular/platform-browser';
+import { find } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search-ads',
@@ -237,13 +238,14 @@ export class SearchAdsComponent implements OnInit {
     );
   }
 
-  priceClick(priceId: number, mileLimit: number) {
+  priceClick(priceId: number, mileLimit: number, cdw: boolean) {
     console.log(priceId);
     let dialogRef = this.dialog.open(PriceDetailsComponent,
       {
         data: {
           pricelistId: priceId,
-          mileLimit: mileLimit
+          mileLimit: mileLimit,
+          cdw: cdw
         }
       });
   }
@@ -251,7 +253,10 @@ export class SearchAdsComponent implements OnInit {
   openDetails(adID: number) {
     let dialogRef = this.dialog.open(AdDetailComponent,
       {
-        data: { adID: adID }
+        data: { 
+          adID: adID,
+          pricelist: this.ads.find(obj => { return obj.id === adID }).priceListObj
+        }
       });
     // dialogRef.afterClosed().pipe(take(1)).subscribe((vehicle: Vehicle ) => {
     //   if(vehicle) {
