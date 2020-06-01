@@ -378,14 +378,12 @@ export class SearchAdsComponent implements OnInit {
   }
 
   sortByRate() {
-    // gde mi je rate ???
-
-    // if (this.s.asc) {
-    //   this.ads.sort((a, b) => a.priceListObj.pricePerDay - b.priceListObj.pricePerDay);
-    // }
-    // else {
-    //   this.ads.sort((a, b) => a.priceListObj.pricePerDay - b.priceListObj.pricePerDay).reverse();
-    // }
+    if (this.s.asc) {
+      this.ads.sort((a, b) => a.averageRate - a.averageRate);
+    }
+    else {
+      this.ads.sort((a, b) => a.averageRate - a.averageRate).reverse();
+    }
   }
 
   brandChanged(brand: VehicleFeature) {

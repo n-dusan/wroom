@@ -154,7 +154,13 @@
                                 <mat-card-subtitle>{{ad?.locationObj?.city}}, {{ad?.locationObj?.country}}
                                 </mat-card-subtitle>
                             </div>
-                            <div fxFlex="20%">
+                            <div fxFlex="30%">
+                                <span>
+                                    <mat-icon style="padding: 0px; margin: 0px;vertical-align:middle;" color="warn">star_rate</mat-icon>
+                                    {{ad?.averageRate}}
+                                </span>
+                                    
+                                
                                 <button class="mini-button" mat-mini-fab color="accent" aria-label="Price"
                                     (click)="priceClick(ad.priceListObj?.id, ad.mileLimit, ad.vehicleObj?.cdw)"
                                     matTooltip="Click for more info about pricing">
@@ -164,6 +170,8 @@
                                     matTooltip="Add to Cart" (click)="addToCart(ad)">
                                     <mat-icon>add_shopping_cart</mat-icon>
                                 </button>
+                                
+                                
 
                             </div>
                         </mat-card-header>
