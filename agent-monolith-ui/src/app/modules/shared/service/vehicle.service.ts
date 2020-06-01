@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Ad } from '../model/ad.model';
 import { environment } from 'src/environments/environment';
-import { Vehicle } from '../model/vehicle.model';
-import { VehicleFeature } from '../model/vehicle-feature.model';
-import { VehicleImage } from '../model/vehicle-image.model';
+import { Vehicle } from '../models/vehicle.model';
+import { VehicleFeature } from '../models/vehicle-feature.model';
+import { VehicleImage } from '../models/vehicle-image.model';
 
 @Injectable({
   providedIn: 'root'

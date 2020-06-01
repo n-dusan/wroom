@@ -1,0 +1,15 @@
+.owner-ads-container {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid rgb(190, 190, 190);
+    width: 60%;
+}
+
+mat-card {
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.mini-button {
+    margin-left: 10px;
+}
