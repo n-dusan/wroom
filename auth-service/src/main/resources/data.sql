@@ -3,11 +3,22 @@
 -- U create-drop rezimu, ukoliko sql skripta ponovo insertuje već unete vrednosti (MySQL ume da ne dropuje i redove unutar tabela)
 -- onda dodajte delete na tabelu koju želite da očistite, time se brišu svi redovi iz te tabele
 --------------------------------
- delete from users;
- delete from user_roles;
- delete from permission;
- delete from role_permissions;
- delete from roles;
+delete from rent_request_ads;
+delete from rent_request;
+delete from ad;
+delete from vehicle;
+delete from users;
+delete from user_roles;
+delete from permission;
+delete from roles;
+delete from role_permissions;
+delete from location;
+delete from model_type;
+delete from brand_type;
+delete from gearbox_type;
+delete from fuel_type;
+delete from body_type;
+
 ------------- ROLE -----------------
 insert into roles(id, name)
 values (1, 'ROLE_USER');
