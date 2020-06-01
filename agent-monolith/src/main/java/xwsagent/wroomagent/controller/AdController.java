@@ -38,7 +38,8 @@ import xwsagent.wroomagent.util.RequestCounter;
 @Log4j2
 public class AdController {
 
-	private static final String POST_AD = "action=post_ad user=%s ip_address=%s times=%s ";
+	private static final String POST_AD = "action=create user=%s times=%s";
+	private static final String UPDATE_AD = "action=update user=%s times=%s";
 
 	private final AdService adService;
 	private final SearchService searchService;
@@ -68,10 +69,8 @@ public class AdController {
 	 * @return newly created ad
 	 */
 	@PostMapping
-	public ResponseEntity<AdDTO> save(@Valid @RequestBody AdDTO adDTO, HttpServletRequest httpServletRequest,
-			Authentication auth) {
-		String logContent = String.format(POST_AD, ((UserPrincipal) auth.getPrincipal()).getUsername(),
-				httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
+	public ResponseEntity<AdDTO> save(@Valid @RequestBody AdDTO adDTO, Authentication auth) {
+		String logContent = String.format(POST_AD, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.AD_BASE_URL));
 		log.info(logContent);
 		return new ResponseEntity<>(AdConverter.fromEntity(adService.save(adDTO)), HttpStatus.OK);
 	}
@@ -109,7 +108,9 @@ public class AdController {
 	 * @return updated ad
 	 */
 	@PutMapping("/{ad}")
-	public ResponseEntity<AdDTO> update(@PathVariable("ad") Long adId, @Valid @RequestBody AdDTO adDTO) {
+	public ResponseEntity<AdDTO> update(@PathVariable("ad") Long adId, @Valid @RequestBody AdDTO adDTO, Authentication auth) {
+		String logContent = String.format(UPDATE_AD, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.AD_BASE_URL));
+		log.info(logContent);
 		return new ResponseEntity<>(AdConverter.fromEntity(adService.update(adId, adDTO)), HttpStatus.OK);
 	}
 

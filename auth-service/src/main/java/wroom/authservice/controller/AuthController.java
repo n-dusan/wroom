@@ -51,7 +51,10 @@ public class AuthController {
 	}
 
 	@GetMapping("/hello")
-	public ResponseEntity<?> get() throws UnknownHostException {
+	public ResponseEntity<?> get(Authentication auth) throws UnknownHostException {
+		System.out.println("I am reached.");
+		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		System.out.println("Principal" + user.getUsername());
 		System.out.println("I am reached.");
 		String ip = InetAddress.getLocalHost().getHostAddress();
 		return new ResponseEntity<>(String.format("Hello from auth service with ip address %s", ip), HttpStatus.OK);

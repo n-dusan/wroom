@@ -44,10 +44,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(
 					new UsernamePasswordAuthenticationToken(details, null, details.getAuthorities())					
 				);
-//				System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-//				details.getAuthorities().forEach(a -> {
-//					System.out.println(a);
-//				});
+
+				System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+				details.getAuthorities().forEach(a -> {
+					System.out.println("What do i have here?");
+					System.out.println(a);
+				});
 			} catch (InvalidJWTokenException e) {
 				logger.error("Exception thrown {}", e.getMessage());
 			}
