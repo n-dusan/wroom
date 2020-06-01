@@ -77,8 +77,10 @@ public class RentsService {
 			}
 			
 		}
-		if(this.rentRepository.findAll() != null) {
-			for(RentRequest r : this.rentRepository.findAll()) {
+		
+		for(Ad ad : ads) {
+			List<RentRequest> rentList = rentRepository.findByAd(ad);
+			for(RentRequest r : rentList) {
 				if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate()) ) {
 					return false;
 				}
@@ -97,10 +99,7 @@ public class RentsService {
 				if(rentRequest.getFromDate().equals(r.getFromDate()) || rentRequest.getToDate().equals(r.getToDate())) {
 					return false;
 				}
-				
-				
 			}
-	       
 		}
 		
         rentRepository.save(rentRequest);

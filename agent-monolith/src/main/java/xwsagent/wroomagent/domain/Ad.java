@@ -30,7 +30,7 @@ public class Ad {
     private Long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column()
+	@Column(nullable = false)
 	private Date publishDate;
 
 	@Temporal(TemporalType.TIMESTAMP)

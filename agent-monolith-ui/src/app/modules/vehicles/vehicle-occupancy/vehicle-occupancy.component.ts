@@ -76,7 +76,7 @@ export class VehicleOccupancyComponent implements OnInit {
         this.toastr.success('You have successfully add a vehicle occupancy request!', 'Success')
       },
       error => {
-        this.toastr.error('Please enter a valid date according to the ad and pre-existing requests', 'Error')
+        this.toastr.error('Please enter a valid date according to the ad and pre-existing requests', 'Choosen date not valid')
       }
     );
   }
