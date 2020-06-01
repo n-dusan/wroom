@@ -4,6 +4,9 @@
         <!-- <button color="accent" mat-raised-button (click)="testZuul()">Talk to Zuul please</button> -->
         <div fxLayout="column">
             <mat-nav-list>
+                <div fxLayout="row" fxLayoutAlign="center">
+                    
+                </div>
                 <a mat-list-item *ngIf="user?.privileges[0] !== 'ROLE_ADMIN'"routerLink="/vehicles/new">Register a Car</a>
                 <a mat-list-item *ngIf="user?.privileges[0] !== 'ROLE_ADMIN'" routerLink="/ads/overview">My Ads</a>
                 <a mat-list-item  *ngIf="user?.privileges[0] === 'ROLE_ADMIN'" routerLink="/dashboard">Dashboard</a>
@@ -29,17 +32,14 @@
                 <!-- <button mat-icon-button color="accent" routerLink="/messages">
               <mat-icon>email</mat-icon>
             </button> -->
-                <div class="navLink" *ngIf="!user">
-                    <button mat-raised-button color="accent" routerLink="/auth">
-                        Log In
-                    </button>
-                </div>
+                
+               
                 <div class="navLink" *ngIf="user">
                     <button mat-icon-button color="accent">
                         <mat-icon matBadge="3" matBadgePosition="after" matBadgeColor="warn">mail</mat-icon>
                     </button>
                 </div>
-                <div class="navLink" *ngIf="user">
+                <div class="navLink">
                     <button mat-icon-button color="accent" (click)="shoppingCartClick()">
                         <mat-icon matBadge="{{cartItemsNum}}" matBadgePosition="after" matBadgeColor="warn">shopping_cart</mat-icon>
                     </button>
@@ -50,6 +50,11 @@
                     </button>
                 </div>
 
+                <div class="navLink" *ngIf="!user">
+                    <button mat-raised-button color="accent" routerLink="/auth">
+                        Log In
+                    </button>
+                </div>
 
             </div>
         </mat-toolbar>

@@ -8,6 +8,7 @@ import { FeaturesOverviewComponent } from './features-overview/features-overview
 import { NewGearboxTypeComponent } from './new-gearbox-type/new-gearbox-type.component';
 import { NewVehicleComponent } from './new-vehicle/new-vehicle.component';
 import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+import { VehicleOccupancyComponent } from './vehicle-occupancy/vehicle-occupancy.component';
 
 
 const routes: Routes = [
@@ -20,7 +21,8 @@ const routes: Routes = [
       { path: 'new-fuel-type', component: NewFuelTypeComponent },
       { path: 'new-gearbox-type', component: NewGearboxTypeComponent },
       { path: 'new', component: NewVehicleComponent },
-      { path: 'overview', component: VehicleListComponent }
+      { path: 'overview', component: VehicleListComponent },
+      { path: 'occupancy', component: VehicleOccupancyComponent }
     ]
   }
 ];

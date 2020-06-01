@@ -41,5 +41,7 @@ public class VehicleDTO {
 	
 	@NotNull(message = "Gearbox Type may not be blank.")
 	private FeatureDTO gearboxType;
+	
+	private Long ownerId;
 
 }

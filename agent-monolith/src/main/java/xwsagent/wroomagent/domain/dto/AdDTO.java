@@ -40,4 +40,6 @@ public class AdDTO {
     private String address;
 
     private boolean gps;
+    
+    private Double averageRate; 
 }

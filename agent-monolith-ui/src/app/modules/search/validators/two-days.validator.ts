@@ -18,13 +18,18 @@ export function TwoDayValidator(controlName: string) {
         const now = new Date();
         if (((now.getDate() + 1) > twodaysfromthenDate.getDate())
             && (now.getMonth() === twodaysfromthenDate.getMonth())) {
-
             // console.log(now.getDate() + 2, twodaysfromthenDate.getDate())
             // console.log(now.getMonth(), twodaysfromthenDate.getMonth())
 
             formGroup.controls[controlName].setErrors({ twoDays: true });
             return;
-        } else {
+        }
+        else if (((now.getDate() + 1) <= twodaysfromthenDate.getDate())
+            && (now.getMonth() !== twodaysfromthenDate.getMonth())) {
+                formGroup.controls[controlName].setErrors({ twoDays: true });
+                return;
+        }
+        else {
             formGroup.controls[controlName].setErrors(null);
         }
 

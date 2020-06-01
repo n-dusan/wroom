@@ -15,6 +15,7 @@ import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
 
 import { SharedModule } from '../shared/shared.module';
 import { EditVehicleComponent } from './edit-vehicle/edit-vehicle.component';
+import { VehicleOccupancyComponent } from './vehicle-occupancy/vehicle-occupancy.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { EditVehicleComponent } from './edit-vehicle/edit-vehicle.component';
     NewGearboxTypeComponent,
     NewVehicleComponent,
     VehicleListComponent,
-    EditVehicleComponent
+    EditVehicleComponent,
+    VehicleOccupancyComponent
   ],
   imports: [
     SharedModule,

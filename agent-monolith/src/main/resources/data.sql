@@ -18,6 +18,7 @@ delete from brand_type;
 delete from gearbox_type;
 delete from fuel_type;
 delete from body_type;
+delete from rate;
 
 ------------- ROLE -----------------
 insert into roles(id, name)
@@ -176,6 +177,18 @@ values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00
 
 -- Rent Requests
 insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
-values(1, '2020-06-05 00:00:00.000000', 'PAID', '2020-06-15 00:00:00.000000', null, 1);
+values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-15 00:00:00.000000', null, 1); --Opel Astra iz Wuhana
 insert into rent_request_ads(rent_request_id, ads_id)
 values(1, 4);
+
+-- Rates
+insert into rate(id, rating, ad_id)
+values (1, 5, 1);
+insert into rate(id, rating, ad_id)
+values (2, 4, 1);
+insert into rate(id, rating, ad_id)
+values (3, 3, 2);
+insert into rate(id, rating, ad_id)
+values (4, 4, 2);
+insert into rate(id, rating, ad_id)
+values (5, 3, 3);

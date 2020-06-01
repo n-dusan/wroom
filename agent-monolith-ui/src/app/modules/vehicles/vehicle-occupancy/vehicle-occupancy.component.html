@@ -1,0 +1,41 @@
+<div fxLayout="column" fxLayoutAlign="center center" style="padding-top: 25px;">
+
+  <h1>Vehicle occupancy</h1>
+
+  <form fxFlex [formGroup]="occupancyForm" fxLayout="column">
+        <div fxFlex>
+          <mat-form-field>
+            <mat-label>Ad</mat-label>
+            <mat-select formControlName="selectAd">
+              <mat-option *ngFor="let vehicle of vehicleList" selected value={{vehicle.id}}>{{vehicle.modelType.name}}
+                {{vehicle.brandType.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex>
+          <mat-form-field>
+            <mat-label>Available from</mat-label>
+            <input matInput [matDatepicker]="fromPicker" formControlName="availableFrom">
+            <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div fxFlex>
+          <mat-form-field>
+            <mat-label>Available to</mat-label>
+            <input matInput [matDatepicker]="toPicker" formControlName="availableTo">
+            <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+      
+     
+        <button fxFlex mat-raised-button color="accent" (click)="onFormSubmit()">Confirm</button>
+     
+  </form>
+
+
+</div>

@@ -13,7 +13,8 @@
                     <mat-form-field appearance="standard" fxFlex>
                         <mat-label>Brand</mat-label>
                         <mat-select formControlName="brandType">
-                            <mat-option *ngFor="let brand of brands" value="{{brand.id}}" (click)="brandChanged(brand)">{{brand.name}}</mat-option>
+                            <mat-option *ngFor="let brand of brands" value="{{brand.id}}" (click)="brandChanged(brand)">
+                                {{brand.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
 
@@ -26,8 +27,7 @@
 
                     <mat-form-field appearance="standard" fxFlex>
                         <mat-label>Fuel</mat-label>
-                        <mat-select
-                        formControlName="fuelType">
+                        <mat-select formControlName="fuelType">
                             <mat-option *ngFor="let fuel of fuels" value="{{fuel.id}}">{{fuel.name}}</mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -62,7 +62,8 @@
                         <input formControlName="mileage" matInput type="number" min="0">
                     </mat-form-field>
 
-                    <mat-checkbox (click)="cdwClick()" [(ngModel)]="cdw" [ngModelOptions]="{standalone: true}">Collision Damage Waiver</mat-checkbox>
+                    <mat-checkbox (click)="cdwClick()" [(ngModel)]="cdw" [ngModelOptions]="{standalone: true}">Collision
+                        Damage Waiver</mat-checkbox>
 
                     <mat-form-field appearance="standard" fxFlex="20%">
                         <mat-label>Child seats</mat-label>
@@ -90,20 +91,22 @@
                     </mat-select>
                 </mat-form-field>
 
-                <mat-form-field appearance="standard" fxFlex="20%">
+                <mat-form-field appearance="standard" fxFlex="25%">
                     <mat-label>From</mat-label>
-                    <!-- <input matInput type="datetime-local" placeholder="start date"> -->
-                    <input formControlName="from" matInput [matDatepicker]="fromPicker">
+                    <input matInput formControlName="from" type="datetime-local" placeholder="start date">
+                    <!-- <input formControlName="from" matInput [matDatepicker]="fromPicker">
                     <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
-                    <mat-datepicker #fromPicker></mat-datepicker>
-                    <mat-error *ngIf="basicSearchForm.controls.from.errors?.twoDays">Chosen date must be at least 2 days from now</mat-error>
+                    <mat-datepicker #fromPicker></mat-datepicker> -->
+                    <mat-error *ngIf="basicSearchForm.controls.from.errors?.twoDays">Chosen date must be at least 2 days
+                        from now</mat-error>
                 </mat-form-field>
 
-                <mat-form-field appearance="standard" fxFlex="20%">
+                <mat-form-field appearance="standard" fxFlex="25%">
                     <mat-label>To</mat-label>
-                    <input formControlName="to" matInput [matDatepicker]="toPicker">
+                    <input matInput formControlName="to" type="datetime-local" placeholder="end date">
+                    <!-- <input formControlName="to" matInput [matDatepicker]="toPicker">
                     <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
-                    <mat-datepicker #toPicker></mat-datepicker>
+                    <mat-datepicker #toPicker></mat-datepicker> -->
                 </mat-form-field>
 
                 <button mat-mini-fab color="accent" aria-label="Search" (click)="searchSubmit()"
@@ -117,11 +120,11 @@
         <div fxLayout="row" fxLayoutAlign="end">
             <mat-form-field appearance="standard" fxFlex="20%">
                 <mat-label>Sort by</mat-label>
-                <mat-select  [(value)]="s">
+                <mat-select [(value)]="s">
                     <mat-select-trigger *ngIf="s" class="s">
                         <span>{{s.name}}</span>
                         <mat-icon>{{s.icon}}</mat-icon>
-                      </mat-select-trigger>
+                    </mat-select-trigger>
                     <mat-option *ngFor="let s of sort" [value]="s" (click)="sortClick()">
                         {{s.name}}
                         <mat-icon>{{s.icon}}</mat-icon>
@@ -136,14 +139,12 @@
             <mat-card *ngFor="let ad of ads">
                 <div fxLayout="row" fxLayoutAlign="center center">
                     <div fxFlex="20%" class="image-container" fxLayout="row" fxLayoutAlign="center center">
-                        <img fxFlex *ngIf="ad.image"  
-                        [src]="getSantizeUrl(ad.image)" alt="image" 
-                        height="150" width="120"> 
-                        <img fxFlex *ngIf="!ad.image"  
-                        src="../../../../../assets/noimage.png" alt="image" 
-                        height="150" width="120"> 
+                        <img fxFlex *ngIf="ad.image" [src]="getSantizeUrl(ad.image)" alt="image" height="150"
+                            width="120">
+                        <img fxFlex *ngIf="!ad.image" src="../../../../../assets/noimage.png" alt="image" height="150"
+                            width="120">
                     </div>
-                    
+
 
                     <div fxFlex>
                         <mat-card-header fxLayout="row" fxLayoutAlign="center">
@@ -153,16 +154,25 @@
                                 <mat-card-subtitle>{{ad?.locationObj?.city}}, {{ad?.locationObj?.country}}
                                 </mat-card-subtitle>
                             </div>
-                            <div fxFlex="20%">
-                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Price" 
-                                (click)="priceClick(ad.priceListObj?.id, ad.mileLimit, ad.vehicleObj?.cdw)" matTooltip="Click for mor info about pricing">
+                            <div fxFlex="30%">
+                                <span>
+                                    <mat-icon style="padding: 0px; margin: 0px;vertical-align:middle;" color="warn">star_rate</mat-icon>
+                                    {{ad?.averageRate}}
+                                </span>
+                                    
+                                
+                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Price"
+                                    (click)="priceClick(ad.priceListObj?.id, ad.mileLimit, ad.vehicleObj?.cdw)"
+                                    matTooltip="Click for more info about pricing">
                                     {{ad?.priceListObj?.pricePerDay}}$
                                 </button>
-                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Cart" 
-                                matTooltip="Add to Cart" (click)="addToCart(ad)">
+                                <button class="mini-button" mat-mini-fab color="accent" aria-label="Cart"
+                                    matTooltip="Add to Cart" (click)="addToCart(ad)">
                                     <mat-icon>add_shopping_cart</mat-icon>
                                 </button>
                                 
+                                
+
                             </div>
                         </mat-card-header>
 
