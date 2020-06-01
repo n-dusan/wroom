@@ -4,6 +4,9 @@
         <!-- <button color="accent" mat-raised-button (click)="testZuul()">Talk to Zuul please</button> -->
         <div fxLayout="column">
             <mat-nav-list>
+                <div fxLayout="row" fxLayoutAlign="center">
+                    
+                </div>
                 <a mat-list-item *ngIf="user?.privileges[0] !== 'ROLE_ADMIN'"routerLink="/vehicles/new">Register a Car</a>
                 <a mat-list-item *ngIf="user?.privileges[0] !== 'ROLE_ADMIN'" routerLink="/ads/overview">My Ads</a>
                 <a mat-list-item  *ngIf="user?.privileges[0] === 'ROLE_ADMIN'" routerLink="/dashboard">Dashboard</a>

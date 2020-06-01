@@ -176,6 +176,6 @@ values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00
 
 -- Rent Requests
 insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
-values(1, '2020-06-05 00:00:00.000000', 'PAID', '2020-06-15 00:00:00.000000', null, 1);
+values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-15 00:00:00.000000', null, 1); --Opel Astra iz Wuhana
 insert into rent_request_ads(rent_request_id, ads_id)
 values(1, 4);

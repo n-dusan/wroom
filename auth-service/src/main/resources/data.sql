@@ -15,11 +15,11 @@ insert into roles(id, name)
 values (2, 'ROLE_AGENT');
 insert into roles(id, name)
 values (3, 'ROLE_ADMIN');
+--insert into roles(id, name)
+--values (4, 'ROLE_BANNED_USER');
 insert into roles(id, name)
-values (4, 'ROLE_BANNED_USER');
-insert into roles(id, name)
-values (5, 'ROLE_VEHICLE');
-insert into roles(id, name)
+--values (5, 'ROLE_VEHICLE');
+--insert into roles(id, name)
 values (6, 'ROLE_CHATTING_USER');
 insert into roles(id, name)
 values (7, 'ROLE_RENTING_USER');
@@ -58,7 +58,7 @@ values (14, 'MANAGE_USER_PRIVILEGES');
 insert into permission(id, name)
 values (15, 'SEND_LOCATION');
 insert into permission(id, name)
-values (16, 'MANAGE_RATES');
+values (16, 'MANAGE_RATES_AND_COMMENTS');
 insert into permission(id, name)
 values (17, 'POST_ADS');
 insert into permission(id, name)
@@ -125,7 +125,6 @@ insert into role_permissions(role_id, permission_id)
 values (2, 23); --TRACK_VEHICLES
 ------------------------------------------
 
-
 ------------ Permisije admina ------------
 insert into role_permissions(role_id, permission_id)
 values (3, 11); --COMPLETE_ACCESS
@@ -136,25 +135,18 @@ values (3, 13); --MANAGE_USERS
 insert into role_permissions(role_id, permission_id)
 values (3, 14); --MANAGE_USER_PRIVILEGES
 insert into role_permissions(role_id, permission_id)
-values (3, 16); --MANAGE_RATES
+values (3, 16); --MANAGE_RATES_AND_COMMENTS
 insert into role_permissions(role_id, permission_id)
 values (3, 24); --MANAGE_VEHICLE_FEATURES
-insert into role_permissions(role_id, permission_id)
-values (3, 25); --MANAGE_COMMENTS
+--insert into role_permissions(role_id, permission_id)
+--values (3, 25); --MANAGE_COMMENTS
 
 ------------------------------------------
-
-
------ Permisije banovanog korisnika -----
-
-------------------------------------------
-
 
 ------------ Permisije vozila ------------
-insert into role_permissions(role_id, permission_id)
-values (3, 15); --SEND_LOCATION
+--insert into role_permissions(role_id, permission_id)
+--values (3, 15); --SEND_LOCATION
 ------------------------------------------
-
 
 
 ------------------ KORISNICI ---------------------

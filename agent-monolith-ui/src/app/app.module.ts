@@ -11,6 +11,8 @@ import { TokenInterceptor } from './modules/auth/interceptor/token.interceptor';
 import { AuthGuard } from './modules/auth/guards/auth.guard';
 import { AlreadyAuthenticatedGuard } from './modules/auth/guards/alreadyAuthenticated.guard';
 import { CreateAdGuard } from './modules/ads/guards/create-ad.guard';
+import { SharedModule } from './modules/shared/shared.module';
+import { AdminGuard } from './modules/shared/guards/admin.guard';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { CreateAdGuard } from './modules/ads/guards/create-ad.guard';
     AppRoutingModule,
     HttpClientModule,
     MaterialModule,
+    SharedModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot()
   ],
@@ -32,7 +35,8 @@ import { CreateAdGuard } from './modules/ads/guards/create-ad.guard';
     },
     AuthGuard,
     AlreadyAuthenticatedGuard,
-    CreateAdGuard
+    CreateAdGuard,
+    AdminGuard
   ],
   bootstrap: [AppComponent]
 })

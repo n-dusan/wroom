@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
@@ -32,11 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 									FilterChain filterChain) throws ServletException, IOException {
 		String jwt = getJwtFromRequest(request);
 		
-//		Check if banned
-		if(JwtBlackList.lista.contains(jwt)) {
-			SecurityContextHolder.clearContext();
-			return;
-		}
+//		Check if banned (IP = request.getRemoteAddr() BLACKLIST ?)
+//		if(JwtBlackList.lista.contains(jwt)) {
+//			SecurityContextHolder.clearContext();
+//			return;
+//		}
 		
 		if (StringUtils.hasText(jwt)) {
 			try {
@@ -45,10 +44,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(
 					new UsernamePasswordAuthenticationToken(details, null, details.getAuthorities())					
 				);
-				System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-				details.getAuthorities().forEach(a -> {
-					System.out.println(a);
-				});
+//				System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+//				details.getAuthorities().forEach(a -> {
+//					System.out.println(a);
+//				});
 			} catch (InvalidJWTokenException e) {
 				logger.error("Exception thrown {}", e.getMessage());
 			}

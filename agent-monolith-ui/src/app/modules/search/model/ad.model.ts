@@ -18,6 +18,7 @@ export class Ad {
       public vehicleObj?: Vehicle,
       public locationObj?: AdLocation,
       public priceListObj?: PriceList,
-      public image?: string
+      public image?: string,
+      public averageRate?: number
     ) {}
   }

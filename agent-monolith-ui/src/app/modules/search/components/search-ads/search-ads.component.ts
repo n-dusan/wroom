@@ -112,7 +112,7 @@ export class SearchAdsComponent implements OnInit {
         this.toastr.error('There was an error!', 'Vehicles')
       }
     );
-
+    
     // IMAGES
     this.vehicleService.getVehicleImage().subscribe(
       data => {
@@ -265,6 +265,7 @@ export class SearchAdsComponent implements OnInit {
       new Date(this.basicSearchForm.value.from),
       new Date(this.basicSearchForm.value.to)
     );
+
 
     this.adService.search(searchCriteria).subscribe(
       data => {

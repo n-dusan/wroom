@@ -4,6 +4,7 @@ import { HomeComponent } from './modules/shared/components/home/home.component';
 import { AlreadyAuthenticatedGuard } from './modules/auth/guards/alreadyAuthenticated.guard';
 import { EmailConfirmationComponent } from './modules/shared/components/email-confirmation/email-confirmation.component';
 import { ShoppingCartComponent } from './modules/shared/components/shopping-cart/shopping-cart.component';
+import { AdminGuard } from './modules/shared/guards/admin.guard';
 
 
 const routes: Routes = [
@@ -16,7 +17,7 @@ const routes: Routes = [
   { path: 'ads', loadChildren: () => import('./modules/ads/ads.module').then(mod => mod.AdsModule)},
   { path: 'vehicles', loadChildren: () => import('./modules/vehicles/vehicles.module').then(mod => mod.VehiclesModule)},
   { path: 'search', loadChildren: () => import('./modules/search/search.module').then(mod => mod.SearchModule)},
-  { path: 'dashboard', loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule)}
+  { path: 'dashboard', loadChildren: () => import('./modules/admin/admin.module').then(mod => mod.AdminModule), canActivate:[AdminGuard]}
 ];
 
 @NgModule({
