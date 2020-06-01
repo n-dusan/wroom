@@ -4,6 +4,7 @@ package xwsagent.wroomagent.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.extern.log4j.Log4j2;
+import xwsagent.wroomagent.converter.AdConverter;
+import xwsagent.wroomagent.converter.ModelTypeConverter;
+import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.domain.Ad;
@@ -30,20 +35,27 @@ import xwsagent.wroomagent.domain.dto.VehicleImageDTO;
 import xwsagent.wroomagent.repository.VehicleRepository;
 import xwsagent.wroomagent.service.ImageService;
 import xwsagent.wroomagent.service.VehicleService;
+import xwsagent.wroomagent.util.RequestCounter;
 
 @RestController
 @RequestMapping(value = EndpointConfig.VEHICLE_BASE_URL)
+@Log4j2
 public class VehicleController {
+	
+	private static final String LOG_CREATE = "action=create user=%s ip_address=%s times=%s ";
+	private static final String LOG_POST_IMAGE = "action=postImage user=%s ip_address=%s times=%s ";
+	private static final String LOG_UPDATE = "action=update user=%s ip_address=%s times=%s ";
 
 	private final VehicleRepository vehicleRepository;
-
 	private final VehicleService vehicleService;
 	private final ImageService imageService;
+	private final RequestCounter requestCounter;
 
-	public VehicleController(VehicleService vehicleService, ImageService imageService, VehicleRepository vehicleRepository) {
+	public VehicleController(VehicleService vehicleService, ImageService imageService, VehicleRepository vehicleRepository, RequestCounter requestCounter) {
 		this.vehicleService = vehicleService;
 		this.imageService = imageService;
 		this.vehicleRepository = vehicleRepository;
+		this.requestCounter = requestCounter;
 	}
 
 	/**
@@ -54,18 +66,33 @@ public class VehicleController {
 	 * @return newly created vehicle
 	 */
 	@PostMapping(consumes = "application/json")
-	public ResponseEntity<VehicleDTO> create(@Valid @RequestBody VehicleDTO vehicleDTO, Authentication auth) {
+	public ResponseEntity<VehicleDTO> create(@Valid @RequestBody VehicleDTO vehicleDTO, Authentication auth, HttpServletRequest httpServletRequest) {
 		System.out.println("DTO" + vehicleDTO);
-		return new ResponseEntity<>(VehicleConverter.fromEntity(vehicleService.save(vehicleDTO, auth)), HttpStatus.OK);
+		String logContent = String.format(LOG_CREATE, auth.getName(), httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.VEHICLE_BASE_URL));
+		try {
+			log.info(logContent);
+			return new ResponseEntity<>(VehicleConverter.fromEntity(vehicleService.save(vehicleDTO, auth)), HttpStatus.OK);
+		}catch(Exception e) {
+			log.error(logContent + "General exception");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 
 	@PostMapping(value = "/upload/{id}")
-	public ResponseEntity<?> postImage(@RequestParam("file") List<MultipartFile> files, @PathVariable("id") Long id) {
+	public ResponseEntity<?> postImage(@RequestParam("file") List<MultipartFile> files, @PathVariable("id") Long id, Authentication auth, HttpServletRequest httpServletRequest) {
 		Vehicle vehicle = vehicleService.findById(id);
-		vehicleService.postImages(files, vehicle);
-
-		return new ResponseEntity<>(HttpStatus.OK);
+		String logContent = String.format(LOG_POST_IMAGE, auth.getName(), httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.VEHICLE_BASE_URL));
+		try {
+			log.info(logContent);
+			vehicleService.postImages(files, vehicle);
+			return new ResponseEntity<>(HttpStatus.OK);
+		}catch(Exception e) {
+			log.error(logContent + "General exception");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 	@GetMapping
@@ -134,12 +161,19 @@ public class VehicleController {
 	}
 	
 	@PutMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<VehicleDTO> update(@Valid @RequestBody VehicleDTO vehicleDTO, @PathVariable("id")Long id){
+	public ResponseEntity<VehicleDTO> update(@RequestBody VehicleDTO vehicleDTO, @PathVariable("id")Long id, Authentication auth, HttpServletRequest httpServletRequest){
 		Vehicle vehicle = vehicleService.findById(id);
-		
-		return new ResponseEntity<>(
-				VehicleConverter.fromEntity(vehicleService.update(vehicle, vehicleDTO)),
-				HttpStatus.OK
-		);
-	}
+		String logContent = String.format(LOG_UPDATE, auth.getName(), httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.VEHICLE_BASE_URL));
+		try {
+			log.info(logContent);
+			return new ResponseEntity<>(
+					VehicleConverter.fromEntity(vehicleService.update(vehicle, vehicleDTO)),
+					HttpStatus.OK
+			);
+
+		}catch(Exception e) {
+			log.error(logContent + "General exception");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+			}
 }

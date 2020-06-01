@@ -14,6 +14,8 @@ import { ToastrService } from 'ngx-toastr';
 import { AdDetailComponent } from '../../search/components/ad-detail/ad-detail.component';
 import { PriceListService } from '../services/price-list.service';
 import { PriceList } from '../../shared/models/price-list.model';
+import { Vehicle } from '../../shared/models/vehicle.model';
+import { VehicleOccupancyComponent } from '../../vehicles/vehicle-occupancy/vehicle-occupancy.component';
 
 @Component({
   selector: 'app-ads-overview',
@@ -101,6 +103,15 @@ export class AdsOverviewComponent implements OnInit {
       // });
     }
 
+
+  onOccupancyClick(){
+    const dialogRef = this.dialog.open(VehicleOccupancyComponent, {
+      width: '400px',
+      height: '400px'
+    });
+    dialogRef.afterClosed().subscribe(result => {  
+    });
+  }
 
 
 }
