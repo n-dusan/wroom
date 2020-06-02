@@ -34,12 +34,13 @@ public class RentsService {
 	private final BundleService bundleService;
 
 	public RentsService(RentRequestRepository rr, UserRepository u, VehicleService v, AdService a,
-			BundleService bs) {
+			BundleService bs, AdRepository adRepository) {
 		this.rentRepository = rr;
 		this.userRepository = u;
 		this.vehicleService = v;
 		this.adService = a;
 		this.bundleService = bs;
+		this.adRepository = adRepository;
 	}
 
 	public List<RentRequest> findAll() {
