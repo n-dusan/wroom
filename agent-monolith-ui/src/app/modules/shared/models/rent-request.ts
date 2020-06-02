@@ -5,12 +5,12 @@ export class RentRequest{
     status: String;
     fromDate:Date;
     toDate: Date;
-    ads: Ad[] = [];
+    ad: Ad;
 
-    constructor(status?: String, fromDate?: Date, toDate?: Date, ads?: Ad[]){
+    constructor(status?: String, fromDate?: Date, toDate?: Date, ad?: Ad){
         this.status = status;
         this.fromDate = fromDate;
         this.toDate = toDate;
-        this.ads = ads;
+        this.ad = ad;
     }
 }

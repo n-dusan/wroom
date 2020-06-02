@@ -73,7 +73,7 @@ export class VehicleOccupancyListComponent implements OnInit {
   }
 
   vehicleName(request: RentRequest): String{
-      const vehicle = this.vehicleList.find(x => x.id == request.ads[0].vehicleId); 
+      const vehicle = this.vehicleList.find(x => x.id == request.ad.vehicleId); 
       const modelType = vehicle?.modelType?.name;  
       const brandType = vehicle?.brandType?.name;   
       const ret = brandType + " " + modelType; 
