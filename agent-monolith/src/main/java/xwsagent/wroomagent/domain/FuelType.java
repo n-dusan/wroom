@@ -24,9 +24,6 @@ public class FuelType {
 
 	@Column(nullable = false, unique = true)
 	private String name;
-
-//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "fuelType")
-//	private Set<Vehicle> vehicles;
 	
 	@Column(name = "deleted")
 	private boolean deleted;
