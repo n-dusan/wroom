@@ -66,7 +66,6 @@ public class VehicleController {
 	 */
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<VehicleDTO> create(@Valid @RequestBody VehicleDTO vehicleDTO, Authentication auth, HttpServletRequest httpServletRequest) {
-		System.out.println("DTO" + vehicleDTO);
 		String logContent = String.format(LOG_CREATE, auth.getName(), httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.VEHICLE_BASE_URL));
 		try {
 			log.info(logContent);

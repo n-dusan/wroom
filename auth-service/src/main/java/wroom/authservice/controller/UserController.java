@@ -2,10 +2,12 @@ package wroom.authservice.controller;
 
 import java.util.List;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,26 +19,37 @@ import wroom.authservice.config.EndpointConfig;
 import wroom.authservice.converter.UserConverter;
 import wroom.authservice.dto.UserDTO;
 import wroom.authservice.service.UserService;
+import wroom.authservice.util.RequestCounter;
 
 @RestController
 @RequestMapping(value = EndpointConfig.USER_BASE_URL)
+@Log4j2
 public class UserController {
 
-    private final UserService userService;
+    private static final String LOG_ACTIVATE = "action=activate user=%s times=%s details=%s";
+    private static final String LOG_LOCK_USER = "action=lock user=%s ip_address=%s times=%s details=%s";
+    private static final String LOG_UNLOCK_USER = "action=unlock user=%s ip_address=%s times=%s details=%s";
 
-    public UserController(UserService userService) {
+    private final UserService userService;
+    private final RequestCounter requestCounter;
+
+    public UserController(UserService userService, RequestCounter requestCounter) {
         this.userService = userService;
+        this.requestCounter = requestCounter;
     }
 
     @PreAuthorize("hasAuthority('MANAGE_USERS')")
     @PutMapping(value="/activate/{id}")
-    public ResponseEntity<UserDTO> activate(@PathVariable Long id) {
+    public ResponseEntity<UserDTO> activate(@PathVariable Long id, Authentication auth) {
+        String logContent = String.format(LOG_ACTIVATE, auth.getName(), requestCounter.get(EndpointConfig.USER_BASE_URL), "Activating user id " + id);
         try {
+            log.info(logContent);
             UserDTO user = this.userService.activate(id);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch(Exception e) {
             e.printStackTrace();
         }
+        log.error(logContent);
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
@@ -57,7 +70,9 @@ public class UserController {
      */
     @PreAuthorize("hasAuthority('MANAGE_USERS')")
     @PutMapping("/lock/{id}")
-    public ResponseEntity<UserDTO> lockUser(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDTO> lockUser(@PathVariable("id") Long id, Authentication auth) {
+        String logContent = String.format(LOG_LOCK_USER, auth.getName(), requestCounter.get(EndpointConfig.USER_BASE_URL), "Locking user id " + id);
+        log.info(logContent);
         return new ResponseEntity<>(UserConverter.fromEntity(this.userService.lockAccount(id)),
                 HttpStatus.OK);
     }
@@ -69,7 +84,9 @@ public class UserController {
      */
     @PreAuthorize("hasAuthority('MANAGE_USERS')")
     @PutMapping("/unlock/{id}")
-    public ResponseEntity<UserDTO> unlockUser(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDTO> unlockUser(@PathVariable("id") Long id, Authentication auth) {
+        String logContent = String.format(LOG_UNLOCK_USER, auth.getName(), requestCounter.get(EndpointConfig.USER_BASE_URL), "Unlocking user id " + id);
+        log.info(logContent);
         return new ResponseEntity<>(UserConverter.fromEntity(this.userService.unlockAccount(id)),
                 HttpStatus.OK);
     }
