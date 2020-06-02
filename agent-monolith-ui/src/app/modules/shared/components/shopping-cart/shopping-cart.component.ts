@@ -8,8 +8,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { VehicleService } from '../../service/vehicle.service';
 import { OwnerAds } from '../../models/owner-ads.model';
 import { RentsService } from '../../service/rents.service';
-import { RentRequest } from '../../models/rent-request.model';
 import { MatDialog } from '@angular/material/dialog';
+import { CreateBundleDialogComponent } from '../create-bundle-dialog/create-bundle-dialog.component';
+import { RentRequest } from '../../models/rent-request.model';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -96,7 +97,7 @@ export class ShoppingCartComponent implements OnInit {
                       this.toastr.error('There was an error!', 'Owner')
                     }
                   );
-                  
+
                 },
                 error => {
                   this.loaded = true;
@@ -125,27 +126,19 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   sendRequest(owner: OwnerAds) {
-    // let dialogRef = this.dialog.open(PriceDetailsComponent,
-    //   {
-    //     data: {
-    //       pricelistId: priceId,
-    //       mileLimit: mileLimit,
-    //       cdw: cdw
-    //     }
-    //   });
+    var requests: RentRequest[] = [];
+    for(let ad of owner.adsObj) {
+      const from = this.cartItems.find(obj => {return obj.adId === ad.id})?.from;
+      const to = this.cartItems.find(obj => {return obj.adId === ad.id})?.to;
+      requests.push(new RentRequest(null, null, from, to, null, ad, null, false ));
+    }
 
-    // var request: RentRequest;
-    
-    // // collect ads
-    // var ads: Ad[] = [];
-    // for(let ad of owner.adsObj) {
-    //   ads.push(ad);
+    let dialogRef = this.dialog.open(CreateBundleDialogComponent,
+      {
+        data: requests
+      }
+    );
 
-    //   var cartItem = this.cartItems.find(obj => {return obj.adId === ad.id});
-    // }
-    // request.ads = ads;
-    
   }
-
 
 }

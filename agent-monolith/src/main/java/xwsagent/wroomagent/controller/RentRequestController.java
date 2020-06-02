@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import xwsagent.wroomagent.config.EndpointConfig;
+import xwsagent.wroomagent.converter.BundleConverter;
 import xwsagent.wroomagent.converter.RentConverter;
 import xwsagent.wroomagent.domain.dto.RentRequestDTO;
 import xwsagent.wroomagent.jwt.UserPrincipal;
@@ -30,6 +31,20 @@ public class RentRequestController {
 			return new ResponseEntity<>(
 					RentConverter
 							.fromEntity(this.rentsService.sendRequest(dto, ((UserPrincipal) auth.getPrincipal()).getId())),
+					HttpStatus.CREATED);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@PostMapping(value="/bundle")
+	public ResponseEntity<?> sendBundledRequest(@RequestBody RentRequestDTO[] dto, Authentication auth) {
+		try {
+			return new ResponseEntity<>(
+					BundleConverter
+							.fromEntity(this.rentsService.sendBundleRequest(dto, ((UserPrincipal) auth.getPrincipal()).getId())),
 					HttpStatus.CREATED);
 		} catch(Exception e) {
 			e.printStackTrace();

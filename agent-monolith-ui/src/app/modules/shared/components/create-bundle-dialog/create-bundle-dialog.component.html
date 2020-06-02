@@ -1,0 +1,43 @@
+<div class="content" style="width: 500px;">
+  <h2 style="text-align: center;" mat-dialog-title>Choose item(s) you wish to send request for</h2>
+  <mat-dialog-content>
+
+    <mat-table [dataSource]="data" class="mat-elevation-z2">
+      <!-- Position Column -->
+      <ng-container matColumnDef="vehicle">
+        <mat-header-cell *matHeaderCellDef> Vehicle </mat-header-cell>
+        <mat-cell *matCellDef="let request"> 
+          {{request?.ad?.vehicleObj?.brandType?.name}} {{request?.ad?.vehicleObj?.modelType?.name}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="from">
+        <mat-header-cell *matHeaderCellDef> From </mat-header-cell>
+        <mat-cell *matCellDef="let request"> 
+          {{request?.fromDate | date:'short'}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="to">
+        <mat-header-cell *matHeaderCellDef> To </mat-header-cell>
+        <mat-cell *matCellDef="let request" > 
+          {{request?.toDate | date:'short'}}
+        </mat-cell>
+      </ng-container>
+      
+      <ng-container matColumnDef="check">
+        <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-cell *matCellDef="let request"> 
+          <mat-checkbox (click)="check(request)"></mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 20px;">
+      <button mat-raised-button color="accent" (click)="sendClick()">Send Request</button>
+    </div>
+  </mat-dialog-content>
+</div>

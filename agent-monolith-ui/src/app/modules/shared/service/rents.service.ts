@@ -19,4 +19,8 @@ export class RentsService {
         return this.httpClient.post<RentRequest>(this.baseUrl, request);
     }
 
+    sendBundle(bundle: RentRequest[]): Observable<RentRequest> {
+        return this.httpClient.post<RentRequest>(this.baseUrl + '/bundle', bundle);
+    }
+
 }

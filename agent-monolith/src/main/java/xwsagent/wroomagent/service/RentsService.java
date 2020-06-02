@@ -1,6 +1,5 @@
 package xwsagent.wroomagent.service;
 
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -12,10 +11,9 @@ import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.converter.RentConverter;
 import xwsagent.wroomagent.domain.Ad;
-import xwsagent.wroomagent.domain.ModelType;
+import xwsagent.wroomagent.domain.BundledRequests;
 import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.domain.auth.User;
-import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.domain.dto.RentRequestDTO;
 import xwsagent.wroomagent.domain.enums.RequestStatus;
 import xwsagent.wroomagent.jwt.UserPrincipal;
@@ -29,12 +27,15 @@ public class RentsService {
 	private final UserRepository userRepository;
 	private final VehicleService vehicleService;
 	private final AdService adService;
+	private final BundleService bundleService;
 
-	public RentsService(RentRequestRepository rr, UserRepository u, VehicleService v, AdService a) {
+	public RentsService(RentRequestRepository rr, UserRepository u, VehicleService v, AdService a,
+			BundleService bs) {
 		this.rentRepository = rr;
 		this.userRepository = u;
 		this.vehicleService = v;
 		this.adService = a;
+		this.bundleService = bs;
 	}
 
 	public List<RentRequest> findAll() {
@@ -49,8 +50,23 @@ public class RentsService {
 		RentRequest entity = RentConverter.toEntity(dto);
 		entity.setRequestedUser(this.userRepository.findById(requestedUserID).get());
 		entity.setStatus(RequestStatus.PENDING);
-		entity.setAd(AdConverter.toEntity(dto.getAd()));
+		entity.setAd(this.adService.findById(dto.getAd().getId()));
 		return this.rentRepository.save(entity);
+	}
+	
+	public BundledRequests sendBundleRequest(RentRequestDTO[] dtos, Long requestedUserID) {
+		BundledRequests bundle = new BundledRequests();
+
+		Set<RentRequest> requests = new HashSet<RentRequest>();
+		for( RentRequestDTO requestDTO : dtos ) {
+			RentRequest newRequest = RentConverter.toEntity(requestDTO);
+			newRequest.setStatus(RequestStatus.PENDING);
+			newRequest.setRequestedUser(this.userRepository.findById(requestedUserID).get());
+			newRequest.setAd(this.adService.findById(requestDTO.getAd().getId()));
+			requests.add(newRequest);
+		}
+		bundle.setRequests(requests);
+		return this.bundleService.save(bundle);
 	}
 
 	public boolean occupy(RentRequestDTO rentRequestDTO, Authentication auth) {

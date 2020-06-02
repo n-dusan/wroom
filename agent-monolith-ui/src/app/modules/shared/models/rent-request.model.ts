@@ -9,8 +9,9 @@ export class RentRequest {
         public fromDate?: Date,
         public toDate?: Date,
         public requestedUser?: User,
-        public ads?: Ad[],
+        public ad?: Ad,
         public requestedUserUsername?: string,
+        public checked?: boolean
     ) { }
 
 }
