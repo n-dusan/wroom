@@ -75,7 +75,10 @@ public class AuthenticationService {
 
 		String jwt = jwtProvider.generateToken(authentication);
 		UserPrincipal user = (UserPrincipal)authentication.getPrincipal();
-
+		System.out.println("My authorities");
+		for (String authority : authorities) {
+			System.out.println("Auth" +  authority);
+		}
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
 		return new LoggedUserDTO(user.getId(), email, authorities, jwt);

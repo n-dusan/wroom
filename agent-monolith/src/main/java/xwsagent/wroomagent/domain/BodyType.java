@@ -6,15 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-
-import java.util.Set;
-
 
 @Entity
 @Getter @Setter @NoArgsConstructor
@@ -28,8 +23,6 @@ public class BodyType {
 	@Column(nullable = false, unique=true)
 	private String name;
 
-//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bodyType")
-//	private Set<Vehicle> vehicles;
 	
 	@Column(name = "deleted")
 	private boolean deleted;

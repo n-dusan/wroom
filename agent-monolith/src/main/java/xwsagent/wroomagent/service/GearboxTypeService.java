@@ -14,8 +14,12 @@ import xwsagent.wroomagent.repository.GearboxTypeRepository;
 @Service
 public class GearboxTypeService {
 
-	@Autowired
-	GearboxTypeRepository gearboxTypeRepository;
+
+	private final GearboxTypeRepository gearboxTypeRepository;
+
+	public GearboxTypeService(GearboxTypeRepository gearboxTypeRepository) {
+		this.gearboxTypeRepository = gearboxTypeRepository;
+	}
 	
 	public List<GearboxType> getAll() {
 		List<GearboxType> ret = new ArrayList<GearboxType>();

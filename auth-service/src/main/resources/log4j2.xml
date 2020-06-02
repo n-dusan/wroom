@@ -10,8 +10,8 @@
         </Console>
 
         <RollingFile name="RollingFile"
-                     fileName="${log-path}/monolith-log4j2.log"
-                     filePattern="${log-path}/$${date:yyyy-MM}/monolith-log4j2-%d{-dd-MMMM-yyyy}-%i.log">
+                     fileName="${log-path}/auth-log4j2.log"
+                     filePattern="${log-path}/$${date:yyyy-MM}/auth-log4j2-%d{-dd-MMMM-yyyy}-%i.log">
             <PatternLayout>
                 <pattern>%d %p %C{1.} [%t] %m%n</pattern>
             </PatternLayout>
@@ -26,8 +26,8 @@
         </RollingFile>
 
         <RollingFile name="ErrorFile"
-                     fileName="${log-path}/monolith-error-log4j2.log"
-                     filePattern="${log-path}/$${date:yyyy-MM}/monolith-log4j2-%d{-dd-MMMM-yyyy}-%i.log">
+                     fileName="${log-path}/auth-error-log4j2.log"
+                     filePattern="${log-path}/$${date:yyyy-MM}/auth-log4j2-%d{-dd-MMMM-yyyy}-%i.log">
             <PatternLayout>
                 <pattern>%d %p %C{1.} [%t] %m%n</pattern>
             </PatternLayout>
@@ -42,8 +42,8 @@
         </RollingFile>
 
         <RollingFile name="WarnFile"
-                     fileName="${log-path}/monolith-warn-log4j2.log"
-                     filePattern="${log-path}/$${date:yyyy-MM}/monolith-log4j2-%d{-dd-MMMM-yyyy}-%i.log">
+                     fileName="${log-path}/auth-warn-log4j2.log"
+                     filePattern="${log-path}/$${date:yyyy-MM}/auth-log4j2-%d{-dd-MMMM-yyyy}-%i.log">
             <PatternLayout>
                 <pattern>%d %p %C{1.} [%t] %m%n</pattern>
             </PatternLayout>
@@ -58,8 +58,8 @@
         </RollingFile>
 
         <RollingFile name="InfoFile"
-                     fileName="${log-path}/monolith-info-log4j2.log"
-                     filePattern="${log-path}/$${date:yyyy-MM}/monolith-log4j2-%d{-dd-MMMM-yyyy}-%i.log">
+                     fileName="${log-path}/auth-info-log4j2.log"
+                     filePattern="${log-path}/$${date:yyyy-MM}/auth-log4j2-%d{-dd-MMMM-yyyy}-%i.log">
             <PatternLayout>
                 <pattern>%d %p %C{1.} [%t] %m%n</pattern>
             </PatternLayout>

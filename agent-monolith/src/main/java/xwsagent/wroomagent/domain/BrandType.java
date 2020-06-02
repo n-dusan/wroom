@@ -27,9 +27,6 @@ public class BrandType {
 	@OneToMany(mappedBy = "brandType")
 	private Set<ModelType> models;
 	
-//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "brandType")
-//	private Set<Vehicle> vehicles;
-	
 	@Column(name = "deleted")
 	private boolean deleted;
 
