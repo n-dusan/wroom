@@ -9,6 +9,7 @@ import { EmailConfirmationComponent } from './components/email-confirmation/emai
 import { VehicleDetailsComponent } from '../vehicles/vehicle-details/vehicle-details.component';
 import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
 import { AdDetailComponent } from '../search/components/ad-detail/ad-detail.component';
+import { CreateBundleDialogComponent } from './components/create-bundle-dialog/create-bundle-dialog.component';
 
 const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
 
@@ -21,7 +22,8 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     EmailConfirmationComponent,
     VehicleDetailsComponent,
     ShoppingCartComponent,
-    AdDetailComponent
+    AdDetailComponent,
+    CreateBundleDialogComponent
   ],
   imports: [
     CommonModule,
