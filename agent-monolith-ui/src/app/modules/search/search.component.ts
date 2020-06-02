@@ -413,7 +413,7 @@ export class SearchComponent implements OnInit {
 
     this.shoppingCartService.addToCart(new ShoppingCartItem(ad.id, from, to));
 
-    this.toastr.success('Success', 'Successfully added to cart!');
+    this.toastr.success('Successfully added to cart!', 'Success');
 
     // this.shoppingCartService.getShoppingCartAsObservable().subscribe(
     //   data => {

@@ -5,14 +5,31 @@
 
 <div *ngIf="loaded && empty" fxLayout="column" fxLayoutAlign="center center">
     <h1 fxFlex="15%" style="text-align: center;">Your shopping cart is empty.</h1>
-    
+
 </div>
 
 <div class="content" fxLayout="column" fxLayoutAlign="start center" *ngIf="loaded && !empty">
 
-    <h1>Hello, this is your Shopping Cart</h1>
+    <!-- <div fxFlex="20%" style="width: 100%; padding: 30px;" fxLayout="row" fxLayoutAlign="center center">
+        <img src="../../../../../assets/keys.jpg" height="300px" alt="keys">
+    </div> -->
 
+    <mat-card>
+        <mat-card-content fxLayout="column" fxLayoutAlign="start center" style="text-align: center;">
+            <h2>Your Shopping Cart</h2>
+            <p>We grouped your cart items by owner. When you decide to send request, we will ask if you want
+                to create multiple requests or create a bundle request. Happy renting!
+            </p>
+        </mat-card-content>
+    </mat-card>
+    
     <div class="owner-ads-container" fxFlex *ngFor="let owner of owners" fxLayout="column" fxLayoutAlign="start center">
+
+        <div fxFlex="10%" fxLayout="row" fxLayoutAlign="start start" matTooltip="Owner">
+            <mat-icon color="accent" style="vertical-align: middle;">person</mat-icon>
+            {{owner.ownerUsername}}
+        </div>
+
         <mat-card fxFlex *ngFor="let ad of owner.adsObj" fxLayout="column" fxLayoutAlign="start center">
 
             <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="width: 100%;">
@@ -96,9 +113,32 @@
             </div>
         </mat-card>
 
-        <div fxFlex="10%" fxLayout="row" fxLayoutAlign="end" style="margin: 10px;">
-            <button mat-raised-button color="accent">Send request to owner</button>
+        <div fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="margin: 10px;">
+            <mat-expansion-panel fxFlex="80%">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Price
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Click to calculate price
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div>
+                    HELLO PRICE HI HOW ARE YOU
+                </div>
+
+            </mat-expansion-panel>
+
+            <button class="mini-button" mat-mini-fab color="accent"
+            matTooltip="Send request to this owner" 
+            (click)="sendRequest(owner)">
+                <mat-icon color="primary">send</mat-icon>
+            </button>
         </div>
+
+
+
     </div>
 
 </div>

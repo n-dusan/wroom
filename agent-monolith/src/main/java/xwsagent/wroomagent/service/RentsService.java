@@ -29,81 +29,85 @@ public class RentsService {
 	private final UserRepository userRepository;
 	private final VehicleService vehicleService;
 	private final AdService adService;
-	
+
 	public RentsService(RentRequestRepository rr, UserRepository u, VehicleService v, AdService a) {
 		this.rentRepository = rr;
 		this.userRepository = u;
 		this.vehicleService = v;
 		this.adService = a;
 	}
-	
-	
+
 	public List<RentRequest> findAll() {
 		return this.rentRepository.findAll();
 	}
-	
+
 	public List<RentRequest> findByAd(Ad ad) {
 		return this.rentRepository.findByAd(ad);
 	}
-	
+
+	public RentRequest sendRequest(RentRequestDTO dto, Long requestedUserID) {
+		RentRequest entity = RentConverter.toEntity(dto);
+		entity.setRequestedUser(this.userRepository.findById(requestedUserID).get());
+		entity.setStatus(RequestStatus.PENDING);
+		entity.setAd(AdConverter.toEntity(dto.getAd()));
+		return this.rentRepository.save(entity);
+	}
+
 	public boolean occupy(RentRequestDTO rentRequestDTO, Authentication auth) {
-        RentRequest rentRequest = RentConverter.toEntity(rentRequestDTO);
-        rentRequest.setStatus(RequestStatus.PHYSICALLY_RESERVED);
-        rentRequest.setFromDate(rentRequestDTO.getFromDate());
-        rentRequest.setToDate(rentRequestDTO.getToDate());
-       
-        UserPrincipal user = (UserPrincipal) auth.getPrincipal();
-        Optional<User> loggedInUser = userRepository.findByEmail(user.getUsername());
-		if(loggedInUser.isPresent()) {
+		RentRequest rentRequest = RentConverter.toEntity(rentRequestDTO);
+		rentRequest.setStatus(RequestStatus.PHYSICALLY_RESERVED);
+		rentRequest.setFromDate(rentRequestDTO.getFromDate());
+		rentRequest.setToDate(rentRequestDTO.getToDate());
+
+		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		Optional<User> loggedInUser = userRepository.findByEmail(user.getUsername());
+		if (loggedInUser.isPresent()) {
 			rentRequest.setRequestedUser(loggedInUser.get());
 		}
-		Set<Ad>ads = new HashSet<Ad>();
-		for(AdDTO a : rentRequestDTO.getAds()) {
-			ads.add(this.adService.findById(a.getId()));
+
+		Ad ad = this.adService.findById(rentRequestDTO.getAd().getId());
+		rentRequest.setAd(ad);
+
+		if (ad.getAvailableFrom().after(rentRequest.getFromDate())
+				&& ad.getAvailableTo().before(rentRequest.getToDate())) {
+			return false;
 		}
-		rentRequest.setAds(ads);
-		
-		for(Ad ad: ads) {
-			
-			if(ad.getAvailableFrom().after(rentRequest.getFromDate()) && ad.getAvailableTo().before(rentRequest.getToDate())) {
+		if (ad.getAvailableFrom().after(rentRequest.getFromDate())
+				&& ad.getAvailableTo().after(rentRequest.getToDate())) {
+			return false;
+		}
+
+		if (ad.getAvailableFrom().before(rentRequest.getFromDate())
+				&& ad.getAvailableTo().before(rentRequest.getToDate())) {
+			return false;
+		}
+
+		List<RentRequest> rentList = rentRepository.findByAd(ad);
+		for (RentRequest r : rentList) {
+			if (r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate())) {
 				return false;
 			}
-			if(ad.getAvailableFrom().after(rentRequest.getFromDate()) && ad.getAvailableTo().after(rentRequest.getToDate())) {
+			if (r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate())
+					&& r.getFromDate().before(rentRequest.getToDate())) {
 				return false;
 			}
-			
-			if(ad.getAvailableFrom().before(rentRequest.getFromDate()) && ad.getAvailableTo().before(rentRequest.getToDate())) {
+
+			if (r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate())
+					&& r.getToDate().after(rentRequest.getFromDate())) {
 				return false;
 			}
-			
-		}
-		
-		for(Ad ad : ads) {
-			List<RentRequest> rentList = rentRepository.findByAd(ad);
-			for(RentRequest r : rentList) {
-				if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate()) ) {
-					return false;
-				}
-				if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate())&& r.getFromDate().before(rentRequest.getToDate())) {
-					return false;
-				}
-				
-				if(r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate()) && r.getToDate().after(rentRequest.getFromDate())) {
-					return false;
-				}
-				
-				if(r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate()) ) {
-					return false;
-				}
-				
-				if(rentRequest.getFromDate().equals(r.getFromDate()) || rentRequest.getToDate().equals(r.getToDate())) {
-					return false;
-				}
+
+			if (r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate())) {
+				return false;
+			}
+
+			if (rentRequest.getFromDate().equals(r.getFromDate()) || rentRequest.getToDate().equals(r.getToDate())) {
+				return false;
 			}
 		}
-		
-        rentRepository.save(rentRequest);
-        return true;
-    }
-	
+
+		rentRepository.save(rentRequest);
+		return true;
+	}
+
 }
