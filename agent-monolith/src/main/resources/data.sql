@@ -11,7 +11,6 @@ delete from role_permissions;
 delete from ad;
 delete from location;
 delete from rent_request;
-delete from rent_request_ads;
 delete from vehicle;
 delete from model_type;
 delete from brand_type;
@@ -176,22 +175,14 @@ values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00
 
 
 -- Rent Requests
-insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
-values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-15 00:00:00.000000', null, 1); --Opel Astra iz Wuhana
-insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
-values(2, '2020-07-05 10:00:00.000000', 'PENDING', '2020-07-15 00:00:00.000000', null, 1); 
-insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
-values(3, '2020-07-20 10:00:00.000000', 'RESERVED', '2020-07-26 00:00:00.000000', null, 1); 
-insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
-values(4, '2020-07-17 10:00:00.000000', 'PHYSICALLY_RESERVED', '2020-07-18 00:00:00.000000', null, 1); 
-insert into rent_request_ads(rent_request_id, ads_id)
-values(1, 4);
-insert into rent_request_ads(rent_request_id, ads_id)
-values(2, 4);
-insert into rent_request_ads(rent_request_id, ads_id)
-values(3, 4);
-insert into rent_request_ads(rent_request_id, ads_id)
-values(4, 4);
+insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
+values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-15 00:00:00.000000', null, 1, 4); --Opel Astra iz Wuhana
+insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
+values(2, '2020-07-05 10:00:00.000000', 'PENDING', '2020-07-15 00:00:00.000000', null, 1, 4); 
+insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
+values(3, '2020-07-20 10:00:00.000000', 'RESERVED', '2020-07-26 00:00:00.000000', null, 1, 4); 
+insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
+values(4, '2020-07-17 10:00:00.000000', 'PHYSICALLY_RESERVED', '2020-07-18 00:00:00.000000', null, 1, 4); 
 
 -- Rates
 insert into rate(id, rating, ad_id)

@@ -15,9 +15,10 @@ export class Vehicle{
     brandType:BrandType;
     fuelType:FuelType;
     gearboxType:GearboxType;
+    ownerId: number
 
     constructor( mileage?: number, childSeats?: number, cdw?: boolean, modelType?: ModelType, brandType?: BrandType, bodyType?: BodyType,  fuelType?: FuelType,
-        gearboxType?: GearboxType){
+        gearboxType?: GearboxType, ownerId?: number){
       
         this.mileage = mileage;
         this.childSeats = childSeats;
@@ -27,5 +28,6 @@ export class Vehicle{
         this.brandType = brandType;
         this.fuelType = fuelType;
         this.gearboxType = gearboxType;
+        this.ownerId = ownerId;
     }
 }

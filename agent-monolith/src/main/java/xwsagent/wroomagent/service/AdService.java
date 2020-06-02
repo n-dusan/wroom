@@ -6,10 +6,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.converter.AdConverter;
+import xwsagent.wroomagent.converter.UserConverter;
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Location;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.AdDTO;
+import xwsagent.wroomagent.domain.dto.UserDTO;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.AdRepository;
 import xwsagent.wroomagent.repository.LocationRepository;
@@ -96,4 +98,8 @@ public class AdService {
         return adRepository.checkAdCountForUser(user.getId());
     }
 
+    public UserDTO getOwner(Long ad_id) {
+    	return UserConverter.fromEntity(this.adRepository.findById(ad_id).get().getVehicle().getOwner());
+    }
+    
 }

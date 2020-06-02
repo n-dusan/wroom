@@ -16,28 +16,44 @@ import org.springframework.web.bind.annotation.RestController;
 
 import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.VehicleConverter;
-import xwsagent.wroomagent.domain.dto.RentRequestDTO;
 import xwsagent.wroomagent.domain.dto.VehicleDTO;
+import xwsagent.wroomagent.converter.RentConverter;
+import xwsagent.wroomagent.domain.dto.RentRequestDTO;
+import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.RentsService;
 
 @RestController
 @RequestMapping(value = EndpointConfig.RENT_BASE_URL)
 public class RentRequestController {
-	
+
 	private final RentsService rentsService;
-	
+
 	public RentRequestController(RentsService rentsService) {
 		this.rentsService = rentsService;
 	}
 	
-	@PostMapping(value="/occupy")
+	
+	@PostMapping
+	public ResponseEntity<?> sendRequest(@RequestBody RentRequestDTO dto, Authentication auth) {
+		try {
+			return new ResponseEntity<>(
+					RentConverter
+							.fromEntity(this.rentsService.sendRequest(dto, ((UserPrincipal) auth.getPrincipal()).getId())),
+					HttpStatus.CREATED);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+
+	@PostMapping(value = "/occupy")
 	public ResponseEntity<?> occupy(@RequestBody RentRequestDTO rentRequestDTO, Authentication auth) {
-	   if(rentsService.occupy(rentRequestDTO, auth)) {
-		   return new ResponseEntity<>(HttpStatus.OK);
-	   }else {
-		   return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	   }
-	   
+		if (rentsService.occupy(rentRequestDTO, auth)) {
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@GetMapping("/all/{user}")
@@ -46,4 +62,5 @@ public class RentRequestController {
                 HttpStatus.OK);
     }
 	
+
 }

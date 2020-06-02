@@ -18,14 +18,21 @@ export class ShoppingCartService {
   }
 
   addToCart(item: ShoppingCartItem) {
-    console.log('Adding...', item)
     const currentValue = this.shoppingCartSubject.value;
+
+    // Check if that item already exists in the cart
+    const same = currentValue.find(obj => {return obj?.adId === item.adId});
+    if(same) {
+      if(same.from === item.from && same.to === item.to) {
+        return;
+      }
+    }
     const updatedValue = [...currentValue, item];
     this.shoppingCartSubject.next(updatedValue);
+    console.log('updated', updatedValue)
   }
 
   getShoppingCart() {
-    console.log(this.shoppingCartSubject.value);
     return this.shoppingCartSubject.value;
   }
 

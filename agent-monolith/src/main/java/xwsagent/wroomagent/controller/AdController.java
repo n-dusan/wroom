@@ -25,6 +25,7 @@ import xwsagent.wroomagent.converter.LocationConverter;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.domain.dto.LocationDTO;
 import xwsagent.wroomagent.domain.dto.SearchCriteriaDTO;
+import xwsagent.wroomagent.domain.dto.UserDTO;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.AdService;
 import xwsagent.wroomagent.service.SearchService;
@@ -177,5 +178,10 @@ public class AdController {
 	@GetMapping(value = "/count/{user_id}")
 	public ResponseEntity<Integer> countAds(@PathVariable("user_id") Long user_id) {
 		return new ResponseEntity<>(adService.countAds(user_id), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/owner/{ad_id}")
+	public ResponseEntity<UserDTO> getOwner(@PathVariable("ad_id") Long ad_id) {
+		return new ResponseEntity<>(adService.getOwner(ad_id), HttpStatus.OK);
 	}
 }
