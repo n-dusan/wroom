@@ -1,17 +1,23 @@
 package xwsagent.wroomagent.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import xwsagent.wroomagent.config.EndpointConfig;
+import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.domain.dto.RentRequestDTO;
+import xwsagent.wroomagent.domain.dto.VehicleDTO;
 import xwsagent.wroomagent.service.RentsService;
 
 @RestController
@@ -24,7 +30,7 @@ public class RentRequestController {
 		this.rentsService = rentsService;
 	}
 	
-	@PostMapping
+	@PostMapping(value="/occupy")
 	public ResponseEntity<?> occupy(@RequestBody RentRequestDTO rentRequestDTO, Authentication auth) {
 	   if(rentsService.occupy(rentRequestDTO, auth)) {
 		   return new ResponseEntity<>(HttpStatus.OK);
@@ -33,4 +39,11 @@ public class RentRequestController {
 	   }
 	   
 	}
+	
+	@GetMapping("/all/{user}")
+    public ResponseEntity<List<RentRequestDTO>> getAllUserOccupy(@PathVariable("user") Long userId) {
+        return new ResponseEntity<>(rentsService.occupyList(userId),
+                HttpStatus.OK);
+    }
+	
 }

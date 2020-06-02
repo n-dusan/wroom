@@ -74,6 +74,7 @@ export class VehicleOccupancyComponent implements OnInit {
     this.rentsService.occupy(rentRequest).subscribe(
       data => {
         this.toastr.success('You have successfully add a vehicle occupancy request!', 'Success')
+        console.log(data.status)
       },
       error => {
         this.toastr.error('Please enter a valid date according to the ad and pre-existing requests', 'Choosen date not valid')
@@ -82,12 +83,13 @@ export class VehicleOccupancyComponent implements OnInit {
   }
 
   onFormSubmit(){
+      var status: String;
       const selectAd = this.occupancyForm.value.selectAd;
       const selectType = this.adsList.find(x => x.id == selectAd);
       const fromDate = this.occupancyForm.value.availableFrom;
       const toDate = this.occupancyForm.value.availableTo;
       this.listAds.push(selectType);
-      const newRentRequest = new RentRequest(fromDate, toDate, this.listAds);
+      const newRentRequest = new RentRequest(status, fromDate, toDate, this.listAds);
       this.save(newRentRequest);
   }
 

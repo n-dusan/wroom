@@ -23,7 +23,11 @@ export class RentsService {
     constructor(private http: HttpClient){}
 
     occupy(rentRequest: RentRequest): Observable<any> {
-        return this.http.post(this.baseUrl, rentRequest);
+        return this.http.post(this.baseUrl + '/occupy', rentRequest);
+    }
+
+    getAllActiveForUser(userId: number): Observable<RentRequest[]> {
+      return this.http.get<RentRequest[]>(this.baseUrl + '/all/' + userId);
     }
 
 }

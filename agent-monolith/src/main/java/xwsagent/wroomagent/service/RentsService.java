@@ -1,5 +1,6 @@
 package xwsagent.wroomagent.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,7 @@ import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.domain.dto.RentRequestDTO;
 import xwsagent.wroomagent.domain.enums.RequestStatus;
 import xwsagent.wroomagent.jwt.UserPrincipal;
+import xwsagent.wroomagent.repository.AdRepository;
 import xwsagent.wroomagent.repository.RentRequestRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
 
@@ -27,14 +29,16 @@ public class RentsService {
 
 	private final RentRequestRepository rentRepository;
 	private final UserRepository userRepository;
+	private final AdRepository adRepository;
 	private final VehicleService vehicleService;
 	private final AdService adService;
 
-	public RentsService(RentRequestRepository rr, UserRepository u, VehicleService v, AdService a) {
+	public RentsService(RentRequestRepository rr, UserRepository u, VehicleService v, AdService a, AdRepository ar) {
 		this.rentRepository = rr;
 		this.userRepository = u;
 		this.vehicleService = v;
 		this.adService = a;
+		this.adRepository = ar;
 	}
 
 	public List<RentRequest> findAll() {
@@ -152,4 +156,16 @@ public class RentsService {
         return true;
     }
 
+	public List<RentRequestDTO> occupyList(Long userId){
+		List<Ad> adList = adRepository.findAllActiveUser(userId);
+		List<RentRequestDTO> retList = new ArrayList<RentRequestDTO>();
+		for(Ad ad : adList) {
+			List<RentRequest> requestList = rentRepository.findByAd(ad);
+			for(RentRequest r: requestList) {
+				retList.add(RentConverter.fromEntity(r));
+			}
+		}
+		return retList;
+	}
+	
 }
