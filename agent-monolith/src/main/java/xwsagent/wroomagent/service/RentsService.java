@@ -61,16 +61,21 @@ public class RentsService {
 	
 	public BundledRequests sendBundleRequest(RentRequestDTO[] dtos, Long requestedUserID) {
 		BundledRequests bundle = new BundledRequests();
-
+		BundledRequests saved = this.bundleService.save(bundle);
+		
 		Set<RentRequest> requests = new HashSet<RentRequest>();
 		for( RentRequestDTO requestDTO : dtos ) {
 			RentRequest newRequest = RentConverter.toEntity(requestDTO);
 			newRequest.setStatus(RequestStatus.PENDING);
+			
 			newRequest.setRequestedUser(this.userRepository.findById(requestedUserID).get());
 			newRequest.setAd(this.adService.findById(requestDTO.getAd().getId()));
+			
+			newRequest.setBundle(saved);
 			requests.add(newRequest);
 		}
 		bundle.setRequests(requests);
+		
 		return this.bundleService.save(bundle);
 	}
 
