@@ -1,11 +1,10 @@
-package com.wroom.searchservice.consumer;
+package com.wroom.vehicleservice.producer.message;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.ToString;
+import com.wroom.vehicleservice.producer.message.EntityEnum;
+import com.wroom.vehicleservice.producer.message.FeatureMessage;
+import com.wroom.vehicleservice.producer.message.OperationEnum;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@ToString
 public class VehicleMessage {
 
     private Long id;
@@ -21,6 +20,10 @@ public class VehicleMessage {
 
     private Long ownerId;
 
+    private OperationEnum operation;
+    private EntityEnum entity;
+
+
     public VehicleMessage() {}
 
     public VehicleMessage(@JsonProperty("id") Long id,
@@ -31,7 +34,9 @@ public class VehicleMessage {
                           @JsonProperty("brandType") FeatureMessage brandType,
                           @JsonProperty("bodyType") FeatureMessage bodyType,
                           @JsonProperty("fuelType") FeatureMessage fuelType,
-                          @JsonProperty("gearboxType") FeatureMessage gearboxType) {
+                          @JsonProperty("gearboxType") FeatureMessage gearboxType,
+                          @JsonProperty("operation") OperationEnum operation,
+                          @JsonProperty("entity") EntityEnum entity) {
         this.id = id;
         this.mileage = mileage;
         this.childSeats = childSeats;
@@ -41,6 +46,24 @@ public class VehicleMessage {
         this.bodyType = bodyType;
         this.fuelType = fuelType;
         this.gearboxType = gearboxType;
+        this.operation = operation;
+        this.entity = entity;
+
+    }
+
+    public VehicleMessage(
+                          @JsonProperty("mileage") Double mileage,
+                          @JsonProperty("childSeats") Integer childSeats,
+                          @JsonProperty("cdw") Boolean cdw,
+                          @JsonProperty("modelType") FeatureMessage modelType,
+                          @JsonProperty("operation") OperationEnum operation,
+                          @JsonProperty("entity") EntityEnum entity) {
+        this.mileage = mileage;
+        this.childSeats = childSeats;
+        this.cdw = cdw;
+        this.modelType = modelType;
+        this.operation = operation;
+        this.entity = entity;
 
     }
 
@@ -122,5 +145,21 @@ public class VehicleMessage {
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public OperationEnum getOperation() {
+        return operation;
+    }
+
+    public void setOperation(OperationEnum operation) {
+        this.operation = operation;
+    }
+
+    public EntityEnum getEntity() {
+        return entity;
+    }
+
+    public void setEntity(EntityEnum entity) {
+        this.entity = entity;
     }
 }

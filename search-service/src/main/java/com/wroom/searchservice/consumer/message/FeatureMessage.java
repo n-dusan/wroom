@@ -1,10 +1,12 @@
-package com.wroom.vehicleservice.producer;
+package com.wroom.searchservice.consumer.message;
 
-
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString
 public class FeatureMessage {
 
     private Long id;
@@ -13,12 +15,14 @@ public class FeatureMessage {
 
     public FeatureMessage() {}
 
+
     public FeatureMessage(@JsonProperty("id") Long id,
                           @JsonProperty("name") String name) {
         this.id = id;
         this.name = name;
     }
 
+    @JsonCreator
     public FeatureMessage(@JsonProperty("id") Long id,
                           @JsonProperty("name") String name,
                           @JsonProperty("brandId") Long brandId) {
