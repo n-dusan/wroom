@@ -13,6 +13,7 @@ export class CreateBundleDialogComponent implements OnInit {
 
   displayedColumns: string[] = ['vehicle', 'from', 'to', 'check'];
   checked: RentRequest[] = [];
+  bundled: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<CreateBundleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: RentRequest[],
@@ -30,6 +31,9 @@ export class CreateBundleDialogComponent implements OnInit {
     req.checked = !req.checked;
   }
 
+  bundleClick() {
+    this.bundled = !this.bundled;
+  }
 
   sendClick() {
     var checkedNum = 0;
@@ -47,16 +51,32 @@ export class CreateBundleDialogComponent implements OnInit {
 
     if(checkedNum > 1) {
       // Bundle
-      this.requestService.sendBundle(forSending).subscribe(
-        data=> {
-          console.log(data);
-          this.toastr.success('Your request is sent to owner. Please wait untill it is processed', 'Success')
-        },
-        error => {
-          console.log(error);
-          this.toastr.error('An unexpected error ocurred', 'Error')
+      if(this.bundled) {
+        this.requestService.sendBundle(forSending).subscribe(
+          data=> {
+            console.log(data);
+            this.toastr.success('Your request is sent to owner. Please wait untill it is processed', 'Success')
+          },
+          error => {
+            console.log(error);
+            this.toastr.error('An unexpected error ocurred', 'Error')
+          }
+        );
+      } else {
+        for(let req of forSending) {
+          this.requestService.send(req).subscribe(
+            data=> {
+              console.log(data);
+              this.toastr.success('Your request is sent to owner. Please wait untill it is processed', 'Success')
+            },
+            error => {
+              console.log(error);
+              this.toastr.error('An unexpected error ocurred', 'Error')
+            }
+          );
         }
-      );
+      }
+      
     } else {
       // Obican
       this.requestService.send(forSending[0]).subscribe(
