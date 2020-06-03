@@ -76,8 +76,11 @@ export class ShoppingCartComponent implements OnInit {
 
                   this.vehicleService.getVehicleImages(ad?.vehicleObj?.id).subscribe(
                     data => {
-
-                      ad.image = "data:image/jpeg;base64," + data[0];
+                      console.log(data)
+                      if(data.length > 0) {
+                        ad.image = "data:image/jpeg;base64," + data[0];
+                      }
+                      
 
                       this.adService.getOwner(ad.id).subscribe(
                         data => {
