@@ -20,6 +20,7 @@ import { TwoDayValidator } from './validators/two-days.validator';
 import { PriceDetailsComponent } from './components/price-details/price-details.component';
 import { AdDetailComponent } from './components/ad-detail/ad-detail.component';
 import { SearchCriteria } from './model/search-criteria.model';
+import { AuthService } from '../auth/service/auth.service';
 
 @Component({
   selector: 'app-search',
@@ -70,7 +71,8 @@ export class SearchComponent implements OnInit {
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     public sanitizer: DomSanitizer,
-    private shoppingCartService: ShoppingCartService) { }
+    private shoppingCartService: ShoppingCartService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
 
@@ -86,9 +88,9 @@ export class SearchComponent implements OnInit {
     this.adService.all().subscribe(
       data => {
         this.ads = data;
-        this.allAds = data;
-        this.adsAfterSearch = data;
-        this.dataSource = new MatTableDataSource(this.allAds);
+        // this.allAds = data;
+        // this.adsAfterSearch = data;
+        // this.dataSource = new MatTableDataSource(this.allAds); 
       },
       error => {
         this.toastr.error('There was an error!', 'Ads')
@@ -106,12 +108,27 @@ export class SearchComponent implements OnInit {
             ad.vehicleObj = v;
           }
         }
+
+        // remove ads from current user
+        this.authService.getLoggedUser().subscribe(
+          data => {
+            // console.log('user', data)
+            const id = data?.id;
+            var notMyAds: Ad[] = [];
+            notMyAds = this.ads.filter(obj => { return obj.vehicleObj?.ownerId !== id });
+
+            this.ads = notMyAds;
+            this.allAds = notMyAds;
+            this.adsAfterSearch = notMyAds;
+            this.dataSource = new MatTableDataSource(this.allAds);
+          }
+        )
       },
       error => {
         this.toastr.error('There was an error!', 'Vehicles')
       }
     );
-    
+
     // IMAGES
     this.vehicleService.getVehicleImage().subscribe(
       data => {

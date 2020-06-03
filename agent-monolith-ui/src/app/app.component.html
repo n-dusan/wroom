@@ -4,13 +4,21 @@
         <!-- <button color="accent" mat-raised-button (click)="testZuul()">Talk to Zuul please</button> -->
         <div fxLayout="column">
             <mat-nav-list>
-                <div fxLayout="row" fxLayoutAlign="center">
-                    
+                <div fxLayout="column" fxLayoutAlign="center" *ngIf="user?.privileges[0] === 'ROLE_AGENT'">
+                    <a mat-list-item routerLink="/vehicles/new">Register a Car</a>
+                    <a mat-list-item routerLink="/ads/overview">My Ads</a>
+                    <a mat-list-item routerLink="/ads/new">Post an Ad</a>
                 </div>
-                <a mat-list-item *ngIf="user?.privileges[0] !== 'ROLE_ADMIN'"routerLink="/vehicles/new">Register a Car</a>
-                <a mat-list-item *ngIf="user?.privileges[0] !== 'ROLE_ADMIN'" routerLink="/ads/overview">My Ads</a>
-                <a mat-list-item  *ngIf="user?.privileges[0] === 'ROLE_ADMIN'" routerLink="/dashboard">Dashboard</a>
-                <!-- ... -->
+                <div fxLayout="column" fxLayoutAlign="center" *ngIf="user?.privileges[0] === 'ROLE_USER'">
+                    <a mat-list-item routerLink="/vehicles/new">Register a Car</a>
+                    <a mat-list-item routerLink="/ads/overview">My Ads</a>
+                    <a mat-list-item routerLink="/ads/new">Post an Ad</a>
+                    <a mat-list-item routerLink="/rents">My Rents</a>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="center" *ngIf="user?.privileges[0] === 'ROLE_ADMIN'">
+                    <a mat-list-item routerLink="/dashboard">Dashboard</a>
+                </div>
+                
             </mat-nav-list>
         </div>
 
@@ -29,11 +37,7 @@
 
             <div fxFlex></div>
             <div fxFlex="20%" fxLayoutAlign="end">
-                <!-- <button mat-icon-button color="accent" routerLink="/messages">
-              <mat-icon>email</mat-icon>
-            </button> -->
-                
-               
+
                 <div class="navLink" *ngIf="user">
                     <button mat-icon-button color="accent">
                         <mat-icon matBadge="3" matBadgePosition="after" matBadgeColor="warn">mail</mat-icon>
@@ -41,7 +45,8 @@
                 </div>
                 <div class="navLink">
                     <button mat-icon-button color="accent" (click)="shoppingCartClick()">
-                        <mat-icon matBadge="{{cartItemsNum}}" matBadgePosition="after" matBadgeColor="warn">shopping_cart</mat-icon>
+                        <mat-icon matBadge="{{cartItemsNum}}" matBadgePosition="after" matBadgeColor="warn">
+                            shopping_cart</mat-icon>
                     </button>
                 </div>
                 <div class="navLink" *ngIf="user">

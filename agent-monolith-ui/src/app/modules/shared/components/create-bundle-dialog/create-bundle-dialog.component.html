@@ -36,7 +36,7 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
-    <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 20px;" *ngIf="data.length>1">
+    <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 20px;" *ngIf="data.length>1 && checked.length>1">
       <mat-slide-toggle color="accent" (click)="bundleClick()" >
         Create a bundled request
       </mat-slide-toggle>

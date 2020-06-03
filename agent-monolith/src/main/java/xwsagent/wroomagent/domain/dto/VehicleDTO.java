@@ -21,8 +21,8 @@ public class VehicleDTO {
 	
 	private Double mileage;
 	
-	@Min(3)
-	@Max(5)
+	@Min(0)
+	@Max(4)
 	private Integer childSeats;
 	
 	private Boolean cdw;

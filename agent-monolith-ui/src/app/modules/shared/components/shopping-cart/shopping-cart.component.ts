@@ -74,29 +74,42 @@ export class ShoppingCartComponent implements OnInit {
                 data => {
                   ad.locationObj = data;
 
-                  this.adService.getOwner(ad.id).subscribe(
+                  this.vehicleService.getVehicleImages(ad?.vehicleObj?.id).subscribe(
                     data => {
 
+                      ad.image = "data:image/jpeg;base64," + data[0];
 
-                      // populate owners
-                      var owner = this.owners.find(obj => { return obj?.ownerId === ad?.vehicleObj?.ownerId });
-                      if (owner) {  //ako postoji owner tog ad-a
-                        this.owners.find(obj => { return obj.ownerId === ad?.vehicleObj?.ownerId }).ads.push(ad?.id);
-                        this.owners.find(obj => { return obj.ownerId === ad?.vehicleObj?.ownerId }).adsObj?.push(ad);
-                      }
-                      else {  // ako ne postoji taj owner
-                        this.owners.push(new OwnerAds(ad.vehicleObj?.ownerId, [ad.id], data.email, [ad]));
-                      }
-
-                      this.loaded = true;
-
+                      this.adService.getOwner(ad.id).subscribe(
+                        data => {
+    
+                          // populate owners
+                          var owner = this.owners.find(obj => { return obj?.ownerId === ad?.vehicleObj?.ownerId });
+                          if (owner) {  //ako postoji owner tog ad-a
+                            this.owners.find(obj => { return obj.ownerId === ad?.vehicleObj?.ownerId }).ads.push(ad?.id);
+                            this.owners.find(obj => { return obj.ownerId === ad?.vehicleObj?.ownerId }).adsObj?.push(ad);
+                          }
+                          else {  // ako ne postoji taj owner
+                            this.owners.push(new OwnerAds(ad.vehicleObj?.ownerId, [ad.id], data.email, [ad]));
+                          }
+    
+                          this.loaded = true;
+    
+                        },
+                        error => {
+                          this.loaded = true;
+                          this.toastr.error('There was an error!', 'Owner')
+                        }
+                      );
+                      
                     },
                     error => {
-                      this.loaded = true;
                       console.log(error)
-                      this.toastr.error('There was an error!', 'Owner')
+                      this.loaded = true;
+                      this.toastr.error('There was an error!', 'Image')
                     }
                   );
+
+                  
 
                 },
                 error => {
@@ -127,10 +140,10 @@ export class ShoppingCartComponent implements OnInit {
 
   sendRequest(owner: OwnerAds) {
     var requests: RentRequest[] = [];
-    for(let ad of owner.adsObj) {
-      const from = this.cartItems.find(obj => {return obj.adId === ad.id})?.from;
-      const to = this.cartItems.find(obj => {return obj.adId === ad.id})?.to;
-      requests.push(new RentRequest(null, null, from, to, null, ad, null, false ));
+    for (let ad of owner.adsObj) {
+      const from = this.cartItems.find(obj => { return obj.adId === ad.id })?.from;
+      const to = this.cartItems.find(obj => { return obj.adId === ad.id })?.to;
+      requests.push(new RentRequest(null, null, from, to, null, ad, null, false));
     }
 
     let dialogRef = this.dialog.open(CreateBundleDialogComponent,
@@ -138,6 +151,12 @@ export class ShoppingCartComponent implements OnInit {
         data: requests
       }
     );
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        // TODO: Remove from cart requests that are sent
+      }
+    )
 
   }
 
