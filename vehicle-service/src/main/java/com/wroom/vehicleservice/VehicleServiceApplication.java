@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients
 public class VehicleServiceApplication {
 
 	public static void main(String[] args) {
