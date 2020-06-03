@@ -5,6 +5,8 @@ import { ModelTypeService } from '../services/vehicle-features/model-type.servic
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FeaturesOverviewComponent } from '../features-overview/features-overview.component';
 import { ToastrService } from 'ngx-toastr';
+import { BrandType } from '../../shared/models/brand-type.model';
+import { BrandTypeService } from '../services/vehicle-features/brand-type.service';
 
 @Component({
   selector: 'app-new-model-type',
@@ -19,23 +21,38 @@ export class NewModelTypeComponent implements OnInit {
   new: ModelType = new ModelType();
   messageError: any;
 
+  brands: BrandType[] = [];
+
   constructor(private formBuilder: FormBuilder,
     private modelService: ModelTypeService,
     private toastr: ToastrService,
     public dialogRef: MatDialogRef<FeaturesOverviewComponent>,
     //@Optional() is used to prevent error if no data is passed
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
+    private brandService: BrandTypeService) { }
 
   local_data = this.data;
 
   ngOnInit() {
     this.createForm = this.formBuilder.group({
-      name: new FormControl(null, Validators.required)
+      name: new FormControl(null, Validators.required),
+      brand: new FormControl(null, Validators.required)
     });
 
+    this.brandService.getBrandTypes().subscribe(
+      data => {
+        this.brands = data;
+        console.log(this.brands)
+      },
+      error => {
+        this.toastr.error('There was an error during fetching brand types.', 'Error')
+      }
+    );
   }
 
   save() {
+    this.modelType.brandId = this.createForm.value.brand;
+    console.log(this.modelType)
     this.modelService.create(this.modelType)
       .subscribe(data => {
       this.toastr.success('You have successfully added Model Type!', 'Success')

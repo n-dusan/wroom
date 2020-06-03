@@ -16,7 +16,7 @@ export class AuthService {
   loggedUserSubject: BehaviorSubject<LoggedUser>;
   loggedUser: Observable<LoggedUser>;
 
-  private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/auth';
+  private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.authService + '/auth';
   private stubUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/stub';
 
 
@@ -35,7 +35,6 @@ export class AuthService {
     return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(catchError(this.handleException)).pipe(map((res: LoggedUser) => {
       localStorage.setItem('token', JSON.stringify(res.token));
       this.loggedUserSubject.next(res);
-      // console.log(this.loggedUser)
     }));
   }
 
@@ -58,6 +57,7 @@ export class AuthService {
     const tok = localStorage.getItem('token');
     // console.log('whoami token', tok)
     if(tok) {
+      // Set user to BehaviourSubject?
       return this.httpClient.get<any>(this.baseUrl + '/whoami');
     }
     else {

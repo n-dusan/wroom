@@ -1,0 +1,17 @@
+.table-header {
+    text-align: right;
+}
+
+.table-value {
+    text-align: center;
+}
+
+.content {
+    overflow-y: scroll;
+    padding: 30px; 
+    height: 70vh;
+
+    background-image: url('../../../../../assets/bcg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}

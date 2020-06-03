@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { ModelType } from '../../shared/models/model-type.model';
 import { ModelTypeService } from '../services/vehicle-features/model-type.service';
@@ -13,11 +13,16 @@ import { BodyType } from '../../shared/models/body-type.model';
 import { GearboxType } from '../../shared/models/gearbox-type.model';
 import { FuelType } from '../../shared/models/fuel-type.model';
 import { ToastrService } from 'ngx-toastr';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { VehicleListComponent } from '../vehicle-list/vehicle-list.component';
 
 class ImageSnippet {
   pending: boolean = false;
   status: string = 'init';
-  constructor(public src: string, public file: File) {}
+
+  constructor(public src: string,
+    public file: File) { }
 }
 
 @Component({
@@ -34,6 +39,7 @@ export class NewVehicleComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   fourthFormGroup: FormGroup;
+  modelListAll: ModelType[] = [];
   modelList: ModelType[] = [];
   brandList: BrandType[] = [];
   bodyList: BodyType[] = [];
@@ -42,15 +48,17 @@ export class NewVehicleComponent implements OnInit {
   selectedFile: File;
   imageUrls: any[] = [];
   imageNew: any[] = [];
-  selectedFiles: File[]=[];
+  selectedFiles: File[] = [];
   newVehicle: Vehicle;
-  
+
   message: string;
 
-  constructor(private formBuilder: FormBuilder, private modelService: ModelTypeService, 
+  constructor(private formBuilder: FormBuilder, private modelService: ModelTypeService,
     private vehicleService: VehicleService, private brandService: BrandTypeService,
     private bodyService: BodyTypeService, private fuelService: FuelTypeService,
-    private gearboxService: GearboxTypeService, private toastr: ToastrService) { }
+    private gearboxService: GearboxTypeService, private toastr: ToastrService,
+    private router: Router, private activatedRoute: ActivatedRoute) { }
+
 
   ngOnInit(): void {
       this.firstFormGroup = this.formBuilder.group({
@@ -64,21 +72,23 @@ export class NewVehicleComponent implements OnInit {
         mileage: ['', Validators.required]
       });
       this.thirdFormGroup = this.formBuilder.group({
-        childSeats: ['', [Validators.max(5), Validators.min(3)]],
+        childSeats: ['', [Validators.max(4), Validators.min(0)]],
         cdw: [false]
       });
       this.fourthFormGroup = this.formBuilder.group({
         file: ['']
       });
+      
       this.modelService.getModelTypes().subscribe(
         data => {
-          this.modelList = data;
-          console.log(this.modelList)
+          this.modelListAll = data;
+          console.log(this.modelListAll)
         }
       );
       this.brandService.getBrandTypes().subscribe(
         data => {
           this.brandList = data;
+          console.log('brands', this.brandList)
         }
       );
       this.bodyService.getBodyTypes().subscribe(
@@ -96,84 +106,91 @@ export class NewVehicleComponent implements OnInit {
           this.gearboxList = data;
         }
       );
-      
-  }
- 
-  onNext1Click(){
 
   }
 
-  
+  onNext1Click() {
+
+  }
+
+
   localUrl: any[];
   urls = [];
-  
+
   onSelectFile(event) {
     if (event.target.files && event.target.files[0]) {
-        var filesAmount = event.target.files.length;
-        for (let i = 0; i < filesAmount; i++) {
-                var reader = new FileReader();
-                reader.onload = (event:any) => {
-                   this.urls.push(event.target.result); 
-                }
-                
-                reader.readAsDataURL(event.target.files[i]);
-                this.selectedFile = event.target.files[i];
-                this.selectedFiles.push(this.selectedFile);
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+        reader.onload = (event: any) => {
+          this.urls.push(event.target.result);
         }
-    } 
+
+        reader.readAsDataURL(event.target.files[i]);
+        this.selectedFile = event.target.files[i];
+        this.selectedFiles.push(this.selectedFile);
+      }
+    }
   }
 
-  save(vehicle: Vehicle){
-    
+  save(vehicle: Vehicle) {
     this.vehicleService.create(vehicle).subscribe(
       data => {
         this.toastr.success('You have successfully added a vehicle!', 'Success')
         this.newVehicle = data;
         this.vehicleService.upload(this.selectedFiles, this.newVehicle.id).subscribe(
           data => {
-           
+            //after finishing vehicle creation, redirect to table overview
+            this.router.navigate(['../overview'], { relativeTo: this.activatedRoute });
           });
       },
-      error=> {
-      this.toastr.error('Error !', 'Error')
-      console.log(error)
+      error => {
+        this.toastr.error('Error !', 'Error')
+        console.log(error)
       }
     );
-    
+
 
   }
 
-  doneClick(){
-    
-        const modelType = this.firstFormGroup.value.selectModel;
-        const mType = this.modelList.find(x => x.id == modelType);
+  doneClick() {
 
-        const brandType = this.firstFormGroup.value.selectBrand;
-        const brType = this.brandList.find(x => x.id == brandType);
+    const modelType = this.firstFormGroup.value.selectModel;
+    const mType = this.modelList.find(x => x.id == modelType);
+    console.log(mType + 'Izabrani model')
 
-        const bodyType = this.firstFormGroup.value.selectBody;
-        const bType = this.bodyList.find(x => x.id == bodyType);
+    const brandType = this.firstFormGroup.value.selectBrand;
+    const brType = this.brandList.find(x => x.id == brandType);
 
-        const fuelType = this.firstFormGroup.value.selectFuel;
-        const fType = this.bodyList.find(x => x.id == fuelType);
+    const bodyType = this.firstFormGroup.value.selectBody;
+    const bType = this.bodyList.find(x => x.id == bodyType);
 
-        const gearboxType = this.firstFormGroup.value.selectGearbox;
-        const gType = this.bodyList.find(x => x.id == gearboxType);
-      
-        const mileage = this.secondFormGroup.value.mileage;
+    const fuelType = this.firstFormGroup.value.selectFuel;
+    const fType = this.fuelList.find(x => x.id == fuelType);
 
-        const childSeats = this.thirdFormGroup.value.childSeats;
+    const gearboxType = this.firstFormGroup.value.selectGearbox;
+    const gType = this.gearboxList.find(x => x.id == gearboxType);
 
-        const cdw = this.thirdFormGroup.value.cdw;
-        
-        const newVehicle = new Vehicle(mileage, childSeats, cdw, mType,brType,bType,fType,gType);
-        
-        this.save(newVehicle); 
-      
-    
+    const mileage = this.secondFormGroup.value.mileage;
+
+    const childSeats = this.thirdFormGroup.value.childSeats;
+
+    const cdw = this.thirdFormGroup.value.cdw;
+
+    const newVehicle = new Vehicle(mileage, childSeats, cdw, mType, brType, bType, fType, gType);
+
+    this.save(newVehicle);
+
+
   }
 
-  
-  
+  brandClicked(brand: BrandType) {
+    console.log(brand)
+    for (let m of this.modelListAll) {
+      if (m.brandId === brand.id) {
+        this.modelList.push(m);
+      }
+    }
+  }
 
 }

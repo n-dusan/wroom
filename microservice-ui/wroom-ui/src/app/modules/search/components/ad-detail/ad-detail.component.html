@@ -1,0 +1,140 @@
+<div class="content">
+    <div style="text-align: center;">
+        <h1>Ad Details</h1>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="30px">
+        <div class="images" fxFlex="60%" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+            <div class="nav-button" fxFlex="20%">
+                <button (click)="leftImageClick()" mat-mini-fab color="accent"
+                    [disabled]="images.length == 0 || images.length == 1">
+                    <mat-icon>keyboard_arrow_left</mat-icon>
+                </button>
+            </div>
+
+            <div class="image-container" fxFlex fxLayout="row" fxLayoutAlign="center center">
+                <div *ngIf="images.length > 0">
+                    <img [src]="getSantizeUrl()" alt="image" height="200px" width="250px">
+                </div>
+                <div *ngIf="images.length == 0">
+                    <img src="../../../../../assets/noimage.png" alt="image" height="200px" width="250px">
+                </div>
+
+            </div>
+            <div class="nav-button" fxFlex="20%">
+                <button (click)="rightImageClick()" mat-mini-fab color="accent"
+                    [disabled]="images.length == 0 || images.length == 1">
+                    <mat-icon>keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="details" fxFlex>
+            <mat-card fxLayout="column" fxLayoutAlign="start center" style="padding: 0px; padding-top: 5px">
+                <h3 fxFlex>{{vehicle?.brandType.name}} {{vehicle?.modelType.name}}</h3>
+                <table fxFlex="90%">
+                    <tbody>
+                        <tr>
+                            <th class="table-header">Fuel:</th>
+                            <td class="table-value">{{vehicle?.fuelType.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-header">Gearbox:</th>
+                            <td class="table-value">{{vehicle?.gearboxType.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-header">Body:</th>
+                            <td class="table-value">{{vehicle?.bodyType.name}}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-header">Mileage:</th>
+                            <td class="table-value">{{vehicle?.mileage}} miles</td>
+                        </tr>
+                        <tr>
+                            <th class="table-header">Child seats:</th>
+                            <td class="table-value">{{vehicle?.childSeats}}</td>
+                        </tr>
+                        <tr>
+                            <th class="table-header">CDW:</th>
+                            <td *ngIf="vehicle?.cdw" class="table-value">
+                                <mat-icon>check</mat-icon>
+                            </td>
+                            <td *ngIf="!vehicle?.cdw" class="table-value">
+                                <mat-icon>close</mat-icon>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </mat-card>
+        </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center" style="padding-top: 30px;">
+        <mat-tab-group fxFlex mat-align-tabs="center" animationDuration="1000ms" color="accent" focusIndex="1">
+
+            <mat-tab label="Pricing" fxLayout="row" fxLayoutAlign="center">
+                <table class="mat-elevation-z2" style="width: 100%;" fxFlex>
+                    <tr>
+                        <th>Per Day</th>
+                        <td>{{ad?.priceListObj?.pricePerDay}}$</td>
+                        <td>
+                            <button mat-icon-button matTooltip="Price for every 24h of rental period." color="accent">
+                                <mat-icon>help</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="ad?.mileLimit">
+                        <th>Mile Limit</th>
+                        <td>{{ad?.mileLimit}} miles</td>
+                        <td>
+                            <button mat-icon-button
+                                matTooltip="If this mileage is crossed during rental period, price per every additional mile is defined in a row below. "
+                                color="accent">
+                                <mat-icon>help</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="ad?.mileLimit">
+                        <th>Per Mile</th>
+                        <td>{{ad?.priceListObj?.pricePerMile}}$</td>
+                        <td>
+                            <button mat-icon-button
+                                matTooltip="In addition to Price per Day, Price per Mile is added to the final price for every mile that is over defined Mile Limit."
+                                color="accent">
+                                <mat-icon>help</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="vehicle?.cdw">
+                        <th>Collision Damage Wavier</th>
+                        <td>{{ad?.priceListObj?.priceCDW}}$</td>
+                        <td>
+                            <button mat-icon-button
+                                matTooltip="Collision Damage Waiver is a type of protection that limits how much a company will charge for repairs."
+                                color="accent">
+                                <mat-icon>help</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="ad?.priceListObj?.discount">
+                        <th>Discount</th>
+                        <td>{{ad?.priceListObj?.discount}}%</td>
+                        <td>
+                            <button mat-icon-button
+                                matTooltip="If rental period is longer than 30 days, discount will be applied to Price per Day."
+                                color="accent">
+                                <mat-icon>help</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+
+                </table>
+            </mat-tab>
+
+
+            <mat-tab label="Comments and Ratings">
+                <h2>Work in progress...</h2>
+            </mat-tab>
+
+        </mat-tab-group>
+    </div>
+</div>

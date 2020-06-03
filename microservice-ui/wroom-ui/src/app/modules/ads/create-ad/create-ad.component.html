@@ -1,14 +1,16 @@
 <div class="content" fxLayout="column" fxLayoutAlign="center center" style="padding-top: 25px;">
 
-    <h1>Create new Ad</h1>
+    <h1>How about an Ad?</h1>
 
-    <form fxFlex [formGroup]="form">
+    <form fxFlex [formGroup]="adForm">
         <mat-card class="example-card">
             <mat-card-content fxLayout="column" fxLayoutAlign="center">
                 <div fxFlex>
                     <mat-form-field appearance="standard">
                         <mat-label>Vehicle</mat-label>
-                        <input matInput>
+                        <input matInput formControlName="vehicle"
+                        value="{{adForm.get('vehicle').value}}">
+                        <mat-error *ngIf="adForm.get('vehicle').hasError('required')">Required.</mat-error>
                     </mat-form-field>
                     &nbsp;
                     <button mat-raised-button color="primary" (click)="openVehicleModal();">Choose</button>
@@ -17,7 +19,10 @@
                 <div fxFlex>
                     <mat-form-field appearance="standard">
                         <mat-label>Price List</mat-label>
-                        <input matInput>
+
+                        <input matInput formControlName="priceList"
+                        value="{{adForm.get('priceList').value}}">
+                        <mat-error *ngIf="adForm.get('priceList').hasError('required')">Required.</mat-error>
                     </mat-form-field>
                     &nbsp;
                     <button mat-raised-button color="primary"  (click)="openPriceListModal();">Choose</button>
@@ -26,7 +31,7 @@
                 <div fxFlex>
                     <mat-form-field>
                         <mat-label>Available from</mat-label>
-                        <input matInput [matDatepicker]="fromPicker">
+                        <input matInput [matDatepicker]="fromPicker" formControlName="availableFrom">
                         <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
                         <mat-datepicker #fromPicker></mat-datepicker>
                     </mat-form-field>
@@ -35,22 +40,61 @@
                 <div fxFlex>
                     <mat-form-field>
                         <mat-label>Available to</mat-label>
-                        <input matInput [matDatepicker]="toPicker">
+                        <input matInput [matDatepicker]="toPicker" formControlName="availableTo">
                         <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
                         <mat-datepicker #toPicker></mat-datepicker>
                     </mat-form-field>
                 </div>
 
                 <div fxFlex>
-                    <mat-form-field>
-                        <mat-label>Mile Limit</mat-label>
-                        <input matInput type="number">
-                    </mat-form-field>
+                    Mileage: &emsp;
+                    <mat-radio-group [(ngModel)]="selectedMileType" [ngModelOptions]="{standalone: true}">
+
+                      <mat-radio-button name="LIMITED" value="LIMITED"></mat-radio-button>
+                      <mat-label for="LIMITED">Limited </mat-label>
+
+                      <mat-radio-button name="UNLIMITED" value="UNLIMITED"></mat-radio-button>
+                      <mat-label for="UNLIMITED">Unlimited </mat-label>
+                    </mat-radio-group>
+
+                </div>
+                <div fxFlex>
+                  <mat-form-field *ngIf="selectedMileType=='LIMITED'">
+                    <mat-label>Mile limit</mat-label>
+                    <input matInput formControlName="mileLimit" type="number">
+                  </mat-form-field>
+                </div>
+                <div fxFlex>
+                  <mat-form-field>
+                    <mat-label>Location</mat-label>
+                    <mat-select formControlName="location" [compareWith]="compareFunction">
+                      <!-- <mat-option [value]="defaultLocation"> </mat-option> -->
+                      <mat-option *ngFor="let location of locations"  [value]="location">{{location.city}}, {{location.country}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="adForm.get('location').hasError('required')">Field must not be empty!</mat-error>
+                  </mat-form-field>
+                  &nbsp;
+                    <button mat-raised-button color="primary" (click)="newLocation()">Add</button>
+                </div>
+
+                <div fxFlex>
+                  <mat-form-field>
+                    <mat-label>Address</mat-label>
+                    <input matInput formControlName="address" type="text">
+                  </mat-form-field>
+
+                </div>
+
+                <div fxFlex>
+                    <mat-slide-toggle formControlName="gps"
+                        [checked]="checked">
+                      Track vehicle via GPS
+                </mat-slide-toggle>
                 </div>
 
             </mat-card-content>
             <mat-card-actions fxLayout="column" fxLayoutAlign="center">
-                <button fxFlex mat-raised-button color="accent">Confirm</button>
+                <button fxFlex mat-raised-button color="accent" (click)="onFormSubmit()">Confirm</button>
             </mat-card-actions>
         </mat-card>
     </form>

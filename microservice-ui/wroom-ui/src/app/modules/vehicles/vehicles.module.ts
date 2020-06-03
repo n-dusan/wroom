@@ -11,6 +11,11 @@ import { NewFuelTypeComponent } from './new-fuel-type/new-fuel-type.component';
 import { FeaturesOverviewComponent } from './features-overview/features-overview.component';
 import { NewGearboxTypeComponent } from './new-gearbox-type/new-gearbox-type.component';
 import { NewVehicleComponent } from './new-vehicle/new-vehicle.component';
+import { VehicleListComponent } from './vehicle-list/vehicle-list.component';
+
+import { SharedModule } from '../shared/shared.module';
+import { EditVehicleComponent } from './edit-vehicle/edit-vehicle.component';
+import { VehicleOccupancyComponent } from './vehicle-occupancy/vehicle-occupancy.component';
 
 @NgModule({
   declarations: [
@@ -20,15 +25,19 @@ import { NewVehicleComponent } from './new-vehicle/new-vehicle.component';
     NewFuelTypeComponent,
     FeaturesOverviewComponent,
     NewGearboxTypeComponent,
-    NewVehicleComponent
+    NewVehicleComponent,
+    VehicleListComponent,
+    EditVehicleComponent,
+    VehicleOccupancyComponent
   ],
   imports: [
-    MaterialModule,
+    SharedModule,
     VehiclesRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    MaterialModule
   ],
   exports: []
 })

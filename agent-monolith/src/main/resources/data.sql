@@ -20,7 +20,6 @@ delete from body_type;
 delete from rate;
 
 ------------- ROLE -----------------
-------------- ROLE -----------------
 insert into roles(id, name)
 values (1, 'ROLE_USER');
 insert into roles(id, name)

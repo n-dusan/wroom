@@ -33,3 +33,7 @@ a:active {
 .navigation-items li {
     font-size: 16px;
 }
+
+.navLink {
+    margin-left: 15px;
+}

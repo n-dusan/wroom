@@ -17,12 +17,12 @@
                     </mat-form-field>
                 </div>
 
-                <!-- <p>
+                <p>
                     <a mat-button (click)="changePasswordClick()">Forgot password</a>
-                </p> -->
+                </p>
                 <p>
                     Don't have an account?
-                    <button type="button" mat-button (click)="this.login=!this.login">Sign Up!</button>
+                    <button type="button" mat-button (click)="switchForms()">Sign Up!</button>
                 </p>
 
             </mat-card-content>
@@ -60,7 +60,7 @@
                 
                 <p>
                     Already a member?
-                    <button type="button" mat-button (click)="this.login=!this.login;">Log In!</button>
+                    <button type="button" mat-button (click)="switchForms()">Log In!</button>
                 </p>
 
             </mat-card-content>

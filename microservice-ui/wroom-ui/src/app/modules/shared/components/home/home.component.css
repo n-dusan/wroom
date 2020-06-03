@@ -1,6 +1,11 @@
 .image {
     /* background-image: url('../../../../../assets/rental1.jpg'); */
-    /* width: 100vw;
-    height: 70vh; */
+    height: 50vh;
     padding: 50px;
+}
+
+.banner {
+    width: 95vw;
+    padding: 0;
+    margin: 25px;
 }

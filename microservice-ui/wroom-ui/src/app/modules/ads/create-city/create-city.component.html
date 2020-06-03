@@ -1,0 +1,36 @@
+<div>
+  <h2 mat-dialog-title> New location </h2>
+  <mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="cityForm">
+      <mat-form-field>
+        <mat-label for="country">Country: </mat-label>
+        <input id="countryId" matInput type="text" name="country" required formControlName="country">
+      </mat-form-field>
+      <!-- <control-messages [control]="cityForm.get('country')"></control-messages> -->
+      <br>
+      <mat-form-field>
+        <mat-label for="city">City: </mat-label>
+        <input id="cityId" matInput type="text" name="city" required formControlName="city">
+      </mat-form-field>
+      <!-- <control-messages [control]="priceListForm.get('pricePerMile')"></control-messages> -->
+      <br>
+    </form>
+
+    <!-- <div *ngIf="errorMessage"
+      class="alert alert-danger">
+      {{ errorMessage }}
+    </div> -->
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-raised-button
+            color="primary"
+            type="button"
+            (click)="onFormSubmit()"
+            [disabled]="!cityForm.valid"> Create
+    </button>
+  </mat-dialog-actions>
+
+  </div>

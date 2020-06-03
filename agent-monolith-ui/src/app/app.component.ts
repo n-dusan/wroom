@@ -33,13 +33,8 @@ export class AppComponent implements OnInit {
     //   })
     // })
     this.authService.getLoggedUser().subscribe(data => {
-        this.user = data;
-        // if(this.user) {
-        //   let role = this.user.privileges.find(obj => {
-        //     return obj[0]
-        //   })
-        // }
-      });
+      this.user = data;
+    });
 
     this.shoppingCartService.getShoppingCartAsObservable().subscribe(
       data => {
@@ -54,14 +49,14 @@ export class AppComponent implements OnInit {
           this.user = data;
         },
         error => {
-          if(error.status == 401) {
+          if (error.status == 401) {
             localStorage.removeItem('token');
             this.router.navigate(['auth']);
           }
         }
       );
 
-     }
+    }
 
   }
 
