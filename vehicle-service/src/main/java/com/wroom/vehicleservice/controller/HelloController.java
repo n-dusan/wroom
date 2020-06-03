@@ -1,6 +1,8 @@
 package com.wroom.vehicleservice.controller;
 
 import com.wroom.vehicleservice.jwt.UserPrincipal;
+import com.wroom.vehicleservice.producer.VehicleProducer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,8 +16,15 @@ import java.net.UnknownHostException;
 @RestController
 public class HelloController {
 
+    private final VehicleProducer vehicleProducer;
+
+    public HelloController(VehicleProducer vehicleProducer) {
+        this.vehicleProducer = vehicleProducer;
+    }
+
     @GetMapping(value = "/hello")
     public ResponseEntity<?> hello(Authentication auth) throws UnknownHostException {
+        vehicleProducer.send();
         System.out.println("I am reached.");
         UserPrincipal user = (UserPrincipal) auth.getPrincipal();
         System.out.println("My user from header username  " + user.getUsername());
@@ -24,6 +33,7 @@ public class HelloController {
             System.out.println("Authorities " + authority.getAuthority());
         }
         String ip = InetAddress.getLocalHost().getHostAddress();
+        this.vehicleProducer.send();
         return new ResponseEntity<>(String.format("Hello from vehicle service with ip address %s, my child.", ip), HttpStatus.OK);
     }
 }

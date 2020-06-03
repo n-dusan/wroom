@@ -19,7 +19,6 @@ public class HelloController {
     public ResponseEntity<?> hello() {
         System.out.println("I am reached.");
         System.out.println("Reaching out to vehicle, while I'm at it" + vehicleClient.hello());
-
         return new ResponseEntity<>(("Hello from ads service"), HttpStatus.OK);
     }
 }
