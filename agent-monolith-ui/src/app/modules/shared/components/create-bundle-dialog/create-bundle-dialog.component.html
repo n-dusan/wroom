@@ -1,8 +1,8 @@
-<div class="content" style="width: 500px;">
+<div class="content" style="width: 600px;">
   <h2 style="text-align: center;" mat-dialog-title>Choose item(s) you wish to send request for</h2>
   <mat-dialog-content>
 
-    <mat-table [dataSource]="data" class="mat-elevation-z2">
+    <mat-table [dataSource]="data" class="mat-elevation-z2" style="text-align: center;">
       <!-- Position Column -->
       <ng-container matColumnDef="vehicle">
         <mat-header-cell *matHeaderCellDef> Vehicle </mat-header-cell>
@@ -36,6 +36,11 @@
       <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
 
+    <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 20px;" *ngIf="data.length>1 && checked.length>1">
+      <mat-slide-toggle color="accent" (click)="bundleClick()" >
+        Create a bundled request
+      </mat-slide-toggle>
+    </div>
     <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 20px;">
       <button mat-raised-button color="accent" (click)="sendClick()">Send Request</button>
     </div>

@@ -72,7 +72,7 @@ export class NewVehicleComponent implements OnInit {
         mileage: ['', Validators.required]
       });
       this.thirdFormGroup = this.formBuilder.group({
-        childSeats: ['', [Validators.max(5), Validators.min(3)]],
+        childSeats: ['', [Validators.max(4), Validators.min(0)]],
         cdw: [false]
       });
       this.fourthFormGroup = this.formBuilder.group({

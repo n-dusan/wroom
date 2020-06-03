@@ -58,4 +58,8 @@ export class VehicleService {
   public getVehicleImages(vehicleId: number) : Observable<string[]> {
     return this.http.get<string[]>(this.baseUrl + '/getImages/' + vehicleId);
   }
+
+  // public getOneAdImage(ad_id: number) : Observable<string> {
+  //   return this.http.get<string>(this.baseUrl + '/image/ad/' + ad_id);
+  // }
 }

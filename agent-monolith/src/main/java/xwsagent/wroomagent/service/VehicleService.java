@@ -25,6 +25,7 @@ import xwsagent.wroomagent.domain.dto.VehicleImageDTO;
 import xwsagent.wroomagent.exception.InvalidDataException;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.jwt.UserPrincipal;
+import xwsagent.wroomagent.repository.AdRepository;
 import xwsagent.wroomagent.repository.BodyTypeRepository;
 import xwsagent.wroomagent.repository.BrandTypeRepository;
 import xwsagent.wroomagent.repository.FuelTypeRepository;
@@ -44,11 +45,13 @@ public class VehicleService {
 	private final FuelTypeRepository fuelTypeRepository;
 	private final GearboxTypeRepository gearboxTypeRepository;
 	private final UserRepository userRepository;
+	private final AdRepository adRepository;
 
 	public VehicleService(VehicleRepository vehicleRepository, ImageService imageService,
 			ModelTypeRepository modelTypeRepository, BrandTypeRepository brandTypeRepository,
 			BodyTypeRepository bodyTypeRepository, FuelTypeRepository fuelTypeRepository,
-			GearboxTypeRepository gearboxTypeRepository, UserRepository userRepository) {
+			GearboxTypeRepository gearboxTypeRepository, UserRepository userRepository,
+			AdRepository adRepository) {
 		this.vehicleRepository = vehicleRepository;
 		this.imageService = imageService;
 		this.modelTypeRepository = modelTypeRepository;
@@ -57,6 +60,7 @@ public class VehicleService {
 		this.fuelTypeRepository = fuelTypeRepository;
 		this.gearboxTypeRepository = gearboxTypeRepository;
 		this.userRepository = userRepository;
+		this.adRepository = adRepository;
 	}
 
 	public List<Vehicle> findAll() {
@@ -184,5 +188,25 @@ public class VehicleService {
 		}
 
 		return ret;
+	}
+	
+	/**
+	 * Fetch one image of an ad
+	 * Used in Shopping Cart.
+	 * @param ad_id
+	 * @return
+	 */
+	public byte[] getImage(Long ad_id) {
+		List<Image> allImages = new ArrayList<Image>(this.adRepository.findById(ad_id).get().getVehicle().getImages());
+		if(allImages.size() > 0) {
+			Path path = Paths.get(allImages.get(0).getUrlPath());
+			try {
+				return Files.readAllBytes(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+		return null;
 	}
 }
