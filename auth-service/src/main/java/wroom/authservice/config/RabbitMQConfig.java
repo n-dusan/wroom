@@ -25,10 +25,10 @@ public class RabbitMQConfig {
     public static final String MAIL_QUEUE_NAME = "mail";
     public static final String REPLICATE_QUEUE_NAME = "auth";
 
-    @Bean
-    public Queue mail_queue() {
-        return new Queue(MAIL_QUEUE_NAME, false);
-    }
+//    @Bean
+//    public Queue mail_queue() {
+//        return new Queue(MAIL_QUEUE_NAME, false);
+//    }
 
     @Bean
     public Queue replicate_queue() {
@@ -42,62 +42,67 @@ public class RabbitMQConfig {
 
 
     @Bean
-    List<Binding> bindings() {
-        return Arrays.asList(BindingBuilder.bind(mail_queue()).to(tipsExchange()).with(ROUTING_KEY),
-                BindingBuilder.bind(replicate_queue()).to(tipsExchange()).with(AUTH_ROUTING_KEY));
+    public Binding queueToExchangeBinding() {
+        return BindingBuilder.bind(replicate_queue()).to(tipsExchange()).with(AUTH_ROUTING_KEY);
     }
+
+//    @Bean
+//    List<Binding> bindings() {
+//        return Arrays.asList(BindingBuilder.bind(mail_queue()).to(tipsExchange()).with(ROUTING_KEY),
+//                BindingBuilder.bind(replicate_queue()).to(tipsExchange()).with(AUTH_ROUTING_KEY));
+//    }
 
     @Bean
     public Jackson2JsonMessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
+//
+//    @Bean
+//    @Primary
+//    public ConnectionFactory connectionFactoryEmail() {
+//        String uri = System.getenv("CLOUDAMQP_URL");
+//        if (uri == null) {
+//            //uri = "amqp://guest:guest@localhost";
+//            //for mail testing, use this URL, once you're done, test it with docker and remove it, since it's a secret property
+//            uri = "amqp://faihpmmd:2uO5YyUIoPZ0U7ybj4c1CA02odsiAO6r@squid.rmq.cloudamqp.com/faihpmmd";
+//        }
+//        CachingConnectionFactory connectionFactory =
+//                new CachingConnectionFactory();
+//        connectionFactory.setUri(uri);
+//        return connectionFactory;
+//    }
+
+
+//    @Bean
+//    public ConnectionFactory connectionFactoryReplicate() {
+//        String uri = System.getenv("RMQ_HOST");
+//        System.out.println("My uri what is it?" + uri);
+//        if (uri == null) {
+//            uri = "amqp://guest:guest@localhost";
+//        }
+//        else {
+//            uri = "amqp://guest:guest@" + uri;
+//        }
+//        CachingConnectionFactory connectionFactory =
+//                new CachingConnectionFactory();
+//        connectionFactory.setUri(uri);
+//        return connectionFactory;
+//    }
+
+
+//    @Bean
+//    @Primary
+//    public RabbitTemplate rabbitTemplateEmail() {
+//
+//        RabbitTemplate rabbitTemplate = new RabbitTemplate(this.connectionFactoryEmail());
+//        rabbitTemplate.setMessageConverter(messageConverter());
+//        return rabbitTemplate;
+//    }
 
     @Bean
-    @Primary
-    public ConnectionFactory connectionFactoryEmail() {
-        String uri = System.getenv("CLOUDAMQP_URL");
-        if (uri == null) {
-            //uri = "amqp://guest:guest@localhost";
-            //for mail testing, use this URL, once you're done, test it with docker and remove it, since it's a secret property
-            uri = "amqp://faihpmmd:2uO5YyUIoPZ0U7ybj4c1CA02odsiAO6r@squid.rmq.cloudamqp.com/faihpmmd";
-        }
-        CachingConnectionFactory connectionFactory =
-                new CachingConnectionFactory();
-        connectionFactory.setUri(uri);
-        return connectionFactory;
-    }
+    public RabbitTemplate rabbitTemplateReplicate(ConnectionFactory connectionFactory) {
 
-
-    @Bean
-    public ConnectionFactory connectionFactoryReplicate() {
-        String uri = System.getenv("RMQ_HOST");
-        System.out.println("My uri what is it?" + uri);
-        if (uri == null) {
-            uri = "amqp://guest:guest@localhost";
-        }
-        else {
-            uri = "amqp://guest:guest@" + uri;
-        }
-        CachingConnectionFactory connectionFactory =
-                new CachingConnectionFactory();
-        connectionFactory.setUri(uri);
-        return connectionFactory;
-    }
-
-
-    @Bean
-    @Primary
-    public RabbitTemplate rabbitTemplateEmail() {
-
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(this.connectionFactoryEmail());
-        rabbitTemplate.setMessageConverter(messageConverter());
-        return rabbitTemplate;
-    }
-
-    @Bean
-    public RabbitTemplate rabbitTemplateReplicate() {
-
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(this.connectionFactoryReplicate());
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(messageConverter());
         return rabbitTemplate;
     }

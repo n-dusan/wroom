@@ -13,7 +13,13 @@ public class RentConverter extends AbstractConverter{
                 entity.getStatus(),
                 entity.getFromDate(),
                 entity.getToDate(),
-                new UserDTO(entity.getRequestedUser().getId(), entity.getRequestedUser().getEmail(), entity.getRequestedUser().getPassword(), entity.getRequestedUser().getName(), entity.getRequestedUser().getSurname(), entity.getRequestedUser().isNonLocked()),
+                new UserDTO(entity.getRequestedUser().getId(),
+                        entity.getRequestedUser().getEmail(),
+                        entity.getRequestedUser().getPassword(),
+                        entity.getRequestedUser().getName(),
+                        entity.getRequestedUser().getSurname(),
+                        entity.getRequestedUser().isNonLocked(),
+                        entity.getRequestedUser().isEnabled()),
                 AdConverter.fromEntity(entity.getAd())
         );
     }

@@ -12,15 +12,18 @@ import wroom.authservice.producer.messages.UserMessage;
 @Log4j2
 public class UserProducer {
 
-    @Autowired
-    @Qualifier("rabbitTemplateReplicate") // Needed when want to use the non-primary bean
-    private RabbitTemplate rabbitTemplate;
+
+    private final RabbitTemplate rabbitTemplate;
+
+    public UserProducer(RabbitTemplate rabbitTemplate) {
+        this.rabbitTemplate = rabbitTemplate;
+    }
+
 
     public void send() {
         log.info("Sending a message>>> ... ");
-        UserMessage userMessage = new UserMessage("testboy@maildrop.cc,", "Hello!", "Yes, my child.", "test");
+        UserMessage userMessage = new UserMessage(1L, "Hi", "hello", "test", true, true);
 
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.AUTH_ROUTING_KEY, userMessage);
-        log.info("Sent a message to >"+userMessage.getRecipient());
     }
 }

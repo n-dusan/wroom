@@ -8,52 +8,86 @@ import lombok.ToString;
 @ToString
 public class UserMessage {
 
-    private String recipient;
-    private String subject;
-    private String text;
-    private String test;
+    private Long id;
+    private String name;
+    private String surname;
+    private String email;
+    private Boolean enabled;
+    private Boolean nonLocked;
+
+    private UserOperationEnum operation;
 
     public UserMessage() {}
 
-    public UserMessage(@JsonProperty("recipient") String recipient,
-                       @JsonProperty("subject") String subject,
-                       @JsonProperty("text") String text,
-                       @JsonProperty("test") String test) {
-        this.recipient = recipient;
-        this.subject = subject;
-        this.text = text;
-        this.test = test;
+    public UserMessage(@JsonProperty("id") Long id,
+                       @JsonProperty("name") String name,
+                       @JsonProperty("surname") String surname,
+                       @JsonProperty("email") String email,
+                       @JsonProperty("enabled") Boolean enabled,
+                       @JsonProperty("nonLocked") Boolean nonLocked,
+                       @JsonProperty("operation") UserOperationEnum operation) {
+        this.id = id;
+        this.name= name;
+        this.surname = surname;
+        this.email = email;
+        this.enabled = enabled;
+        this.nonLocked = nonLocked;
+        this.operation = operation;
     }
 
-    public String getTest() {
-        return test;
+    public UserOperationEnum getOperation() {
+        return operation;
     }
 
-    public void setTest(String test) {
-        this.test = test;
+    public void setOperation(UserOperationEnum operation) {
+        this.operation = operation;
     }
 
-    public String getRecipient() {
-        return recipient;
+    public Long getId() {
+        return id;
     }
 
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getName() {
+        return name;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getText() {
-        return text;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Boolean getNonLocked() {
+        return nonLocked;
+    }
+
+    public void setNonLocked(Boolean nonLocked) {
+        this.nonLocked = nonLocked;
     }
 }
