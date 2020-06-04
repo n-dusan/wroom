@@ -84,11 +84,11 @@ public class BodyTypeController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
-        BodyType bt = bodyTypeService.findById(id);
+        
         String logContent = String.format(LOG_UPDATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.BODY_TYPE_BASE_URL));
         log.info(logContent);
         return new ResponseEntity<>(
-                BodyTypeConverter.fromEntity(bodyTypeService.update(bt, featureDTO)),
+                BodyTypeConverter.fromEntity(bodyTypeService.update(featureDTO)),
                 HttpStatus.OK
         );
     }

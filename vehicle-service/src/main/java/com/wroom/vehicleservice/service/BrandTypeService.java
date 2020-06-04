@@ -88,10 +88,11 @@ public class BrandTypeService {
         
     }
 
-    public BrandType update(BrandType bt, FeatureDTO featureDTO) {
+    public BrandType update(FeatureDTO featureDTO) {
         if(featureDTO == null) {
             throw new GeneralException("Forwarded DTO is null");
         }
+        BrandType bt = findById(featureDTO.getId());
         bt.setName(featureDTO.getName());
         this.brandTypeRepository.save(bt);
         

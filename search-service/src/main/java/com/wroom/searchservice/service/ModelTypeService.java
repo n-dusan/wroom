@@ -66,18 +66,17 @@ public class ModelTypeService {
 		return mt;
 	}
 	
-	public void delete(String name) {
-		ModelType modelType = findByName(name);
+	public void delete(Long id) {
+		ModelType modelType = findById(id);
 		modelType.setDeleted(true);
-		modelTypeRepository.save(modelType);
-			
+		modelTypeRepository.save(modelType);	
 	}
 	
-	public ModelType update(ModelType mt, FeatureDTO featureDTO) {
+	public ModelType update(FeatureDTO featureDTO) {
 		if(featureDTO == null) {
 			throw new InvalidDataException("Forwarded DTO is null");
 		}	
-		
+		ModelType mt = findById(featureDTO.getId());
 		mt.setName(featureDTO.getName());
 		this.modelTypeRepository.save(mt);
 		return mt;

@@ -74,11 +74,10 @@ public class FuelTypeController {
 
     @PutMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<FeatureDTO> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
-        FuelType ft = fuelTypeService.findById(id);
         String logContent = String.format(LOG_UPDATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.FUEL_TYPE_BASE_URL));
         log.info(logContent);
         return new ResponseEntity<>(
-                FuelTypeConverter.fromEntity(fuelTypeService.update(ft, featureDTO)),
+                FuelTypeConverter.fromEntity(fuelTypeService.update(featureDTO)),
                 HttpStatus.OK
         );
     }

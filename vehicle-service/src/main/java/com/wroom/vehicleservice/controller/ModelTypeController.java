@@ -74,11 +74,10 @@ public class ModelTypeController {
 
     @PutMapping(value = "/{id}", produces = "application/json")
     public ResponseEntity<FeatureDTO> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
-        ModelType mt = modelTypeService.findById(id);
         String logContent = String.format(LOG_UPDATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.MODEL_TYPE_BASE_URL));
         log.info(logContent);
         return new ResponseEntity<>(
-                ModelTypeConverter.fromEntity(modelTypeService.update(mt, featureDTO)),
+                ModelTypeConverter.fromEntity(modelTypeService.update( featureDTO)),
                 HttpStatus.OK
         );
     }

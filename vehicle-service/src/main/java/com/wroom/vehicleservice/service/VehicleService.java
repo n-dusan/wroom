@@ -83,11 +83,12 @@ public class VehicleService {
 		this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.DELETE));
 	}
 
-	public Vehicle update(Vehicle entity, VehicleDTO vehicleDTO) {
+	public Vehicle update(VehicleDTO vehicleDTO) {
 		if (vehicleDTO == null) {
 			throw new GeneralException("Forwarded DTO is null");
 		}
-
+		Vehicle entity = findById(vehicleDTO.getId());
+		
 		entity.setChildSeats(vehicleDTO.getChildSeats());
 		entity.setCdw(vehicleDTO.getCdw());
 		entity.setMileage(vehicleDTO.getMileage());

@@ -82,11 +82,11 @@ public class FuelTypeService {
         this.vehicleProducer.send(AMQPFeatureConverter.toVehicleMessage(feature, OperationEnum.DELETE, EntityEnum.FUEL_TYPE));
     }
 
-    public FuelType update(FuelType ft, FeatureDTO featureDTO) {
+    public FuelType update(FeatureDTO featureDTO) {
         if(featureDTO == null) {
             throw new GeneralException("Forwarded DTO is null");
         }
-
+        FuelType ft = findById(featureDTO.getId());
         ft.setName(featureDTO.getName());
         this.fuelTypeRepository.save(ft);
         

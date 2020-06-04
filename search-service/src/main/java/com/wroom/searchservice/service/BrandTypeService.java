@@ -48,17 +48,18 @@ public class BrandTypeService {
 		return bt;
 	}
 	
-	public void delete(String name) {
-		BrandType brandType = findByName(name);
+	public void delete(Long id) {
+		BrandType brandType = findById(id);
 		brandType.setDeleted(true);
 		brandTypeRepository.save(brandType);
 			
 	}
 	
-	public BrandType update(BrandType bt, FeatureDTO featureDTO) {
+	public BrandType update(FeatureDTO featureDTO) {
 		if(featureDTO == null) {
 			throw new InvalidDataException("Forwarded DTO is null");
 		}
+		BrandType bt = this.findById(featureDTO.getId());
 		bt.setName(featureDTO.getName());
 		this.brandTypeRepository.save(bt);
 		return bt;

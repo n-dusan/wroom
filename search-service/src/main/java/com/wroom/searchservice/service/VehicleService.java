@@ -84,11 +84,12 @@ public class VehicleService {
 		vehicleRepository.save(vehicle);
 	}
 
-	public Vehicle update(Vehicle vehicle, VehicleDTO vehicleDTO) {
+	public Vehicle update(VehicleDTO vehicleDTO) {
 		if (vehicleDTO == null) {
 			throw new InvalidDataException("Forwarded DTO is null");
 		}
-
+		
+		Vehicle vehicle = findById(vehicleDTO.getId());
 		vehicle.setChildSeats(vehicleDTO.getChildSeats());
 		vehicle.setCdw(vehicleDTO.getCdw());
 		vehicle.setMileage(vehicleDTO.getMileage());

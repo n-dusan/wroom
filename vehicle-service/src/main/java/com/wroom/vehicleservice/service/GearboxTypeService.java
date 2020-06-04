@@ -92,11 +92,11 @@ public class GearboxTypeService {
     
     }
 
-    public GearboxType update(GearboxType gt, FeatureDTO featureDTO) {
+    public GearboxType update(FeatureDTO featureDTO) {
         if(featureDTO == null) {
             throw new GeneralException("Forwarded DTO is null");
         }
-
+        GearboxType gt = findById(featureDTO.getId());
         gt.setName(featureDTO.getName());
         this.gearboxTypeRepository.save(gt);
         

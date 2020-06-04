@@ -50,18 +50,17 @@ public class GearboxTypeService {
 		return gt;
 	}
 	
-	public void delete(String name) {
-		GearboxType gearboxType = findByName(name);
+	public void delete(Long id) {
+		GearboxType gearboxType = findById(id);
 		gearboxType.setDeleted(true);
 		gearboxTypeRepository.save(gearboxType);
-			
 	}
 	
-	public GearboxType update(GearboxType gt, FeatureDTO featureDTO) {
+	public GearboxType update(FeatureDTO featureDTO) {
 		if(featureDTO == null) {
 			throw new InvalidDataException("Forwarded DTO is null");
 		}	
-		
+		GearboxType gt = findById(featureDTO.getId());
 		gt.setName(featureDTO.getName());
 		this.gearboxTypeRepository.save(gt);
 		return gt;

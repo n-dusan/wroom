@@ -119,11 +119,11 @@ public class ModelTypeService {
     
     }
 
-    public ModelType update(ModelType mt, FeatureDTO featureDTO) {
+    public ModelType update(FeatureDTO featureDTO) {
         if(featureDTO == null) {
             throw new GeneralException("Forwarded DTO is null");
         }
-
+        ModelType mt = findById(featureDTO.getId());
         mt.setName(featureDTO.getName());
         ModelType modelType = this.modelTypeRepository.save(mt);
         

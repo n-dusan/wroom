@@ -87,10 +87,11 @@ public class BodyTypeService {
         this.vehicleProducer.send(AMQPFeatureConverter.toVehicleMessage(feature, OperationEnum.DELETE, EntityEnum.BODY_TYPE));
     }
 
-    public BodyType update(BodyType bt, FeatureDTO featureDTO) {
+    public BodyType update(FeatureDTO featureDTO) {
         if(featureDTO == null) {
             throw new GeneralException("Forwarded DTO is null");
         }
+        BodyType bt = findById(featureDTO.getId());
         bt.setName(featureDTO.getName());
         this.bodyTypeRepository.save(bt);
         

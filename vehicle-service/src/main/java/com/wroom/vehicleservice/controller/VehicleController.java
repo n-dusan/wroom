@@ -221,12 +221,11 @@ public class VehicleController {
 	@PutMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<VehicleDTO> update(@RequestBody VehicleDTO vehicleDTO, @PathVariable("id") Long id,
 			Authentication auth, HttpServletRequest httpServletRequest) {
-		Vehicle vehicle = vehicleService.findById(id);
 		String logContent = String.format(LOG_UPDATE, auth.getName(), httpServletRequest.getRemoteAddr(),
 				requestCounter.get(EndpointConfig.VEHICLE_BASE_URL));
 		try {
 			log.info(logContent);
-			return new ResponseEntity<>(VehicleConverter.fromEntity(vehicleService.update(vehicle, vehicleDTO)),
+			return new ResponseEntity<>(VehicleConverter.fromEntity(vehicleService.update(vehicleDTO)),
 					HttpStatus.OK);
 
 		} catch (Exception e) {

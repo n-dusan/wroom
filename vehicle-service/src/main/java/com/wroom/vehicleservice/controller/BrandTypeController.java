@@ -74,11 +74,10 @@ public class BrandTypeController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<?> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
-        BrandType bt = brandTypeService.findById(id);
         String logContent = String.format(LOG_UPDATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.BRAND_TYPE_BASE_URL));
         log.info(logContent);
         return new ResponseEntity<>(
-                BrandTypeConverter.fromEntity(brandTypeService.update(bt, featureDTO)),
+                BrandTypeConverter.fromEntity(brandTypeService.update( featureDTO)),
                 HttpStatus.OK
         );
     }
