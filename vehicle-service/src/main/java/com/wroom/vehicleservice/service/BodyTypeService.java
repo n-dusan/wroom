@@ -99,7 +99,7 @@ public class BodyTypeService {
         feature.setName(featureDTO.getName());
         feature.setId(bt.getId());
         
-        this.vehicleProducer.send(AMQPFeatureConverter.toFeatureMessage(feature, OperationEnum.UPDATE, EntityEnum.BODY_TYPE));
+        this.vehicleProducer.send(AMQPFeatureConverter.toVehicleMessage(feature, OperationEnum.UPDATE, EntityEnum.BODY_TYPE));
 
         return bt;
     }
