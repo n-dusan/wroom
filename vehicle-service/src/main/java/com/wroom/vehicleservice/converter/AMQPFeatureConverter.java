@@ -1,6 +1,5 @@
 package com.wroom.vehicleservice.converter;
 
-import com.wroom.vehicleservice.domain.BodyType;
 import com.wroom.vehicleservice.domain.dto.FeatureDTO;
 import com.wroom.vehicleservice.producer.message.EntityEnum;
 import com.wroom.vehicleservice.producer.message.FeatureMessage;
@@ -41,7 +40,7 @@ public class AMQPFeatureConverter {
         return null;
     }
 
-    public static VehicleMessage toFeatureMessage(FeatureDTO dto, OperationEnum operation, EntityEnum entity) {
+    public static VehicleMessage toVehicleMessage(FeatureDTO dto, OperationEnum operation, EntityEnum entity) {
         VehicleMessage message = new VehicleMessage();
 
         if(entity == EntityEnum.BODY_TYPE) {
@@ -93,6 +92,14 @@ public class AMQPFeatureConverter {
 
         return message;
     }
+    
+    public static FeatureMessage toFeatureMessage(FeatureDTO dto, OperationEnum operation, EntityEnum entity) {
+        FeatureMessage message = new FeatureMessage();
 
-
+        message.setBrandId(dto.getBrandId());
+        message.setId(dto.getId());
+        message.setName(dto.getName());
+        
+        return message;
+    }
 }

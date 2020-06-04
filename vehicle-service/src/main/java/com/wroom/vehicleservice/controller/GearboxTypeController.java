@@ -51,9 +51,15 @@ public class GearboxTypeController {
         }
     }
 
-    @DeleteMapping(value = "/{name}")
-    public ResponseEntity<Void> delete(@PathVariable("name") String name){
-        gearboxTypeService.delete(name);
+//    @DeleteMapping(value = "/{name}")
+//    public ResponseEntity<Void> delete(@PathVariable("name") String name){
+//        gearboxTypeService.delete(name);
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+    
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+        gearboxTypeService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

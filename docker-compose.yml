@@ -114,28 +114,28 @@ services:
 #    links:
 #      - eureka
 
-#  ads-service:
-#    build:
-#      context: ./ads-service
-#      dockerfile: Dockerfile
-#    image: xws:ads-service
-#    container_name: ads-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8094:8094
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
+  # ads-service:
+  #   build:
+  #     context: ./ads-service
+  #     dockerfile: Dockerfile
+  #   image: xws:ads-service
+  #   container_name: ads-service
+  #   restart: on-failure
+  #   networks:
+  #     - xws-network
+  #   environment:
+  #     REGISTRY_HOST: eureka
+  #     DATABASE_USERNAME: root
+  #     DATABASE_PASSWORD: root
+  #     DATABASE_DOMAIN: mysql
+  #     DATABASE_SCHEMA: wroom
+  #   ports:
+  #     - 8094:8094
+  #   depends_on:
+  #     - eureka
+  #     - mysql
+  #   links:
+  #     - eureka
 
 #  renting-service:
 #    build:
@@ -188,25 +188,25 @@ services:
       - 5672:5672
       - 15672:15672
     networks:
-      - xws-network
+    - xws-network
 
-  mysql:
-    image: mysql:8.0.19
-    container_name: mysql
-    restart: always
-    networks:
-      - xws-network
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-      MYSQL_ROOT_PASSWORD: root
-#      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-#      MYSQL_DATABASE: wroom
-    volumes:
-      - mysql-data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-        - "3306:3306"
+#   mysql:
+#     image: mysql:8.0.19
+#     container_name: mysql
+#     restart: always
+#     networks:
+#       - xws-network
+#     environment:
+#       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+#       MYSQL_ROOT_PASSWORD: root
+# #      MYSQL_USER: root
+#       MYSQL_PASSWORD: root
+# #      MYSQL_DATABASE: wroom
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#     ports:
+#         - "3306:3306"
 
 #  wroom-ui:
 #    build:

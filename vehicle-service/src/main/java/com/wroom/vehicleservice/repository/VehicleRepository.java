@@ -21,5 +21,8 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
 //    @Query(value = "SELECT a FROM Ad a WHERE (a.vehicle = :vehicle)")
 //    List<Ad> findByVehicleId(@Param("vehicle") Vehicle vehicle);
+    
+    @Query(value="select v.* from vehicle v where deleted=false", nativeQuery=true)
+    List<Vehicle> findAll();
 
 }

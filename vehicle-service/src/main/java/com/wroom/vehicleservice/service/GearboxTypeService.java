@@ -1,8 +1,12 @@
 package com.wroom.vehicleservice.service;
 
+import com.wroom.vehicleservice.converter.AMQPFeatureConverter;
 import com.wroom.vehicleservice.domain.GearboxType;
 import com.wroom.vehicleservice.domain.dto.FeatureDTO;
 import com.wroom.vehicleservice.exception.GeneralException;
+import com.wroom.vehicleservice.producer.VehicleProducer;
+import com.wroom.vehicleservice.producer.message.EntityEnum;
+import com.wroom.vehicleservice.producer.message.OperationEnum;
 import com.wroom.vehicleservice.repository.GearboxTypeRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +18,12 @@ public class GearboxTypeService {
 
 
     private final GearboxTypeRepository gearboxTypeRepository;
+    private final VehicleProducer vehicleProducer;
 
-    public GearboxTypeService(GearboxTypeRepository gearboxTypeRepository) {
+    public GearboxTypeService(GearboxTypeRepository gearboxTypeRepository,
+    		VehicleProducer vehicleProducer) {
         this.gearboxTypeRepository = gearboxTypeRepository;
+        this.vehicleProducer = vehicleProducer;
     }
 
     public List<GearboxType> getAll() {
@@ -32,7 +39,15 @@ public class GearboxTypeService {
     public GearboxType save(GearboxType gearboxType) {
         GearboxType entity = this.gearboxTypeRepository.findByName(gearboxType.getName());
         if(entity == null) {
-            return gearboxTypeRepository.save(gearboxType);
+        	GearboxType gt = gearboxTypeRepository.save(gearboxType);
+        	FeatureDTO feature = new FeatureDTO();
+            feature.setName(gearboxType.getName());
+            feature.setId(gearboxType.getId());
+            
+            //replicate to search service
+            this.vehicleProducer.send(AMQPFeatureConverter.toVehicleMessage(feature, OperationEnum.CREATE, EntityEnum.GEARBOX_TYPE));
+
+            return gt;
         }
         else {
             return null;
@@ -53,7 +68,28 @@ public class GearboxTypeService {
         GearboxType gearboxType = findByName(name);
         gearboxType.setDeleted(true);
         gearboxTypeRepository.save(gearboxType);
+        
+        FeatureDTO feature = new FeatureDTO();
+        feature.setName(gearboxType.getName());
+        feature.setId(gearboxType.getId());
+        
+        //replicate to search service
+        this.vehicleProducer.send(AMQPFeatureConverter.toVehicleMessage(feature, OperationEnum.DELETE, EntityEnum.GEARBOX_TYPE));
 
+    }
+    
+    public void deleteById(Long id) {
+        GearboxType gearboxType = findById(id);
+        gearboxType.setDeleted(true);
+        gearboxTypeRepository.save(gearboxType);
+
+        FeatureDTO feature = new FeatureDTO();
+        feature.setName(gearboxType.getName());
+        feature.setId(gearboxType.getId());
+        
+        //replicate to search service
+        this.vehicleProducer.send(AMQPFeatureConverter.toVehicleMessage(feature, OperationEnum.DELETE, EntityEnum.GEARBOX_TYPE));
+    
     }
 
     public GearboxType update(GearboxType gt, FeatureDTO featureDTO) {
@@ -63,6 +99,14 @@ public class GearboxTypeService {
 
         gt.setName(featureDTO.getName());
         this.gearboxTypeRepository.save(gt);
+        
+        FeatureDTO feature = new FeatureDTO();
+        feature.setName(gt.getName());
+        feature.setId(gt.getId());
+        
+        //replicate to search service
+        this.vehicleProducer.send(AMQPFeatureConverter.toVehicleMessage(feature, OperationEnum.UPDATE, EntityEnum.GEARBOX_TYPE));
+    
         return gt;
     }
 }
