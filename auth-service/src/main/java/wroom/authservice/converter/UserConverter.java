@@ -16,7 +16,8 @@ public class UserConverter extends AbstractConverter{
 				entity.getSurname(),
 				entity.getEmail(),
 				getRoles(entity.getRoles()),
-				entity.isNonLocked()
+				entity.isNonLocked(),
+				entity.isEnabled()
 		);
 	}
 	
