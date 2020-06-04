@@ -81,6 +81,7 @@ public class BodyTypeService {
         //replicate to search service
         FeatureDTO feature = new FeatureDTO();
         feature.setName(featureDTO.getName());
+        feature.setId(bt.getId());
         //replicate to search service
         this.vehicleProducer.send(AMQPFeatureConverter.toFeatureMessage(feature, OperationEnum.UPDATE, EntityEnum.BODY_TYPE));
 

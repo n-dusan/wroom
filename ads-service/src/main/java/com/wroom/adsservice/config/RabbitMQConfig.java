@@ -1,4 +1,4 @@
-package com.wroom.adsservice.controller;
+package com.wroom.adsservice.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     public static final String EXCHANGE_NAME = "tips_tx";
-    public static final String ROUTING_KEY = "tips";
+    public static final String ROUTING_KEY = "ads_key";
     public static final String QUEUE_NAME = "ads";
 
     @Bean

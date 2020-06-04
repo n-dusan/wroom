@@ -26,9 +26,5 @@ public class VehicleConsumer {
     }
 
 
-    //todo: crudovi ads, price-list, location
-    @RabbitListener(queues = RabbitMQConfig.ADS_QUEUE_NAME)
-    public void adsListen() {
 
-    }
 }

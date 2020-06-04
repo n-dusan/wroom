@@ -6,22 +6,33 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class RabbitMQConfig {
 
     public static final String EXCHANGE_NAME = "tips_tx";
-    public static final String DEFAULT_PARSING_QUEUE = "default_parser_q";
     public static final String ROUTING_KEY = "tips";
-    public static final String QUEUE_NAME = "mail";
+    public static final String AUTH_ROUTING_KEY = "auth_key";
+    public static final String MAIL_QUEUE_NAME = "mail";
+    public static final String REPLICATE_QUEUE_NAME = "auth";
 
     @Bean
-    public Queue queue() {
-        return new Queue(QUEUE_NAME, false);
+    public Queue mail_queue() {
+        return new Queue(MAIL_QUEUE_NAME, false);
+    }
+
+    @Bean
+    public Queue replicate_queue() {
+        return new Queue(REPLICATE_QUEUE_NAME, false);
     }
 
     @Bean
@@ -29,9 +40,11 @@ public class RabbitMQConfig {
         return new TopicExchange(EXCHANGE_NAME);
     }
 
+
     @Bean
-    public Binding queueToExchangeBinding() {
-        return BindingBuilder.bind(queue()).to(tipsExchange()).with(ROUTING_KEY);
+    List<Binding> bindings() {
+        return Arrays.asList(BindingBuilder.bind(mail_queue()).to(tipsExchange()).with(ROUTING_KEY),
+                BindingBuilder.bind(replicate_queue()).to(tipsExchange()).with(AUTH_ROUTING_KEY));
     }
 
     @Bean
@@ -40,7 +53,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public ConnectionFactory connectionFactory() {
+    @Primary
+    public ConnectionFactory connectionFactoryEmail() {
         String uri = System.getenv("CLOUDAMQP_URL");
         if (uri == null) {
             //uri = "amqp://guest:guest@localhost";
@@ -55,9 +69,35 @@ public class RabbitMQConfig {
 
 
     @Bean
-    public RabbitTemplate rabbitTemplate() {
+    public ConnectionFactory connectionFactoryReplicate() {
+        String uri = System.getenv("RMQ_HOST");
+        System.out.println("My uri what is it?" + uri);
+        if (uri == null) {
+            uri = "amqp://guest:guest@localhost";
+        }
+        else {
+            uri = "amqp://guest:guest@" + uri;
+        }
+        CachingConnectionFactory connectionFactory =
+                new CachingConnectionFactory();
+        connectionFactory.setUri(uri);
+        return connectionFactory;
+    }
 
-        RabbitTemplate rabbitTemplate = new RabbitTemplate(this.connectionFactory());
+
+    @Bean
+    @Primary
+    public RabbitTemplate rabbitTemplateEmail() {
+
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(this.connectionFactoryEmail());
+        rabbitTemplate.setMessageConverter(messageConverter());
+        return rabbitTemplate;
+    }
+
+    @Bean
+    public RabbitTemplate rabbitTemplateReplicate() {
+
+        RabbitTemplate rabbitTemplate = new RabbitTemplate(this.connectionFactoryReplicate());
         rabbitTemplate.setMessageConverter(messageConverter());
         return rabbitTemplate;
     }

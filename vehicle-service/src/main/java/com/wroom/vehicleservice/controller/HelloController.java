@@ -1,8 +1,14 @@
 package com.wroom.vehicleservice.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.wroom.vehicleservice.domain.Vehicle;
 import com.wroom.vehicleservice.feigns.AdsClient;
 import com.wroom.vehicleservice.jwt.UserPrincipal;
 import com.wroom.vehicleservice.producer.VehicleProducer;
+import com.wroom.vehicleservice.producer.message.EntityEnum;
+import com.wroom.vehicleservice.producer.message.FeatureMessage;
+import com.wroom.vehicleservice.producer.message.OperationEnum;
+import com.wroom.vehicleservice.producer.message.VehicleMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +27,9 @@ public class HelloController {
 
     private final AdsClient adsClient;
 
+    @Autowired
+    private VehicleProducer vehicleProducer;
+
     public HelloController(AdsClient adsClient) {
         this.adsClient = adsClient;
     }
@@ -28,12 +37,12 @@ public class HelloController {
     @GetMapping(value = "/hello")
     public ResponseEntity<?> hello(Authentication auth, HttpServletRequest request) throws UnknownHostException {
         //testira sinhronu komunikaciju sa drugom servisom
-        String jwt = getJwtFromRequest(request);
-        System.out.println("my jwt " + jwt);
+        //String jwt = getJwtFromRequest(request);
+        //System.out.println("my jwt " + jwt);
 
-        this.adsClient.hello(jwt);
+        //this.adsClient.hello(jwt);
         //testira asinhronu komunikaciju sa drugom servisom
-        //this.vehicleProducer.send();
+        this.vehicleProducer.send(new VehicleMessage(1.3, 4, false, new FeatureMessage(1L, "test"), OperationEnum.CREATE, EntityEnum.BODY_TYPE));
         System.out.println("I am reached.");
         UserPrincipal user = (UserPrincipal) auth.getPrincipal();
         System.out.println("My user from header username  " + user.getUsername());

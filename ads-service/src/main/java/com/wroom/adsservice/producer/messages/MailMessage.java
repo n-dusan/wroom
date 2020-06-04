@@ -1,7 +1,12 @@
-package wroom.authservice.producer;
+package com.wroom.adsservice.producer.messages;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@ToString
 public class MailMessage {
 
     private String recipient;
@@ -10,6 +15,7 @@ public class MailMessage {
 
     public MailMessage() {}
 
+    @JsonCreator
     public MailMessage(@JsonProperty("recipient") String recipient,
                        @JsonProperty("subject") String subject,
                        @JsonProperty("text") String text) {

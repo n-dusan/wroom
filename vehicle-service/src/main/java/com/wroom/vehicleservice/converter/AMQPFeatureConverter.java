@@ -50,6 +50,7 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.BODY_TYPE);
         }
 
         if(entity == EntityEnum.BRAND_TYPE) {
@@ -58,6 +59,7 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.BRAND_TYPE);
         }
 
         if(entity == EntityEnum.MODEL_TYPE) {
@@ -66,6 +68,7 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.MODEL_TYPE);
         }
 
         if(entity == EntityEnum.GEARBOX_TYPE) {
@@ -74,6 +77,7 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.GEARBOX_TYPE);
         }
 
         if(entity == EntityEnum.FUEL_TYPE) {
@@ -82,10 +86,13 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.FUEL_TYPE);
         }
 
         message.setOperation(operation);
 
         return message;
     }
+
+
 }

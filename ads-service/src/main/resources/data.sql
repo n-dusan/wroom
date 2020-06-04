@@ -1,7 +1,7 @@
-delete from rent_request_ads;
-delete from rent_request;
-delete from rate;
-delete from ad;
+-- delete from rent_request_ads;
+-- delete from rent_request;
+-- delete from rate;
+-- delete from ad;
 
 -- Location
 insert into location(id, country, city)
