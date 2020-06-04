@@ -15,4 +15,5 @@ public interface PriceListRepository extends JpaRepository<PriceList, Long> {
     List<PriceList> findAllActive();
 
     PriceList findOneById(Long id);
+   
 }

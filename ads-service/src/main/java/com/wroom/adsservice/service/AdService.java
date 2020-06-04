@@ -1,22 +1,28 @@
 package com.wroom.adsservice.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.wroom.adsservice.converter.AMQPLocationConverter;
 import com.wroom.adsservice.converter.AdConverter;
+import com.wroom.adsservice.converter.LocationConverter;
 import com.wroom.adsservice.domain.Ad;
 import com.wroom.adsservice.domain.Location;
 import com.wroom.adsservice.domain.dto.AdDTO;
+import com.wroom.adsservice.domain.dto.LocationDTO;
 import com.wroom.adsservice.domain.dto.UserDTO;
 import com.wroom.adsservice.domain.dto.VehicleDTO;
 import com.wroom.adsservice.exception.GeneralException;
 import com.wroom.adsservice.feigns.AuthClient;
 import com.wroom.adsservice.feigns.VehicleClient;
+import com.wroom.adsservice.producer.AdsProducer;
+import com.wroom.adsservice.producer.messages.OperationEnum;
 import com.wroom.adsservice.repository.AdRepository;
 import com.wroom.adsservice.repository.LocationRepository;
 import com.wroom.adsservice.repository.PriceListRepository;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 @Service
 public class AdService {
@@ -26,17 +32,20 @@ public class AdService {
     private final PriceListRepository priceListRepository;
     private final VehicleClient vehicleClient;
     private final AuthClient authClient;
+    private final AdsProducer adsProducer;
 
     public AdService(LocationRepository locationRepository,
                      AdRepository adRepository,
                      PriceListRepository priceListRepository,
                      VehicleClient vehicleClient,
-                     AuthClient authClient) {
+                     AuthClient authClient,
+                     AdsProducer adsProducer) {
         this.locationRepository = locationRepository;
         this.adRepository = adRepository;
         this.priceListRepository = priceListRepository;
         this.vehicleClient = vehicleClient;
         this.authClient = authClient;
+        this.adsProducer = adsProducer;
     }
 
     public List<Ad> findAll() {
@@ -53,7 +62,12 @@ public class AdService {
     }
 
     public Location saveLocation(Location location) {
-        return locationRepository.save(location);
+    	Location entity = locationRepository.save(location);
+    	LocationDTO dto = LocationConverter.fromEntity(entity);
+    	
+    	// Notify search-service
+    	this.adsProducer.send(AMQPLocationConverter.toAdsMessage(dto, OperationEnum.CREATE));
+        return entity;
     }
 
     public List<Location> getAllLocations() {
@@ -73,7 +87,13 @@ public class AdService {
         ad.setPriceList(priceListRepository.findOneById(adDTO.getPriceListId()));
         ad.setLocation(locationRepository.findOneById(adDTO.getLocationId()));
         ad.setPublishDate(Calendar.getInstance().getTime());
-        return adRepository.save(ad);
+        
+        Ad entity = adRepository.save(ad);
+        // Notify search service
+//        AdDTO dto = AdConverter.fromEntity(entity);
+//        this.adsProducer.send(AMQPAdConverter.toAdsMessage(dto, OperationEnum.CREATE));
+        
+        return entity;
     }
 
     public Ad update(Long adId, AdDTO dto) {

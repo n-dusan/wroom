@@ -26,7 +26,7 @@ public class HelloController {
             System.out.println("Authorities " + authority.getAuthority());
         }
         System.out.println("I am reached.");
-        adsProducer.send();
+//        adsProducer.send();
         return new ResponseEntity<>(("Hello from ads service"), HttpStatus.OK);
     }
 }

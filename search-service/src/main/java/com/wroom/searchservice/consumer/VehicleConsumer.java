@@ -6,8 +6,7 @@ import org.springframework.stereotype.Component;
 import com.wroom.searchservice.config.RabbitMQConfig;
 import com.wroom.searchservice.consumer.message.OperationEnum;
 import com.wroom.searchservice.consumer.message.VehicleMessage;
-import com.wroom.searchservice.service.AdService;
-import com.wroom.searchservice.service.VehicleService;
+import com.wroom.searchservice.consumer.message.handlers.VehicleMessageHandler;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -21,8 +20,6 @@ public class VehicleConsumer {
 		this.vehicleMessageHandler = vehicleMessageHandler;
 	}
 
-
-	//prima CRUDove: bodytype, brandtype, modeltype, gearboxtype, fueltype, vehicle
     @RabbitListener(queues = RabbitMQConfig.VEHICLE_QUEUE_NAME)
     public void vehicleListen(VehicleMessage message) {
         log.info("Received message > "+ message);

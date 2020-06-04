@@ -13,12 +13,12 @@ import lombok.extern.log4j.Log4j2;
 public class AdsProducer {
 
 	private static final String LOG_SEND = "action=replicate-search-data operation=%s entity=%s";
-	
-    private final RabbitTemplate rabbitTemplate;
 
-    public AdsProducer(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
+	private final RabbitTemplate rabbitTemplate;
+
+	public AdsProducer(RabbitTemplate rabbitTemplate) {
+		this.rabbitTemplate = rabbitTemplate;
+	}
 
 //    public void send() {
 //        //String logContent = String.format(LOG_SEND, message.getOperation().toString(), message.getEntity().toString());
@@ -26,13 +26,11 @@ public class AdsProducer {
 //        AdsMessage message = new AdsMessage("test", "test", "Test");
 //        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, message);
 //    }
-    
-    public void send(AdsMessage message) {
-    	String logContent = String.format(LOG_SEND, message.getOperation().toString(), message.getEntity().toString());
-        log.info(logContent);
 
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, message);
-    
-    }
+	public void send(AdsMessage message) {
+		String logContent = String.format(LOG_SEND, message.getOperation().toString(), message.getEntity().toString());
+		log.info(logContent);
+		rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, message);
+	}
 
 }

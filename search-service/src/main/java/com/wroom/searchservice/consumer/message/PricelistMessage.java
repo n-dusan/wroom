@@ -1,4 +1,4 @@
-package com.wroom.adsservice.producer.messages;
+package com.wroom.searchservice.consumer.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,18 +14,18 @@ public class PricelistMessage {
 	public PricelistMessage() {}
 	
 	public PricelistMessage( @JsonProperty("id") Long id, 
-			@JsonProperty("pricePerDay") Double pricePerDay, 
-			@JsonProperty("pricePerMile") Double pricePerMile, 
+			@JsonProperty("pricePerDay") Double pricePerDay,
+			@JsonProperty("pricePerMile") Double pricePerMile,
 			@JsonProperty("priceCDW") Double priceCDW, 
 			@JsonProperty("discount") Double discount, 
 			@JsonProperty("userId") Long userId) {
 		super();
 		this.id = id;
 		this.pricePerDay = pricePerDay;
+		this.pricePerMile = pricePerMile;
 		this.priceCDW = priceCDW;
 		this.discount = discount;
 		this.userId = userId;
-		this.pricePerMile = pricePerMile;
 	}
 
 	public Long getId() {

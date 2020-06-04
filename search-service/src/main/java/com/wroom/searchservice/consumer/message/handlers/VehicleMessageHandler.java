@@ -1,4 +1,4 @@
-package com.wroom.searchservice.consumer;
+package com.wroom.searchservice.consumer.message.handlers;
 
 import org.springframework.stereotype.Component;
 
