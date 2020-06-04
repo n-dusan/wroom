@@ -17,7 +17,6 @@ export class AuthService {
   loggedUser: Observable<LoggedUser>;
 
   private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.authService + '/auth';
-  private stubUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/stub';
 
 
   constructor(private httpClient: HttpClient,
@@ -68,14 +67,6 @@ export class AuthService {
 
   confirmEmail(token: string) {
     return this.httpClient.put(this.baseUrl + '/confirm', token);
-  }
-
-  testRole(): Observable<string> {
-    return this.httpClient.get<string>(this.stubUrl + '/test-auth-role');
-  }
-
-  testPermission(): Observable<string> {
-    return this.httpClient.get<string>(this.stubUrl + '/test-auth-permission');
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {

@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DialogRegimeEnum } from '../../model/dialog.enum'
 import { PriceListService } from '../../services/price-list.service';
 import { PriceList } from 'src/app/modules/shared/models/price-list.model';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { LoggedUser } from 'src/app/modules/auth/model/logged-user.model';
 
 @Component({
   selector: 'app-dialog',
@@ -17,7 +19,8 @@ export class DialogComponent implements OnInit {
     private priceListService: PriceListService,
     public dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private _formBuilder: FormBuilder) { }
+    private _formBuilder: FormBuilder,
+    private authService: AuthService) { }
 
   loadingData: boolean = true
 
@@ -73,31 +76,39 @@ export class DialogComponent implements OnInit {
       let priceCDW = this.priceListForm.value.priceCDW;
       let discount = this.priceListForm.value.discount;
 
-      if(this.data.type === DialogRegimeEnum.CREATE) {
+      this.authService.whoami().subscribe((response: LoggedUser) => {
 
-        //make a POST request
+        let userId = response.id;
 
-        this.priceListService.create(new PriceList(null, pricePerDay, pricePerMile, discount, priceCDW))
+        if(this.data.type === DialogRegimeEnum.CREATE) {
+
+          //make a POST request
+
+
+          this.priceListService.create(new PriceList(null, pricePerDay, pricePerMile, discount, priceCDW, userId))
+            .subscribe( (response: PriceList) => {
+                console.log('success response', response);
+                this.dialogRef.close();
+            }, (error) => {
+              this.errorMessage = error.message;
+            });
+
+          } else {
+          //make a PUT request
+
+          this.priceListService.update(new PriceList(this.data.priceList.id, pricePerDay, pricePerMile, discount, priceCDW, userId))
           .subscribe( (response: PriceList) => {
+
               console.log('success response', response);
               this.dialogRef.close();
           }, (error) => {
             this.errorMessage = error.message;
           });
 
-        } else {
-        //make a PUT request
+        }
+      })
 
-        this.priceListService.update(new PriceList(this.data.priceList.id, pricePerDay, pricePerMile, discount, priceCDW))
-        .subscribe( (response: PriceList) => {
 
-            console.log('success response', response);
-            this.dialogRef.close();
-        }, (error) => {
-          this.errorMessage = error.message;
-        });
-
-      }
     }
   }
 

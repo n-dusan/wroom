@@ -6,6 +6,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import wroom.authservice.config.RabbitMQConfig;
+import wroom.authservice.producer.messages.MailMessage;
 
 @Service
 public class MailProducer {

@@ -9,7 +9,8 @@ import { catchError } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class ModelTypeService {
-  private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/model-type';
+
+    private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/model-type';
 
     constructor(private http: HttpClient){}
 

@@ -27,8 +27,8 @@ import wroom.authservice.util.RequestCounter;
 public class UserController {
 
     private static final String LOG_ACTIVATE = "action=activate user=%s times=%s details=%s";
-    private static final String LOG_LOCK_USER = "action=lock user=%s ip_address=%s times=%s details=%s";
-    private static final String LOG_UNLOCK_USER = "action=unlock user=%s ip_address=%s times=%s details=%s";
+    private static final String LOG_LOCK_USER = "action=lock user=%s times=%s details=%s";
+    private static final String LOG_UNLOCK_USER = "action=unlock user=%s times=%s details=%s";
 
     private final UserService userService;
     private final RequestCounter requestCounter;
@@ -96,6 +96,11 @@ public class UserController {
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         userService.delete(id);
         return new ResponseEntity<>("User successfully deleted!", HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> findUser(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(UserConverter.fromEntity(this.userService.findById(id)), HttpStatus.OK);
     }
 
 }

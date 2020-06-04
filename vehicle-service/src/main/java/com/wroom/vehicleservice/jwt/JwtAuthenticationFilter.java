@@ -1,9 +1,12 @@
 package com.wroom.vehicleservice.jwt;
 
 import com.wroom.vehicleservice.exception.InvalidJWTokenException;
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -61,6 +64,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    @Bean
+    public RequestInterceptor requestTokenBearerInterceptor(HttpServletRequest request) {
+
+
+        return new RequestInterceptor() {
+            @Override
+            public void apply(RequestTemplate requestTemplate) {
+                System.out.println("Bearer token " + request.getHeader("Authorization"));
+                System.out.println("MY REQUEST" + getJwtFromRequest(request));
+//                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//                UsernamePasswordAuthenticationToken details = (UsernamePasswordAuthenticationToken) authentication.getDetails();
+//                requestTemplate.header("Authorization", "Bearer " + details.getTokenValue());
+            }
+        };
     }
 
 }

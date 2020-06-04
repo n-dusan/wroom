@@ -5,5 +5,6 @@ export class PriceList {
     public pricePerDay?: number,
     public pricePerMile?: number,
     public discount?: number,
-    public priceCDW?: number) {}
+    public priceCDW?: number,
+    public userId?: number) {}
 }

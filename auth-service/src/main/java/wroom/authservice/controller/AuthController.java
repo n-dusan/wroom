@@ -7,6 +7,7 @@ import java.util.Collections;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,7 @@ import wroom.authservice.dto.SignupRequestDTO;
 import wroom.authservice.exception.APIError;
 import wroom.authservice.exception.UsernameAlreadyExistsException;
 import wroom.authservice.jwt.UserPrincipal;
+import wroom.authservice.producer.UserProducer;
 import wroom.authservice.service.AuthenticationService;
 import wroom.authservice.util.RequestCounter;
 
@@ -50,9 +52,13 @@ public class AuthController {
 		this.requestCounter = requestCounter;
 	}
 
+	@Autowired
+	private UserProducer userProducer;
+
 	@GetMapping("/hello")
 	public ResponseEntity<?> get(Authentication auth) throws UnknownHostException {
 		System.out.println("I am reached.");
+		userProducer.send();
 		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
 		System.out.println("Principal" + user.getUsername());
 		System.out.println("I am reached.");
@@ -113,7 +119,7 @@ public class AuthController {
 
 
 //	Do we need to preauthorize whoami?
-	@PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_AGENT') or hasAuthority('ROLE_ADMIN')")
+	//@PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_AGENT') or hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/whoami")
 	public ResponseEntity<?> whoami(Authentication auth) {
 		try {

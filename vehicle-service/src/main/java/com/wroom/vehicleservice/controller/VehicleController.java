@@ -3,8 +3,10 @@ package com.wroom.vehicleservice.controller;
 import com.wroom.vehicleservice.config.EndpointConfig;
 import com.wroom.vehicleservice.converter.VehicleConverter;
 import com.wroom.vehicleservice.domain.Vehicle;
+import com.wroom.vehicleservice.domain.dto.AdDTO;
 import com.wroom.vehicleservice.domain.dto.VehicleDTO;
 import com.wroom.vehicleservice.domain.dto.VehicleImageDTO;
+import com.wroom.vehicleservice.feigns.AdsClient;
 import com.wroom.vehicleservice.repository.VehicleRepository;
 import com.wroom.vehicleservice.service.ImageService;
 import com.wroom.vehicleservice.service.VehicleService;
@@ -33,14 +35,14 @@ public class VehicleController {
 
     private final VehicleRepository vehicleRepository;
     private final VehicleService vehicleService;
-    private final ImageService imageService;
     private final RequestCounter requestCounter;
+    private final AdsClient adsClient;
 
-    public VehicleController(VehicleService vehicleService, ImageService imageService, VehicleRepository vehicleRepository, RequestCounter requestCounter) {
+    public VehicleController(VehicleService vehicleService, VehicleRepository vehicleRepository, RequestCounter requestCounter, AdsClient adsClient) {
         this.vehicleService = vehicleService;
-        this.imageService = imageService;
         this.vehicleRepository = vehicleRepository;
         this.requestCounter = requestCounter;
+        this.adsClient = adsClient;
     }
 
     /**
@@ -81,9 +83,18 @@ public class VehicleController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getVehicles(Authentication auth) {
+    public ResponseEntity<List<VehicleDTO>> getVehicles(Authentication auth) {
         return new ResponseEntity<>(
                 VehicleConverter.fromEntityList(vehicleService.getAllActive(auth), VehicleConverter::fromEntity),
+                HttpStatus.OK
+        );
+    }
+
+
+    @GetMapping("/{id}")
+    public ResponseEntity<VehicleDTO> findVehicleById(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(
+                VehicleConverter.fromEntity(vehicleService.findById(id)),
                 HttpStatus.OK
         );
     }
@@ -98,13 +109,14 @@ public class VehicleController {
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         Vehicle vehicle = vehicleService.findById(id);
         // **** MORA DA KOMUNCIIRA SA AD SERVISOM
-        // List<Ad> ads = vehicleRepository.findByVehicleId(vehicle);
-//        if(ads.isEmpty() == true) {
+         List<AdDTO> ads = adsClient.findByVehicle(vehicle.getId());
+         if(ads != null) {
+             if(!ads.isEmpty()) {
+                 return new ResponseEntity<>("Vehicle not deleted.", HttpStatus.BAD_REQUEST);
+             }
+         }
             vehicleService.delete(id);
             return new ResponseEntity<>("Vehicle deleted.", HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>("Vehicle not deleted.", HttpStatus.BAD_REQUEST);
-//        }
 
     }
 
@@ -113,14 +125,6 @@ public class VehicleController {
     public ResponseEntity<?> getAllVehicles() {
         return new ResponseEntity<>(
                 VehicleConverter.fromEntityList(vehicleService.findAll(), VehicleConverter::fromEntity),
-                HttpStatus.OK
-        );
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getVehicle(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(
-                VehicleConverter.fromEntity(vehicleService.findById(id)),
                 HttpStatus.OK
         );
     }

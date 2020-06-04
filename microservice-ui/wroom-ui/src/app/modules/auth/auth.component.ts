@@ -114,21 +114,4 @@ export class AuthComponent implements OnInit {
     this.signupForm.reset();
   }
 
-  testRoleClick() {
-    this.authService.testRole().subscribe(
-      () => {},
-      error => {
-        this.toastr.error('You are not allowed to test that button!', 'Error')
-      }
-    );
-  }
-
-  testPermissionClick() {
-    this.authService.testPermission().subscribe(
-      () => {},
-      error => {
-        this.toastr.error('You are not allowed to test that button!', 'Error')
-      }
-    );
-  }
 }

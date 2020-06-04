@@ -18,7 +18,8 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class VehicleService {
-  private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/vehicle';
+
+  private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/vehicle';
 
   constructor(private http: HttpClient) { }
 
