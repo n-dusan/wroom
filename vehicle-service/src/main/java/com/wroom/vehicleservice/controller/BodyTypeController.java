@@ -48,8 +48,8 @@ public class BodyTypeController {
     public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO featureDTO, Authentication auth) {
 
         String logContent = String.format(LOG_CREATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.BODY_TYPE_BASE_URL));
+        log.info(logContent);
         try {
-            log.info(logContent);
             return new ResponseEntity<>(
                     BodyTypeConverter.fromEntity(bodyTypeService.save(BodyTypeConverter.toEntity(featureDTO))),
                     HttpStatus.CREATED

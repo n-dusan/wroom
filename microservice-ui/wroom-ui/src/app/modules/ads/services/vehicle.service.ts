@@ -9,7 +9,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable({providedIn: 'root'})
 export class VehicleService {
 
-  private vehicleUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/vehicle';
+  private vehicleUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/vehicle';
 
   constructor(private http: HttpClient) {}
 

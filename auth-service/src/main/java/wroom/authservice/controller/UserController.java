@@ -98,4 +98,9 @@ public class UserController {
         return new ResponseEntity<>("User successfully deleted!", HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> findUser(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(UserConverter.fromEntity(this.userService.findById(id)), HttpStatus.OK);
+    }
+
 }

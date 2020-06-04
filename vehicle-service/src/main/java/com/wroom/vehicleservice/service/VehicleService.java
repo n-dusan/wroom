@@ -77,7 +77,7 @@ public class VehicleService {
         vehicle.setCdw(vehicleDTO.getCdw());
         vehicle.setMileage(vehicleDTO.getMileage());
         vehicle.setModelType(this.modelTypeRepository.findByName(vehicleDTO.getModelType().getName()));
-        vehicle.setBodyType(this.bodyTypeRepository.findByName(vehicleDTO.getBodyType().getName()));
+        vehicle.setBodyType(this.bodyTypeRepository.findOneByName(vehicleDTO.getBodyType().getName()));
         vehicle.setFuelType(this.fuelTypeRepository.findByName(vehicleDTO.getFuelType().getName()));
         vehicle.setGearboxType(this.gearboxTypeRepository.findByName(vehicleDTO.getGearboxType().getName()));
 
@@ -95,7 +95,7 @@ public class VehicleService {
         Vehicle entity = VehicleConverter.toEntity(vehicledto);
         entity.setModelType(this.modelTypeRepository.findByName(vehicledto.getModelType().getName()));
 //		entity.setBrandType(this.brandTypeRepository.findByName(vehicledto.getBrandType().getName()));
-        entity.setBodyType(this.bodyTypeRepository.findByName(vehicledto.getBodyType().getName()));
+        entity.setBodyType(this.bodyTypeRepository.findOneByName(vehicledto.getBodyType().getName()));
         entity.setFuelType(this.fuelTypeRepository.findByName(vehicledto.getFuelType().getName()));
         entity.setGearboxType(this.gearboxTypeRepository.findByName(vehicledto.getGearboxType().getName()));
         entity.setOwnerId(((UserPrincipal) auth.getPrincipal()).getId());

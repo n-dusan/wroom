@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class BodyTypeService {
-    private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/body-type';
+    private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/body-type';
 
     constructor(private http: HttpClient){}
 

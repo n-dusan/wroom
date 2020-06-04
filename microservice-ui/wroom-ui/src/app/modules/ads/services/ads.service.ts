@@ -12,9 +12,9 @@ import { LoggedUser } from '../../auth/model/logged-user.model';
 @Injectable({providedIn: 'root'})
 export class AdsService {
 
-  private adsUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/ads';
-  private vehicleUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/vehicle';
-  private priceListUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/price-list';
+  private adsUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.adsService + '/ads';
+  private vehicleUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/vehicle';
+  private priceListUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.adsService + '/price-list';
 
   constructor(private http: HttpClient,
     private authService: AuthService) {}

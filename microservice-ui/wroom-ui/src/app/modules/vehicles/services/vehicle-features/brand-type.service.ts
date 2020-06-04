@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 })
 export class BrandTypeService {
 
-    private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/brand-type';
+  private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/brand-type';
 
     constructor(private http: HttpClient){}
 

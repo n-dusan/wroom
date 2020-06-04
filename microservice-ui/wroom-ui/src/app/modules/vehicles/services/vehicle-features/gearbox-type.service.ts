@@ -9,7 +9,8 @@ import { catchError } from 'rxjs/operators';
     providedIn: 'root'
 })
 export class GearboxTypeService {
-  private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/gearbox-type';
+
+    private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/gearbox-type';
 
     constructor(private http: HttpClient){}
 

@@ -24,7 +24,6 @@ public class AdService {
     private final AdRepository adRepository;
     private final LocationRepository locationRepository;
     private final PriceListRepository priceListRepository;
-    private final VehicleRepository vehicleRepository;
     private final VehicleService vehicleService;
     private final UserService userService;
 
@@ -37,7 +36,6 @@ public class AdService {
         this.locationRepository = locationRepository;
         this.adRepository = adRepository;
         this.priceListRepository = priceListRepository;
-        this.vehicleRepository = vehicleRepository;
         this.vehicleService = vehicleService;
         this.userService = userService;
     }

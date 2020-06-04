@@ -9,7 +9,8 @@ import { environment } from '../../../../../environments/environment'
     providedIn: 'root'
 })
 export class FuelTypeService {
-  private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/fuel-type';
+
+    private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/fuel-type';
 
     constructor(private http: HttpClient){}
 

@@ -38,6 +38,4 @@ public class PriceList {
 
 	@OneToMany(mappedBy = "priceList")
 	private Set<Ad> ads;
-
-	
 }

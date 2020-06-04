@@ -3,17 +3,20 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../../../environments/environment'
 import { PriceList } from '../../shared/models/price-list.model';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, switchMap } from 'rxjs/operators';
+import { AuthService } from '../../auth/service/auth.service';
+import { LoggedUser } from '../../auth/model/logged-user.model';
 
 @Injectable({providedIn: 'root'})
 export class PriceListService {
 
-  private url = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/price-list';
+  private url = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.adsService + '/price-list';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   findAllActive(): Observable<PriceList[]> {
-    return this.http.get<PriceList[]>(this.url).pipe(catchError(this.handleException));
+    return this.authService.whoami().pipe(switchMap((user: LoggedUser) =>
+      this.http.get<PriceList[]>(this.url + '/'+user.id+'/all').pipe(catchError(this.handleException))));
   }
 
   findById(id: number): Observable<PriceList> {

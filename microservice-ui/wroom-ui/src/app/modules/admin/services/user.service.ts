@@ -8,7 +8,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable({providedIn: 'root'})
 export class UserService {
 
-  userUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/user';
+  userUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.authService +'/user';
 
   constructor(private http: HttpClient) {}
 

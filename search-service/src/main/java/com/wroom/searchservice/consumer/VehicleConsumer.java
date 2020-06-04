@@ -11,14 +11,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class VehicleConsumer {
 
+    //prima CRUDove: bodytype, brandtype, modeltype, gearboxtype, fueltype, vehicle
     @RabbitListener(queues = RabbitMQConfig.VEHICLE_QUEUE_NAME)
-    public void listen(VehicleMessage message) {
+    public void vehicleListen(VehicleMessage message) {
         log.info("Received message > "+ message);
-        if(message.getOperation() == null) {
-            //faulty request, drop the message and log it (this is not a correct log format)
-            log.error("Error with the received message");
-            return;
-        }
 
         if(message.getOperation() == OperationEnum.CREATE) {
             log.info("CREATE regime");
@@ -27,5 +23,12 @@ public class VehicleConsumer {
         } else if(message.getOperation() == OperationEnum.DELETE) {
             log.info("DELETE regime");
         }
+    }
+
+
+    //todo: crudovi ads, price-list, location
+    @RabbitListener(queues = RabbitMQConfig.ADS_QUEUE_NAME)
+    public void adsListen() {
+
     }
 }

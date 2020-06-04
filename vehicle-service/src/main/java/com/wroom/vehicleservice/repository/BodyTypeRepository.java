@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BodyTypeRepository extends JpaRepository<BodyType, Long> {
 
-    BodyType findByName(String name);
+    BodyType findOneByName(String name);
 }

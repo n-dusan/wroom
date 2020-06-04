@@ -113,7 +113,7 @@ public class AuthController {
 
 
 //	Do we need to preauthorize whoami?
-	@PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_AGENT') or hasAuthority('ROLE_ADMIN')")
+	//@PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_AGENT') or hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/whoami")
 	public ResponseEntity<?> whoami(Authentication auth) {
 		try {
