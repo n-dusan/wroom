@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import com.wroom.searchservice.consumer.message.AdsMessage;
 import com.wroom.searchservice.converter.LocationConverter;
 import com.wroom.searchservice.converter.PriceListConverter;
+import com.wroom.searchservice.converter.AMQP.AdsMessageConverter;
 import com.wroom.searchservice.converter.AMQP.LocationMessageConverter;
 import com.wroom.searchservice.converter.AMQP.PriceListMessageConverter;
 import com.wroom.searchservice.service.AdService;
@@ -25,7 +26,8 @@ public class AdsMessageHandler {
 	public void createEntity(AdsMessage message) {
 		switch (message.getEntity()) {
 		case AD:
-			// TODO
+			this.adService.save(AdsMessageConverter.fromMessage(message));
+			System.out.println(">>> Successfully created ad.");
 			break;
 		case LOCATION:
 			this.adService.saveLocation(LocationConverter.toEntity(LocationMessageConverter.fromMessage(message.getLocation())));
@@ -43,7 +45,8 @@ public class AdsMessageHandler {
 	public void updateEntity(AdsMessage message) {
 		switch (message.getEntity()) {
 		case AD:
-			// TODO
+			this.adService.update(message.getId(), AdsMessageConverter.fromMessage(message));
+			System.out.println(">>> Successfully updated ad.");
 			break;
 		case LOCATION:
 //			this.adService.updateLocation(LocationConverter.toEntity(LocationMessageConverter.fromMessage(message.getLocation())));
@@ -61,7 +64,8 @@ public class AdsMessageHandler {
 	public void deleteEntity(AdsMessage message) {
 		switch (message.getEntity()) {
 		case AD:
-			// TODO
+			this.adService.delete(message.getId());
+			System.out.println(">>> Successfully deleted ad.");
 			break;
 		case LOCATION:
 //			this.adService.deleteLocation(LocationConverter.toEntity(LocationMessageConverter.fromMessage(message.getLocation())));

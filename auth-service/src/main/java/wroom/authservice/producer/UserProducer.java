@@ -1,12 +1,12 @@
 package wroom.authservice.producer;
 
-import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
+import lombok.extern.log4j.Log4j2;
 import wroom.authservice.config.RabbitMQConfig;
 import wroom.authservice.producer.messages.UserMessage;
+import wroom.authservice.producer.messages.UserOperationEnum;
 
 @Component
 @Log4j2
@@ -22,7 +22,7 @@ public class UserProducer {
 
     public void send() {
         log.info("Sending a message>>> ... ");
-        UserMessage userMessage = new UserMessage(1L, "Hi", "hello", "test", true, true);
+        UserMessage userMessage = new UserMessage(1L, "Hi", "hello", "test", true, true, UserOperationEnum.ACTIVATE);
 
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.AUTH_ROUTING_KEY, userMessage);
     }

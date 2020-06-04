@@ -28,6 +28,10 @@ public class AdDTO {
     @NotNull(message = "an important field")
     @Future(message = "dates have to be in future")
     private Date availableTo;
+    
+//    @NotNull(message = "an important field")
+    @Future(message = "dates have to be in future")
+    private Date publishDate;
 
     private Double mileLimit;
 
