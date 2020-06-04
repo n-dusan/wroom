@@ -38,7 +38,7 @@ public class Vehicle {
 	@Column
 	private boolean deleted;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User owner;
 	
 //	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

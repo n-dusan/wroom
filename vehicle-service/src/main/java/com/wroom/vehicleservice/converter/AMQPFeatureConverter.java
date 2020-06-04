@@ -1,6 +1,5 @@
 package com.wroom.vehicleservice.converter;
 
-import com.wroom.vehicleservice.domain.BodyType;
 import com.wroom.vehicleservice.domain.dto.FeatureDTO;
 import com.wroom.vehicleservice.producer.message.EntityEnum;
 import com.wroom.vehicleservice.producer.message.FeatureMessage;
@@ -41,7 +40,7 @@ public class AMQPFeatureConverter {
         return null;
     }
 
-    public static VehicleMessage toFeatureMessage(FeatureDTO dto, OperationEnum operation, EntityEnum entity) {
+    public static VehicleMessage toVehicleMessage(FeatureDTO dto, OperationEnum operation, EntityEnum entity) {
         VehicleMessage message = new VehicleMessage();
 
         if(entity == EntityEnum.BODY_TYPE) {
@@ -50,6 +49,7 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.BODY_TYPE);
         }
 
         if(entity == EntityEnum.BRAND_TYPE) {
@@ -58,6 +58,7 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.BRAND_TYPE);
         }
 
         if(entity == EntityEnum.MODEL_TYPE) {
@@ -66,6 +67,7 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.MODEL_TYPE);
         }
 
         if(entity == EntityEnum.GEARBOX_TYPE) {
@@ -74,6 +76,7 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.GEARBOX_TYPE);
         }
 
         if(entity == EntityEnum.FUEL_TYPE) {
@@ -82,10 +85,21 @@ public class AMQPFeatureConverter {
                     dto.getName(),
                     dto.getBrandId()
             ));
+            message.setEntity(EntityEnum.FUEL_TYPE);
         }
 
         message.setOperation(operation);
 
+        return message;
+    }
+    
+    public static FeatureMessage toFeatureMessage(FeatureDTO dto, OperationEnum operation, EntityEnum entity) {
+        FeatureMessage message = new FeatureMessage();
+
+        message.setBrandId(dto.getBrandId());
+        message.setId(dto.getId());
+        message.setName(dto.getName());
+        
         return message;
     }
 }

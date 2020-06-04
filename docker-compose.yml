@@ -1,65 +1,65 @@
 version: "3"
 services:
 
-#  eureka:
-#    build:
-#      context: ./eureka-service-registry
-#      dockerfile: Dockerfile
-#    image: xws:eureka
-#    container_name: eureka
-#    ports:
-#    - 8761:8761
-#    networks:
-#      - xws-network
-#
-#  zuul:
-#    build:
-#      context: ./zuul-api-gateway
-#      dockerfile: Dockerfile
-#    image: xws:zuul
-#    container_name: zuul
-#    ports:
-#      - 8762:8762
-#    environment:
-#      REGISTRY_HOST: eureka
-#      KEYSTORE: /etc/certificates/experimental/zuul-server.p12
-#      KEYSTORE_PASSWORD: password
-#      KEYSTORE_ALIAS: 655575225830
-#      TRUSTSTORE: /etc/truststore.p12
-#      TRUSTSTORE_PASSWORD: password
-#    networks:
-#      - xws-network
-#    depends_on:
-#      - eureka
-#    links:
-#      - eureka
-#    volumes:
-#      - ./pki/tingle/certificates:/etc/certificates
-#      - ./pki/tingle/.truststore:/etc
-#
-#  auth-service:
-#    build:
-#      context: ./auth-service
-#      dockerfile: Dockerfile
-#    image: xws:auth-service
-#    container_name: auth-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8092:8092
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
-#      - mysql
+  # eureka:
+  #   build:
+  #     context: ./eureka-service-registry
+  #     dockerfile: Dockerfile
+  #   image: xws:eureka
+  #   container_name: eureka
+  #   ports:
+  #   - 8761:8761
+  #   networks:
+  #     - xws-network
+
+  # zuul:
+  #   build:
+  #     context: ./zuul-api-gateway
+  #     dockerfile: Dockerfile
+  #   image: xws:zuul
+  #   container_name: zuul
+  #   ports:
+  #     - 8762:8762
+  #   environment:
+  #     REGISTRY_HOST: eureka
+  #     KEYSTORE: /etc/certificates/experimental/zuul-server.p12
+  #     KEYSTORE_PASSWORD: password
+  #     KEYSTORE_ALIAS: 655575225830
+  #     TRUSTSTORE: /etc/truststore.p12
+  #     TRUSTSTORE_PASSWORD: password
+  #   networks:
+  #     - xws-network
+  #   depends_on:
+  #     - eureka
+  #   links:
+  #     - eureka
+  #   volumes:
+  #     - ./pki/tingle/certificates:/etc/certificates
+  #     - ./pki/tingle/.truststore:/etc
+
+  # auth-service:
+  #   build:
+  #     context: ./auth-service
+  #     dockerfile: Dockerfile
+  #   image: xws:auth-service
+  #   container_name: auth-service
+  #   restart: on-failure
+  #   networks:
+  #     - xws-network
+  #   environment:
+  #     REGISTRY_HOST: eureka
+  #     DATABASE_USERNAME: root
+  #     DATABASE_PASSWORD: root
+  #     DATABASE_DOMAIN: mysql
+  #     DATABASE_SCHEMA: wroom
+  #   ports:
+  #     - 8092:8092
+  #   depends_on:
+  #     - eureka
+  #     - mysql
+  #   links:
+  #     - eureka
+  #     - mysql
 
 #  search-service:
 #    build:
@@ -84,51 +84,51 @@ services:
 #    links:
 #      - eureka
 #
-#  vehicle-service:
-#    build:
-#      context: ./vehicle-service
-#      dockerfile: Dockerfile
-#    image: xws:vehicle-service
-#    container_name: vehicle-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8093:8093
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
+  # vehicle-service:
+  #   build:
+  #     context: ./vehicle-service
+  #     dockerfile: Dockerfile
+  #   image: xws:vehicle-service
+  #   container_name: vehicle-service
+  #   restart: on-failure
+  #   networks:
+  #     - xws-network
+  #   environment:
+  #     REGISTRY_HOST: eureka
+  #     DATABASE_USERNAME: root
+  #     DATABASE_PASSWORD: root
+  #     DATABASE_DOMAIN: mysql
+  #     DATABASE_SCHEMA: wroom
+  #   ports:
+  #     - 8093:8093
+  #   depends_on:
+  #     - eureka
+  #     - mysql
+  #   links:
+  #     - eureka
 
-#  ads-service:
-#    build:
-#      context: ./ads-service
-#      dockerfile: Dockerfile
-#    image: xws:ads-service
-#    container_name: ads-service
-#    restart: on-failure
-#    networks:
-#      - xws-network
-#    environment:
-#      REGISTRY_HOST: eureka
-#      DATABASE_USERNAME: root
-#      DATABASE_PASSWORD: root
-#      DATABASE_DOMAIN: mysql
-#      DATABASE_SCHEMA: wroom
-#    ports:
-#      - 8094:8094
-#    depends_on:
-#      - eureka
-#      - mysql
-#    links:
-#      - eureka
+  # ads-service:
+  #   build:
+  #     context: ./ads-service
+  #     dockerfile: Dockerfile
+  #   image: xws:ads-service
+  #   container_name: ads-service
+  #   restart: on-failure
+  #   networks:
+  #     - xws-network
+  #   environment:
+  #     REGISTRY_HOST: eureka
+  #     DATABASE_USERNAME: root
+  #     DATABASE_PASSWORD: root
+  #     DATABASE_DOMAIN: mysql
+  #     DATABASE_SCHEMA: wroom
+  #   ports:
+  #     - 8094:8094
+  #   depends_on:
+  #     - eureka
+  #     - mysql
+  #   links:
+  #     - eureka
 
 #  renting-service:
 #    build:
@@ -172,27 +172,27 @@ services:
 #      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
 #    depends_on:
 #      - mysql
-#
-#  mail:
-#    build:
-#      context: ./amqp-mail-service
-#      dockerfile: Dockerfile
-#
-#    image: mail:1.0.0
-#    container_name: mail
-#    restart: on-failure
-##    networks:
-##      - xws-network
-##    ports:
-##      - 8081:8080
-#    environment:
-##      RMQ_HOST: rabbitmq-broker
-#      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
-##    depends_on:
-##      - rabbitmq-broker
-#
-#
-#
+# #
+#   mail:
+#     build:
+#       context: ./amqp-mail-service
+#       dockerfile: Dockerfile
+
+#     image: mail:1.0.0
+#     container_name: mail
+#     restart: on-failure
+#   #    networks:
+#   #      - xws-network
+#   #    ports:
+#   #      - 8081:8080
+#     environment:
+#   #      RMQ_HOST: rabbitmq-broker
+#       CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+#   #    depends_on:
+#   #      - rabbitmq-broker
+
+
+
   rabbitmq-broker:
     image: rabbitmq:management-alpine
     container_name: rabbitmq-broker
@@ -202,23 +202,23 @@ services:
     networks:
       - xws-network
 
-  mysql:
-    image: mysql:8.0.19
-    container_name: mysql
-    restart: always
-    networks:
-      - xws-network
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-      MYSQL_ROOT_PASSWORD: root
-#      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-#      MYSQL_DATABASE: wroom
-    volumes:
-      - mysql-data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-        - "3306:3306"
+#   mysql:
+#     image: mysql:8.0.19
+#     container_name: mysql
+#     restart: always
+#     networks:
+#       - xws-network
+#     environment:
+#       MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+#       MYSQL_ROOT_PASSWORD: root
+# #      MYSQL_USER: root
+#       MYSQL_PASSWORD: root
+# #      MYSQL_DATABASE: wroom
+#     volumes:
+#       - mysql-data:/var/lib/mysql
+#       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+#     ports:
+#         - "3306:3306"
 
 #  wroom-ui:
 #    build:

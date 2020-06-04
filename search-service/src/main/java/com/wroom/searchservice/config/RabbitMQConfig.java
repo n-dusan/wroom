@@ -20,7 +20,7 @@ public class RabbitMQConfig {
     public static final String ROUTING_KEY = "tips";
     public static final String VEHICLE_QUEUE_NAME = "vehicle";
     public static final String ADS_QUEUE_NAME = "ads";
-
+    
     @Bean
     public Queue vehicle_queue() {
         return new Queue(VEHICLE_QUEUE_NAME, false);

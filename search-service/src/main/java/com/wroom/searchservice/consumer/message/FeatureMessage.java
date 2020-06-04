@@ -54,6 +54,5 @@ public class FeatureMessage {
     public void setBrandId(Long brandId) {
         this.brandId = brandId;
     }
-
-
+    
 }

@@ -10,7 +10,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,6 @@ import com.wroom.searchservice.repository.BrandTypeRepository;
 import com.wroom.searchservice.repository.FuelTypeRepository;
 import com.wroom.searchservice.repository.GearboxTypeRepository;
 import com.wroom.searchservice.repository.ModelTypeRepository;
-import com.wroom.searchservice.repository.UserRepository;
 import com.wroom.searchservice.repository.VehicleRepository;
 
 @Service
@@ -44,13 +42,13 @@ public class VehicleService {
 	private final BodyTypeRepository bodyTypeRepository;
 	private final FuelTypeRepository fuelTypeRepository;
 	private final GearboxTypeRepository gearboxTypeRepository;
-	private final UserRepository userRepository;
+	private final UserService userService;
 	private final AdRepository adRepository;
 
 	public VehicleService(VehicleRepository vehicleRepository, ImageService imageService,
 			ModelTypeRepository modelTypeRepository, BrandTypeRepository brandTypeRepository,
 			BodyTypeRepository bodyTypeRepository, FuelTypeRepository fuelTypeRepository,
-			GearboxTypeRepository gearboxTypeRepository, UserRepository userRepository,
+			GearboxTypeRepository gearboxTypeRepository, UserService userService,
 			AdRepository adRepository) {
 		this.vehicleRepository = vehicleRepository;
 		this.imageService = imageService;
@@ -59,7 +57,7 @@ public class VehicleService {
 		this.bodyTypeRepository = bodyTypeRepository;
 		this.fuelTypeRepository = fuelTypeRepository;
 		this.gearboxTypeRepository = gearboxTypeRepository;
-		this.userRepository = userRepository;
+		this.userService = userService;
 		this.adRepository = adRepository;
 	}
 
@@ -109,20 +107,23 @@ public class VehicleService {
 	 * @param auth       - currently logged in user, the one who creates the vehicle
 	 * @return created vehicle
 	 */
-	public Vehicle save(VehicleDTO vehicledto, Authentication auth) {
+	public Vehicle save(VehicleDTO vehicledto) {
 		Vehicle entity = VehicleConverter.toEntity(vehicledto);
 		entity.setModelType(this.modelTypeRepository.findByName(vehicledto.getModelType().getName()));
 //		entity.setBrandType(this.brandTypeRepository.findByName(vehicledto.getBrandType().getName()));
 		entity.setBodyType(this.bodyTypeRepository.findByName(vehicledto.getBodyType().getName()));
 		entity.setFuelType(this.fuelTypeRepository.findByName(vehicledto.getFuelType().getName()));
 		entity.setGearboxType(this.gearboxTypeRepository.findByName(vehicledto.getGearboxType().getName()));
-		// weird java syntax to set Optional<User>
-		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
-		user.getUsername();
-		Optional<User> loggedInUser = userRepository.findByEmail(user.getUsername());
-		if (loggedInUser.isPresent()) {
-			entity.setOwner(loggedInUser.get());
+		
+		try {
+			User user = this.userService.findById(vehicledto.getOwnerId());
+			entity.setOwner(user);
+		} catch(Exception e ) {
+			System.out.println("Exception is thrown");
 		}
+		
+		System.out.println(">>> Created new Vehicle entity.");
+		
 		return vehicleRepository.save(entity);
 	}
 

@@ -50,8 +50,8 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "requestedUser")
 	private Set<RentRequest> rentRequests;
 
-	@OneToMany(mappedBy = "owner")
-	private Set<Vehicle> vehicles;
+//	@OneToMany(mappedBy = "owner")
+//	private Set<Vehicle> vehicles;
 
 	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Comment> comments;
