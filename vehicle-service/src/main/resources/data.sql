@@ -1,15 +1,15 @@
 -- otkomentarisati deletove ako testirate u lokalu
 -- Pre pakovanja u .jar, obavezno zakomentarisati sve delete komande iz svih .sql datoteka
-delete from rent_request_ads;
-delete from rent_request;
-delete from rate;
-delete from ad;
-delete from vehicle;
-delete from model_type;
-delete from brand_type;
-delete from body_type;
-delete from gearbox_type;
-delete from fuel_type;
+--delete from rent_request_ads;
+--delete from rent_request;
+--delete from rate;
+--delete from ad;
+--delete from vehicle;
+--delete from model_type;
+--delete from brand_type;
+--delete from body_type;
+--delete from gearbox_type;
+--delete from fuel_type;
 
 ---------------Vehicle features-------------
 insert into brand_type(id, deleted, name)
