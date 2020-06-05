@@ -16,7 +16,13 @@ export class AuthService {
   loggedUserSubject: BehaviorSubject<LoggedUser>;
   loggedUser: Observable<LoggedUser>;
 
-  private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.authService + '/auth';
+  private baseUrl: string = environment.protocol 
+                        + '://' + environment.domain 
+                        + ':' 
+                        + environment.port
+                        + environment.api 
+                        + environment.authService 
+                        + '/auth';
 
 
   constructor(private httpClient: HttpClient,
@@ -32,13 +38,15 @@ export class AuthService {
 
   login(data: LoginRequest): Observable<any> {
     return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(catchError(this.handleException)).pipe(map((res: LoggedUser) => {
+      console.log('login result;', res);
       localStorage.setItem('token', JSON.stringify(res.token));
       this.loggedUserSubject.next(res);
+      this.loggedUser = this.loggedUserSubject.asObservable();
     }));
   }
 
   getLoggedUser() {
-    return this.loggedUser;
+    return this.loggedUserSubject.asObservable();
   }
 
   getToken() {
@@ -52,11 +60,23 @@ export class AuthService {
     this.router.navigate(['/auth']);
   }
 
+  // fix this
   whoami() {
     const tok = localStorage.getItem('token');
     // console.log('whoami token', tok)
     if(tok) {
       // Set user to BehaviourSubject?
+      this.httpClient.get<any>(this.baseUrl + '/whoami').subscribe(
+        data => {
+          this.loggedUserSubject.next(data);
+          this.loggedUser = this.loggedUserSubject.asObservable();
+
+          return this.httpClient.get<any>(this.baseUrl + '/whoami');
+        },
+        error => {
+          console.log('Whoami error');
+        }
+      );
       return this.httpClient.get<any>(this.baseUrl + '/whoami');
     }
     else {

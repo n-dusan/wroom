@@ -17,4 +17,5 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
 
     @Query(value="select count(*) from ad a inner join vehicle v on a.vehicle_id = v.id where v.owner_id=:id and a.deleted=false", nativeQuery=true)
     Integer checkAdCountForUser(@Param("id") Long userId);
+
 }

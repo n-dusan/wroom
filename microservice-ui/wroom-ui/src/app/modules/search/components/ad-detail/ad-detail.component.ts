@@ -9,6 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Vehicle } from '../../model/vehicle.model';
 import { PricelistDetailDialogData } from '../price-details/pricelist-dialog-data.model';
 import { PriceList } from '../../model/price-list.model';
+import { SearchService } from '../../service/search.service';
 
 @Component({
   selector: 'app-ad-detail',
@@ -33,14 +34,15 @@ export class AdDetailComponent implements OnInit {
     private adService: AdService,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
-    public sanitizer: DomSanitizer) { }
+    public sanitizer: DomSanitizer,
+    private searchService: SearchService) { }
 
   ngOnInit(): void {
     this.fetchAd();
   }
 
   fetchAd() {
-    this.adService.get(this.data.adID).subscribe(
+    this.searchService.getAd(this.data.adID).subscribe(
       data => {
         this.ad = data;
         this.ad.priceListObj = this.data.pricelist;
@@ -54,7 +56,7 @@ export class AdDetailComponent implements OnInit {
   }
 
   fetchVehicle() {
-    this.vehicleService.get(this.ad.vehicleId).subscribe(
+    this.searchService.getVehicle(this.ad.vehicleId).subscribe(
       data => {
         this.vehicle = data;
         this.fetchImages();
@@ -67,7 +69,7 @@ export class AdDetailComponent implements OnInit {
   }
 
   fetchImages() {
-    this.vehicleService.getVehicleImages(this.ad?.vehicleId).subscribe(
+    this.searchService.getVehicleImages(this.ad?.vehicleId).subscribe(
       data => {
         data.forEach(obj => { this.images.push("data:image/jpeg;base64," + obj) });
         this.currentImage = this.images[0];

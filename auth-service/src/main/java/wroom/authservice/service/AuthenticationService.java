@@ -67,7 +67,7 @@ public class AuthenticationService {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getEmail(),
 				request.getPassword());
 		Authentication authentication = authenticationManager.authenticate(token);
-
+ 
 		String email = authentication.getName();
 		List<String> authorities = authentication.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)

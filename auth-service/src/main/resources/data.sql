@@ -12,11 +12,11 @@
 -- delete from fuel_type;
 -- delete from body_type;
 -- delete from rate;
--- delete from users;
--- delete from user_roles;
--- delete from permission;
--- delete from roles;
--- delete from role_permissions;
+ delete from users;
+ delete from user_roles;
+ delete from permission;
+ delete from roles;
+ delete from role_permissions;
 
 
 ------------- ROLE -----------------

@@ -21,6 +21,7 @@ import { PriceDetailsComponent } from './components/price-details/price-details.
 import { AdDetailComponent } from './components/ad-detail/ad-detail.component';
 import { SearchCriteria } from './model/search-criteria.model';
 import { AuthService } from '../auth/service/auth.service';
+import { SearchService } from './service/search.service';
 
 @Component({
   selector: 'app-search',
@@ -72,7 +73,8 @@ export class SearchComponent implements OnInit {
     private formBuilder: FormBuilder,
     public sanitizer: DomSanitizer,
     private shoppingCartService: ShoppingCartService,
-    private authService: AuthService) { }
+    private authService: AuthService,
+    private searchService: SearchService) { }
 
   ngOnInit(): void {
 
@@ -85,12 +87,13 @@ export class SearchComponent implements OnInit {
   initAds() {
     // Fetching all necessary data
     // ADS
-    this.adService.all().subscribe(
+    // this.adService.all().subscribe(
+    this.searchService.ads().subscribe(       
       data => {
-        this.ads = data;
-        // this.allAds = data;
-        // this.adsAfterSearch = data;
-        // this.dataSource = new MatTableDataSource(this.allAds); 
+        this.ads = data;                                              // WORKS
+        this.allAds = data;
+        this.adsAfterSearch = data;
+        this.dataSource = new MatTableDataSource(this.allAds); 
       },
       error => {
         this.toastr.error('There was an error!', 'Ads')
@@ -98,10 +101,9 @@ export class SearchComponent implements OnInit {
     );
 
     // VEHICLES
-    this.vehicleService.all().subscribe(
+    this.searchService.vehicles().subscribe(
       data => {
-        this.vehicles = data;
-
+        this.vehicles = data;                                       // WORKS
         for (let v of this.vehicles) {
           var ad = this.ads.find(obj => { return obj.vehicleId === v.id });
           if (ad) {
@@ -110,7 +112,7 @@ export class SearchComponent implements OnInit {
         }
 
         // remove ads from current user
-        this.authService.getLoggedUser().subscribe(
+        this.authService.getLoggedUser().subscribe(     //works
           data => {
             // console.log('user', data)
             const id = data?.id;
@@ -130,7 +132,7 @@ export class SearchComponent implements OnInit {
     );
 
     // IMAGES
-    this.vehicleService.getVehicleImage().subscribe(
+    this.searchService.getVehicleImage().subscribe(   // works
       data => {
         this.images = data;
         for (let img of this.images) {
@@ -147,10 +149,9 @@ export class SearchComponent implements OnInit {
     );
 
 
-    this.adService.getLocations().subscribe(
+    this.searchService.getLocations().subscribe(
       data => {
-        this.locations = data;
-
+        this.locations = data;                          // works
         for (let a of this.ads) {
           a.locationObj = this.locations.find(obj => { return obj.id === a.locationId });
         }
@@ -160,7 +161,7 @@ export class SearchComponent implements OnInit {
       }
     );
 
-    this.pricelistService.all().subscribe(
+    this.searchService.pricelists().subscribe(
       data => {
         this.priceLists = data;
 
@@ -200,7 +201,7 @@ export class SearchComponent implements OnInit {
   }
 
   initFilters() {
-    this.vehicleService.getBrands().subscribe(
+    this.searchService.getBrands().subscribe(
       data => {
         this.brands = data;
       },
@@ -209,7 +210,7 @@ export class SearchComponent implements OnInit {
       }
     );
 
-    this.vehicleService.getModels().subscribe(
+    this.searchService.getModels().subscribe(
       data => {
         this.models = data;
         this.allModels = data;
@@ -219,7 +220,7 @@ export class SearchComponent implements OnInit {
       }
     );
 
-    this.vehicleService.getFuels().subscribe(
+    this.searchService.getFuels().subscribe(
       data => {
         this.fuels = data;
       },
@@ -228,7 +229,7 @@ export class SearchComponent implements OnInit {
       }
     );
 
-    this.vehicleService.getGearboxes().subscribe(
+    this.searchService.getGearboxes().subscribe(
       data => {
         this.gearboxes = data;
       },
@@ -237,7 +238,7 @@ export class SearchComponent implements OnInit {
       }
     );
 
-    this.vehicleService.getBodies().subscribe(
+    this.searchService.getBodies().subscribe(
       data => {
         this.bodies = data;
       },
@@ -276,7 +277,7 @@ export class SearchComponent implements OnInit {
     );
 
 
-    this.adService.search(searchCriteria).subscribe(
+    this.searchService.search(searchCriteria).subscribe(
       data => {
         this.ads = this.allAds.filter(obj => { return data.find(ad => obj.id === ad.id) })
         this.adsAfterSearch = this.ads;
