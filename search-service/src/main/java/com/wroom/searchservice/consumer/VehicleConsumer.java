@@ -25,13 +25,15 @@ public class VehicleConsumer {
         log.info("Received message > "+ message);
 
         if(message.getOperation() == OperationEnum.CREATE) {
-        	log.info("CREATE regime");
+
         	this.vehicleMessageHandler.createEntity(message);
+
         } else if(message.getOperation() == OperationEnum.UPDATE) {
-            log.info("UPDATE regime");
+
             this.vehicleMessageHandler.updateEntity(message);
+
         } else if(message.getOperation() == OperationEnum.DELETE) {
-            log.info("DELETE regime");
+
             this.vehicleMessageHandler.deleteEntity(message);
         }
     }

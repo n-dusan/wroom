@@ -8,10 +8,12 @@ import wroom.authservice.config.RabbitMQConfig;
 import wroom.authservice.producer.messages.UserMessage;
 import wroom.authservice.producer.messages.UserOperationEnum;
 
+
 @Component
 @Log4j2
 public class UserProducer {
 
+    private static final String LOG_SEND = "action=replicate-search-data operation=%s entity=USER";
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -20,9 +22,9 @@ public class UserProducer {
     }
 
 
-    public void send() {
-        log.info("Sending a message>>> ... ");
-        UserMessage userMessage = new UserMessage(1L, "Hi", "hello", "test", true, true, UserOperationEnum.ACTIVATE);
+    public void send(UserMessage userMessage) {
+        String logContent = String.format(LOG_SEND, userMessage.getOperation().toString());
+        log.info(logContent);
 
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.AUTH_ROUTING_KEY, userMessage);
     }

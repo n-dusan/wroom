@@ -96,13 +96,14 @@ public class AuthenticationService {
 				encoder.encode(request.getPassword()),
 				roles, false, true);
 
-		user.setEnabled(false);
+		user.setEnabled(true);
 		user.setNonLocked(false);
 
 		userRepository.save(user);
 
 		String token = this.createVerificationToken(user);
-		mailProducer.sendConfirmationMail(user.getEmail(), token);
+		//TODO: poseban servis za mejl slanja
+		//mailProducer.sendConfirmationMail(user.getEmail(), token);
 
 		return true;
 	}

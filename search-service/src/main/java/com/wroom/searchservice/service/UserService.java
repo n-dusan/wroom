@@ -67,4 +67,18 @@ public class UserService {
 		user.setNonLocked(true);
 		return userRepository.save(user);
 	}
+
+
+	public User registerAccount(UserDTO userDTO) {
+		User user = new User();
+
+		user.setId(userDTO.getId());
+		user.setNonLocked(userDTO.getNonLocked());
+		user.setEnabled(userDTO.getEnabled());
+		user.setEmail(userDTO.getEmail());
+		user.setName(userDTO.getName());
+		user.setSurname(userDTO.getSurname());
+
+		return userRepository.save(user);
+	}
 }

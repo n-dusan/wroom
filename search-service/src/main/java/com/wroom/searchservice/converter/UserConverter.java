@@ -9,7 +9,6 @@ public class UserConverter extends AbstractConverter {
 		return new UserDTO(
 				entity.getId(),
 				entity.getEmail(),
-				entity.getPassword(),
 				entity.getName(),
 				entity.getSurname(),
 				entity.isNonLocked(),

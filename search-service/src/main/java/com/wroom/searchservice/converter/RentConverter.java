@@ -15,7 +15,6 @@ public class RentConverter extends AbstractConverter{
                 entity.getToDate(),
                 new UserDTO(entity.getRequestedUser().getId(),
                         entity.getRequestedUser().getEmail(),
-                        entity.getRequestedUser().getPassword(),
                         entity.getRequestedUser().getName(),
                         entity.getRequestedUser().getSurname(),
                         entity.getRequestedUser().isNonLocked(),
