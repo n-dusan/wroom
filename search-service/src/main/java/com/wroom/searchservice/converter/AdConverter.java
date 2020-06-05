@@ -18,6 +18,7 @@ public class AdConverter extends AbstractConverter {
                 entity.getPriceList().getId(),
                 entity.getAvailableFrom(),
                 entity.getAvailableTo(),
+                entity.getAvailableFrom(), // publish date = available from
                 entity.getMileLimit(),
                 entity.isMileLimitEnabled(),
                 entity.getLocation().getId(),

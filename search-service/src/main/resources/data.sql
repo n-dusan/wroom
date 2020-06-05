@@ -2,10 +2,10 @@
 -- U create-drop rezimu, ukoliko sql skripta ponovo insertuje već unete vrednosti (MySQL ume da ne dropuje i redove unutar tabela)
 -- onda dodajte delete na tabelu koju želite da očistite, time se brišu svi redovi iz te tabele
 --------------------------------
-delete from rent_request;
-delete from rate;
-delete from ad;
-delete from vehicle;
+--delete from rent_request;
+--delete from rate;
+--delete from ad;
+--delete from vehicle;
 
 -- delete from user_roles;
 -- delete from permission;

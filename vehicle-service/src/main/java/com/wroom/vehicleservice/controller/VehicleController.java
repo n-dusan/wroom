@@ -24,11 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.wroom.vehicleservice.config.EndpointConfig;
 import com.wroom.vehicleservice.converter.VehicleConverter;
 import com.wroom.vehicleservice.domain.Vehicle;
-import com.wroom.vehicleservice.domain.dto.AdDTO;
 import com.wroom.vehicleservice.domain.dto.VehicleDTO;
 import com.wroom.vehicleservice.domain.dto.VehicleImageDTO;
-import com.wroom.vehicleservice.feigns.AdsClient;
-import com.wroom.vehicleservice.repository.VehicleRepository;
 import com.wroom.vehicleservice.service.VehicleService;
 import com.wroom.vehicleservice.utils.RequestCounter;
 
@@ -43,17 +40,12 @@ public class VehicleController {
 	private static final String LOG_POST_IMAGE = "action=postImage user=%s ip_address=%s times=%s ";
 	private static final String LOG_UPDATE = "action=update user=%s ip_address=%s times=%s ";
 
-	private final VehicleRepository vehicleRepository;
 	private final VehicleService vehicleService;
 	private final RequestCounter requestCounter;
-	private final AdsClient adsClient;
 
-	public VehicleController(VehicleService vehicleService, VehicleRepository vehicleRepository,
-			RequestCounter requestCounter, AdsClient adsClient) {
+	public VehicleController(VehicleService vehicleService, RequestCounter requestCounter) {
 		this.vehicleService = vehicleService;
-		this.vehicleRepository = vehicleRepository;
 		this.requestCounter = requestCounter;
-		this.adsClient = adsClient;
 	}
 
 	/**
