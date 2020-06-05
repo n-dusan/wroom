@@ -91,11 +91,4 @@ export class SearchService {
         return this.http.get<VehicleFeature[]>(this.baseUrl + '/search/bodies');
     }
 
-    
-    
-    // Returns a list of ids of ads that obey the criteria
-    // public search(searchCriteria: SearchCriteria): Observable<Ad[]> {
-    //     return this.http.post<Ad[]>(this.baseUrl + '/search/search', searchCriteria);
-    // }
-
 }

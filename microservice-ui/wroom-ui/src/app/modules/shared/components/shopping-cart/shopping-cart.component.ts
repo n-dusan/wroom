@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../../service/shopping-cart.service';
 import { Ad } from '../../models/ad.model';
 import { ShoppingCartItem } from '../../models/shopping-cart-item.model';
-import { AdService } from '../../service/ads.service';
 import { ToastrService } from 'ngx-toastr';
 import { DomSanitizer } from '@angular/platform-browser';
-import { VehicleService } from '../../service/vehicle.service';
 import { OwnerAds } from '../../models/owner-ads.model';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateBundleDialogComponent } from '../create-bundle-dialog/create-bundle-dialog.component';
@@ -27,10 +25,8 @@ export class ShoppingCartComponent implements OnInit {
   empty: boolean = true;
 
   constructor(private shoppingCartService: ShoppingCartService,
-    private adService: AdService,
     private toastr: ToastrService,
     public sanitizer: DomSanitizer,
-    private vehicleService: VehicleService,
     private dialog: MatDialog,
     private searchService: SearchService) { }
 

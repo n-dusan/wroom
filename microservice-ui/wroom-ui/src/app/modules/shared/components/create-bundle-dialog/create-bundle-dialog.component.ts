@@ -26,17 +26,19 @@ export class CreateBundleDialogComponent implements OnInit {
   }
 
   check(request: RentRequest) {
+    console.log('checked request', request)
     const req = this.data.find(obj => {return obj.ad.id === request.ad.id});
     req.checked = !req.checked;
     if(req.checked) {
       this.checked.push(request);
+      
     } else {
       const idx = this.checked.indexOf(request);
       if(idx) {
         this.checked.splice(idx, 1)
       }
     }
-    
+    console.log(this.checked);
   }
 
   bundleClick() {

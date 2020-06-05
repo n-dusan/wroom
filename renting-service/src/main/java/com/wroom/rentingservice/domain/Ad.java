@@ -56,13 +56,13 @@ public class Ad {
 	@Column
 	private String address;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Column
 	private Long vehicleId;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Column
 	private Long priceListId;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@Column
 	private Long locationId;
 
 //	@OneToMany(mappedBy = "ad")

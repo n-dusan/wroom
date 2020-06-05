@@ -10,7 +10,14 @@ import { Observable } from 'rxjs';
 })
 export class RentsService {
 
-    private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/rents';
+    private baseUrl: string = environment.protocol 
+                        + '://' 
+                        + environment.domain 
+                        + ':' 
+                        + environment.port 
+                        + environment.api 
+                        + environment.rentingService
+                        + '/rents';
 
     constructor(private httpClient: HttpClient,
         private router: Router) { }
