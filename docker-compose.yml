@@ -139,49 +139,31 @@ services:
     links:
       - eureka
 
-  #  renting-service:
-  #    build:
-  #      context: ./renting-service
-  #      dockerfile: Dockerfile
-  #    image: xws:renting-service
-  #    container_name: renting-service
-  #    restart: on-failure
-  #    networks:
-  #      - xws-network
-  #    environment:
-  #      REGISTRY_HOST: eureka
-  #      DATABASE_USERNAME: root
-  #      DATABASE_PASSWORD: root
-  #      DATABASE_DOMAIN: mysql
-  #      DATABASE_SCHEMA: wroom
-  #    ports:
-  #      - 8095:8095
-  #    depends_on:
-  #      - eureka
-  #      - mysql
-  #    links:
-  #      - eureka
+  renting-service:
+    build:
+      context: ./renting-service
+      dockerfile: Dockerfile
+    image: xws:renting-service
+    container_name: renting-service
+    restart: on-failure
+    networks:
+      - xws-network
+    environment:
+      REGISTRY_HOST: eureka
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: root
+      DATABASE_DOMAIN: mysql
+      DATABASE_SCHEMA: wroom
+      RMQ_HOST: rabbitmq-broker
+    ports:
+      - 8095:8095
+    depends_on:
+      - eureka
+      - mysql
+    links:
+      - eureka
 
-  #  agent:
-  #    build:
-  #      context: ./
-  #      dockerfile: Dockerfile
-  #    image: xws:agent
-  #    container_name: agent
-  #    restart: on-failure
-  #    networks:
-  #      - xws-network
-  #    ports:
-  #      - 8081:8081
-  #    environment:
-  #      DATABASE_USERNAME: root
-  #      DATABASE_PASSWORD: root
-  #      DATABASE_DOMAIN: mysql
-  #      DATABASE_SCHEMA: agent
-  #      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
-  #    depends_on:
-  #      - mysql
-  #
+
 
   rabbitmq-broker:
     image: rabbitmq:management-alpine
@@ -227,6 +209,29 @@ services:
     volumes:
       - ./pki/tingle/certificates:/etc/certificates
       - ./pki/tingle/.truststore:/etc
+
+
+
+  #  agent:
+  #    build:
+  #      context: ./
+  #      dockerfile: Dockerfile
+  #    image: xws:agent
+  #    container_name: agent
+  #    restart: on-failure
+  #    networks:
+  #      - xws-network
+  #    ports:
+  #      - 8081:8081
+  #    environment:
+  #      DATABASE_USERNAME: root
+  #      DATABASE_PASSWORD: root
+  #      DATABASE_DOMAIN: mysql
+  #      DATABASE_SCHEMA: agent
+  #      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+  #    depends_on:
+  #      - mysql
+  #
 
 volumes:
   mysql-data:

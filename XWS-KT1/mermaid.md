@@ -20,7 +20,7 @@ O -- replicates data --> Q1((AMQP))
 V -- replicates data--> Q1
 A -- replicates data--> Q1
 O -- sync--> V
-R -- sync --> O
+S -- sync --> R
 G --> Q2((AMQP))
 Q2 -- gps coord--> O
 Q1 -- forwards--> S

@@ -41,7 +41,7 @@ public class AdService {
     }
 
     public List<Ad> findAll() {
-    	return this.adRepository.findAll();
+    	return this.adRepository.findAllActive();
     }
     
     public Location findLocationById(Long id) {

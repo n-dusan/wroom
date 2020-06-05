@@ -18,4 +18,6 @@ public class RentRequestDTO {
 	private Date toDate;
 	private UserDTO requestedUser;
 	private AdDTO ad;
+	private Long requestedUserId;
+	
 }

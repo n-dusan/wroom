@@ -92,5 +92,9 @@ public class RentRequestController {
                 HttpStatus.OK);
     }
 	
+	@GetMapping("/findByAd/{id}")
+	public List<RentRequestDTO> findByAd(@PathVariable("id") Long id) {
+		return this.rentsService.findByAd(id);
+	}
 
 }

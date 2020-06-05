@@ -82,6 +82,13 @@ export class AdsOverviewComponent implements OnInit {
 
     this.priceListService.findById(ad.priceListId).subscribe((priceList: PriceList) => {
       dialogPriceList = priceList;
+      let dialogRef = this.dialog.open(AdDetailComponent,
+        {
+          data: {
+            adID: ad.id,
+            pricelist:  dialogPriceList
+          }
+        });
     })
 
     // dialogRef.afterClosed().pipe(take(1)).subscribe((vehicle: Vehicle ) => {

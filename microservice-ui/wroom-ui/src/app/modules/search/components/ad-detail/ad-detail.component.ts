@@ -4,7 +4,7 @@ import { AdDetailDialogData } from './dialog-data.model';
 import { AdService } from '../../service/ad.service';
 import { ToastrService } from 'ngx-toastr';
 import { Ad } from '../../model/ad.model';
-import { VehicleService } from '../../service/vehicle.service';
+import { VehicleService } from '../../../vehicles/services/vehicle-features/vehicle.service'
 import { DomSanitizer } from '@angular/platform-browser';
 import { Vehicle } from '../../model/vehicle.model';
 import { PricelistDetailDialogData } from '../price-details/pricelist-dialog-data.model';
@@ -65,11 +65,11 @@ export class AdDetailComponent implements OnInit {
         this.toastr.error('There was an unexpected error.', 'Vehicle')
       }
     );
-    
+
   }
 
   fetchImages() {
-    this.searchService.getVehicleImages(this.ad?.vehicleId).subscribe(
+    this.vehicleService.getVehicleImages(this.ad?.vehicleId).subscribe(
       data => {
         data.forEach(obj => { this.images.push("data:image/jpeg;base64," + obj) });
         this.currentImage = this.images[0];
