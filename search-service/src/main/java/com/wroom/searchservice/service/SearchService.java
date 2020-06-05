@@ -28,66 +28,64 @@ public class SearchService {
 		List<Ad> good = new ArrayList<Ad>();
 		Location requestedLocation = this.adService.findLocationById(criteria.getLocationId());
 
+		if (requestedLocation == null) {
+			return null;
+		}
+		
 		System.out.println(">>> Searching location: " + requestedLocation.getCountry() + ", " + requestedLocation.getCity());
-		
-		return ads;
-		
-//		if (requestedLocation == null) {
-//			return null;
-//		}
-//
-//		for (Ad ad : ads) {
-////			Check location
-//			if (ad.getLocation().getId() != criteria.getLocationId()) {
-//				continue;
-//			}
-//
-////			Check endge-cases
-//			Date adAvailableFrom = ad.getAvailableFrom();
-//			Date adAvailableTo = ad.getAvailableTo();
-//			if (criteria.getFrom().before(adAvailableFrom) || criteria.getTo().after(adAvailableTo)) {
-//				continue;
-//			}
-//
-////			Check if any existing rent covers chosen dates 
-//			List<RentRequest> rents = this.rentsService.findByAd(ad);
-//			System.out.println(">>>> Found " + rents.size() + " rents");
-//			boolean flag = false;
-//			for (RentRequest rent : rents) {
-//
-////				A) ----|-*---*-|----
-//				if (criteria.getFrom().after(rent.getFromDate()) && criteria.getTo().before(rent.getToDate())) {
-//					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED
-//							|| rent.getStatus() == RequestStatus.RESERVED)
-//						flag = true;
-//					System.out.println(">>>> Chosen dates are overlapping");
-//					break;
-//				}
-//
-////				B) -*---|---*---|----
-//				if (criteria.getFrom().before(rent.getFromDate()) && criteria.getTo().after(rent.getFromDate())) {
-//					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED
-//							|| rent.getStatus() == RequestStatus.RESERVED)
-//						flag = true;
-//					System.out.println(">>>> Chosen dates are overlapping");
-//					break;
-//				}
-//
-////				C) ----|---*--|--*---
-//				if (criteria.getFrom().before(rent.getToDate()) && criteria.getTo().after(rent.getToDate())) {
-//					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED
-//							|| rent.getStatus() == RequestStatus.RESERVED)
-//						flag = true;
-//					System.out.println(">>>> Chosen dates are overlapping");
-//					break;
-//				}
-//			}
-//			if (flag) {
-//				continue;
-//			}
-//			good.add(ad);
-//		}
-//		return good;
+
+		for (Ad ad : ads) {
+//			Check location
+			if (ad.getLocation().getId() != criteria.getLocationId()) {
+				continue;
+			}
+
+//			Check endge-cases
+			Date adAvailableFrom = ad.getAvailableFrom();
+			Date adAvailableTo = ad.getAvailableTo();
+			if (criteria.getFrom().before(adAvailableFrom) || criteria.getTo().after(adAvailableTo)) {
+				continue;
+			}
+
+//			Check if any existing rent covers chosen dates 
+			List<RentRequest> rents = this.rentsService.findByAd(ad);
+			System.out.println(">>>> Found " + rents.size() + " rents");
+			boolean flag = false;
+			for (RentRequest rent : rents) {
+
+//				A) ----|-*---*-|----
+				if (criteria.getFrom().after(rent.getFromDate()) && criteria.getTo().before(rent.getToDate())) {
+					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED
+							|| rent.getStatus() == RequestStatus.RESERVED)
+						flag = true;
+					System.out.println(">>>> Chosen dates are overlapping");
+					break;
+				}
+
+//				B) -*---|---*---|----
+				if (criteria.getFrom().before(rent.getFromDate()) && criteria.getTo().after(rent.getFromDate())) {
+					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED
+							|| rent.getStatus() == RequestStatus.RESERVED)
+						flag = true;
+					System.out.println(">>>> Chosen dates are overlapping");
+					break;
+				}
+
+//				C) ----|---*--|--*---
+				if (criteria.getFrom().before(rent.getToDate()) && criteria.getTo().after(rent.getToDate())) {
+					if (rent.getStatus() == RequestStatus.PAID || rent.getStatus() == RequestStatus.PHYSICALLY_RESERVED
+							|| rent.getStatus() == RequestStatus.RESERVED)
+						flag = true;
+					System.out.println(">>>> Chosen dates are overlapping");
+					break;
+				}
+			}
+			if (flag) {
+				continue;
+			}
+			good.add(ad);
+		}
+		return good;
 	}
 
 }

@@ -277,7 +277,7 @@ export class SearchComponent implements OnInit {
     );
 
 
-    this.adService.search(searchCriteria).subscribe(
+    this.searchService.search(searchCriteria).subscribe(
       data => {
         this.ads = this.allAds.filter(obj => { return data.find(ad => obj.id === ad.id) })
         this.adsAfterSearch = this.ads;

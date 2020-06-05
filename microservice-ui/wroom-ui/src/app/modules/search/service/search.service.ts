@@ -8,6 +8,7 @@ import { VehicleImage } from '../model/vehicle-image.model';
 import { AdLocation } from '../model/ad-location.model';
 import { PriceList } from '../model/price-list.model';
 import { VehicleFeature } from '../model/vehicle-feature.model';
+import { SearchCriteria } from '../model/search-criteria.model';
 
 @Injectable({
     providedIn: 'root'
@@ -80,6 +81,11 @@ export class SearchService {
 
     public getBodies(): Observable<VehicleFeature[]> {
         return this.http.get<VehicleFeature[]>(this.baseUrl + '/search/bodies');
+    }
+
+    // Returns a list of ids of ads that obey the criteria
+    public search(searchCriteria: SearchCriteria): Observable<Ad[]> {
+        return this.http.post<Ad[]>(this.baseUrl + '/search/search', searchCriteria);
     }
 
 }
