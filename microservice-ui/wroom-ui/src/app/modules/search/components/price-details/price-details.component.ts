@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PriceList } from '../../model/price-list.model';
 import { PriceListService } from '../../service/price-list.service';
 import { PricelistDetailDialogData } from './pricelist-dialog-data.model';
+import { SearchService } from '../../service/search.service';
 
 @Component({
   selector: 'app-price-details',
@@ -19,10 +20,11 @@ export class PriceDetailsComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<PriceDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: PricelistDetailDialogData,
     private pricelistService: PriceListService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private searchService: SearchService) { }
 
   ngOnInit(): void {
-    this.pricelistService.get(this.data.pricelistId).subscribe(
+    this.searchService.getPricelist(this.data.pricelistId).subscribe(
       data => {
         // console.log(this.data)
         this.pricelist = data;

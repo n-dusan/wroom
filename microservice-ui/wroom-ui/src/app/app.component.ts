@@ -30,6 +30,7 @@ export class AppComponent {
 
     ngOnInit(): void {
       this.authService.getLoggedUser().subscribe(data => {
+        console.log('user', data)
         this.user = data;
       });
   

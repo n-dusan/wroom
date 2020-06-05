@@ -8,17 +8,17 @@
 --delete from vehicle;
 
 -- delete from user_roles;
+-- delete from role_permissions;
 -- delete from permission;
 -- delete from roles;
--- delete from role_permissions
 
-delete from location;
+--delete from location;
 
-delete from model_type;
-delete from brand_type;
-delete from gearbox_type;
-delete from fuel_type;
-delete from body_type;
+--delete from model_type;
+--delete from brand_type;
+--delete from gearbox_type;
+--delete from fuel_type;
+--delete from body_type;
 -- delete from users;
 
 -- ------------- ROLE -----------------

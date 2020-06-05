@@ -7,9 +7,6 @@ tr {
 }
 
 .content {
-    background-image: url('../../../../../assets/bcg.png');
-    background-size: cover;
-    background-repeat: no-repeat;
     padding: 10px
 }
 

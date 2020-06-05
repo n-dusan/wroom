@@ -67,7 +67,7 @@ public class BrandTypeController {
 	}
 	
 	@GetMapping(produces = "application/json")
-	public ResponseEntity<List<FeatureDTO>> getModelTypes(){
+	public ResponseEntity<List<FeatureDTO>> getBrandTypes(){
 		
 		return new ResponseEntity<>(
 				BrandTypeConverter.fromEntityList(brandTypeService.getAll(), BrandTypeConverter::fromEntity),
