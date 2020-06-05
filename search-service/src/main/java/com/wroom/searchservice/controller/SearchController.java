@@ -29,6 +29,7 @@ import com.wroom.searchservice.domain.dto.FeatureDTO;
 import com.wroom.searchservice.domain.dto.LocationDTO;
 import com.wroom.searchservice.domain.dto.PriceListDTO;
 import com.wroom.searchservice.domain.dto.SearchCriteriaDTO;
+import com.wroom.searchservice.domain.dto.UserDTO;
 import com.wroom.searchservice.domain.dto.VehicleDTO;
 import com.wroom.searchservice.domain.dto.VehicleImageDTO;
 import com.wroom.searchservice.service.AdService;
@@ -142,6 +143,11 @@ public class SearchController {
 				HttpStatus.OK);
 	}
 	
+	@GetMapping("/locations/{id}")
+	public ResponseEntity<LocationDTO> getLocation(@PathVariable("id") Long locationId) {
+		return new ResponseEntity<>(LocationConverter.fromEntity(adService.findLocationById(locationId)),
+				HttpStatus.OK);
+	}
 	
     @GetMapping("/pricelists")
     public ResponseEntity<List<PriceListDTO>> getAllActive() {
@@ -203,5 +209,10 @@ public class SearchController {
    				HttpStatus.OK
    		);
    	}
+    
+    @GetMapping(value = "/ads/owner/{ad_id}")
+	public ResponseEntity<UserDTO> getOwner(@PathVariable("ad_id") Long ad_id) {
+		return new ResponseEntity<>(adService.getOwner(ad_id), HttpStatus.OK);
+	}
 
 }
