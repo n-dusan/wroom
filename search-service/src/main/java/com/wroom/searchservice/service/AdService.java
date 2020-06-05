@@ -96,4 +96,8 @@ public class AdService {
         return adRepository.checkAdCountForUser(user.getId());
     }
     
+    public UserDTO getOwner(Long ad_id) {
+    	return UserConverter.fromEntity(this.adRepository.findById(ad_id).get().getVehicle().getOwner());
+    }
+    
 }

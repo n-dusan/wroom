@@ -2,15 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ShoppingCartService } from '../../service/shopping-cart.service';
 import { Ad } from '../../models/ad.model';
 import { ShoppingCartItem } from '../../models/shopping-cart-item.model';
-import { AdService } from '../../service/ads.service';
 import { ToastrService } from 'ngx-toastr';
 import { DomSanitizer } from '@angular/platform-browser';
-import { VehicleService } from '../../service/vehicle.service';
 import { OwnerAds } from '../../models/owner-ads.model';
-import { RentsService } from '../../service/rents.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateBundleDialogComponent } from '../create-bundle-dialog/create-bundle-dialog.component';
 import { RentRequest } from '../../models/rent-request.model';
+import { SearchService } from '../../service/search.service';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -27,12 +25,10 @@ export class ShoppingCartComponent implements OnInit {
   empty: boolean = true;
 
   constructor(private shoppingCartService: ShoppingCartService,
-    private adService: AdService,
     private toastr: ToastrService,
     public sanitizer: DomSanitizer,
-    private vehicleService: VehicleService,
-    private rentService: RentsService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private searchService: SearchService) { }
 
   ngOnInit(): void {
     this.loaded = false;
@@ -58,11 +54,11 @@ export class ShoppingCartComponent implements OnInit {
   fetchAds() {
     for (let item of this.cartItems) {
 
-      this.adService.get(item.adId).subscribe(
+      this.searchService.getAd(item.adId).subscribe(
         data => {
           const ad: Ad = data;
 
-          this.vehicleService.get(data.vehicleId).subscribe(
+          this.searchService.getVehicle(data.vehicleId).subscribe(
             dataVehicle => {
               ad.vehicleObj = dataVehicle
               this.ads.push(ad);
@@ -70,11 +66,11 @@ export class ShoppingCartComponent implements OnInit {
 
 
               // Location
-              this.adService.getLocation(ad.locationId).subscribe(
+              this.searchService.getLocation(ad.locationId).subscribe(
                 data => {
                   ad.locationObj = data;
 
-                  this.vehicleService.getVehicleImages(ad?.vehicleObj?.id).subscribe(
+                  this.searchService.getVehicleImages(ad?.vehicleObj?.id).subscribe(
                     data => {
                       console.log(data)
                       if(data.length > 0) {
@@ -82,7 +78,7 @@ export class ShoppingCartComponent implements OnInit {
                       }
                       
 
-                      this.adService.getOwner(ad.id).subscribe(
+                      this.searchService.getOwner(ad.id).subscribe(
                         data => {
     
                           // populate owners

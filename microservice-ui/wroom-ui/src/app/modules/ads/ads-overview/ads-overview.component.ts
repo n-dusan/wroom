@@ -9,12 +9,10 @@ import { takeUntil } from 'rxjs/operators';
 import { AuthService } from '../../auth/service/auth.service';
 import { LoggedUser } from '../../auth/model/logged-user.model';
 import { Router, ActivatedRoute } from '@angular/router';
-import { VehicleService } from '../services/vehicle.service';
 import { ToastrService } from 'ngx-toastr';
 import { AdDetailComponent } from '../../search/components/ad-detail/ad-detail.component';
 import { PriceListService } from '../services/price-list.service';
 import { PriceList } from '../../shared/models/price-list.model';
-import { Vehicle } from '../../shared/models/vehicle.model';
 import { VehicleOccupancyComponent } from '../../vehicles/vehicle-occupancy/vehicle-occupancy.component';
 
 @Component({
@@ -27,7 +25,7 @@ export class AdsOverviewComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   loggedUser: LoggedUser;
 
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   isLoadingResults: boolean = true;
   displayedColumns: string[] = ['from', 'to', 'mile-limit', 'address', 'details', 'gps', 'edit', 'delete'];
@@ -40,16 +38,15 @@ export class AdsOverviewComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private toastr: ToastrService,
     private priceListService: PriceListService) { }
 
   ngOnInit(): void {
     this.authService.whoami().subscribe(data => {
-        this.loggedUser = data;
-        this.dataSource.data = [];
-        this.refresh();
-        this.dataSource.paginator = this.paginator;
-      },
+      this.loggedUser = data;
+      this.dataSource.data = [];
+      this.refresh();
+      this.dataSource.paginator = this.paginator;
+    },
       error => {
         console.log(error)
       }
@@ -74,7 +71,7 @@ export class AdsOverviewComponent implements OnInit {
 
   onDeleteAdClick(ad: Ad) {
     console.log('delete ad', ad)
-    this.adsService.deleteAd(ad.id).subscribe(response => {
+    this.adsService.deleteAd(ad.id).subscribe(() => {
       this.refresh()
     })
   }
@@ -85,31 +82,24 @@ export class AdsOverviewComponent implements OnInit {
 
     this.priceListService.findById(ad.priceListId).subscribe((priceList: PriceList) => {
       dialogPriceList = priceList;
-      let dialogRef = this.dialog.open(AdDetailComponent,
-        {
-          data: {
-            adID: ad.id,
-            pricelist:  dialogPriceList
-          }
-        });
     })
 
-      // dialogRef.afterClosed().pipe(take(1)).subscribe((vehicle: Vehicle ) => {
-      //   if(vehicle) {
-      //     console.log('my vehicle', vehicle)
-      //     this.vehicle = vehicle;
-      //     this.adForm.get('vehicle').setValue('Selected ' + this.vehicle.brandType.name + ' ' + this.vehicle.modelType.name);
-      //   }
-      // });
-    }
+    // dialogRef.afterClosed().pipe(take(1)).subscribe((vehicle: Vehicle ) => {
+    //   if(vehicle) {
+    //     console.log('my vehicle', vehicle)
+    //     this.vehicle = vehicle;
+    //     this.adForm.get('vehicle').setValue('Selected ' + this.vehicle.brandType.name + ' ' + this.vehicle.modelType.name);
+    //   }
+    // });
+  }
 
 
-  onOccupancyClick(){
+  onOccupancyClick() {
     const dialogRef = this.dialog.open(VehicleOccupancyComponent, {
       width: '400px',
       height: '400px'
     });
-    dialogRef.afterClosed().subscribe(result => {  
+    dialogRef.afterClosed().subscribe(() => {
     });
   }
 
