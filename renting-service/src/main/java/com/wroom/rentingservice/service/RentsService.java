@@ -3,7 +3,6 @@ package com.wroom.rentingservice.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.security.core.Authentication;
@@ -45,7 +44,7 @@ public class RentsService {
 	}
 
 	public RentRequest sendRequest(RentRequestDTO dto, Long requestedUserID) {
-		com.wroom.rentingservice.domain.RentRequest entity = RentConverter.toEntity(dto);
+		RentRequest entity = RentConverter.toEntity(dto);
 		entity.setRequestedUserId(dto.getRequestedUserId());
 //		entity.setRequestedUser(this.userRepository.findById(requestedUserID).get());
 		entity.setStatus(RequestStatus.PENDING);
@@ -88,6 +87,12 @@ public class RentsService {
 //		}
 
 		Ad ad = this.adService.findById(rentRequestDTO.getAd().getId());
+		List<Ad> list = this.adService.findAll();
+		
+		for(Ad a : list) {
+			System.out.println(a);
+		}
+		
 		rentRequest.setAd(ad);
 
 		if (ad.getAvailableFrom().after(rentRequest.getFromDate())
@@ -105,6 +110,11 @@ public class RentsService {
 		}
 
 		List<RentRequest> rentList = rentRepository.findByAd(ad);
+		
+		if(rentList.size() == 0) {
+			rentRepository.save(rentRequest);
+			return true;
+		}
 		
 		for(RentRequest r : rentList) {
 			if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate()) ) {
@@ -167,5 +177,9 @@ public class RentsService {
 		return retList;
 	}
 	
+	public List<RentRequestDTO> findByAd(Long adId) {
+		Ad ad = this.adService.findById(adId);
+		return RentConverter.fromEntityList(this.findByAd(ad), RentConverter::fromEntity);
+	}
 
 }

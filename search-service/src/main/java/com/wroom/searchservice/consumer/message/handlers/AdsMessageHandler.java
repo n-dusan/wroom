@@ -26,7 +26,7 @@ public class AdsMessageHandler {
 	public void createEntity(AdsMessage message) {
 		switch (message.getEntity()) {
 		case AD:
-			this.adService.save(AdsMessageConverter.fromMessage(message));
+//			this.adService.save(AdsMessageConverter.fromMessage(message));
 			System.out.println(">>> Successfully created ad.");
 			break;
 		case LOCATION:

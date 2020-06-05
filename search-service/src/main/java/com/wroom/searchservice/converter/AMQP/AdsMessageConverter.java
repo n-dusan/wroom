@@ -7,7 +7,10 @@ public class AdsMessageConverter {
 	
 	public static AdDTO fromMessage(AdsMessage message) {
 		AdDTO dto = new AdDTO();
-		dto.setId(message.getId());
+		if(message.getId() !=null) {
+			dto.setId(message.getId());
+		}
+		
 		dto.setPublishDate(message.getPublishDate());
 		dto.setAvailableFrom(message.getAvailableFrom());
 		dto.setAvailableTo(message.getAvailableTo());
