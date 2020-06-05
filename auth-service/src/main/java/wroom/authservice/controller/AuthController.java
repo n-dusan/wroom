@@ -52,13 +52,10 @@ public class AuthController {
 		this.requestCounter = requestCounter;
 	}
 
-	@Autowired
-	private UserProducer userProducer;
 
 	@GetMapping("/hello")
 	public ResponseEntity<?> get(Authentication auth) throws UnknownHostException {
 		System.out.println("I am reached.");
-		userProducer.send();
 		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
 		System.out.println("Principal" + user.getUsername());
 		System.out.println("I am reached.");
