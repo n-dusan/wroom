@@ -1,0 +1,49 @@
+  <div fxLayout="column wrap"  style="margin-top: 50px; margin-left: 50px; margin-right: 50px;">
+
+    <div fxFlex class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataVehicleSource" >
+
+    <ng-container matColumnDef="brandType">
+      <th mat-header-cell *matHeaderCellDef> Brand </th>
+      <td mat-cell *matCellDef="let element"> {{element.brandType.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="modelType">
+      <th mat-header-cell *matHeaderCellDef> Model  </th>
+      <td mat-cell *matCellDef="let element"> {{element.modelType.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let element" >
+      <button mat-button (click)="vehicleDetails(element)"><mat-icon>more_horiz</mat-icon></button>
+      </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="edit">
+      <th mat-header-cell *matHeaderCellDef>
+        <button mat-button (click)="onAddVehicleClick()"><mat-icon>add</mat-icon></button>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button (click)="onEditVehicleClick(element)"><mat-icon>edit</mat-icon></button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef>  </th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-button (click)="onDeleteVehicleClick(element)"><mat-icon>delete</mat-icon></button>
+      </td>
+    </ng-container>
+
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[10, 15, 30]"  [length]="dataVehicleSource?.data?.length" showFirstLastButtons></mat-paginator>
+  </div>
+  </div>

@@ -8,7 +8,8 @@ public class BodyTypeConverter extends AbstractConverter {
 	public static FeatureDTO fromEntity(BodyType entity) {
 		return new FeatureDTO(
 				entity.getId(),
-				entity.getName());
+				entity.getName(),
+				null);
 	}
 	
 	public static BodyType toEntity(FeatureDTO dto) {

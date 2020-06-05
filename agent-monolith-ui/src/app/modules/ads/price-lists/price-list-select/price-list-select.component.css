@@ -39,3 +39,10 @@ Structure
   justify-content: center;
 }
 
+.mat-header-cell {
+  padding: 8px 8px 8px 8px;
+}
+
+.mat-cell {
+  padding: 8px 8px 8px 8px;
+}

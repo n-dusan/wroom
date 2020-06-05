@@ -15,8 +15,12 @@ import xwsagent.wroomagent.repository.BodyTypeRepository;
 @Service
 public class BodyTypeService {
 	
-	@Autowired
-	BodyTypeRepository bodyTypeRepository;
+
+	private final BodyTypeRepository bodyTypeRepository;
+
+	public BodyTypeService(BodyTypeRepository bodyTypeRepository) {
+		this.bodyTypeRepository = bodyTypeRepository;
+	}
 	
 	public List<BodyType> getAll() {
 		List<BodyType> ret = new ArrayList<BodyType>();
@@ -61,5 +65,5 @@ public class BodyTypeService {
 			bt.setName(featureDTO.getName());
 			this.bodyTypeRepository.save(bt);
 		return bt;
-}
+	}
 }

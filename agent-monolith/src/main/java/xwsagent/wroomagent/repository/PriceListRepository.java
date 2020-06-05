@@ -12,4 +12,6 @@ public interface PriceListRepository extends JpaRepository<PriceList, Long> {
 
     @Query(value="select p.* from price_list p where p.deleted = false", nativeQuery=true)
     List<PriceList> findAllActive();
+
+    PriceList findOneById(Long id);
 }

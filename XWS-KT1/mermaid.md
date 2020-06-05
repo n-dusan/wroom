@@ -1,19 +1,28 @@
 ```mermaid
 graph LR
 P[PKI]
-PINF[PINF]
-S[Search] -- has ads_id--> O[Ads]
-S -- has vehicle_id --> V[Vehicle]
-O -- has vehicle_id --> V
-R[Rents] -- has ads_id --> O
+MONO[Monolith]
+V[Vehicle]
+O[Ads]
+S[Search]
+R[Rents]
+W[Client]
+Z{Zuul}
 
-Z{Zuul} --> V
-Z{Zuul} --> B[Admin]
-Z{Zuul} --> S
-Z{Zuul} --> R
-Z{Zuul} --> O
-Z{Zuul} --> A[Auth]
-Z{Zuul} --> E[Messaging]
-Z{Zuul} --> G[GPS]
-W[Client] --> Z
+Z --> V
+Z --> S
+Z --> R
+Z --> O
+Z --> A[Auth]
+Z --> G[GPS]
+W --> Z
+O -- replicates data --> Q1((AMQP))
+V -- replicates data--> Q1
+A -- replicates data--> Q1
+O -- sync--> V
+S -- sync --> R
+G --> Q2((AMQP))
+Q2 -- gps coord--> O
+Q1 -- forwards--> S
+
 ```

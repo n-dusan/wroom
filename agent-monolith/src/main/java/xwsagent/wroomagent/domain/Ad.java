@@ -1,5 +1,6 @@
 package xwsagent.wroomagent.domain;
 
+
 import java.util.Date;
 import java.util.Set;
 
@@ -12,8 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
-import javax.persistence.*;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,7 +28,6 @@ public class Ad {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
@@ -43,6 +43,18 @@ public class Ad {
 	
 	@Column
 	private Double mileLimit;
+
+	@Column
+	private boolean mileLimitEnabled;
+
+	@Column
+	private boolean gps;
+
+	@Column
+	private boolean deleted;
+
+	@Column
+	private String address;
 	
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Vehicle vehicle;
@@ -50,10 +62,9 @@ public class Ad {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private PriceList priceList;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private Location location;
+
 	@OneToMany(mappedBy = "ad")
 	private Set<Rate> rates;
-
-
-	@OneToMany(mappedBy="vehicle")
-	private Set<Image> image;
 }

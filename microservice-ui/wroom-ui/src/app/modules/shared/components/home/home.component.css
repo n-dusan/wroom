@@ -1,0 +1,13 @@
+.image {
+    background-image: url('../../../../../assets/cars.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 50vh;
+    padding: 50px;
+}
+
+.banner {
+    width: 95vw;
+    padding: 0;
+    margin: 25px;
+}

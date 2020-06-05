@@ -14,8 +14,11 @@ import xwsagent.wroomagent.repository.BrandTypeRepository;
 @Service
 public class BrandTypeService {
 
-	@Autowired
-	BrandTypeRepository brandTypeRepository;
+	private final BrandTypeRepository brandTypeRepository;
+
+	public BrandTypeService(BrandTypeRepository brandTypeRepository) {
+		this.brandTypeRepository = brandTypeRepository;
+	}
 	
 	public List<BrandType> getAll() {
 		List<BrandType> ret = new ArrayList<BrandType>();
@@ -57,7 +60,6 @@ public class BrandTypeService {
 		if(featureDTO == null) {
 			throw new InvalidDataException("Forwarded DTO is null");
 		}
-		
 		bt.setName(featureDTO.getName());
 		this.brandTypeRepository.save(bt);
 		return bt;

@@ -3,7 +3,7 @@ mat-sidenav-container, mat-sidenav-content, mat-sidenav {
 }
 
 mat-sidenav-content {
-    background-color: rgb(36, 36, 36);
+    background-color: rgb(197, 197, 197);
 }
 
 mat-sidenav {
@@ -32,4 +32,8 @@ a:active {
 
 .navigation-items li {
     font-size: 16px;
+}
+
+.navLink {
+    margin-left: 15px;
 }

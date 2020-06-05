@@ -1,0 +1,23 @@
+.navLink {
+    margin-left: 15px;
+}
+
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+    height: 100%;
+}
+
+mat-sidenav-content {
+    /* background-color: rgb(197, 197, 197); */
+    background-image: url('../assets/bcg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+mat-sidenav {
+    width: 250px;
+}
+
+router-outlet {
+    height: 100%;
+}

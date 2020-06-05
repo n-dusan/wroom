@@ -58,6 +58,7 @@ export class AuthService {
     const tok = localStorage.getItem('token');
     // console.log('whoami token', tok)
     if(tok) {
+      // Set user to BehaviourSubject?
       return this.httpClient.get<any>(this.baseUrl + '/whoami');
     }
     else {

@@ -2,9 +2,9 @@
 
 ![Image](./model.png?raw=true)
 
-# Mikroservisi: 
+# Arhitektura: 
 
-![Image](./mermaidjs-microservices.png?raw=true)
+[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFJcblBbUEtJXVxuTU9OT1tNb25vbGl0aF1cblZbVmVoaWNsZV1cbk9bQWRzXVxuU1tTZWFyY2hdXG5SW1JlbnRzXVxuV1tDbGllbnRdXG5ae1p1dWx9XG5cblogLS0-IFZcblogLS0-IFNcblogLS0-IFJcblogLS0-IE9cblogLS0-IEFbQXV0aF1cblogLS0-IEdbR1BTXVxuVyAtLT4gWlxuTyAtLSByZXBsaWNhdGVzIGRhdGEgLS0-IFExKChBTVFQKSlcblYgLS0gcmVwbGljYXRlcyBkYXRhLS0-IFExXG5BIC0tIHJlcGxpY2F0ZXMgZGF0YS0tPiBRMVxuTyAtLSBzeW5jLS0-IFZcblMgLS0gc3luYyAtLT4gUlxuRyAtLT4gUTIoKEFNUVApKVxuUTIgLS0gZ3BzIGNvb3JkLS0-IE9cblExIC0tIGZvcndhcmRzLS0-IFMiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ)](https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoiZ3JhcGggTFJcblBbUEtJXVxuTU9OT1tNb25vbGl0aF1cblZbVmVoaWNsZV1cbk9bQWRzXVxuU1tTZWFyY2hdXG5SW1JlbnRzXVxuV1tDbGllbnRdXG5ae1p1dWx9XG5cblogLS0-IFZcblogLS0-IFNcblogLS0-IFJcblogLS0-IE9cblogLS0-IEFbQXV0aF1cblogLS0-IEdbR1BTXVxuVyAtLT4gWlxuTyAtLSByZXBsaWNhdGVzIGRhdGEgLS0-IFExKChBTVFQKSlcblYgLS0gcmVwbGljYXRlcyBkYXRhLS0-IFExXG5BIC0tIHJlcGxpY2F0ZXMgZGF0YS0tPiBRMVxuTyAtLSBzeW5jLS0-IFZcblMgLS0gc3luYyAtLT4gUlxuRyAtLT4gUTIoKEFNUVApKVxuUTIgLS0gZ3BzIGNvb3JkLS0-IE9cblExIC0tIGZvcndhcmRzLS0-IFMiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ)
 
 >Veze izmedju Zuula i mikroservisa je direktno obraćanje, dok veze između servisa pokazuju sadržavanje id-a, odnosno potrebu da se tom servisu direktno obrati, ili da uz pomoć aggregate šablona se dobave neophodni podaci.
 
@@ -41,9 +41,7 @@
 	 * napredna pretraga
 
 * entiteti nad kojima rukuje: 
-	* Ad
-	* Vehicle
-	* PriceList
+	* replicirani podaci iz svih ostalih baza
 
 ## Ads
 * funkcionalnosti
@@ -53,9 +51,7 @@
 	 * komentari i ocene
 
 * entiteti nad kojima rukuje: 
-	* User
 	* Ad
-	* Vehicle
 	* PriceList
 	* Comment
 ## Rents
@@ -68,9 +64,7 @@
 
 * entiteti nad kojima rukuje: 
 	* RentRequest
-	*  User
 	 * RentReport
-	* Ad (id)
 
 ## GPS
 > šalje jwt koordinate u amqp na osnovu prosledjenog vehicle_id-a koji poseduje tracking uređaj.

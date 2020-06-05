@@ -14,8 +14,12 @@ import xwsagent.wroomagent.repository.FuelTypeRepository;
 @Service
 public class FuelTypeService {
 
-	@Autowired
-	FuelTypeRepository fuelTypeRepository;
+
+	private final FuelTypeRepository fuelTypeRepository;
+
+	public FuelTypeService(FuelTypeRepository fuelTypeRepository) {
+		this.fuelTypeRepository = fuelTypeRepository;
+	}
 	
 	public List<FuelType> getAll() {
 		List<FuelType> ret = new ArrayList<FuelType>();

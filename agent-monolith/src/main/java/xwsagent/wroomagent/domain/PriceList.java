@@ -31,8 +31,6 @@ public class PriceList {
 	private Double priceCDW;
 	
 	@Column
-//	@Min(0)
-//	@Max(100)
 	private Double discount;
 
 	@Column(nullable = false)
@@ -40,6 +38,4 @@ public class PriceList {
 
 	@OneToMany(mappedBy = "priceList")
 	private Set<Ad> ads;
-
-	
 }

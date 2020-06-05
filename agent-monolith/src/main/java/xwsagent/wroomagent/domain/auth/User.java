@@ -35,8 +35,6 @@ import xwsagent.wroomagent.domain.Vehicle;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Setter @Getter @NoArgsConstructor @AllArgsConstructor
 public class User {
-	// needs CRUD details, like deleted field and review data
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

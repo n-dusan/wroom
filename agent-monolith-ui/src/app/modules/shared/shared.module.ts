@@ -6,6 +6,11 @@ import { HomeComponent } from './components/home/home.component';
 import { MaterialModule } from './material.module';
 import { EmailConfirmationComponent } from './components/email-confirmation/email-confirmation.component';
 
+import { VehicleDetailsComponent } from '../vehicles/vehicle-details/vehicle-details.component';
+import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.component';
+import { AdDetailComponent } from '../search/components/ad-detail/ad-detail.component';
+import { CreateBundleDialogComponent } from './components/create-bundle-dialog/create-bundle-dialog.component';
+
 const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
 
 @NgModule({
@@ -14,7 +19,11 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     // import it here!)
     ControlMessagesComponent,
     HomeComponent,
-    EmailConfirmationComponent
+    EmailConfirmationComponent,
+    VehicleDetailsComponent,
+    ShoppingCartComponent,
+    AdDetailComponent,
+    CreateBundleDialogComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +36,9 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     // AppModule, so everything that is exported here will be imported in AppModule
     CommonModule,
     AngularYandexMapsModule,
-    ControlMessagesComponent
+    ControlMessagesComponent,
+    VehicleDetailsComponent,
+    AdDetailComponent
   ]
 })
 export class SharedModule { }

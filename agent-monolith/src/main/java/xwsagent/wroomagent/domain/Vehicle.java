@@ -15,10 +15,11 @@ import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import xwsagent.wroomagent.domain.auth.User;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @ToString
 public class Vehicle {
 
 	@Id
@@ -35,18 +36,14 @@ public class Vehicle {
 	@Column(nullable = false)
 	private Boolean cdw;
 
-	@Column(/*nullable = false*/)
-	private Boolean gps;
-
-	//active true-> vehicle isn't already reserved by hand (ručno)
-	@Column(/*nullable = false*/)
-	private Boolean active;
+	@Column
+	private boolean deleted;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private User owner;
 	
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	private BrandType brandType;
+//	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+//	private BrandType brandType;
 	
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	private ModelType modelType;

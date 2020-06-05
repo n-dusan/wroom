@@ -31,11 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 									FilterChain filterChain) throws ServletException, IOException {
 		String jwt = getJwtFromRequest(request);
 		
-//		Check if banned
-		if(JwtBlackList.lista.contains(jwt)) {
-			SecurityContextHolder.clearContext();
-			return;
-		}
+//		Check if banned (IP = request.getRemoteAddr() BLACKLIST ?)
+//		if(JwtBlackList.lista.contains(jwt)) {
+//			SecurityContextHolder.clearContext();
+//			return;
+//		}
 		
 		if (StringUtils.hasText(jwt)) {
 			try {
@@ -44,10 +44,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				SecurityContextHolder.getContext().setAuthentication(
 					new UsernamePasswordAuthenticationToken(details, null, details.getAuthorities())					
 				);
-				System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
-				details.getAuthorities().forEach(a -> {
-					System.out.println(a);
-				});
+
+//				System.out.println(SecurityContextHolder.getContext().getAuthentication().getName());
+//				details.getAuthorities().forEach(a -> {
+//					System.out.println("What do i have here?");
+//					System.out.println(a);
+//				});
 			} catch (InvalidJWTokenException e) {
 				logger.error("Exception thrown {}", e.getMessage());
 			}

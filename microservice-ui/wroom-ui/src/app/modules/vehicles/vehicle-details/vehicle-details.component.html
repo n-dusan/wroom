@@ -1,0 +1,23 @@
+<p style="text-align: center;  background-color: rgb(255, 193, 189);">Vehicle Details</p>
+<mat-list>
+    <mat-list-item>Brand Type : {{this.local_data.brandType.name}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Model type : {{this.local_data.modelType.name}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Body type : {{this.local_data.bodyType.name}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Fuel type : {{this.local_data.fuelType.name}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Gearbox type : {{this.local_data.gearboxType.name}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Mileage : {{this.local_data.mileage}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item *ngIf="this.local_data.cdw">Collision Damage Waiver : <mat-icon>check</mat-icon></mat-list-item>
+    <mat-list-item *ngIf="!this.local_data.cdw">Collision Damage Waiver : <mat-icon>close</mat-icon></mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Child seats : {{this.local_data.childSeats}}</mat-list-item>
+    <mat-divider></mat-divider>
+    <div id="divImages" class="grid-container">
+    <img *ngFor="let imageSource of retrievedImageList" [src]="getSantizeUrl(imageSource)" height="150" width="120">
+    </div>
+  </mat-list>

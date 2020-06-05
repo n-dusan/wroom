@@ -1,0 +1,144 @@
+<div *ngIf="!loaded" fxLayout="column" fxLayoutAlign="center center">
+    <h1 fxFlex="15%" style="text-align: center;">Working on it...</h1>
+    <mat-spinner fxFlex color="accent"></mat-spinner>
+</div>
+
+<div *ngIf="loaded && empty" fxLayout="column" fxLayoutAlign="center center">
+    <h1 fxFlex="15%" style="text-align: center;">Your shopping cart is empty.</h1>
+
+</div>
+
+<div class="content" fxLayout="column" fxLayoutAlign="start center" *ngIf="loaded && !empty">
+
+    <!-- <div fxFlex="20%" style="width: 100%; padding: 30px;" fxLayout="row" fxLayoutAlign="center center">
+        <img src="../../../../../assets/keys.jpg" height="300px" alt="keys">
+    </div> -->
+
+    <mat-card>
+        <mat-card-content fxLayout="column" fxLayoutAlign="start center" style="text-align: center;">
+            <h2>Your Shopping Cart</h2>
+            <p>We grouped your cart items by owner. When you decide to proceed, you'll have a choice
+                to pick for which ad you wish to send a request. Happy renting!
+            </p>
+        </mat-card-content>
+    </mat-card>
+    
+    <div class="owner-ads-container" fxFlex *ngFor="let owner of owners" fxLayout="column" fxLayoutAlign="start center">
+
+        <div fxFlex="10%" fxLayout="row" fxLayoutAlign="start start" matTooltip="Owner">
+            <mat-icon color="accent" style="vertical-align: middle;">person</mat-icon>
+            {{owner.ownerUsername}}
+        </div>
+
+        <mat-card fxFlex *ngFor="let ad of owner.adsObj" fxLayout="column" fxLayoutAlign="start center">
+
+            <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="width: 100%;">
+
+                <div fxFlex="25%" class="image-container" fxLayout="row" fxLayoutAlign="center center">
+                    <img fxFlex *ngIf="ad.image" [src]="getSantizeUrl(ad.image)" alt="image" height="150" width="120">
+                    <img fxFlex *ngIf="!ad.image" src="../../../../../assets/noimage.png" alt="image" height="150"
+                        width="120">
+                </div>
+
+                <div fxFlex>
+                    <mat-card-header fxLayout="row" fxLayoutAlign="center">
+                        <div fxFlex="50%">
+                            <mat-card-title>{{ad?.vehicleObj?.brandType.name}} {{ad?.vehicleObj?.modelType.name}}
+                            </mat-card-title>
+                            <mat-card-subtitle>{{ad?.locationObj?.city}}, {{ad?.locationObj?.country}}
+                            </mat-card-subtitle>
+                        </div>
+                        <div fxFlex></div>
+                        <div fxFlex="30%">
+                            <span>
+                                <mat-icon style="padding: 0px; margin: 0px;vertical-align:middle;" color="warn">
+                                    star_rate</mat-icon>
+                                {{ad?.averageRate}}
+                            </span>
+
+                            <button class="mini-button" mat-mini-fab color="accent" aria-label="Price"
+                                matTooltip="Click for more info about pricing">
+                                {{ad?.priceListObj?.pricePerDay}}$
+                            </button>
+
+                        </div>
+                    </mat-card-header>
+
+                    <mat-card-content fxLayout="row" fxLayoutAlign="center center">
+                        <table fxFlex="30%">
+                            <tbody>
+                                <tr>
+                                    <td>Fuel:</td>
+                                    <td>{{ad?.vehicleObj?.fuelType.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Gearbox:</td>
+                                    <td>{{ad?.vehicleObj?.gearboxType.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Body:</td>
+                                    <td>{{ad?.vehicleObj?.bodyType.name}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <mat-divider vertical style="height:100px;margin-right: 5px;"></mat-divider>
+
+                        <table fxFlex="40%">
+                            <tbody>
+                                <tr>
+                                    <td>Mileage:</td>
+                                    <td>{{ad?.vehicleObj?.mileage}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Collision Damage Waiver:</td>
+                                    <td>
+                                        <mat-icon *ngIf="!ad?.vehicleObj?.cdw">close</mat-icon>
+                                        <mat-icon *ngIf="ad?.vehicleObj?.cdw">check</mat-icon>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Child Seats:</td>
+                                    <td>
+                                        {{ad?.vehicleObj?.childSeats}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div fxFlex></div>
+                    </mat-card-content>
+                </div>
+
+            </div>
+        </mat-card>
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="margin: 10px;">
+            <mat-expansion-panel fxFlex="80%">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Price
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        Click to calculate price
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div>
+                    Work in Progress...
+                </div>
+
+            </mat-expansion-panel>
+
+            <button class="mini-button" mat-mini-fab color="accent"
+            matTooltip="Send request to this owner" 
+            (click)="sendRequest(owner)">
+                <mat-icon color="primary">send</mat-icon>
+            </button>
+        </div>
+
+
+
+    </div>
+
+</div>
