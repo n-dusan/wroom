@@ -20,12 +20,6 @@ public class AdsProducer {
 		this.rabbitTemplate = rabbitTemplate;
 	}
 
-//    public void send() {
-//        //String logContent = String.format(LOG_SEND, message.getOperation().toString(), message.getEntity().toString());
-//        log.info("Sending to ads queue");
-//        AdsMessage message = new AdsMessage("test", "test", "Test");
-//        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, message);
-//    }
 
 	public void send(AdsMessage message) {
 		String logContent = String.format(LOG_SEND, message.getOperation().toString(), message.getEntity().toString());

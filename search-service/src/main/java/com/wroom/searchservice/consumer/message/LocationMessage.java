@@ -1,7 +1,9 @@
 package com.wroom.searchservice.consumer.message;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
+@ToString
 public class LocationMessage {
 
 	private Long id;

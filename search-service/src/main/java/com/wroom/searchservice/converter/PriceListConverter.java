@@ -22,6 +22,10 @@ public class PriceListConverter extends AbstractConverter {
         priceList.setPriceCDW(dto.getPriceCDW());
         priceList.setDeleted(false);
 
+        if(dto.getId() != null) {
+            priceList.setId(dto.getId());
+        }
+
         return priceList;
     }
 }

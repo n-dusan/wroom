@@ -45,6 +45,7 @@ public class PriceListService {
 
 		// Notify search-service
 		PriceListDTO dto = PriceListConverter.fromEntity(entity);
+		System.out.println("Price list dto " + dto);
 		this.adsProducer.send(AMQPPriceListConverter.toAdsMessage(dto, OperationEnum.CREATE));
 
 		return entity;

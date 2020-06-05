@@ -2,9 +2,9 @@
 
 ![Image](./model.png?raw=true)
 
-# Mikroservisi: 
+# Arhitektura: 
 
-![Image](./mermaidjs-microservices.png?raw=true)
+[![](https://mermaid.ink/img/eyJjb2RlIjoiXG5ncmFwaCBMUlxuUFtQS0ldXG5NT05PW01vbm9saXRoXVxuVltWZWhpY2xlXVxuT1tBZHNdXG5TW1NlYXJjaF1cblJbUmVudHNdXG5XW0NsaWVudF1cblp7WnV1bH1cblxuWiAtLT4gVlxuWiAtLT4gU1xuWiAtLT4gUlxuWiAtLT4gT1xuWiAtLT4gQVtBdXRoXVxuWiAtLT4gR1tHUFNdXG5XIC0tPiBaXG5PIC0tIHJlcGxpY2F0ZXMgZGF0YSAtLT4gUTEoKEFNUVApKVxuViAtLSByZXBsaWNhdGVzIGRhdGEtLT4gUTFcbkEgLS0gcmVwbGljYXRlcyBkYXRhLS0-IFExXG5SIC0tIHJlcGxpY2F0ZXMgZGF0YSAtLT4gUTFcbk8gLS0gc3luYy0tPiBWXG5SIC0tIHN5bmMgLS0-IE9cbkcgLS0-IFEyKChBTVFQKSlcblEyIC0tIGdwcyBjb29yZC0tPiBPXG5RMSAtLSBmb3J3YXJkcy0tPiBTXG5cbiIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9)](https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoiXG5ncmFwaCBMUlxuUFtQS0ldXG5NT05PW01vbm9saXRoXVxuVltWZWhpY2xlXVxuT1tBZHNdXG5TW1NlYXJjaF1cblJbUmVudHNdXG5XW0NsaWVudF1cblp7WnV1bH1cblxuWiAtLT4gVlxuWiAtLT4gU1xuWiAtLT4gUlxuWiAtLT4gT1xuWiAtLT4gQVtBdXRoXVxuWiAtLT4gR1tHUFNdXG5XIC0tPiBaXG5PIC0tIHJlcGxpY2F0ZXMgZGF0YSAtLT4gUTEoKEFNUVApKVxuViAtLSByZXBsaWNhdGVzIGRhdGEtLT4gUTFcbkEgLS0gcmVwbGljYXRlcyBkYXRhLS0-IFExXG5SIC0tIHJlcGxpY2F0ZXMgZGF0YSAtLT4gUTFcbk8gLS0gc3luYy0tPiBWXG5SIC0tIHN5bmMgLS0-IE9cbkcgLS0-IFEyKChBTVFQKSlcblEyIC0tIGdwcyBjb29yZC0tPiBPXG5RMSAtLSBmb3J3YXJkcy0tPiBTXG5cbiIsIm1lcm1haWQiOnsidGhlbWUiOiJkZWZhdWx0In0sInVwZGF0ZUVkaXRvciI6ZmFsc2V9)
 
 >Veze izmedju Zuula i mikroservisa je direktno obraćanje, dok veze između servisa pokazuju sadržavanje id-a, odnosno potrebu da se tom servisu direktno obrati, ili da uz pomoć aggregate šablona se dobave neophodni podaci.
 
@@ -41,9 +41,7 @@
 	 * napredna pretraga
 
 * entiteti nad kojima rukuje: 
-	* Ad
-	* Vehicle
-	* PriceList
+	* replicirani podaci iz svih ostalih baza
 
 ## Ads
 * funkcionalnosti
@@ -53,9 +51,7 @@
 	 * komentari i ocene
 
 * entiteti nad kojima rukuje: 
-	* User
 	* Ad
-	* Vehicle
 	* PriceList
 	* Comment
 ## Rents
@@ -68,9 +64,7 @@
 
 * entiteti nad kojima rukuje: 
 	* RentRequest
-	*  User
 	 * RentReport
-	* Ad (id)
 
 ## GPS
 > šalje jwt koordinate u amqp na osnovu prosledjenog vehicle_id-a koji poseduje tracking uređaj.

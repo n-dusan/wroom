@@ -63,7 +63,7 @@ services:
     links:
       - eureka
       - mysql
-
+#
   search-service:
     build:
       context: ./search-service
@@ -88,7 +88,7 @@ services:
       - rabbitmq-broker
     links:
       - eureka
-
+#
   vehicle-service:
     build:
       context: ./vehicle-service
@@ -113,7 +113,7 @@ services:
       - rabbitmq-broker
     links:
       - eureka
-
+#
   ads-service:
     build:
       context: ./ads-service
@@ -129,11 +129,13 @@ services:
       DATABASE_PASSWORD: root
       DATABASE_DOMAIN: mysql
       DATABASE_SCHEMA: wroom
+      RMQ_HOST: rabbitmq-broker
     ports:
       - 8094:8094
     depends_on:
       - eureka
       - mysql
+      - rabbitmq-broker
     links:
       - eureka
 
@@ -208,23 +210,23 @@ services:
     ports:
         - "3306:3306"
 
-  # wroom-ui:
-  #   build:
-  #     context: ./microservice-ui
-  #     dockerfile: Dockerfile
-  #   image: xws:wroom-ui
-  #   container_name: wroom-ui
-  #   environment:
-  #     KEYSTORE: /etc/certificates/wroom-client/wroom-client.p12
-  #     KEYSTORE_PASSWORD: password
-  #     KEYSTORE_ALIAS: 248621907453
-  #     TRUSTSTORE: /etc/truststore.p12
-  #     TRUSTSTORE_PASSWORD: password
-  #   ports:
-  #   - 4201:4201
-  #   volumes:
-  #     - ./pki/tingle/certificates:/etc/certificates
-  #     - ./pki/tingle/.truststore:/etc
+  wroom-ui:
+    build:
+      context: ./microservice-ui
+      dockerfile: Dockerfile
+    image: xws:wroom-ui
+    container_name: wroom-ui
+    environment:
+      KEYSTORE: /etc/certificates/wroom-client/wroom-client.p12
+      KEYSTORE_PASSWORD: password
+      KEYSTORE_ALIAS: 248621907453
+      TRUSTSTORE: /etc/truststore.p12
+      TRUSTSTORE_PASSWORD: password
+    ports:
+    - 4201:4201
+    volumes:
+      - ./pki/tingle/certificates:/etc/certificates
+      - ./pki/tingle/.truststore:/etc
 
 ## build ui seperately from agent
 #  agent-monolith-ui:
