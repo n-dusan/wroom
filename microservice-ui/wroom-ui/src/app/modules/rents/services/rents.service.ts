@@ -18,7 +18,13 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class RentsService {
-  private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/rents';
+  private baseUrl = environment.protocol 
+            + '://' + environment.domain 
+            + ':' 
+            + environment.port 
+            + environment.api
+            + environment.rentingService
+            + '/rents';
 
     constructor(private http: HttpClient){}
 
