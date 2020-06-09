@@ -1,6 +1,6 @@
 package xwsagent.wroomagent.service;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collections;
@@ -17,9 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
 import xwsagent.wroomagent.converter.UserConverter;
 import xwsagent.wroomagent.domain.Comment;
+import xwsagent.wroomagent.domain.PasswordResetToken;
 import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.domain.auth.RoleName;
 import xwsagent.wroomagent.domain.auth.User;
@@ -28,10 +28,12 @@ import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.domain.dto.UserDTO;
+import xwsagent.wroomagent.exception.PasswordTokenAlreadyUsed;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.jwt.JwtTokenProvider;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.producer.MailProducer;
+import xwsagent.wroomagent.repository.PasswordResetTokenRepository;
 import xwsagent.wroomagent.repository.VerificationTokenRepository;
 import xwsagent.wroomagent.repository.rbac.RoleRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
@@ -47,6 +49,7 @@ public class AuthenticationService {
 	private final JwtTokenProvider jwtProvider;
     private final MailProducer mailProducer;
 	private final VerificationTokenRepository verificationRepository;
+	private final PasswordResetTokenRepository passwordResetRepository;
 
 	public AuthenticationService(AuthenticationManager authenticationManager,
 					   UserRepository userRepository,
@@ -54,7 +57,8 @@ public class AuthenticationService {
 					   PasswordEncoder passwordEncoder,
 					   JwtTokenProvider jwtProvider,
 					   MailProducer mailProducer,
-					   VerificationTokenRepository verificationRepository) {
+					   VerificationTokenRepository verificationRepository,
+					   PasswordResetTokenRepository passwordResetTokenRepository) {
 		this.authenticationManager = authenticationManager;
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
@@ -62,6 +66,7 @@ public class AuthenticationService {
 		this.jwtProvider = jwtProvider;
 		this.mailProducer = mailProducer;
 		this.verificationRepository = verificationRepository;
+		this.passwordResetRepository = passwordResetTokenRepository;
 	}
 	
 	
@@ -136,8 +141,33 @@ public class AuthenticationService {
 	}
 	
 	public void forgotPassword(String email) {
-//		TODO: Generate GUID
-		this.mailProducer.sendForgotPasswordEmail(email, "aldaldja");
+		
+		PasswordResetToken t = this.passwordResetRepository.findByEmail(email);
+		if(t != null) {
+			if(t.isUsed()) {
+				throw new PasswordTokenAlreadyUsed("This token is already used");
+			}
+		}
+		
+		PasswordResetToken token = createPasswordResetToken(email);
+		this.passwordResetRepository.save(token);
+		
+		this.mailProducer.sendForgotPasswordEmail(email, token.getToken().toString());
 	}
+	
+	private PasswordResetToken createPasswordResetToken(String email) {
+		PasswordResetToken token = new PasswordResetToken();
+		token.setCreationDate(new Date());
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(token.getCreationDate()); 
+		c.add(Calendar.DATE, 1);	// Valid for 24 hours
+		token.setValidTo(c.getTime());
+		token.setToken(UUID.randomUUID());
+		token.setUsed(false);
+		token.setEmail(email);
+		
+		return token;
+	}
+	
 	
 }

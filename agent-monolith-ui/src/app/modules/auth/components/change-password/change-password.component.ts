@@ -39,6 +39,7 @@ export class ChangePasswordComponent implements OnInit {
         this.toastr.info('We have sent you further instructions.', 'Check yout E-Mail')
 
         setTimeout(() => {
+          this.dialogRef.close();
           this.router.navigate(['/home']);
         }, 3000)
         

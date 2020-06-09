@@ -72,7 +72,7 @@ export class AuthService {
   }
 
   forgotPassword(email: string): Observable<any> {
-    return this.httpClient.get<any>(this.baseUrl + '/' + email)
+    return this.httpClient.get<any>(this.baseUrl + '/forgot-password/' + email)
   }
 
   testRole(): Observable<string> {

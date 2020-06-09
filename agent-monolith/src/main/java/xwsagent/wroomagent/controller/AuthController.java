@@ -26,6 +26,7 @@ import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.exception.APIError;
+import xwsagent.wroomagent.exception.PasswordTokenAlreadyUsed;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.AuthenticationService;
@@ -129,6 +130,8 @@ public class AuthController {
 		try {
 			this.authService.forgotPassword(email);
 			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(PasswordTokenAlreadyUsed e) {
+			return new ResponseEntity<>(HttpStatus.IM_USED);
 		} catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
