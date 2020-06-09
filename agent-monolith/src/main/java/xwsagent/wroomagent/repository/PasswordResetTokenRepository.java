@@ -9,5 +9,6 @@ import xwsagent.wroomagent.domain.PasswordResetToken;
 public interface PasswordResetTokenRepository extends JpaRepository<PasswordResetToken, Long>{
 
 	public PasswordResetToken findByEmail(String email);
+	public PasswordResetToken findByToken(String token);	//?
 	
 }

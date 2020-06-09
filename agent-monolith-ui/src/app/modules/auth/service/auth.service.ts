@@ -7,6 +7,7 @@ import { BehaviorSubject, Observable, Subscription, throwError } from 'rxjs';
 import { LoggedUser } from '../model/logged-user.model';
 import { LoginRequest } from '../model/login-request.model';
 import { map, catchError } from 'rxjs/operators';
+import { ResetPassword } from '../../shared/models/reset-password.model';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,10 @@ export class AuthService {
 
   forgotPassword(email: string): Observable<any> {
     return this.httpClient.get<any>(this.baseUrl + '/forgot-password/' + email)
+  }
+
+  changePassword(token: ResetPassword): Observable<any> {
+    return this.httpClient.put(this.baseUrl + '/reset-password', token);
   }
 
   testRole(): Observable<string> {

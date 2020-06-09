@@ -28,7 +28,7 @@ public class PasswordResetToken {
 	private Long id;
 
 	@Column(nullable = false)
-	private UUID token;
+	private String token;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)

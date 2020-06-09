@@ -1,9 +1,9 @@
 package xwsagent.wroomagent.service;
 
-import java.util.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
@@ -26,9 +26,11 @@ import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.auth.VerificationToken;
 import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
+import xwsagent.wroomagent.domain.dto.ResetPasswordDTO;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.domain.dto.UserDTO;
 import xwsagent.wroomagent.exception.PasswordTokenAlreadyUsed;
+import xwsagent.wroomagent.exception.TokenExpiredException;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.jwt.JwtTokenProvider;
 import xwsagent.wroomagent.jwt.UserPrincipal;
@@ -95,7 +97,7 @@ public class AuthenticationService {
 
 		User user = new User(null, request.getName(), request.getSurname(), request.getEmail(),
 				encoder.encode(request.getPassword()), new HashSet<RentRequest>(), null, new HashSet<Comment>(), null,
-				Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)), false, true);
+				Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)), false, true, null);
 
 		user.setEnabled(false);
 		user.setNonLocked(false);
@@ -162,11 +164,30 @@ public class AuthenticationService {
 		c.setTime(token.getCreationDate()); 
 		c.add(Calendar.DATE, 1);	// Valid for 24 hours
 		token.setValidTo(c.getTime());
-		token.setToken(UUID.randomUUID());
+		token.setToken(UUID.randomUUID().toString());
 		token.setUsed(false);
 		token.setEmail(email);
 		
 		return token;
+	}
+	
+	public void resetPassword(ResetPasswordDTO token) {
+		PasswordResetToken t = this.passwordResetRepository.findByToken(token.getToken());
+		
+		if(t.getValidTo().before(new Date())) {
+			throw new TokenExpiredException("Token is expired.");
+		}
+		
+		
+		User user = this.userRepository.findByEmail(t.getEmail()).get();
+		if(user != null) {
+			user.setPassword(this.encoder.encode(token.getPassword()));
+			user.setLastPasswordChange(new Date());
+			this.userRepository.save(user);
+		}
+		
+		t.setUsed(true);
+		this.passwordResetRepository.save(t);
 	}
 	
 	

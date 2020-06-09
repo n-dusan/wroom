@@ -24,9 +24,11 @@ import lombok.extern.log4j.Log4j2;
 import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
+import xwsagent.wroomagent.domain.dto.ResetPasswordDTO;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.exception.PasswordTokenAlreadyUsed;
+import xwsagent.wroomagent.exception.TokenExpiredException;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.AuthenticationService;
@@ -41,6 +43,7 @@ public class AuthController {
 	private static final String LOG_SIGN_UP= "action=signup user=%s ip_address=%s times=%s ";
 	private static final String LOG_CONFIRM = "action=confirm user=%s ip_address=%s times=%s";
 	private static final String LOG_FORGOT_PASSWORD = "action=forgot_password email=%s ip_address=%s times=%s";
+	private static final String LOG_RESET_PASSWORD = "action=reset_password token=%s ip_address=%s times=%s";
 	
 	private final AuthenticationService authService;
 	private final RequestCounter requestCounter;
@@ -133,6 +136,23 @@ public class AuthController {
 		} catch(PasswordTokenAlreadyUsed e) {
 			return new ResponseEntity<>(HttpStatus.IM_USED);
 		} catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@PutMapping(value = "/reset-password")
+	public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO token, HttpServletRequest httpServletRequest) {
+		String logContent = String.format(LOG_RESET_PASSWORD, token, httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
+		log.info(logContent);
+
+		try {
+			this.authService.resetPassword(token);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(TokenExpiredException e) {
+			System.out.println("Token expired");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
