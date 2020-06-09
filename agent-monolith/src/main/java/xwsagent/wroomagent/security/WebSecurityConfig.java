@@ -69,31 +69,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
+		http.cors()
+				.and()
+				.csrf().disable()
+				//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable()
 				.httpBasic().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
 				.authorizeRequests()
-				
-//				TODO: specify full paths
-				.antMatchers("/api/auth/**").permitAll()
-				.antMatchers("/api/stub/**").permitAll()
-				.antMatchers("/api/ads/**").permitAll()
-				.antMatchers("/api/vehicle/**").permitAll()
-				.antMatchers("/api/body-type/**").permitAll()
-				.antMatchers("/api/brand-type/**").permitAll()
-				.antMatchers("/api/fuel-type/**").permitAll()
-				.antMatchers("/api/model-type/**").permitAll()
-				.antMatchers("/api/gearbox-type/**").permitAll()
-				.antMatchers("/api/price-list/**").permitAll()
 
+				.antMatchers("/**").permitAll()
 				.anyRequest().authenticated().and()
 
 				.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class).headers()
 				.contentSecurityPolicy(
 						"script-src 'self' https://localhost:4200; " + "img-src 'self' https://localhost:4200;");
+
 		if (httpsRequired) {
 			http.requiresChannel().anyRequest().requiresSecure();
 		}
+
+//		     http.headers()
+//				.cacheControl().and()
+//			 .frameOptions();
 	}
 
 	@Override

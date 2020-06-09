@@ -55,7 +55,7 @@ public class RentsService {
 		RentRequest entity = RentConverter.toEntity(dto);
 		entity.setRequestedUser(this.userRepository.findById(requestedUserID).get());
 		entity.setStatus(RequestStatus.PENDING);
-		entity.setAd(this.adService.findById(dto.getAd().getId()));
+		//entity.setAd(this.adService.findById(dto.getAd().getId()));
 		return this.rentRepository.save(entity);
 	}
 	

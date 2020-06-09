@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +43,8 @@ public class BrandTypeController {
 		this.brandTypeService = brandTypeService;
 		this.requestCounter = requestCounter;
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO brandTypeDTO, Authentication auth){
 		String logContent = String.format(LOG_CREATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.BRAND_TYPE_BASE_URL));
@@ -59,13 +61,14 @@ public class BrandTypeController {
 					new APIError(HttpStatus.BAD_REQUEST, "Name exists", Collections.singletonList("Name exists")), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@DeleteMapping(value = "/{name}")
 	public ResponseEntity<Void> delete(@PathVariable("name") String name){
 		brandTypeService.delete(name);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getBrandTypes(){
 		
@@ -74,7 +77,8 @@ public class BrandTypeController {
 				HttpStatus.OK
 		);
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<?> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
 		BrandType bt = brandTypeService.findById(id);
