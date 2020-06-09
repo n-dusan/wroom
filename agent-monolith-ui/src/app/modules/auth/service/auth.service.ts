@@ -71,6 +71,10 @@ export class AuthService {
     return this.httpClient.put(this.baseUrl + '/confirm', token);
   }
 
+  forgotPassword(email: string): Observable<any> {
+    return this.httpClient.get<any>(this.baseUrl + '/' + email)
+  }
+
   testRole(): Observable<string> {
     return this.httpClient.get<string>(this.stubUrl + '/test-auth-role');
   }

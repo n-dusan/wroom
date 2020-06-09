@@ -135,4 +135,9 @@ public class AuthenticationService {
 		return UserConverter.fromEntity(user);
 	}
 	
+	public void forgotPassword(String email) {
+//		TODO: Generate GUID
+		this.mailProducer.sendForgotPasswordEmail(email, "aldaldja");
+	}
+	
 }

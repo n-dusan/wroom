@@ -97,8 +97,8 @@ export class AuthComponent implements OnInit {
 
   changePasswordClick() {
     const dialogRef = this.dialog.open(ChangePasswordComponent, {
-      width: '500px',
-      height: '400px',
+      // width: '500px',
+      // height: '400px',
       // data: {isAdd: this.isAdd=true }
     });
 
