@@ -5,24 +5,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.log4j.Log4j2;
 import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
+import xwsagent.wroomagent.domain.dto.ResetPasswordDTO;
 import xwsagent.wroomagent.domain.dto.SignupRequestDTO;
 import xwsagent.wroomagent.exception.APIError;
+import xwsagent.wroomagent.exception.PasswordTokenAlreadyUsed;
+import xwsagent.wroomagent.exception.TokenExpiredException;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.AuthenticationService;
@@ -36,7 +42,9 @@ public class AuthController {
 	private static final String LOG_LOGIN = "action=login user=%s ip_address=%s times=%s ";
 	private static final String LOG_SIGN_UP= "action=signup user=%s ip_address=%s times=%s ";
 	private static final String LOG_CONFIRM = "action=confirm user=%s ip_address=%s times=%s";
-
+	private static final String LOG_FORGOT_PASSWORD = "action=forgot_password email=%s ip_address=%s times=%s";
+	private static final String LOG_RESET_PASSWORD = "action=reset_password token=%s ip_address=%s times=%s";
+	
 	private final AuthenticationService authService;
 	private final RequestCounter requestCounter;
 
@@ -116,5 +124,38 @@ public class AuthController {
 
 		return new ResponseEntity<>(this.authService.confirm(token), HttpStatus.OK);
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/forgot-password/{email}")
+	public ResponseEntity<?> forgotPassword(@PathVariable("email") String email, HttpServletRequest httpServletRequest) {
+		String logContent = String.format(LOG_FORGOT_PASSWORD, email, httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
+		log.info(logContent);
 
+		try {
+			this.authService.forgotPassword(email);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(PasswordTokenAlreadyUsed e) {
+			return new ResponseEntity<>(HttpStatus.IM_USED);
+		} catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@PutMapping(value = "/reset-password")
+	public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO token, HttpServletRequest httpServletRequest) {
+		String logContent = String.format(LOG_RESET_PASSWORD, token, httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
+		log.info(logContent);
+
+		try {
+			this.authService.resetPassword(token);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(TokenExpiredException e) {
+			System.out.println("Token expired");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
 }
