@@ -16,7 +16,36 @@
                     Pending
                 </ng-template>
                 <div fxLayout="column" style="height:100%;" fxLayoutAlign="center center">
-                    <mat-card class="request-card"  fxFlex>
+                    <mat-card class="request-card" fxFlex *ngFor="let pendingRequest of pending">
+
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <mat-card-header fxFlex>
+                                <mat-card-title>*Brand Model*</mat-card-title>
+                                <mat-card-subtitle>{{pendingRequest?.ad?.address}}</mat-card-subtitle>
+                            </mat-card-header>
+
+                            <div fxFlex="15%">
+                                <button mat-mini-fab color="accent" matTooltip="Contact owner" >
+                                    <mat-icon>clear</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <mat-card-content style="padding-left: 10px;padding-right: 10px;">
+
+                            <table fxFlex>
+                                <tbody>
+                                    <tr>
+                                        <th style="text-align: end;">From:</th>
+                                        <td>{{pendingRequest?.fromDate | date:'short'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: end;">To:</th>
+                                        <td>{{pendingRequest?.toDate | date:'short'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-card-content>
 
                     </mat-card>
                 </div>
@@ -70,7 +99,36 @@
                     Paid
                 </ng-template>
                 <div fxLayout="column" style="height:100%;" fxLayoutAlign="center center">
-                    <mat-card class="request-card"  fxFlex>
+                    <mat-card class="request-card" fxFlex *ngFor="let paidRequest of paid">
+
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <mat-card-header fxFlex>
+                                <mat-card-title>*Brand Model*</mat-card-title>
+                                <mat-card-subtitle>{{paidRequest?.ad?.address}}</mat-card-subtitle>
+                            </mat-card-header>
+
+                            <div fxFlex="15%">
+                                <button mat-mini-fab color="accent" matTooltip="Contact owner" (click)="sendMessage(paidRequest)" >
+                                    <mat-icon>mail</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <mat-card-content style="padding-left: 10px;padding-right: 10px;">
+
+                            <table fxFlex>
+                                <tbody>
+                                    <tr>
+                                        <th style="text-align: end;">From:</th>
+                                        <td>{{paidRequest?.fromDate | date:'short'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: end;">To:</th>
+                                        <td>{{paidRequest?.toDate | date:'short'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-card-content>
 
                     </mat-card>
                 </div>
@@ -83,7 +141,36 @@
                     Canceled
                 </ng-template>
                 <div fxLayout="column" style="height:100%;" fxLayoutAlign="center center">
-                    <mat-card class="request-card"  fxFlex>
+                    <mat-card class="request-card" fxFlex *ngFor="let canceledRequest of canceled">
+
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <mat-card-header fxFlex>
+                                <mat-card-title>*Brand Model*</mat-card-title>
+                                <mat-card-subtitle>{{canceledRequest?.ad?.address}}</mat-card-subtitle>
+                            </mat-card-header>
+
+                            <div fxFlex="15%">
+                                <button mat-mini-fab color="accent" matTooltip="Contact owner">
+                                    <mat-icon>clear</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <mat-card-content style="padding-left: 10px;padding-right: 10px;">
+
+                            <table fxFlex>
+                                <tbody>
+                                    <tr>
+                                        <th style="text-align: end;">From:</th>
+                                        <td>{{canceledRequest?.fromDate | date:'short'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: end;">To:</th>
+                                        <td>{{canceledRequest?.toDate | date:'short'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-card-content>
 
                     </mat-card>
                 </div>

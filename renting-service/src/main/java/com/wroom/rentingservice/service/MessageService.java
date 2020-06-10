@@ -1,5 +1,7 @@
 package com.wroom.rentingservice.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.wroom.rentingservice.converter.MessageConverter;
@@ -21,6 +23,14 @@ public class MessageService {
 		Message entity = MessageConverter.toEntity(dto);
 		entity.setFromUserId(senderId);
 		return this.messageRepository.save(entity);
+	}
+	
+	public List<Message> getReceived(Long userId) {
+		return this.messageRepository.findByToUserId(userId);
+	}
+	
+	public List<Message> getSent(Long userId) {
+		return this.messageRepository.findByFromUserId(userId);
 	}
 	
 }

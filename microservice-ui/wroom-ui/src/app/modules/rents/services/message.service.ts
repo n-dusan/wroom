@@ -23,4 +23,12 @@ export class MessageService {
     public send(message: Message): Observable<any> {
         return this.http.post<any>(this.baseUrl, message);
     }
+
+    public received(): Observable<Message[]> {
+        return this.http.get<Message[]>(this.baseUrl + '/received');
+    }
+
+    public sent(): Observable<Message[]> {
+        return this.http.get<Message[]>(this.baseUrl + '/sent');
+    }
 }
