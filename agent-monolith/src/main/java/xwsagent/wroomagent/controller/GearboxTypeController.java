@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,6 +47,7 @@ public class GearboxTypeController {
 	}
 	
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO gearboxTypeDTO, Authentication auth) {
 		String logContent = String.format(LOG_CREATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.GEARBOX_TYPE_BASE_URL));
 
@@ -63,12 +65,14 @@ public class GearboxTypeController {
 	}
 	
 	@DeleteMapping(value = "/{name}")
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	public ResponseEntity<Void> delete(@PathVariable("name") String name){
 		gearboxTypeService.delete(name);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping(produces = "application/json")
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	public ResponseEntity<List<FeatureDTO>> getAll() {
 		
 		return new ResponseEntity<>(
@@ -78,6 +82,7 @@ public class GearboxTypeController {
 	}
 	
 	@PutMapping(value = "/{id}", produces = "application/json")
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	public ResponseEntity<FeatureDTO> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
 		GearboxType gt = gearboxTypeService.findById(id);
 		String logContent = String.format(LOG_UPDATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.GEARBOX_TYPE_BASE_URL));

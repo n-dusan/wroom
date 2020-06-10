@@ -47,11 +47,11 @@ values (3, 'RATE');
 insert into permission(id, name)
 values (4, 'RENT_HISTORY');
 insert into permission(id, name)
-values (5, 'POST_ADS_LIMITED');
+values (5, 'CRUD_AD_LIMITED');
 insert into permission(id, name)
 values (6, 'SEND_RENT_REQUESTS');
 insert into permission(id, name)
-values (7, 'POST_VEHICLES');
+values (7, 'CRUD_VEHICLE');
 insert into permission(id, name)
 values (8, 'POST_PRICELISTS');
 insert into permission(id, name)
@@ -71,7 +71,7 @@ values (15, 'SEND_LOCATION');
 insert into permission(id, name)
 values (16, 'MANAGE_RATES_AND_COMMENTS');
 insert into permission(id, name)
-values (17, 'POST_ADS');
+values (17, 'CRUD_AD');
 insert into permission(id, name)
 values (18, 'UPLOAD_IMAGES');
 insert into permission(id, name)
@@ -94,6 +94,8 @@ insert into role_permissions(role_id, permission_id)
 values (1, 4); --RENT_HISTORY
 insert into role_permissions(role_id, permission_id)
 values (1, 5); --POST_ADS_LIMITED
+insert into role_permissions(role_id, permission_id)
+values (1, 7); --CRUD_VEHICLE
 
 	-- permisije za "pod-role" obicnog usera
 	-- ROLE_RENTING_USER - obican user koji sme da rentira (dobija pri registraciji, gubi kad rentira - sve dok ne plati)
@@ -115,7 +117,7 @@ values (2, 17);	--POST_ADS
 insert into role_permissions(role_id, permission_id)
 values (2, 2);  --CHAT
 insert into role_permissions(role_id, permission_id)
-values (2, 7); --POST_VEHICLES
+values (2, 7); --CRUD_VEHICLE
 insert into role_permissions(role_id, permission_id)
 values (2, 8); --POST_PRICELISTS
 insert into role_permissions(role_id, permission_id)
@@ -149,6 +151,7 @@ insert into role_permissions(role_id, permission_id)
 values (3, 16); --MANAGE_RATES_AND_COMMENTS
 insert into role_permissions(role_id, permission_id)
 values (3, 24); --MANAGE_VEHICLE_FEATURES
+
 --insert into role_permissions(role_id, permission_id)
 --values (3, 25); --MANAGE_COMMENTS
 
@@ -182,6 +185,8 @@ values (2, 2);
 --grga admin
 insert into user_roles(user_id, role_id)
 values (3, 3);
+
+
 
 ---------------Vehicle features-------------
 insert into brand_type(id, deleted, name)
