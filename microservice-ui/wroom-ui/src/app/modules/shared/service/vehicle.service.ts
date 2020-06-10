@@ -11,7 +11,13 @@ import { VehicleImage } from '../models/vehicle-image.model';
 })
 export class VehicleService {
 
-  private baseUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/vehicle';
+  private baseUrl = environment.protocol 
+                  + '://' 
+                  + environment.domain 
+                  + ':' + environment.port 
+                  + environment.api 
+                  + environment.vehicleService
+                  + '/vehicle';
   private brandUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/brand-type';
   private modelUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/model-type';
   private fuelUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/fuel-type';

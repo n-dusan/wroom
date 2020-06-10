@@ -6,9 +6,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { RequestsOverviewComponent } from './components/requests-overview/requests-overview.component';
+import { ContactOwnerComponent } from './components/contact-owner/contact-owner.component';
 
 @NgModule({
-  declarations: [VehicleOccupancyListComponent, RequestsOverviewComponent],
+  declarations: [VehicleOccupancyListComponent, RequestsOverviewComponent, ContactOwnerComponent],
   imports: [
     RentsRoutingModule,
     MaterialModule,

@@ -86,6 +86,11 @@ public class RentRequestController {
 		}
 	}
 	
+	@GetMapping("/{id}")
+    public ResponseEntity<RentRequestDTO> getOne(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(RentConverter.fromEntity(rentsService.findById(id)), HttpStatus.OK);
+    }
+	
 	@GetMapping("/all/{user}")
     public ResponseEntity<List<RentRequestDTO>> getAllUserOccupy(@PathVariable("user") Long userId) {
         return new ResponseEntity<>(rentsService.occupyList(userId),

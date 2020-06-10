@@ -43,6 +43,10 @@ public class RentsService {
 		return this.rentRepository.findByAd(ad);
 	}
 
+	public RentRequest findById(Long id) {
+		return this.rentRepository.findById(id).get();
+	}
+	
 	public RentRequest sendRequest(RentRequestDTO dto, Long requestedUserID) {
 		RentRequest entity = RentConverter.toEntity(dto);
 		entity.setRequestedUserId(dto.getRequestedUserId());

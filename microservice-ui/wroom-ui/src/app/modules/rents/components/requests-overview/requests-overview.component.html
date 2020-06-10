@@ -1,61 +1,94 @@
-<div class="content" style="margin: 25px;" fxLayout="column" fxLayoutAlign="center">
+<div class="spinner" style="margin: 25px;" fxLayout="row" fxLayoutAlign="center" *ngIf="!loaded">
+    <mat-spinner color="accent" ></mat-spinner>
+</div>
+
+
+<div *ngIf="loaded" class="content" style="margin: 25px;" fxLayout="column" fxLayoutAlign="center">
     <h1 style="text-align: center;">My Requests</h1>
 
     <mat-card>
         <mat-tab-group mat-align-tabs="center" dynamicHeight style="background-color: white; margin: 25px;">
-            
-            <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon color="accent" class="example-tab-icon">payments</mat-icon>
-                &nbsp;
-                Pending
-              </ng-template>
-              <div  fxLayout = "column" style="height:100%;" fxLayoutAlign="center center">
-                <mat-card fxFlex>
-                  
-                </mat-card>
-              </div>  
-            </mat-tab>
 
             <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon color="accent" class="example-tab-icon">lock</mat-icon>
-                &nbsp;
-                Reserved
-              </ng-template>
-              <div fxLayout = "column" style="height:100%;" fxLayoutAlign="center center">
-                <mat-card fxFlex >
-                  
-                </mat-card>
-              </div>    
-            </mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon color="accent" class="example-tab-icon">payments</mat-icon>
+                    &nbsp;
+                    Pending
+                </ng-template>
+                <div fxLayout="column" style="height:100%;" fxLayoutAlign="center center">
+                    <mat-card class="request-card"  fxFlex>
 
-            <mat-tab> 
-              <ng-template mat-tab-label>
-                <mat-icon color="accent" class="example-tab-icon">attach_money</mat-icon>
-                &nbsp;
-                Paid
-              </ng-template>
-              <div  fxLayout = "column" style="height:100%;" fxLayoutAlign="center center">
-                <mat-card fxFlex >
-                  
-                </mat-card>
-              </div>  
+                    </mat-card>
+                </div>
             </mat-tab>
 
             <mat-tab>
-              <ng-template mat-tab-label>
-                <mat-icon color="accent" class="example-tab-icon">block</mat-icon>
-                &nbsp;
-                Canceled
-              </ng-template>
-              <div  fxLayout = "column" style="height:100%;" fxLayoutAlign="center center"> 
-                <mat-card fxFlex >
-                  
-                </mat-card>
-              </div>    
+                <ng-template mat-tab-label>
+                    <mat-icon color="accent" class="example-tab-icon">lock</mat-icon>
+                    &nbsp;
+                    Reserved
+                </ng-template>
+                <div fxLayout="column" style="height:100%;" fxLayoutAlign="center center">
+                    <mat-card class="request-card" fxFlex *ngFor="let reservedRequest of reserved">
+
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <mat-card-header fxFlex>
+                                <mat-card-title>*Brand Model*</mat-card-title>
+                                <mat-card-subtitle>{{reservedRequest?.ad?.address}}</mat-card-subtitle>
+                            </mat-card-header>
+
+                            <div fxFlex="15%">
+                                <button mat-mini-fab color="accent" matTooltip="Contact owner" (click)="sendMessage(reservedRequest)">
+                                    <mat-icon>mail</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <mat-card-content style="padding-left: 10px;padding-right: 10px;">
+
+                            <table fxFlex>
+                                <tbody>
+                                    <tr>
+                                        <th style="text-align: end;">From:</th>
+                                        <td>{{reservedRequest?.fromDate | date:'short'}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="text-align: end;">To:</th>
+                                        <td>{{reservedRequest?.toDate | date:'short'}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
             </mat-tab>
 
-          </mat-tab-group>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon color="accent" class="example-tab-icon">attach_money</mat-icon>
+                    &nbsp;
+                    Paid
+                </ng-template>
+                <div fxLayout="column" style="height:100%;" fxLayoutAlign="center center">
+                    <mat-card class="request-card"  fxFlex>
+
+                    </mat-card>
+                </div>
+            </mat-tab>
+
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <mat-icon color="accent" class="example-tab-icon">block</mat-icon>
+                    &nbsp;
+                    Canceled
+                </ng-template>
+                <div fxLayout="column" style="height:100%;" fxLayoutAlign="center center">
+                    <mat-card class="request-card"  fxFlex>
+
+                    </mat-card>
+                </div>
+            </mat-tab>
+
+        </mat-tab-group>
     </mat-card>
 </div>
