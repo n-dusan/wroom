@@ -126,7 +126,6 @@ public class VehicleController {
 	}
 
 	@GetMapping(value = "/all")
-	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<?> getAllVehicles() {
 		return new ResponseEntity<>(
 				VehicleConverter.fromEntityList(vehicleService.findAll(), VehicleConverter::fromEntity), HttpStatus.OK);

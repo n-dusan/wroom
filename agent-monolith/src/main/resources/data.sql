@@ -93,9 +93,13 @@ values (25, 'MANAGE_COMMENTS');
 insert into role_permissions(role_id, permission_id)
 values (1, 4); --RENT_HISTORY
 insert into role_permissions(role_id, permission_id)
-values (1, 5); --POST_ADS_LIMITED
+values (1, 5); --CRUD_AD_LIMITED
 insert into role_permissions(role_id, permission_id)
 values (1, 7); --CRUD_VEHICLE
+insert into role_permissions(role_id, permission_id)
+values (1, 10); --PHYSICALLY_RESERVE_VEHICLE
+insert into role_permissions(role_id, permission_id)
+values (1, 8); --POST_PRICELISTS
 
 	-- permisije za "pod-role" obicnog usera
 	-- ROLE_RENTING_USER - obican user koji sme da rentira (dobija pri registraciji, gubi kad rentira - sve dok ne plati)
@@ -113,7 +117,7 @@ values (1, 7); --CRUD_VEHICLE
 
 ------------- Permisije agenta -----------
 insert into role_permissions(role_id, permission_id)
-values (2, 17);	--POST_ADS
+values (2, 17);	--CRUD_AD
 insert into role_permissions(role_id, permission_id)
 values (2, 2);  --CHAT
 insert into role_permissions(role_id, permission_id)

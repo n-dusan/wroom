@@ -77,6 +77,7 @@ public class RentRequestController {
 	}
 
 	@PostMapping(value = "/occupy")
+	@PreAuthorize("hasAuthority('PHYSICALLY_RESERVE_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<?> occupy(@RequestBody RentRequestDTO rentRequestDTO, Authentication auth) {
 		String logContent = String.format(LOG_OCCUPY, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		if (rentsService.occupy(rentRequestDTO, auth)) {
