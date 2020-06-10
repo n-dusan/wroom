@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/service/auth.service';
-import { RentsService } from '../services/rents.service';
-import { LoggedUser } from '../../auth/model/logged-user.model';
+import { AuthService } from '../../../auth/service/auth.service';
+import { RentsService } from '../../services/rents.service';
+import { LoggedUser } from '../../../auth/model/logged-user.model';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { RentRequest } from '../../shared/models/rent-request';
-import { VehicleService } from '../../vehicles/services/vehicle-features/vehicle.service';
-import { Vehicle } from '../../shared/models/vehicle.model';
+import { RentRequest } from '../../../shared/models/rent-request';
+import { VehicleService } from '../../../vehicles/services/vehicle-features/vehicle.service';
+import { Vehicle } from '../../../shared/models/vehicle.model';
 
 @Component({
   selector: 'app-vehicle-occupancy-list',

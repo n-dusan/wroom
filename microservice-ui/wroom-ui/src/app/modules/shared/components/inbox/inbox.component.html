@@ -1,0 +1,14 @@
+<div class="content" style="padding: 25px;" fxLayout="column" fxLayoutAlign="center">
+
+    <h1 style="text-align: center;">Your Conversations</h1>
+
+    <mat-card>
+        <mat-selection-list #shoes [multiple]="false">
+            <mat-list-option *ngFor="let shoe of typesOfShoes">
+                {{shoe}}
+            </mat-list-option>
+        </mat-selection-list>
+    </mat-card>
+    
+
+</div>

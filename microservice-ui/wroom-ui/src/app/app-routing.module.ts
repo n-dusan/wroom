@@ -5,12 +5,14 @@ import { AlreadyAuthenticatedGuard } from './modules/auth/guards/alreadyAuthenti
 import { EmailConfirmationComponent } from './modules/shared/components/email-confirmation/email-confirmation.component';
 import { ShoppingCartComponent } from './modules/shared/components/shopping-cart/shopping-cart.component';
 import { AdminGuard } from './modules/shared/guards/admin.guard';
+import { InboxComponent } from './modules/shared/components/inbox/inbox.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'cart', component: ShoppingCartComponent },
+  { path: 'inbox', component: InboxComponent },
   { path: 'confirm/:token', component: EmailConfirmationComponent },
   { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(mod => mod.AuthModule), canActivate:[AlreadyAuthenticatedGuard]},
   { path: 'rents', loadChildren: () => import('./modules/rents/rents.module').then(mod => mod.RentsModule)},

@@ -164,6 +164,10 @@ public class RentsService {
         rentRepository.save(rentRequest);
         return true;
     }
+	
+	public List<RentRequest> findByRequestedUser(Long userId) {
+		return this.rentRepository.findByRequestedUserId(userId);
+	}
 
 	public List<RentRequestDTO> occupyList(Long userId){
 		List<Ad> adList = adRepository.findAllActiveUser(userId);

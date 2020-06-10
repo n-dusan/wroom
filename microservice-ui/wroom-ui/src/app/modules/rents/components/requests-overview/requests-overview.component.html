@@ -1,0 +1,61 @@
+<div class="content" style="margin: 25px;" fxLayout="column" fxLayoutAlign="center">
+    <h1 style="text-align: center;">My Requests</h1>
+
+    <mat-card>
+        <mat-tab-group mat-align-tabs="center" dynamicHeight style="background-color: white; margin: 25px;">
+            
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon color="accent" class="example-tab-icon">payments</mat-icon>
+                &nbsp;
+                Pending
+              </ng-template>
+              <div  fxLayout = "column" style="height:100%;" fxLayoutAlign="center center">
+                <mat-card fxFlex>
+                  
+                </mat-card>
+              </div>  
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon color="accent" class="example-tab-icon">lock</mat-icon>
+                &nbsp;
+                Reserved
+              </ng-template>
+              <div fxLayout = "column" style="height:100%;" fxLayoutAlign="center center">
+                <mat-card fxFlex >
+                  
+                </mat-card>
+              </div>    
+            </mat-tab>
+
+            <mat-tab> 
+              <ng-template mat-tab-label>
+                <mat-icon color="accent" class="example-tab-icon">attach_money</mat-icon>
+                &nbsp;
+                Paid
+              </ng-template>
+              <div  fxLayout = "column" style="height:100%;" fxLayoutAlign="center center">
+                <mat-card fxFlex >
+                  
+                </mat-card>
+              </div>  
+            </mat-tab>
+
+            <mat-tab>
+              <ng-template mat-tab-label>
+                <mat-icon color="accent" class="example-tab-icon">block</mat-icon>
+                &nbsp;
+                Canceled
+              </ng-template>
+              <div  fxLayout = "column" style="height:100%;" fxLayoutAlign="center center"> 
+                <mat-card fxFlex >
+                  
+                </mat-card>
+              </div>    
+            </mat-tab>
+
+          </mat-tab-group>
+    </mat-card>
+</div>

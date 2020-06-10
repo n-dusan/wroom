@@ -92,9 +92,16 @@ public class RentRequestController {
                 HttpStatus.OK);
     }
 	
+	@GetMapping("/requested/{user}")
+    public ResponseEntity<List<RentRequestDTO>> getRequested(@PathVariable("user") Long userId) {
+        return new ResponseEntity<>(RentConverter.fromEntityList(rentsService.findByRequestedUser(userId), RentConverter::fromEntity) ,
+                HttpStatus.OK);
+    }
+	
 	@GetMapping("/findByAd/{id}")
 	public List<RentRequestDTO> findByAd(@PathVariable("id") Long id) {
 		return this.rentsService.findByAd(id);
 	}
 
+	
 }

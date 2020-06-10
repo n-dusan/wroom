@@ -36,4 +36,8 @@ export class RentsService {
       return this.http.get<RentRequest[]>(this.baseUrl + '/all/' + userId);
     }
 
+    getRequestedForUser(userId:number): Observable<RentRequest[]> {
+      return this.http.get<RentRequest[]>(this.baseUrl + '/requested/' + userId);
+    }
+
 }
