@@ -21,8 +21,8 @@ import java.util.List;
 public class UserController {
 
 	private static final String LOG_ACTIVATE = "action=activate user=%s times=%s details=%s";
-	private static final String LOG_LOCK_USER = "action=lock user=%s ip_address=%s times=%s details=%s";
-	private static final String LOG_UNLOCK_USER = "action=unlock user=%s ip_address=%s times=%s details=%s";
+	private static final String LOG_LOCK_USER = "action=lock user=%s times=%s details=%s";
+	private static final String LOG_UNLOCK_USER = "action=unlock user=%s times=%s details=%s";
 
 	private final UserService userService;
 	private final RequestCounter requestCounter;
