@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -69,6 +70,7 @@ public class AdController {
 	 * @return newly created ad
 	 */
 	@PostMapping
+	@PreAuthorize("hasAuthority('CRUD_AD') || hasAuthority('CRUD_AD_LIMITED') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<AdDTO> save(@Valid @RequestBody AdDTO adDTO, Authentication auth) {
 		String logContent = String.format(POST_AD, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.AD_BASE_URL));
 		log.info(logContent);
@@ -108,6 +110,7 @@ public class AdController {
 	 * @return updated ad
 	 */
 	@PutMapping("/{ad}")
+	@PreAuthorize("hasAuthority('CRUD_AD') || hasAuthority('CRUD_AD_LIMITED') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<AdDTO> update(@PathVariable("ad") Long adId, @Valid @RequestBody AdDTO adDTO, Authentication auth) {
 		String logContent = String.format(UPDATE_AD, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.AD_BASE_URL));
 		log.info(logContent);
@@ -121,6 +124,7 @@ public class AdController {
 	 * @return deleted ad
 	 */
 	@DeleteMapping(value = "/{ad}", produces = MediaType.TEXT_PLAIN_VALUE)
+	@PreAuthorize("hasAuthority('CRUD_AD') || hasAuthority('CRUD_AD_LIMITED') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<String> delete(@PathVariable("ad") Long adId) {
 		adService.delete(adId);
 		return new ResponseEntity<>("Ad deleted.", HttpStatus.OK);
@@ -133,6 +137,7 @@ public class AdController {
 	 * @return created location
 	 */
 	@PostMapping("/location")
+	@PreAuthorize("hasAuthority('CRUD_AD') || hasAuthority('CRUD_AD_LIMITED') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<LocationDTO> saveLocation(@Valid @RequestBody LocationDTO locationDTO) {
 		return new ResponseEntity<>(
 				LocationConverter.fromEntity(adService.saveLocation(LocationConverter.toEntity(locationDTO))),
