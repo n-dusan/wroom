@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,7 @@ public class UserController {
 	
 //	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping(value="/activate/{id}")
+	@PreAuthorize("hasAuthority('MANAGE_USERS')")
 	public ResponseEntity<UserDTO> activate(@PathVariable Long id, Authentication auth) {
 		String logContent = String.format(LOG_ACTIVATE, auth.getName(), requestCounter.get(EndpointConfig.USER_BASE_URL), "Activating user id " + id);
         try {
@@ -52,6 +54,7 @@ public class UserController {
 	 * @return all enabled (who activated their email) users
 	 */
 	@GetMapping
+	@PreAuthorize("hasAuthority('MANAGE_USERS')")
 	public ResponseEntity<List<UserDTO>> getUsers() {
 		return new ResponseEntity<>(UserConverter.fromEntityList(this.userService.findAllEnabled(), UserConverter::fromEntity),
 				HttpStatus.OK);
@@ -62,6 +65,7 @@ public class UserController {
 	 * @return all enabled (who activated their email) users
 	 */
 	@PutMapping("/lock/{id}")
+	@PreAuthorize("hasAuthority('MANAGE_USERS')")
 	public ResponseEntity<UserDTO> lockUser(@PathVariable("id") Long id, Authentication auth) {
 		String logContent = String.format(LOG_LOCK_USER, auth.getName(), requestCounter.get(EndpointConfig.USER_BASE_URL), "Locking user id " + id);
 		log.info(logContent);
@@ -75,6 +79,7 @@ public class UserController {
 	 * @return
 	 */
 	@PutMapping("/unlock/{id}")
+	@PreAuthorize("hasAuthority('MANAGE_USERS')")
 	public ResponseEntity<UserDTO> unlockUser(@PathVariable("id") Long id, Authentication auth) {
 		String logContent = String.format(LOG_UNLOCK_USER, auth.getName(), requestCounter.get(EndpointConfig.USER_BASE_URL), "Unlocking user id " + id);
 		log.info(logContent);
@@ -83,6 +88,7 @@ public class UserController {
 	}
 
 	@DeleteMapping(value = "/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+	@PreAuthorize("hasAuthority('MANAGE_USERS')")
 	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
 		userService.delete(id);
 		return new ResponseEntity<>("User successfully deleted!", HttpStatus.OK);

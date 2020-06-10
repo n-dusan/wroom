@@ -1,5 +1,6 @@
 package xwsagent.wroomagent.domain.auth;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,6 +20,8 @@ import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -72,5 +75,9 @@ public class User {
 
 	@Column(nullable = false)
 	private boolean nonLocked;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column
+	private Date lastPasswordChange;
 
 }
