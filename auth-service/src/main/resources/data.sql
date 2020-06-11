@@ -1,17 +1,17 @@
 
 -- Pre pakovanja u .jar, obavezno zakomentarisati sve delete komande iz svih .sql datoteka
 --------------------------------
--- delete from ad;
--- delete from location;
--- delete from rent_request;
--- delete from image;
--- delete from vehicle;
--- delete from model_type;
--- delete from brand_type;
--- delete from gearbox_type;
--- delete from fuel_type;
--- delete from body_type;
--- delete from rate;
+delete from ad;
+delete from location;
+delete from rent_request;
+delete from image;
+delete from vehicle;
+delete from model_type;
+delete from brand_type;
+delete from gearbox_type;
+delete from fuel_type;
+delete from body_type;
+delete from rate;
  delete from users;
  delete from user_roles;
  delete from permission;

@@ -1,22 +1,18 @@
 
---delete from rent_request;
---delete from rate;
---delete from ad;
---delete from vehicle;
+delete from rent_request;
+delete from rate;
+delete from ad;
+delete from vehicle;
 
--- delete from user_roles;
--- delete from role_permissions;
--- delete from permission;
--- delete from roles;
 
---delete from location;
+delete from location;
 
---delete from model_type;
---delete from brand_type;
---delete from gearbox_type;
---delete from fuel_type;
---delete from body_type;
--- delete from users;
+delete from model_type;
+delete from brand_type;
+delete from gearbox_type;
+delete from fuel_type;
+delete from body_type;
+delete from users;
 
 ------------------ KORISNICI ---------------------
 -- sifre svih usera su <<user>>123, npr mila123

@@ -2,6 +2,8 @@ package com.wroom.rentingservice.controller;
 
 import java.util.List;
 
+import com.wroom.rentingservice.domain.RentRequest;
+import com.wroom.rentingservice.service.BundleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,9 +35,11 @@ public class RentRequestController {
 
 	private final RentsService rentsService;
 	private final RequestCounter requestCounter;
+	private final BundleService bundleService;
 
-	public RentRequestController(RentsService rentsService, RequestCounter requestCounter) {
+	public RentRequestController(RentsService rentsService, RequestCounter requestCounter, BundleService bundleService) {
 		this.rentsService = rentsService;
+		this.bundleService = bundleService;
 		this.requestCounter = requestCounter;
 	}
 	
@@ -91,6 +95,13 @@ public class RentRequestController {
         return new ResponseEntity<>(rentsService.occupyList(userId),
                 HttpStatus.OK);
     }
+
+
+    @GetMapping("/bundle/{id}")
+	public ResponseEntity<List<RentRequestDTO>> getBundles(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(RentConverter.fromEntityList(bundleService.findBundledRentRequests(id),
+				RentConverter::fromEntity), HttpStatus.OK);
+	}
 	
 	@GetMapping("/findByAd/{id}")
 	public List<RentRequestDTO> findByAd(@PathVariable("id") Long id) {

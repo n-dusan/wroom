@@ -5,9 +5,8 @@ import { VehicleOccupancyListComponent } from './vehicle-occupancy-list/vehicle-
 
 const routes: Routes = [
   { path: '',
-    //component: AAAAAAA,
     children: [
-       {path: 'occupancy-list', component: VehicleOccupancyListComponent}
+       {path: 'overview', component: VehicleOccupancyListComponent}
   ] }
 ];
 
