@@ -76,6 +76,10 @@ export class AdsService {
     return this.http.get<CommentModel[]>(this.commentsUrl + '/comments');
   }
 
+  confirm(id: number): Observable<string> {
+    return this.http.delete(this.commentsUrl + '/' + id, { responseType: 'text' });
+  }
+
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);

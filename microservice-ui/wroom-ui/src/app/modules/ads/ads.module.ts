@@ -13,6 +13,7 @@ import { CreateCityComponent } from './create-city/create-city.component';
 import { AdsOverviewComponent } from './ads-overview/ads-overview.component';
 import { DetailsDialogComponent } from './ads-overview/details-dialog/details-dialog.component';
 import { CommentsOverviewComponent } from './comments/comments-overview/comments-overview.component';
+import { CommentDetailsComponent } from './comments/comment-details/comment-details.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { CommentsOverviewComponent } from './comments/comments-overview/comments
     CreateCityComponent,
     AdsOverviewComponent,
     DetailsDialogComponent,
-    CommentsOverviewComponent
+    CommentsOverviewComponent,
+    CommentDetailsComponent
   ],
   imports: [
     MaterialModule,
