@@ -1,7 +1,7 @@
 textarea {
     line-height: 2.5ex;
     height: 10ex;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .content {

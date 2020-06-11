@@ -13,6 +13,7 @@ import { CreateBundleDialogComponent } from './components/create-bundle-dialog/c
 import { InboxComponent } from './components/inbox/inbox.component';
 import { MessageDetailsComponent } from './components/message-details/message-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
 
@@ -28,7 +29,8 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     AdDetailComponent,
     CreateBundleDialogComponent,
     InboxComponent,
-    MessageDetailsComponent
+    MessageDetailsComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,

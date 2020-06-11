@@ -8,7 +8,7 @@
 --delete from location;
 --delete from price_list;
 delete from rent_request;
-
+delete from message;
 
 --insert into brand_type(id, deleted, name)
 --values (100, false, 'Mazda');

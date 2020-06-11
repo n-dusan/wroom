@@ -32,7 +32,7 @@
         <h2 style="text-align: center;">Compose Message</h2>
         <form [formGroup]="form" fxLayout="column" fxLayoutAlign="center">
             <mat-form-field fxFlex appearance="outline">
-                <input matInput formControlName="title" value="{{message?.title}}-reply" placeholder="{{message?.title}}-reply" readonly="true">
+                <input matInput formControlName="title" value="{{message?.title}}" placeholder="{{message?.title}}" readonly="true">
             </mat-form-field>
             <mat-form-field fxFlex appearance="outline">
                 <mat-label>Content</mat-label>

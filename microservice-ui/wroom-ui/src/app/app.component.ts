@@ -33,6 +33,7 @@ export class AppComponent {
     this.authService.loggedUserSubject.subscribe(
       data => {
         this.user = data;
+        this.getShoppingCart();
       }
     );
 

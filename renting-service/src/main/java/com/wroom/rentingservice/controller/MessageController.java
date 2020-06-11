@@ -2,6 +2,7 @@ package com.wroom.rentingservice.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +38,7 @@ public class MessageController {
 	}
 
 	@PostMapping
+//	@PreAuthorize("hasAuthority('CHAT')")
 	public ResponseEntity<?> send(@RequestBody MessageDTO dto, Authentication auth) {
 		UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
 		String logContent = String.format(LOG_SEND_MESSAGE, principal.getUsername(),
