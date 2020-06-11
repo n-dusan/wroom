@@ -15,14 +15,21 @@
             </mat-card>
 
         <mat-card fxFlex>
-            <mat-selection-list [multiple]="false" *ngIf="!switched">
-                <mat-list-option *ngFor="let message of received">
+            <div *ngIf="!loaded" fxLayout="row" fxLayoutAlign="center">
+                <mat-spinner color="accent"></mat-spinner>
+            </div>
+
+            <mat-selection-list [multiple]="false" *ngIf="!switched && loaded">
+                <mat-list-option *ngFor="let message of received" (click)="openMessage(message)">
                     <div fxLayout="row" fxLayoutAlign="center">
                         <div fxFlex="20%">
                             <b>{{message.title}}</b>
                         </div>
                         <div class="message-content" fxFlex>
-                            <b>{{message.content}}</b>
+                            {{message.content}}
+                        </div>
+                        <div fxFlex="30%">
+                            {{message.fromUserNameSurname}}
                         </div>
                     </div>
                 </mat-list-option>
@@ -32,14 +39,17 @@
                 </div>
             </mat-selection-list>
 
-            <mat-selection-list [multiple]="false" *ngIf="switched">
-                <mat-list-option *ngFor="let message of sent">
+            <mat-selection-list [multiple]="false" *ngIf="switched && loaded">
+                <mat-list-option *ngFor="let message of sent" (click)="openMessage(message)">
                     <div fxLayout="row" fxLayoutAlign="center">
                         <div fxFlex="20%">
                             <b>{{message.title}}</b>
                         </div>
                         <div class="message-content" fxFlex>
                             {{message.content}}
+                        </div>
+                        <div fxFlex="30%">
+                            {{message.toUserNameSurname}}
                         </div>
                     </div>
                 </mat-list-option>

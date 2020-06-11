@@ -1,4 +1,8 @@
-<mat-sidenav-container>
+<div fxLayout="row" fxLayoutAlign="center center" *ngIf="!loaded">
+    <mat-spinner color="accent"></mat-spinner>
+</div>
+
+<mat-sidenav-container *ngIf="loaded">
   <mat-sidenav #sidenav role="navigation">
     <!-- Agent links -->
     <button color="accent" mat-raised-button (click)="testZuul()">Talk to Zuul please</button>
@@ -12,7 +16,7 @@
             <a mat-list-item routerLink="/ads/new">Post an Ad</a>
             <a mat-list-item routerLink="/rents/overview">My Rents</a>
         </div>
-        <div fxLayout="column" fxLayoutAlign="center" *ngIf="user?.privileges[0] === 'ROLE_USER'">
+        <div fxLayout="column" fxLayoutAlign="center" *ngIf="user?.privileges[0] === 'ROLE_USER' || user?.privileges[1] === 'ROLE_USER'">
             <a mat-list-item routerLink="/vehicles/new">Register a Car</a>
             <a mat-list-item routerLink="/ads/overview">My Ads</a>
             <a mat-list-item routerLink="/ads/new">Post an Ad</a>

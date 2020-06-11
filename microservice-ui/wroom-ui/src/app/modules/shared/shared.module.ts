@@ -11,6 +11,8 @@ import { ShoppingCartComponent } from './components/shopping-cart/shopping-cart.
 import { AdDetailComponent } from '../search/components/ad-detail/ad-detail.component';
 import { CreateBundleDialogComponent } from './components/create-bundle-dialog/create-bundle-dialog.component';
 import { InboxComponent } from './components/inbox/inbox.component';
+import { MessageDetailsComponent } from './components/message-details/message-details.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
 
@@ -25,12 +27,15 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     ShoppingCartComponent,
     AdDetailComponent,
     CreateBundleDialogComponent,
-    InboxComponent
+    InboxComponent,
+    MessageDetailsComponent
   ],
   imports: [
     CommonModule,
     AngularYandexMapsModule.forRoot(YANDEX_API_KEY),
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     // If you want your component to be usable from outside of this module,

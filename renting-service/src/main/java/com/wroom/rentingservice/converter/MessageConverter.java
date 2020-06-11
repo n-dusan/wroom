@@ -10,7 +10,8 @@ public class MessageConverter extends AbstractConverter {
                 entity.getToUserId(),
                 entity.getRentRequestId(),
                 entity.getTitle(),
-                entity.getContent()
+                entity.getContent(),
+                entity.getFromUserId() == null ? null : entity.getFromUserId()
         );
     }
 

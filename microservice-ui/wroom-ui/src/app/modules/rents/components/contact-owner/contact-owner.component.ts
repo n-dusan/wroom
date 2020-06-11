@@ -45,7 +45,9 @@ export class ContactOwnerComponent implements OnInit {
         this.loaded = true;
       },
       error => {
+        this.loaded = true;
         this.toastr.error('Unexpected error has ocurred', 'Error')
+        this.dialogRef.close();
       }
     );
 
