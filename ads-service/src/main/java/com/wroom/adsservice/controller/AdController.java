@@ -3,9 +3,10 @@ package com.wroom.adsservice.controller;
 import com.wroom.adsservice.config.EndpointConfig;
 
 import com.wroom.adsservice.converter.AdConverter;
+import com.wroom.adsservice.converter.CommentConverter;
 import com.wroom.adsservice.converter.LocationConverter;
 import com.wroom.adsservice.domain.dto.AdDTO;
-
+import com.wroom.adsservice.domain.dto.CommentDTO;
 import com.wroom.adsservice.domain.dto.LocationDTO;
 import com.wroom.adsservice.jwt.UserPrincipal;
 import com.wroom.adsservice.service.AdService;
@@ -160,5 +161,13 @@ public class AdController {
         System.out.println("I GOT HERE" + vehicleId);
         return new ResponseEntity<>(null, HttpStatus.OK);
         //return new ResponseEntity<>(AdConverter.fromEntityList(adService.findByVehicle(vehicleId), AdConverter::fromEntity), HttpStatus.OK);
+    }
+    
+
+    @GetMapping("/comments")
+    public ResponseEntity<List<CommentDTO>> getAllComments() {
+    	
+        return new ResponseEntity<>(CommentConverter.fromEntityList(adService.getComments(), CommentConverter::fromEntity),
+                HttpStatus.OK);
     }
 }

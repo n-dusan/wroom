@@ -24,6 +24,8 @@ export class AuthService {
                         + environment.authService 
                         + '/auth';
 
+  private logUrl = 'http://localhost:8091/auth'
+
 
   constructor(private httpClient: HttpClient,
     private router: Router) {
@@ -32,12 +34,12 @@ export class AuthService {
   }
 
   signup(data: SignupRequest): Observable<SignupRequest> {
-    console.log(this.baseUrl);
-    return this.httpClient.post<SignupRequest>(this.baseUrl + '/signup', data).pipe(catchError(this.handleException));
+    console.log(this.logUrl);
+    return this.httpClient.post<SignupRequest>(this.logUrl + '/signup', data).pipe(catchError(this.handleException));
   }
 
   login(data: LoginRequest): Observable<any> {
-    return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(catchError(this.handleException)).pipe(map((res: LoggedUser) => {
+    return this.httpClient.post<any>(this.logUrl + '/login', data).pipe(catchError(this.handleException)).pipe(map((res: LoggedUser) => {
       console.log('login result;', res);
       localStorage.setItem('token', JSON.stringify(res.token));
       this.loggedUserSubject.next(res);
@@ -66,18 +68,18 @@ export class AuthService {
     // console.log('whoami token', tok)
     if(tok) {
       // Set user to BehaviourSubject?
-      this.httpClient.get<any>(this.baseUrl + '/whoami').subscribe(
+      this.httpClient.get<any>(this.logUrl + '/whoami').subscribe(
         data => {
           this.loggedUserSubject.next(data);
           this.loggedUser = this.loggedUserSubject.asObservable();
 
-          return this.httpClient.get<any>(this.baseUrl + '/whoami');
+          return this.httpClient.get<any>(this.logUrl + '/whoami');
         },
         error => {
           console.log('Whoami error');
         }
       );
-      return this.httpClient.get<any>(this.baseUrl + '/whoami');
+      return this.httpClient.get<any>(this.logUrl + '/whoami');
     }
     else {
       this.router.navigate(['/auth']);
@@ -86,7 +88,7 @@ export class AuthService {
   }
 
   confirmEmail(token: string) {
-    return this.httpClient.put(this.baseUrl + '/confirm', token);
+    return this.httpClient.put(this.logUrl + '/confirm', token);
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {

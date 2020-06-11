@@ -13,6 +13,7 @@ import com.wroom.adsservice.converter.AdConverter;
 import com.wroom.adsservice.converter.LocationConverter;
 import com.wroom.adsservice.converter.PriceListConverter;
 import com.wroom.adsservice.domain.Ad;
+import com.wroom.adsservice.domain.Comment;
 import com.wroom.adsservice.domain.Location;
 import com.wroom.adsservice.domain.dto.AdDTO;
 import com.wroom.adsservice.domain.dto.LocationDTO;
@@ -25,6 +26,7 @@ import com.wroom.adsservice.producer.AdsProducer;
 import com.wroom.adsservice.producer.messages.AdsMessage;
 import com.wroom.adsservice.producer.messages.OperationEnum;
 import com.wroom.adsservice.repository.AdRepository;
+import com.wroom.adsservice.repository.CommentRepository;
 import com.wroom.adsservice.repository.LocationRepository;
 import com.wroom.adsservice.repository.PriceListRepository;
 
@@ -37,16 +39,18 @@ public class AdService {
 	private final VehicleClient vehicleClient;
 	private final AuthClient authClient;
 	private final AdsProducer adsProducer;
+	private final CommentRepository commentRepository;
 
 	public AdService(LocationRepository locationRepository, AdRepository adRepository,
 			PriceListRepository priceListRepository, VehicleClient vehicleClient, AuthClient authClient,
-			AdsProducer adsProducer) {
+			AdsProducer adsProducer, CommentRepository commentRepository) {
 		this.locationRepository = locationRepository;
 		this.adRepository = adRepository;
 		this.priceListRepository = priceListRepository;
 		this.vehicleClient = vehicleClient;
 		this.authClient = authClient;
 		this.adsProducer = adsProducer;
+		this.commentRepository = commentRepository;
 	}
 
 	public List<Ad> findAll() {
@@ -169,5 +173,8 @@ public class AdService {
 //    public UserDTO getOwner(Long ad_id) {
 //        return UserConverter.fromEntity(this.adRepository.findById(ad_id).get().getVehicle().getOwner());
 //    }
-
+	
+	public List<Comment> getComments(){
+		return commentRepository.findAll();
+	}
 }

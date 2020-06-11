@@ -8,6 +8,7 @@ import { Vehicle } from '../../shared/models/vehicle.model';
 import { Ad } from '../model/ad.model';
 import { AuthService } from '../../auth/service/auth.service';
 import { LoggedUser } from '../../auth/model/logged-user.model';
+import { CommentModel } from '../../shared/models/comment.model';
 
 @Injectable({providedIn: 'root'})
 export class AdsService {
@@ -15,6 +16,8 @@ export class AdsService {
   private adsUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.adsService + '/ads';
   private vehicleUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/vehicle';
   private priceListUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.adsService + '/price-list';
+
+  private commentsUrl = 'http://localhost:8094/ads'
 
   constructor(private http: HttpClient,
     private authService: AuthService) {}
@@ -67,6 +70,10 @@ export class AdsService {
   checkAdCount(): Observable<number> {
       return this.authService.whoami().pipe(switchMap((user: LoggedUser) =>
       this.http.get<number>(this.adsUrl + '/count/' + user.id).pipe(catchError(this.handleException))));
+  }
+
+  getAllComments() : Observable<CommentModel[]> {
+    return this.http.get<CommentModel[]>(this.commentsUrl + '/comments');
   }
 
 
