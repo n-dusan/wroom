@@ -1,5 +1,6 @@
 package wroom.authservice.domain;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
 import javax.persistence.NamedSubgraph;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -55,5 +58,9 @@ public class User {
 
 	@Column(nullable = false)
 	private boolean nonLocked;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="last_password_change")
+	private Date lastPasswordChange;
 	
 }

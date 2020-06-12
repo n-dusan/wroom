@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.FutureOrPresent;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
@@ -29,6 +27,8 @@ public class AdDTO {
     @Future(message = "dates have to be in future")
     private Date availableTo;
 
+    @Min(value = 0, message = "0 < mile limit < 100000000")
+    @Max(value = 100000000, message = "0 < mile limit < 100000000")
     private Double mileLimit;
 
     private boolean mileLimitEnabled;
@@ -37,6 +37,8 @@ public class AdDTO {
     private Long locationId;
 
     @NotNull(message = "an important field")
+    @Size(max = 20, message="must be less than or equal to 20")
+    @Pattern(regexp = "^[A-Za-z0-9]+$", message = "Only alphanumeric characters")
     private String address;
 
     private boolean gps;

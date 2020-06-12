@@ -6,8 +6,10 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,21 +17,25 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.log4j.Log4j2;
 import wroom.authservice.config.EndpointConfig;
 import wroom.authservice.dto.LoggedUserDTO;
 import wroom.authservice.dto.LoginRequestDTO;
+import wroom.authservice.dto.ResetPasswordDTO;
 import wroom.authservice.dto.SignupRequestDTO;
 import wroom.authservice.exception.APIError;
+import wroom.authservice.exception.PasswordTokenAlreadyUsed;
+import wroom.authservice.exception.TokenExpiredException;
 import wroom.authservice.exception.UsernameAlreadyExistsException;
 import wroom.authservice.jwt.UserPrincipal;
-import wroom.authservice.producer.UserProducer;
 import wroom.authservice.service.AuthenticationService;
 import wroom.authservice.util.RequestCounter;
 
@@ -42,7 +48,9 @@ public class AuthController {
 	private static final String LOG_LOGIN = "action=login user=%s ip_address=%s times=%s ";
 	private static final String LOG_SIGN_UP= "action=signup user=%s ip_address=%s times=%s ";
 	private static final String LOG_CONFIRM = "action=confirm user=%s ip_address=%s times=%s";
-
+	private static final String LOG_FORGOT_PASSWORD = "action=forgot_password email=%s ip_address=%s times=%s";
+	private static final String LOG_RESET_PASSWORD = "action=reset_password token=%s ip_address=%s times=%s";
+	
 	private final AuthenticationService authenticationService;
 	private final RequestCounter requestCounter;
 
@@ -136,5 +144,43 @@ public class AuthController {
 
 		return new ResponseEntity<>(this.authenticationService.confirm(token), HttpStatus.OK);
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/forgot-password/{email}")
+	public ResponseEntity<?> forgotPassword(
+			@Valid
+			@PathVariable("email") 
+			@NotNull(message = "Email cannot be null.")
+			@NotEmpty(message = "Email cannot be empty.")
+			@Email(regexp = ".+@.+\\..+", message = "Email must be valid.") String email, 
+			HttpServletRequest httpServletRequest) {
+		String logContent = String.format(LOG_FORGOT_PASSWORD, email, httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
+		log.info(logContent);
 
+		try {
+			this.authenticationService.forgotPassword(email);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(PasswordTokenAlreadyUsed e) {
+			return new ResponseEntity<>(HttpStatus.IM_USED);
+		} catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
+	
+	@PutMapping(value = "/reset-password")
+	public ResponseEntity<?> resetPassword(@RequestBody @Valid ResetPasswordDTO token, HttpServletRequest httpServletRequest) {
+		String logContent = String.format(LOG_RESET_PASSWORD, token, httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
+		log.info(logContent);
+
+		try {
+			this.authenticationService.resetPassword(token);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} catch(TokenExpiredException e) {
+			System.out.println("Token expired");
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
+	}
 }

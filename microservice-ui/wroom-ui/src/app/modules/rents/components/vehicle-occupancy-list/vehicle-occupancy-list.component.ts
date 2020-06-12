@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../auth/service/auth.service';
-import { RentsService } from '../services/rents.service';
-import { LoggedUser } from '../../auth/model/logged-user.model';
+import { AuthService } from '../../../auth/service/auth.service';
+import { RentsService } from '../../services/rents.service';
+import { LoggedUser } from '../../../auth/model/logged-user.model';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { RentRequest } from '../../shared/models/rent-request';
-import { VehicleService } from '../../vehicles/services/vehicle-features/vehicle.service';
-import { Vehicle } from '../../shared/models/vehicle.model';
+import { RentRequest } from '../../../shared/models/rent-request';
+import { VehicleService } from '../../../vehicles/services/vehicle-features/vehicle.service';
+import { Vehicle } from '../../../shared/models/vehicle.model';
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -18,7 +18,6 @@ export class VehicleOccupancyListComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   requestList: RentRequest[] = [];
   vehicleList: Vehicle[] = [];
-  vehicleId: number;
   public dateFrom: any;
   public dateTo: any;
   vehicle: Vehicle = new Vehicle();
@@ -44,7 +43,7 @@ export class VehicleOccupancyListComponent implements OnInit {
       this.rentService.getAllActiveForUser(this.loggedUser.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe((data: RentRequest[]) => {
         this.requestList = data;
         for (let r of this.requestList) {
-          
+
           this.dateFrom = new Date(r.fromDate);
           this.dateTo = new Date(r.toDate);
           if (r.status == 'PAID') {
@@ -60,7 +59,7 @@ export class VehicleOccupancyListComponent implements OnInit {
           }
         }
       })
-      
+
     },
       error => {
         console.log(error)
@@ -68,16 +67,14 @@ export class VehicleOccupancyListComponent implements OnInit {
 
     );
 
-   
-
   }
 
-  vehicleName(request: RentRequest): String{
-      const vehicle = this.vehicleList.find(x => x.id == request.ad.vehicleId); 
-      const modelType = vehicle?.modelType?.name;  
-      const brandType = vehicle?.brandType?.name;   
-      const ret = brandType + " " + modelType; 
-  return ret;
+  vehicleName(request: RentRequest): String {
+      const vehicle = this.vehicleList.find(x => x.id == request.ad.vehicleId);
+      const modelType = vehicle?.modelType?.name;
+      const brandType = vehicle?.brandType?.name;
+      const ret = brandType + " " + modelType;
+      return ret;
   }
 
 }

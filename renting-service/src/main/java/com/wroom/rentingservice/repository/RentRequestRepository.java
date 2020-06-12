@@ -10,4 +10,6 @@ import com.wroom.rentingservice.domain.RentRequest;
 public interface RentRequestRepository extends JpaRepository<RentRequest, Long> {
 
 	List<RentRequest> findByAd(Ad ad);
+	
+	List<RentRequest> findByRequestedUserId(Long requestedUserId);
 }

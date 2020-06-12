@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthConsumer {
 
-    private UserService userService;
+    private final UserService userService;
 
     public AuthConsumer(UserService userService) {
         this.userService = userService;

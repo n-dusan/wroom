@@ -1,8 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
-import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RentRequest } from '../../shared/models/rent-request';
 
@@ -34,6 +32,14 @@ export class RentsService {
 
     getAllActiveForUser(userId: number): Observable<RentRequest[]> {
       return this.http.get<RentRequest[]>(this.baseUrl + '/all/' + userId);
+    }
+
+    getRequestedForUser(userId:number): Observable<RentRequest[]> {
+      return this.http.get<RentRequest[]>(this.baseUrl + '/requested/' + userId);
+    }
+
+    get(id: number) : Observable<RentRequest> {
+      return this.http.get<RentRequest>(this.baseUrl + '/' + id);
     }
 
 }

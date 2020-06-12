@@ -1,0 +1,50 @@
+<!-- <div class="spinner" style="margin: 25px;" fxLayout="row" fxLayoutAlign="center" *ngIf="!loaded">
+    <mat-spinner color="accent"></mat-spinner>
+</div> -->
+
+<div class="content" style="width: 30vw;">
+    <h2 style="text-align: center;">Message Details</h2>
+    <table>
+        <tr>
+            <th *ngIf="message?.toUserNameSurname">To:</th>
+            <th *ngIf="message?.fromUserNameSurname">From:</th>
+            <td *ngIf="message?.toUserNameSurname">{{message?.toUserNameSurname}}</td>
+            <td *ngIf="message?.fromUserNameSurname">{{message?.fromUserNameSurname}}</td>
+        </tr>
+        <tr>
+            <th>Title:</th>
+            <td>{{message?.title}}</td>
+        </tr>
+        <tr>
+            <th>Content:</th>
+            <td>{{message?.content}}</td>
+        </tr>
+    </table>
+
+    <div fxLayout="row" fxLayoutAlign="end">
+        <button mat-mini-fab color="accent" matTooltip="Reply" *ngIf="message?.fromUserNameSurname && !replyClicked"
+            (click)="replyClick()" type="button">
+            <mat-icon>reply</mat-icon>
+        </button>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="center" *ngIf="replyClicked">
+        <h2 style="text-align: center;">Compose Message</h2>
+        <form [formGroup]="form" fxLayout="column" fxLayoutAlign="center">
+            <mat-form-field fxFlex appearance="outline">
+                <input matInput formControlName="title" value="{{message?.title}}" placeholder="{{message?.title}}" readonly="true">
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Content</mat-label>
+                <textarea matInput formControlName="content"></textarea>
+            </mat-form-field>
+
+            <div fxLayout="row" fxLayoutAlign="end">
+                <button mat-mini-fab color="accent" matTooltip="Send" (click)="send()">
+                    <mat-icon>send</mat-icon>
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>

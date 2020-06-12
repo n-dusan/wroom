@@ -132,7 +132,6 @@ public class VehicleController {
 	}
 
 	@GetMapping("/{id}")
-	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<?> getVehicle(@PathVariable("id") Long id) {
 		return new ResponseEntity<>(VehicleConverter.fromEntity(vehicleService.findById(id)), HttpStatus.OK);
 	}

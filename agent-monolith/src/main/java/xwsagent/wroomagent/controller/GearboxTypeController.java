@@ -45,7 +45,8 @@ public class GearboxTypeController {
 		this.gearboxTypeService = gearboxTypeService;
 		this.requestCounter = requestCounter;
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO gearboxTypeDTO, Authentication auth) {
 		String logContent = String.format(LOG_CREATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.GEARBOX_TYPE_BASE_URL));
@@ -62,7 +63,8 @@ public class GearboxTypeController {
 					new APIError(HttpStatus.BAD_REQUEST, "Name exists", Collections.singletonList("Name exists")), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@DeleteMapping(value = "/{name}")
 	public ResponseEntity<Void> delete(@PathVariable("name") String name){
 		gearboxTypeService.delete(name);
@@ -77,9 +79,10 @@ public class GearboxTypeController {
 				HttpStatus.OK
 		);
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@PutMapping(value = "/{id}", produces = "application/json")
-	public ResponseEntity<FeatureDTO> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
+	public ResponseEntity<FeatureDTO> update(@Valid @RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
 		GearboxType gt = gearboxTypeService.findById(id);
 		String logContent = String.format(LOG_UPDATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.GEARBOX_TYPE_BASE_URL));
 		log.info(logContent);

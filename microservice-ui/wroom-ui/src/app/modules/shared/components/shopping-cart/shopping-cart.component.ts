@@ -76,11 +76,11 @@ export class ShoppingCartComponent implements OnInit {
                       if(data.length > 0) {
                         ad.image = "data:image/jpeg;base64," + data[0];
                       }
-                      
+
 
                       this.searchService.getOwner(ad.id).subscribe(
                         data => {
-    
+
                           // populate owners
                           var owner = this.owners.find(obj => { return obj?.ownerId === ad?.vehicleObj?.ownerId });
                           if (owner) {  //ako postoji owner tog ad-a
@@ -90,16 +90,16 @@ export class ShoppingCartComponent implements OnInit {
                           else {  // ako ne postoji taj owner
                             this.owners.push(new OwnerAds(ad.vehicleObj?.ownerId, [ad.id], data.email, [ad]));
                           }
-    
+
                           this.loaded = true;
-    
+
                         },
                         error => {
                           this.loaded = true;
                           this.toastr.error('There was an error!', 'Owner')
                         }
                       );
-                      
+
                     },
                     error => {
                       console.log(error)
@@ -108,7 +108,7 @@ export class ShoppingCartComponent implements OnInit {
                     }
                   );
 
-                  
+
 
                 },
                 error => {
@@ -142,7 +142,7 @@ export class ShoppingCartComponent implements OnInit {
     for (let ad of owner.adsObj) {
       const from = this.cartItems.find(obj => { return obj.adId === ad.id })?.from;
       const to = this.cartItems.find(obj => { return obj.adId === ad.id })?.to;
-      requests.push(new RentRequest(null, null, from, to, null, ad, null, false));
+      requests.push(new RentRequest(null, null, from, to, owner.ownerId, ad, null, false));
     }
 
     let dialogRef = this.dialog.open(CreateBundleDialogComponent,

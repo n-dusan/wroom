@@ -21,6 +21,7 @@ export class AppComponent {
   user: LoggedUser;
 
   cartItemsNum: number = 0;
+  loaded: boolean = false;
 
   constructor(private http: HttpClient,
     private authService: AuthService,
@@ -28,44 +29,53 @@ export class AppComponent {
     private shoppingCartService: ShoppingCartService) { }
 
 
-    ngOnInit(): void {
-      this.authService.getLoggedUser().subscribe(data => {
-        console.log('user', data)
+  ngOnInit(): void {
+    this.authService.loggedUserSubject.subscribe(
+      data => {
         this.user = data;
-      });
-  
-      this.shoppingCartService.getShoppingCartAsObservable().subscribe(
-        data => {
-          this.cartItemsNum = data.length;
-        }
-      )
-  
-      if (this.user == null) {
-        //send whoami to server to re-authenticate
-        this.authService.whoami().subscribe(
-          data => {
-            this.user = data;
-          },
-          error => {
-            if (error.status == 401) {
-              localStorage.removeItem('token');
-              this.router.navigate(['auth']);
-            }
-          }
-        );
-  
+        this.getShoppingCart();
       }
-  
-    }
-  
-    logout() {
-      this.authService.logout();
-      this.user = null;
-    }
-  
-    shoppingCartClick() {
-      this.router.navigateByUrl('/cart');
-    }
+    );
+
+    //send whoami to server to re-authenticate
+    this.authService.whoami().subscribe(
+      data => {
+        this.user = data;
+        console.log(this.user)
+        this.getShoppingCart();
+      },
+      error => {
+        if (error.status == 401) {
+          localStorage.removeItem('token');
+          this.router.navigate(['auth']);
+        }
+        this.loaded = true;
+      }
+    );
+
+  }
+
+  getShoppingCart() {
+    this.shoppingCartService.getShoppingCartAsObservable().subscribe(
+      data => {
+        this.cartItemsNum = data.length;
+        this.loaded = true;
+      },
+      error => {
+        this.loaded = true;
+        console.log(error);
+      }
+    )
+  }
+
+  logout() {
+    this.authService.logout();
+    this.user = null;
+  }
+
+  shoppingCartClick() {
+    this.router.navigateByUrl('/cart');
+  }
 
   testZuul() {
     const headers = new HttpHeaders().set('Content-Type', 'text/plain; charset=utf-8');

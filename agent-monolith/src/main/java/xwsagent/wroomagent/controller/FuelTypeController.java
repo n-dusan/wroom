@@ -43,7 +43,8 @@ public class FuelTypeController {
 		this.fuelTypeService = fuelTypeService;
 		this.requestCounter = requestCounter;
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO fuelTypeDTO, Authentication auth)  {
 		String logContent = String.format(LOG_CREATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.FUEL_TYPE_BASE_URL));
@@ -60,13 +61,14 @@ public class FuelTypeController {
 					new APIError(HttpStatus.BAD_REQUEST, "Name exists", Collections.singletonList("Name exists")), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@DeleteMapping(value = "/{name}")
 	public ResponseEntity<Void> delete(@PathVariable("name") String name){
 		fuelTypeService.delete(name);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getAll(){
 		
@@ -75,7 +77,8 @@ public class FuelTypeController {
 				HttpStatus.OK
 		);
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@PutMapping(value = "/{id}", produces = "application/json")
 	public ResponseEntity<FeatureDTO> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
 		FuelType ft = fuelTypeService.findById(id);
