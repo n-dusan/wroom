@@ -103,7 +103,7 @@ public class AuthenticationService {
 
 		String token = this.createVerificationToken(user);
 		//TODO: poseban servis za mejl slanja
-		//mailProducer.sendConfirmationMail(user.getEmail(), token);
+		mailProducer.sendConfirmationMail(user.getEmail(), token);
 
 		return true;
 	}

@@ -6,5 +6,5 @@ public enum RequestStatus {
 	CANCELED,
 	PAID,
 	PHYSICALLY_RESERVED,
-	FINALIZED
+	COMPLETED
 }

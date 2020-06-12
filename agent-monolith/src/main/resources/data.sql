@@ -2,22 +2,22 @@
 -- U create-drop rezimu, ukoliko sql skripta ponovo insertuje već unete vrednosti (MySQL ume da ne dropuje i redove unutar tabela)
 -- onda dodajte delete na tabelu koju želite da očistite, time se brišu svi redovi iz te tabele
 --------------------------------
-
-delete from users;
-delete from user_roles;
-delete from permission;
-delete from roles;
-delete from role_permissions;
-delete from ad;
-delete from location;
-delete from rent_request;
-delete from vehicle;
-delete from model_type;
-delete from brand_type;
-delete from gearbox_type;
-delete from fuel_type;
-delete from body_type;
-delete from rate;
+-- delete from rent_request_ads;
+-- delete from users;
+-- delete from user_roles;
+-- delete from permission;
+-- delete from roles;
+-- delete from role_permissions;
+-- delete from ad;
+-- delete from location;
+-- delete from rent_request;
+-- delete from vehicle;
+-- delete from model_type;
+-- delete from brand_type;
+-- delete from gearbox_type;
+-- delete from fuel_type;
+-- delete from body_type;
+-- delete from rate;
 
 ------------- ROLE -----------------
 insert into roles(id, name)
@@ -277,8 +277,8 @@ values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00
 
 
 -- Rent Requests
-insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
-values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-07 00:00:00.000000', null, 1, 4); --Opel Astra iz Wuhana
+insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
+values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-07 00:00:00.000000', null, 1); --Opel Astra iz Wuhana
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
 --values(2, '2020-07-05 10:00:00.000000', 'PENDING', '2020-07-15 00:00:00.000000', null, 1, 4); 
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)

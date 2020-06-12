@@ -43,7 +43,8 @@ public class BodyTypeController {
 		this.bodyTypeService = bodyTypeService;
 		this.requestCounter = requestCounter;
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@PostMapping(consumes = "application/json")
 	public ResponseEntity<?> create(@Valid @RequestBody FeatureDTO featureDTO, Authentication auth) {
 
@@ -60,13 +61,14 @@ public class BodyTypeController {
 					new APIError(HttpStatus.BAD_REQUEST, "Name exists", Collections.singletonList("Name exists")), HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@DeleteMapping(value = "/{name}")
 	public ResponseEntity<Void> delete(@PathVariable("name") String name){
 		bodyTypeService.delete(name);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@GetMapping(produces = "application/json")
 	public ResponseEntity<List<FeatureDTO>> getBodyTypes(){
 		
@@ -75,9 +77,10 @@ public class BodyTypeController {
 				HttpStatus.OK
 		);
 	}
-	
+
+	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<?> update(@RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
+	public ResponseEntity<?> update(@Valid @RequestBody FeatureDTO featureDTO, @PathVariable("id") Long id, Authentication auth){
 		BodyType bt = bodyTypeService.findById(id);
 		String logContent = String.format(LOG_UPDATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.BODY_TYPE_BASE_URL));
 		log.info(logContent);

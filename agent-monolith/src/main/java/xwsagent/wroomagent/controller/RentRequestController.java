@@ -24,6 +24,8 @@ import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.RentsService;
 import xwsagent.wroomagent.util.RequestCounter;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = EndpointConfig.RENT_BASE_URL)
 @Log4j2
@@ -43,7 +45,7 @@ public class RentRequestController {
 	
 	
 	@PostMapping
-	public ResponseEntity<?> sendRequest(@RequestBody RentRequestDTO dto, Authentication auth) {
+	public ResponseEntity<?> sendRequest(@RequestBody @Valid RentRequestDTO dto, Authentication auth) {
 		String logContent = String.format(LOG_SEND_REQUEST, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		try {
 			log.info(logContent);

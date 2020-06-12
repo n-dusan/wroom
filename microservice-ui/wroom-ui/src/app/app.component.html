@@ -4,9 +4,6 @@
 
 <mat-sidenav-container *ngIf="loaded">
   <mat-sidenav #sidenav role="navigation">
-    <!-- Agent links -->
-    <button color="accent" mat-raised-button (click)="testZuul()">Talk to Zuul please</button>
-
 
     <div fxLayout="column">
       <mat-nav-list>
@@ -26,7 +23,7 @@
         <div fxLayout="column" fxLayoutAlign="center" *ngIf="user?.privileges[0] === 'ROLE_ADMIN'">
             <a mat-list-item routerLink="/dashboard">Dashboard</a>
         </div>
-        
+
     </mat-nav-list>
     </div>
 
