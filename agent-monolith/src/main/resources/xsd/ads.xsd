@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/ads"
+	xmlns:tns="http://www.example.org/ads" elementFormDefault="qualified">
+
+	<element name="getAdRequest">
+		<complexType>
+			<sequence>
+				<element name="name" type="string" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="getAdResponse">
+		<complexType>
+			<sequence>
+				<element name="ad" type="tns:ad" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<complexType name="ad">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="publishDate" type="date" />
+			<element name="availableFrom" type="date" />
+			<element name="availableTo" type="date" />
+			<element name="mileLimit" type="double" />
+			<element name="mileLimitEnabled" type="boolean" />
+			<element name="gps" type="boolean" />
+			<element name="deleted" type="boolean" />
+			<element name="address" type="string" />
+			<element name="vehicle" type="tns:vehicle" />
+			<element name="priceList" type="tns:priceList" />
+			<element name="location" type="tns:location" />
+		</sequence>
+	</complexType>
+
+	<complexType name="vehicle">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="mileage" type="double" />
+			<element name="childSeats" type="int" />
+			<element name="cdw" type="boolean" />
+			<element name="deleted" type="boolean" />
+<!-- 			<element name="owner" type="string" /> -->
+		</sequence>
+	</complexType>
+
+	<complexType name="priceList">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="pricePerDay" type="double" />
+			<element name="pricePerMile" type="double" />
+			<element name="priceCDW" type="double" />
+			<element name="discount" type="double" />
+			<element name="deleted" type="boolean" />
+		</sequence>
+	</complexType>
+
+	<complexType name="location">
+		<sequence>
+			<element name="id" type="long" />
+			<element name="country" type="string" />
+			<element name="city" type="string" />
+		</sequence>
+	</complexType>
+
+</schema>
