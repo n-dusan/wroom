@@ -41,4 +41,16 @@ public class MailProducer {
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
         log.info("Sent a message to >"+mailMessage.getRecipient());
     }
+    
+    public void sendForgotPasswordEmail(String email, String guid) {
+    	log.info("Sending a message>>> ... ");
+    	MailMessage mailMessage = new MailMessage(email, 
+        		"Password Reset", 
+        		"Hello, \n\n You can change your password following this link:"
+        		+ "\n https://localhost:4200/#/reset-password/" + guid
+        		+ "\n\nKind regards,\nMonolith");
+
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
+        log.info("Sent a message to >"+mailMessage.getRecipient());
+    }
 }

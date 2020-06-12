@@ -15,12 +15,14 @@
 -- delete from rate;
 --  delete from users;
 --  delete from user_roles;
---  delete from permission;
---  delete from roles;
---  delete from role_permissions;
+
+delete from permission;
+delete from roles;
+delete from role_permissions;
+  
 
 
-------------- ROLE -----------------
+--------------- ROLE -----------------
 insert into roles(id, name)
 values (1, 'ROLE_USER');
 insert into roles(id, name)
@@ -161,26 +163,26 @@ values (3, 24); --MANAGE_VEHICLE_FEATURES
 ------------------------------------------
 
 
------------------- KORISNICI ---------------------
+-------------------- KORISNICI ---------------------
 -- sifre svih usera su <<user>>123, npr mila123
-insert into users(id, email, name, password, surname, enabled, non_locked)
-values (1, 'mila@maildrop.cc', 'Mila', '$2a$10$5EIPh4FLRCczl/.mnQhHP.8GmBJT2tL8kgBS1qDALVaybk6hh5o5.', 'Stojakovic', 1, 1);
-insert into users(id, email, name, password, surname, enabled, non_locked)
-values (2, 'zika@maildrop.cc', 'Zivorad', '$2a$10$ZECdbx5MAPP.a7YbmWBowOrub/B2r7FZlq9tvr3BTMInSuhnApUpy', 'Stamenkovic', 1, 1);
-insert into users(id, email, name, password, surname, enabled, non_locked)
-values (3, 'grga@maildrop.cc', 'Svetislav', '$2a$10$JOsaxc.iuu8Pw.Wlbdfci.dl7xP93fa7/i0tib6zjnEv.OLrIRP1i', 'Grgur', 1, 1);
+insert into users(id, email, name, password, surname, enabled, non_locked, last_password_change)
+values (1, 'mila@maildrop.cc', 'Mila', '$2a$10$5EIPh4FLRCczl/.mnQhHP.8GmBJT2tL8kgBS1qDALVaybk6hh5o5.', 'Stojakovic', 1, 1, null);
+insert into users(id, email, name, password, surname, enabled, non_locked, last_password_change)
+values (2, 'zika@maildrop.cc', 'Zivorad', '$2a$10$ZECdbx5MAPP.a7YbmWBowOrub/B2r7FZlq9tvr3BTMInSuhnApUpy', 'Stamenkovic', 1, 1, null);
+insert into users(id, email, name, password, surname, enabled, non_locked, last_password_change)
+values (3, 'grga@maildrop.cc', 'Svetislav', '$2a$10$JOsaxc.iuu8Pw.Wlbdfci.dl7xP93fa7/i0tib6zjnEv.OLrIRP1i', 'Grgur', 1, 1, null);
 
--- mila user
-insert into user_roles(user_id, role_id)
-values (1, 1);
-insert into user_roles(user_id, role_id)
-values (1, 7);
-
---zika agent
-insert into user_roles(user_id, role_id)
-values (2, 2);
-
---grga admin
-insert into user_roles(user_id, role_id)
-values (3, 3);
-
+---- mila user
+--insert into user_roles(user_id, role_id)
+--values (1, 1);
+--insert into user_roles(user_id, role_id)
+--values (1, 7);
+--
+----zika agent
+--insert into user_roles(user_id, role_id)
+--values (2, 2);
+--
+----grga admin
+--insert into user_roles(user_id, role_id)
+--values (3, 3);
+--

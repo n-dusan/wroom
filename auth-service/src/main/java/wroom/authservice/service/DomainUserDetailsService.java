@@ -2,7 +2,6 @@ package wroom.authservice.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,16 +14,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import wroom.authservice.domain.Permission;
 import wroom.authservice.domain.Role;
-import wroom.authservice.domain.RoleName;
 import wroom.authservice.domain.User;
-import wroom.authservice.dto.SignupRequestDTO;
 import wroom.authservice.jwt.UserPrincipal;
-import wroom.authservice.repository.RoleRepository;
 import wroom.authservice.repository.UserRepository;
 
 @Service
@@ -32,12 +27,6 @@ public class DomainUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
-
-	@Autowired
-	private RoleRepository roleRepository;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	@Override
 	@Transactional
@@ -47,45 +36,6 @@ public class DomainUserDetailsService implements UserDetailsService {
 				.orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
 
 		return getUserPrincipal(user);
-	}
-
-	public void changePassword(User user, String newPassword) {
-		user.setPassword(passwordEncoder.encode(newPassword));
-		userRepository.save(user);
-	}
-
-	public User findByEmail(String email) {
-		return userRepository.findByEmail(email).orElse(null);
-	}
-
-	public void changeUserNonLockStatusTrue(User user) {
-		user.setNonLocked(true);
-		userRepository.save(user);
-	}
-
-	public void changeUserNonLockStatusFalse(User user) {
-		user.setNonLocked(false);
-		userRepository.save(user);
-	}
-
-	public List<User> findAllUsers() {
-		return userRepository.findUsersExceptSelf();
-	}
-
-	public User findCurrentUser() {
-		return userRepository.findCurrentUser();
-	}
-
-	@Transactional
-	public User registerUser(SignupRequestDTO signUpRequest) {
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-			return null;
-		}
-		User user = new User(null, signUpRequest.getName(), signUpRequest.getSurname(), signUpRequest.getEmail(),
-				signUpRequest.getPassword(), Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)), true, true);
-		userRepository.save(user);
-
-		return user;
 	}
 
 	private UserPrincipal getUserPrincipal(User user) {
