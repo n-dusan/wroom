@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   protocol: 'https',
   domain: 'localhost',
-  port: '8752',
+  port: '8762',
   api: '/api',
   authService: '/auth-service',
   searchService: '/search-service',
