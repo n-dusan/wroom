@@ -68,7 +68,7 @@ public class UserController {
      * GET /api/user
      * @return all enabled (who activated their email) users
      */
-    //@PreAuthorize("hasAuthority('MANAGE_USERS')")
+    @PreAuthorize("hasAuthority('MANAGE_USERS')")
     @PutMapping("/lock/{id}")
     public ResponseEntity<UserDTO> lockUser(@PathVariable("id") Long id, Authentication auth) {
         String logContent = String.format(LOG_LOCK_USER, auth.getName(), requestCounter.get(EndpointConfig.USER_BASE_URL), "Locking user id " + id);

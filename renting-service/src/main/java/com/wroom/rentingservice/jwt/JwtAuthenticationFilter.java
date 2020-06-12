@@ -55,6 +55,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 //				});
             } catch (InvalidJWTokenException e) {
                 logger.error("Exception thrown {}", e.getMessage());
+                SecurityContextHolder.clearContext();
             }
         }
 
@@ -69,21 +70,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return null;
     }
 
-    @Bean
-    public RequestInterceptor requestTokenBearerInterceptor(HttpServletRequest request) {
-
-
-        return new RequestInterceptor() {
-            @Override
-            public void apply(RequestTemplate requestTemplate) {
-                System.out.println("Bearer token " + request.getHeader("Authorization"));
-                System.out.println("MY REQUEST" + getJwtFromRequest(request));
-//                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//                UsernamePasswordAuthenticationToken details = (UsernamePasswordAuthenticationToken) authentication.getDetails();
-//                requestTemplate.header("Authorization", "Bearer " + details.getTokenValue());
-            }
-        };
-    }
 
 }
 
