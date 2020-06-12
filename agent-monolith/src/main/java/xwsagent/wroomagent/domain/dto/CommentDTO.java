@@ -1,12 +1,9 @@
-package com.wroom.adsservice.domain.dto;
-
-
+package xwsagent.wroomagent.domain.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
-
 
 @Getter 
 @Setter 
@@ -31,4 +28,5 @@ public class CommentDTO {
     private Long adId;
 
 }
+
 

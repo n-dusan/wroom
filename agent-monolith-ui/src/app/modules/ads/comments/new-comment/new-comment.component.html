@@ -1,0 +1,16 @@
+<h3>Add comment</h3>
+<form [formGroup]="addComment" class="example-form" (ngSubmit)="onSubmit()">
+    <mat-form-field class="example-full-width">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+    </mat-form-field>
+  
+    <mat-form-field class="example-full-width">
+      <mat-label>Content</mat-label>
+      <textarea matInput formControlName="content"></textarea>
+    </mat-form-field>
+
+    <div>
+        <button mat-raised-button color="accent" type="submit">Add</button>
+    </div>
+</form>
