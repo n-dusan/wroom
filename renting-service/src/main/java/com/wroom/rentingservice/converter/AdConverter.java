@@ -11,11 +11,11 @@ public class AdConverter extends AbstractConverter {
                 entity.getId(),
                 entity.getVehicleId(),
                 entity.getPriceListId(),
+                entity.getLocationId(),
                 entity.getAvailableFrom(),
                 entity.getAvailableTo(),
                 entity.getMileLimit(),
                 entity.isMileLimitEnabled(),
-                entity.getLocationId(),
                 entity.getAddress(),
                 entity.isGps()
 //                averageRate(entity.getRates())
