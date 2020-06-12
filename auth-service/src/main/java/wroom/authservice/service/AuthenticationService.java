@@ -179,6 +179,9 @@ public class AuthenticationService {
 		if (t.getValidTo().before(new Date())) {
 			throw new TokenExpiredException("Token is expired.");
 		}
+		if (t.isUsed()) {
+			throw new PasswordTokenAlreadyUsed("This token is already used");
+		}
 
 		User user = this.userRepository.findByEmail(t.getEmail()).get();
 		if (user != null) {

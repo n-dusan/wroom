@@ -6,6 +6,9 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -143,7 +146,13 @@ public class AuthController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/forgot-password/{email}")
-	public ResponseEntity<?> forgotPassword(@PathVariable("email") String email, HttpServletRequest httpServletRequest) {
+	public ResponseEntity<?> forgotPassword(
+			@Valid
+			@PathVariable("email") 
+			@NotNull(message = "Email cannot be null.")
+			@NotEmpty(message = "Email cannot be empty.")
+			@Email(regexp = ".+@.+\\..+", message = "Email must be valid.") String email, 
+			HttpServletRequest httpServletRequest) {
 		String logContent = String.format(LOG_FORGOT_PASSWORD, email, httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
 		log.info(logContent);
 
@@ -159,7 +168,7 @@ public class AuthController {
 	}
 	
 	@PutMapping(value = "/reset-password")
-	public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordDTO token, HttpServletRequest httpServletRequest) {
+	public ResponseEntity<?> resetPassword(@RequestBody @Valid ResetPasswordDTO token, HttpServletRequest httpServletRequest) {
 		String logContent = String.format(LOG_RESET_PASSWORD, token, httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
 		log.info(logContent);
 
