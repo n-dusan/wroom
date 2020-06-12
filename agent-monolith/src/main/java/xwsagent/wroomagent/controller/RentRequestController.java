@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +23,8 @@ import xwsagent.wroomagent.domain.dto.RentRequestDTO;
 import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.RentsService;
 import xwsagent.wroomagent.util.RequestCounter;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = EndpointConfig.RENT_BASE_URL)
@@ -42,7 +45,7 @@ public class RentRequestController {
 	
 	
 	@PostMapping
-	public ResponseEntity<?> sendRequest(@RequestBody RentRequestDTO dto, Authentication auth) {
+	public ResponseEntity<?> sendRequest(@RequestBody @Valid RentRequestDTO dto, Authentication auth) {
 		String logContent = String.format(LOG_SEND_REQUEST, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		try {
 			log.info(logContent);
@@ -76,6 +79,7 @@ public class RentRequestController {
 	}
 
 	@PostMapping(value = "/occupy")
+	@PreAuthorize("hasAuthority('PHYSICALLY_RESERVE_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<?> occupy(@RequestBody RentRequestDTO rentRequestDTO, Authentication auth) {
 		String logContent = String.format(LOG_OCCUPY, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		if (rentsService.occupy(rentRequestDTO, auth)) {

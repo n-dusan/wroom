@@ -1,0 +1,64 @@
+<div class="content" style="padding: 25px;" fxLayout="column" fxLayoutAlign="center">
+
+    <h1 style="text-align: center;">Your Conversations</h1>
+
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+        <mat-card fxFlex="20%">
+            <mat-selection-list [multiple]="false">
+                <mat-list-option selected (click)="receivedClick()">
+                  Received
+                </mat-list-option>
+                <mat-list-option (click)="sentClick()">
+                    Sent
+                  </mat-list-option>
+              </mat-selection-list>
+            </mat-card>
+
+        <mat-card fxFlex>
+            <div *ngIf="!loaded" fxLayout="row" fxLayoutAlign="center">
+                <mat-spinner color="accent"></mat-spinner>
+            </div>
+
+            <mat-selection-list [multiple]="false" *ngIf="!switched && loaded">
+                <mat-list-option *ngFor="let message of received" (click)="openMessage(message)">
+                    <div fxLayout="row" fxLayoutAlign="center">
+                        <div fxFlex="20%">
+                            <b>{{message.title}}</b>
+                        </div>
+                        <div class="message-content" fxFlex>
+                            {{message.content}}
+                        </div>
+                        <div fxFlex="30%">
+                            {{message.fromUserNameSurname}}
+                        </div>
+                    </div>
+                </mat-list-option>
+
+                <div *ngIf="received?.length == 0">
+                    Empty
+                </div>
+            </mat-selection-list>
+
+            <mat-selection-list [multiple]="false" *ngIf="switched && loaded">
+                <mat-list-option *ngFor="let message of sent" (click)="openMessage(message)">
+                    <div fxLayout="row" fxLayoutAlign="center">
+                        <div fxFlex="20%">
+                            <b>{{message.title}}</b>
+                        </div>
+                        <div class="message-content" fxFlex>
+                            {{message.content}}
+                        </div>
+                        <div fxFlex="30%">
+                            {{message.toUserNameSurname}}
+                        </div>
+                    </div>
+                </mat-list-option>
+
+                <div *ngIf="sent?.length == 0">
+                    Empty
+                </div>
+            </mat-selection-list>
+        </mat-card>
+    </div>
+
+</div>

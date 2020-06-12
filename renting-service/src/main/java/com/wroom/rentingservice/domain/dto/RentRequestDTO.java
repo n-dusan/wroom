@@ -18,4 +18,5 @@ public class RentRequestDTO {
 	private Date toDate;
 	private Long requestedUserId;
 	private AdDTO ad;
+	private Long bundleId;
 }

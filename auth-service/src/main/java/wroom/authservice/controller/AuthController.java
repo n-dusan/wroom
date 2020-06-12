@@ -42,7 +42,6 @@ public class AuthController {
 
 	private static final String LOG_LOGIN = "action=login user=%s ip_address=%s times=%s ";
 	private static final String LOG_SIGN_UP= "action=signup user=%s ip_address=%s times=%s ";
-	private static final String LOG_CONFIRM = "action=confirm user=%s ip_address=%s times=%s";
 
 	private final AuthenticationService authenticationService;
 	private final RequestCounter requestCounter;
@@ -130,11 +129,7 @@ public class AuthController {
 	 * Endpoint for e-mail confirmation
 	 */
 	@PutMapping("/confirm")
-	public ResponseEntity<?> emailConfirmation(@RequestBody String token, Authentication auth, HttpServletRequest httpServletRequest) {
-		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
-		String logContent = String.format(LOG_CONFIRM, user.getUsername(), httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
-		log.info(logContent);
-
+	public ResponseEntity<?> emailConfirmation(@RequestBody String token) {
 		return new ResponseEntity<>(this.authenticationService.confirm(token), HttpStatus.OK);
 	}
 

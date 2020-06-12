@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { VehicleOccupancyListComponent } from './vehicle-occupancy-list/vehicle-occupancy-list.component';
+import { RequestsOverviewComponent } from './components/requests-overview/requests-overview.component';
+import { VehicleOccupancyListComponent } from './components/vehicle-occupancy-list/vehicle-occupancy-list.component';
 
 
 const routes: Routes = [
   { path: '',
-    //component: AAAAAAA,
+    // component: VehicleOccupancyListComponent,
     children: [
-       {path: 'occupancy-list', component: VehicleOccupancyListComponent}
+      {path: 'overview', component: VehicleOccupancyListComponent},
+      {path: 'requests', component: RequestsOverviewComponent}
   ] }
 ];
 

@@ -2,22 +2,22 @@
 -- U create-drop rezimu, ukoliko sql skripta ponovo insertuje već unete vrednosti (MySQL ume da ne dropuje i redove unutar tabela)
 -- onda dodajte delete na tabelu koju želite da očistite, time se brišu svi redovi iz te tabele
 --------------------------------
-
-delete from users;
-delete from user_roles;
-delete from permission;
-delete from roles;
-delete from role_permissions;
-delete from ad;
-delete from location;
-delete from rent_request;
-delete from vehicle;
-delete from model_type;
-delete from brand_type;
-delete from gearbox_type;
-delete from fuel_type;
-delete from body_type;
-delete from rate;
+-- delete from rent_request_ads;
+-- delete from users;
+-- delete from user_roles;
+-- delete from permission;
+-- delete from roles;
+-- delete from role_permissions;
+-- delete from ad;
+-- delete from location;
+-- delete from rent_request;
+-- delete from vehicle;
+-- delete from model_type;
+-- delete from brand_type;
+-- delete from gearbox_type;
+-- delete from fuel_type;
+-- delete from body_type;
+-- delete from rate;
 
 ------------- ROLE -----------------
 insert into roles(id, name)
@@ -47,11 +47,11 @@ values (3, 'RATE');
 insert into permission(id, name)
 values (4, 'RENT_HISTORY');
 insert into permission(id, name)
-values (5, 'POST_ADS_LIMITED');
+values (5, 'CRUD_AD_LIMITED');
 insert into permission(id, name)
 values (6, 'SEND_RENT_REQUESTS');
 insert into permission(id, name)
-values (7, 'POST_VEHICLES');
+values (7, 'CRUD_VEHICLE');
 insert into permission(id, name)
 values (8, 'POST_PRICELISTS');
 insert into permission(id, name)
@@ -71,7 +71,7 @@ values (15, 'SEND_LOCATION');
 insert into permission(id, name)
 values (16, 'MANAGE_RATES_AND_COMMENTS');
 insert into permission(id, name)
-values (17, 'POST_ADS');
+values (17, 'CRUD_AD');
 insert into permission(id, name)
 values (18, 'UPLOAD_IMAGES');
 insert into permission(id, name)
@@ -93,7 +93,13 @@ values (25, 'MANAGE_COMMENTS');
 insert into role_permissions(role_id, permission_id)
 values (1, 4); --RENT_HISTORY
 insert into role_permissions(role_id, permission_id)
-values (1, 5); --POST_ADS_LIMITED
+values (1, 5); --CRUD_AD_LIMITED
+insert into role_permissions(role_id, permission_id)
+values (1, 7); --CRUD_VEHICLE
+insert into role_permissions(role_id, permission_id)
+values (1, 10); --PHYSICALLY_RESERVE_VEHICLE
+insert into role_permissions(role_id, permission_id)
+values (1, 8); --POST_PRICELISTS
 
 	-- permisije za "pod-role" obicnog usera
 	-- ROLE_RENTING_USER - obican user koji sme da rentira (dobija pri registraciji, gubi kad rentira - sve dok ne plati)
@@ -111,11 +117,11 @@ values (1, 5); --POST_ADS_LIMITED
 
 ------------- Permisije agenta -----------
 insert into role_permissions(role_id, permission_id)
-values (2, 17);	--POST_ADS
+values (2, 17);	--CRUD_AD
 insert into role_permissions(role_id, permission_id)
 values (2, 2);  --CHAT
 insert into role_permissions(role_id, permission_id)
-values (2, 7); --POST_VEHICLES
+values (2, 7); --CRUD_VEHICLE
 insert into role_permissions(role_id, permission_id)
 values (2, 8); --POST_PRICELISTS
 insert into role_permissions(role_id, permission_id)
@@ -149,6 +155,7 @@ insert into role_permissions(role_id, permission_id)
 values (3, 16); --MANAGE_RATES_AND_COMMENTS
 insert into role_permissions(role_id, permission_id)
 values (3, 24); --MANAGE_VEHICLE_FEATURES
+
 --insert into role_permissions(role_id, permission_id)
 --values (3, 25); --MANAGE_COMMENTS
 
@@ -182,6 +189,8 @@ values (2, 2);
 --grga admin
 insert into user_roles(user_id, role_id)
 values (3, 3);
+
+
 
 ---------------Vehicle features-------------
 insert into brand_type(id, deleted, name)
@@ -268,8 +277,8 @@ values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00
 
 
 -- Rent Requests
-insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
-values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-07 00:00:00.000000', null, 1, 4); --Opel Astra iz Wuhana
+insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
+values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-07 00:00:00.000000', null, 1); --Opel Astra iz Wuhana
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
 --values(2, '2020-07-05 10:00:00.000000', 'PENDING', '2020-07-15 00:00:00.000000', null, 1, 4); 
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)

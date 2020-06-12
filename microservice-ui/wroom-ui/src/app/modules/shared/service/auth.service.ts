@@ -7,6 +7,7 @@ import { map, catchError } from 'rxjs/operators';
 import { LoggedUser } from '../../auth/model/logged-user.model';
 import { SignupRequest } from '../../auth/model/signup-request.model';
 import { LoginRequest } from '../../auth/model/login-request.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class AuthService {
   loggedUser: Observable<LoggedUser>;
 
   private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.authService + '/auth';
+  private userUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.authService + '/user';
 
 
   constructor(private httpClient: HttpClient,
@@ -72,5 +74,9 @@ export class AuthService {
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);
+  }
+
+  get(id: number): Observable<User> {
+    return this.httpClient.get(this.userUrl + '/' + id);
   }
 }

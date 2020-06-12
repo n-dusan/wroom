@@ -43,7 +43,7 @@ public class RentRequest {
 	
 //	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 //	private User requestedUser;
-
+	
 	@Column
 	private Long requestedUserId;
 	

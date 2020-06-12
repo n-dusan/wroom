@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,6 +63,7 @@ public class VehicleController {
 	 * @return newly created vehicle
 	 */
 	@PostMapping(consumes = "application/json")
+	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<VehicleDTO> create(@Valid @RequestBody VehicleDTO vehicleDTO, Authentication auth,
 			HttpServletRequest httpServletRequest) {
 				
@@ -79,6 +81,7 @@ public class VehicleController {
 	}
 
 	@PostMapping(value = "/upload/{id}")
+	@PreAuthorize("hasAuthority('UPLOAD_IMAGES') || hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<?> postImage(@RequestParam("file") List<MultipartFile> files, @PathVariable("id") Long id,
 			Authentication auth, HttpServletRequest httpServletRequest) {
 		Vehicle vehicle = vehicleService.findById(id);
@@ -109,6 +112,7 @@ public class VehicleController {
 	}
 
 	@DeleteMapping(value = "/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
+	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
 		Vehicle vehicle = vehicleService.findById(id);
 		List<Ad> ads = vehicleRepository.findByVehicleId(vehicle);
@@ -128,6 +132,7 @@ public class VehicleController {
 	}
 
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<?> getVehicle(@PathVariable("id") Long id) {
 		return new ResponseEntity<>(VehicleConverter.fromEntity(vehicleService.findById(id)), HttpStatus.OK);
 	}
@@ -154,6 +159,7 @@ public class VehicleController {
 	}
 
 	@PutMapping(value = "/{id}", produces = "application/json")
+	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<VehicleDTO> update(@RequestBody VehicleDTO vehicleDTO, @PathVariable("id") Long id,
 			Authentication auth, HttpServletRequest httpServletRequest) {
 		Vehicle vehicle = vehicleService.findById(id);

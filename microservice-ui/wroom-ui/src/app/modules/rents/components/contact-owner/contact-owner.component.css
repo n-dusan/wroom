@@ -1,0 +1,9 @@
+textarea {
+    line-height: 2.5ex;
+    height: 10ex;
+    overflow: auto;
+}
+
+.content {
+    width: 40vw;
+}

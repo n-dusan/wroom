@@ -4,6 +4,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import xwsagent.wroomagent.config.EndpointConfig;
@@ -77,6 +78,7 @@ public class PriceListController {
      * @return created price
      */
     @PostMapping
+    @PreAuthorize("hasAuthority('POST_PRICELISTS') || hasAuthority('COMPLETE_ACCESS')")
     public ResponseEntity<PriceListDTO> save(@Valid @RequestBody PriceListDTO price, Authentication auth) {
         String logContent = String.format(LOG_CREATE, ((UserPrincipal) auth.getPrincipal()).getUsername(), requestCounter.get(EndpointConfig.PRICE_LIST_BASE_URL));
         log.info(logContent);
