@@ -7,6 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommentDetailsComponent } from '../comment-details/comment-details.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-comments-overview',
@@ -20,7 +21,8 @@ export class CommentsOverviewComponent implements OnInit {
 
   constructor(private adsService: AdsService,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              public dialog: MatDialog) { }
+              public dialog: MatDialog,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadComments();
@@ -50,14 +52,19 @@ export class CommentsOverviewComponent implements OnInit {
     this.adsService.confirm(comment.id).subscribe(
       response => {
         this.loadComments();
-    }, error => {
-      
-    })
+        this.toastr.success('You have successfully approved comment!', 'Success')
+    } 
+    )
   }
   
 
   refuse(comment: CommentModel){
-
+    this.adsService.refuse(comment.id).subscribe(
+      response => {
+        this.loadComments();
+        this.toastr.success('You have successfully refused comment!', 'Success')
+    } 
+    )  
   }
   
 

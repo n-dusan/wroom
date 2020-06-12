@@ -5,13 +5,16 @@ import com.wroom.adsservice.config.EndpointConfig;
 import com.wroom.adsservice.converter.AdConverter;
 import com.wroom.adsservice.converter.CommentConverter;
 import com.wroom.adsservice.converter.LocationConverter;
+import com.wroom.adsservice.domain.Comment;
 import com.wroom.adsservice.domain.dto.AdDTO;
 import com.wroom.adsservice.domain.dto.CommentDTO;
 import com.wroom.adsservice.domain.dto.LocationDTO;
 import com.wroom.adsservice.jwt.UserPrincipal;
+import com.wroom.adsservice.repository.CommentRepository;
 import com.wroom.adsservice.service.AdService;
 import com.wroom.adsservice.utils.RequestCounter;
 import lombok.extern.log4j.Log4j2;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +35,12 @@ public class AdController {
 
     private final AdService adService;
     private final RequestCounter requestCounter;
+    private final CommentRepository commentRepository;
 
-    public AdController(AdService adService, RequestCounter requestCounter) {
+    public AdController(AdService adService, RequestCounter requestCounter, CommentRepository commentRepository) {
         this.adService = adService;
         this.requestCounter = requestCounter;
+        this.commentRepository = commentRepository;
     }
 
     /**
@@ -170,4 +175,28 @@ public class AdController {
         return new ResponseEntity<>(CommentConverter.fromEntityList(adService.getComments(), CommentConverter::fromEntity),
                 HttpStatus.OK);
     }
+    
+    @PostMapping(value = "/confirm/{id}")
+	public ResponseEntity<?> confirm(@PathVariable("id") Long id) {
+		Comment comment = adService.findByCommentId(id);
+		if (comment.isApproved() == false) {
+			adService.confirm(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+    
+    @PostMapping(value = "/refuse/{id}")
+	public ResponseEntity<?> refuse(@PathVariable("id") Long id) {
+		Comment comment = adService.findByCommentId(id);
+		if (comment.isApproved() == false) {
+			adService.refuse(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
 }

@@ -175,6 +175,30 @@ public class AdService {
 //    }
 	
 	public List<Comment> getComments(){
-		return commentRepository.findAll();
+		List<Comment> list = new ArrayList<Comment>();
+		for(Comment c : commentRepository.findAll()) {
+			if(c.isApproved() == false && c.isDeleted() == false) {
+				list.add(c);
+			}
+		}
+		return list;
+	}
+	
+	public Comment findByCommentId(Long id) {
+		return commentRepository.findById(id)
+				.orElseThrow(() -> new GeneralException("Unable to find reference to " + id.toString() + " comment"));
+	}
+	
+	public void confirm(Long id) {
+		Comment comment = findByCommentId(id);
+		comment.setApproved(true);
+		commentRepository.save(comment);
+	}
+	
+	public void refuse(Long id) {
+		Comment comment = findByCommentId(id);
+		comment.setApproved(false);
+		comment.setDeleted(true);
+		commentRepository.save(comment);
 	}
 }

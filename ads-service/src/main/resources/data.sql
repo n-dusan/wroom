@@ -2,7 +2,7 @@
 -- delete from rent_request;
 -- delete from rate;
  delete from ad;
---delete from comment;
+delete from comment;
 
 -- Location
 insert into location(id, country, city)

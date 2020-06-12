@@ -7,5 +7,6 @@ import com.wroom.adsservice.domain.Comment;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long>{
+
 	
 }

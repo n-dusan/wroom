@@ -25,7 +25,5 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
     @Query(value = "SELECT a FROM Ad a WHERE (a.vehicleId = :vehicle)")
     List<Ad> findByVehicleId(@Param("vehicle") Long vehicle);
     
-    @Query(value = "select c.* from comment c where c.deleted=false", nativeQuery=true)
-    List<Comment> findComments();
 }
 
