@@ -20,7 +20,14 @@
             </div>
 
             <mat-selection-list [multiple]="false" *ngIf="!switched && loaded">
+                <div fxLayout="row" fxLaytutAlign="start center" >
+                    <b fxFlex="20%">Title</b>
+                    <b fxFlex>Content</b>
+                    <b fxFlex fxFlex="25%">From</b>
+                    <b fxFlex fxFlex="20%">When</b>
+                </div>
                 <mat-list-option *ngFor="let message of received" (click)="openMessage(message)">
+                    
                     <div fxLayout="row" fxLayoutAlign="center">
                         <div fxFlex="20%">
                             <b>{{message.title}}</b>
@@ -28,8 +35,11 @@
                         <div class="message-content" fxFlex>
                             {{message.content}}
                         </div>
-                        <div fxFlex="30%">
+                        <div fxFlex="25%">
                             {{message.fromUserNameSurname}}
+                        </div>
+                        <div fxFlex="20%">
+                            {{message.date | date:'short'}}
                         </div>
                     </div>
                 </mat-list-option>
@@ -40,6 +50,12 @@
             </mat-selection-list>
 
             <mat-selection-list [multiple]="false" *ngIf="switched && loaded">
+                <div fxLayout="row" fxLaytutAlign="start center" >
+                    <b fxFlex="20%">Title</b>
+                    <b fxFlex>Content</b>
+                    <b fxFlex fxFlex="25%">From</b>
+                    <b fxFlex fxFlex="20%">When</b>
+                </div>
                 <mat-list-option *ngFor="let message of sent" (click)="openMessage(message)">
                     <div fxLayout="row" fxLayoutAlign="center">
                         <div fxFlex="20%">
@@ -48,8 +64,11 @@
                         <div class="message-content" fxFlex>
                             {{message.content}}
                         </div>
-                        <div fxFlex="30%">
+                        <div fxFlex="25%">
                             {{message.toUserNameSurname}}
+                        </div>
+                        <div fxFlex="20%">
+                            {{message.date | date:'short'}}
                         </div>
                     </div>
                 </mat-list-option>

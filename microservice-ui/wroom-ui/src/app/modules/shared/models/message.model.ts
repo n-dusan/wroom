@@ -5,6 +5,7 @@ export class Message {
         public title?: string,
         public content?: string,
         public fromUserId?: number,
+        public date?: Date,
         public fromUserNameSurname?: string,
         public toUserNameSurname?: string
     ) {}

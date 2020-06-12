@@ -14,7 +14,7 @@ public class RentConverter extends AbstractConverter{
                 entity.getToDate(),
                 entity.getRequestedUserId(),
                 AdConverter.fromEntity(entity.getAd()),
-                entity.getBundle().getId()
+                entity.getBundle() == null ? null : entity.getBundle().getId()
         );
     }
 

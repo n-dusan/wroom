@@ -172,17 +172,17 @@ values (2, 'zika@maildrop.cc', 'Zivorad', '$2a$10$ZECdbx5MAPP.a7YbmWBowOrub/B2r7
 insert into users(id, email, name, password, surname, enabled, non_locked, last_password_change)
 values (3, 'grga@maildrop.cc', 'Svetislav', '$2a$10$JOsaxc.iuu8Pw.Wlbdfci.dl7xP93fa7/i0tib6zjnEv.OLrIRP1i', 'Grgur', 1, 1, null);
 
----- mila user
---insert into user_roles(user_id, role_id)
---values (1, 1);
---insert into user_roles(user_id, role_id)
---values (1, 7);
---
-----zika agent
---insert into user_roles(user_id, role_id)
---values (2, 2);
---
-----grga admin
---insert into user_roles(user_id, role_id)
---values (3, 3);
---
+-- mila user
+insert into user_roles(user_id, role_id)
+values (1, 1);
+insert into user_roles(user_id, role_id)
+values (1, 7);
+
+--zika agent
+insert into user_roles(user_id, role_id)
+values (2, 2);
+
+--grga admin
+insert into user_roles(user_id, role_id)
+values (3, 3);
+

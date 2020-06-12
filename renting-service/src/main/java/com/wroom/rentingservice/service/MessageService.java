@@ -1,5 +1,6 @@
 package com.wroom.rentingservice.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class MessageService {
 	public Message send(MessageDTO dto, Long senderId) {
 		Message entity = MessageConverter.toEntity(dto);
 		entity.setFromUserId(senderId);
+		entity.setDate(new Date());
 		return this.messageRepository.save(entity);
 	}
 	

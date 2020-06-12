@@ -32,6 +32,7 @@ export class InboxComponent implements OnInit {
       data => {
         this.received = data;
         console.log('messages', this.received)
+        this.received.sort((a,b)=>{ return <any>new Date(a.date)- <any>new Date(b.date)}).reverse();
 
         for(let request of this.received) {
           this.authService.get(request.fromUserId).subscribe(
@@ -59,7 +60,8 @@ export class InboxComponent implements OnInit {
     this.messageService.sent().subscribe(
       data => {
         this.sent = data;
-        
+        this.sent.sort((a,b)=>{ return <any>new Date(a.date)- <any>new Date(b.date)}).reverse();
+
         for(let request of this.sent) {
           this.authService.get(request.toUserId).subscribe(
             data => {
@@ -85,6 +87,7 @@ export class InboxComponent implements OnInit {
     this.messageService.received().subscribe(
       data => {
         this.received = data;
+        this.received.sort((a,b)=>{ return <any>new Date(a.date)- <any>new Date(b.date)}).reverse();
 
         for(let request of this.received) {
           this.authService.get(request.fromUserId).subscribe(

@@ -11,7 +11,8 @@ public class MessageConverter extends AbstractConverter {
                 entity.getRentRequestId(),
                 entity.getTitle(),
                 entity.getContent(),
-                entity.getFromUserId() == null ? null : entity.getFromUserId()
+                entity.getFromUserId() == null ? null : entity.getFromUserId(),
+                entity.getDate()
         );
     }
 
@@ -22,7 +23,8 @@ public class MessageConverter extends AbstractConverter {
     			dto.getToUserId(), 
     			dto.getRentRequestId(), 
     			dto.getTitle(), 
-    			dto.getContent());
+    			dto.getContent(),
+    			dto.getDate());
     }
 	
 }

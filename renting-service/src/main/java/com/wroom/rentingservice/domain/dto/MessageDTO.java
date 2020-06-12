@@ -1,5 +1,7 @@
 package com.wroom.rentingservice.domain.dto;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ public class MessageDTO {
 	private String title;
 	private String content;
 	private Long fromUserId;
+	private Date date;
 	
 	
 }
