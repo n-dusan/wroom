@@ -9,13 +9,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class RentRequestDTO {
 
 	private Long id;
 	private RequestStatus status;
-	private Date fromDate; 
+
+	@NotNull(message = "from can't be null")
+	private Date fromDate;
+
+	@NotNull(message = "to can't be null")
 	private Date toDate;
+
+
 	private Long requestedUserId;
 	private AdDTO ad;
 	private Long bundleId;

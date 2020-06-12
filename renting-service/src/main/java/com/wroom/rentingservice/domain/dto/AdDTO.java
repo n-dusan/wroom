@@ -11,32 +11,15 @@ import lombok.Setter;
 public class AdDTO {
 
     private Long id;
-
-//    @NotNull(message = "an important field")
     private Long vehicleId;
-
-//    @NotNull(message = "an important field")
     private Long priceListId;
-
-//    @NotNull(message = "an important field")
-//    @FutureOrPresent(message = "dates have to be in future")
-    private Date availableFrom;
-
-//    @NotNull(message = "an important field")
-//    @Future(message = "dates have to be in future")
-    private Date availableTo;
-
-    private Double mileLimit;
-
-    private boolean mileLimitEnabled;
-
-//    @NotNull(message = "an important field")
     private Long locationId;
 
-//    @NotNull(message = "an important field")
+    private Date availableFrom;
+    private Date availableTo;
+    private Double mileLimit;
+    private boolean mileLimitEnabled;
     private String address;
-
     private boolean gps;
-    
-//    private Double averageRate; 
+
 }
