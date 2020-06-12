@@ -11,7 +11,8 @@ export class RentRequest {
         public requestedUserId?: number,
         public ad?: Ad,
         public requestedUserUsername?: string,
-        public checked?: boolean
+        public checked?: boolean,
+        public bundleId?: number
     ) { }
 
 }
