@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.wroom.rentingservice.exception.GeneralException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -44,8 +45,10 @@ public class RentsService {
 	}
 
 	public RentRequest findById(Long id) {
-		return this.rentRepository.findById(id).get();
+		return this.rentRepository.findById(id).orElseThrow(
+				() -> new GeneralException("Unable to find reference to " + id.toString() + " rent request"));
 	}
+
 	
 	public RentRequest sendRequest(RentRequestDTO dto, Long requestedUserID) {
 		RentRequest entity = RentConverter.toEntity(dto);
@@ -188,6 +191,69 @@ public class RentsService {
 	public List<RentRequestDTO> findByAd(Long adId) {
 		Ad ad = this.adService.findById(adId);
 		return RentConverter.fromEntityList(this.findByAd(ad), RentConverter::fromEntity);
+	}
+
+
+	public RentRequest decline(Long id) {
+		RentRequest rentRequest = findById(id);
+
+		rentRequest.setStatus(RequestStatus.CANCELED);
+		return this.rentRepository.save(rentRequest);
+	}
+
+	public RentRequest accept(Long id) {
+
+		RentRequest rentRequest = findById(id);
+
+		rentRequest.setStatus(RequestStatus.RESERVED);
+		return this.rentRepository.save(rentRequest);
+	}
+
+
+	public List<RentRequest> getPending(Long userId) {
+
+		List<Ad> adList = adRepository.findAllActiveUser(userId);
+		List<RentRequest> pendingList = new ArrayList<RentRequest>();
+
+		boolean flag = false;
+
+		for (Ad ad : adList) {
+			List<RentRequest> requestList = rentRepository.findByAd(ad);
+			for (RentRequest rentRequest : requestList) {
+				//if flag is true, pending request is overlapped by a reserved one and should not be shown
+				flag = false;
+
+				if(rentRequest.getStatus() == RequestStatus.PENDING) {
+					System.out.println("Uso u pending");
+					for (RentRequest request : requestList) {
+
+						if(request.getId() != rentRequest.getId()) {
+							System.out.println("Uso ovde");
+							Integer count = rentRepository.findValidPendingRequests(userId,
+									ad.getId(),
+									rentRequest.getFromDate(),
+									rentRequest.getToDate());
+							if (count != null) {
+								if(count > 0) {
+									flag = true;
+									System.out.println(">>Rent request with ID" + rentRequest + "overlaps with a reserved one." + request);
+								}
+							}
+						}
+					}
+
+					if(!flag) {
+						System.out.println("Flag je false");
+						pendingList.add(rentRequest);
+						System.out.println("Pending list " + pendingList);
+					}
+
+				}
+			}
+		}
+
+		System.out.println("Pending list " + pendingList);
+		return pendingList;
 	}
 
 }

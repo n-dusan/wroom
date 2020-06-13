@@ -21,9 +21,11 @@ import com.wroom.rentingservice.domain.enums.RequestStatus;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter @Setter @NoArgsConstructor
+@ToString
 public class RentRequest {
 
 	@Id

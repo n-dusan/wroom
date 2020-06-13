@@ -1,3 +1,4 @@
+
 <mat-tab-group mat-align-tabs="center" dynamicHeight style="background-color: white; margin: 25px;">
   <mat-tab>
     <ng-template mat-tab-label>
@@ -10,28 +11,29 @@
         <div fxLayout="row" fxLayoutAlign="center center">
           <div fxFlex>
             <mat-card-header fxLayout="row" fxLayoutAlign="center">
-              <div fxFlex>
-                <mat-card-title>{{vehicleName(request)}}
-                </mat-card-title>
-              </div>
+              <mat-card-title>{{vehicleName(request)}}</mat-card-title>
+              <mat-card-subtitle>{{request?.ad?.address}}</mat-card-subtitle>
             </mat-card-header>
 
             <mat-divider horizontal style="height:100px;"></mat-divider>
 
             <mat-card-content fxLayout="row" fxLayoutAlign="center center">
-              <table  style="width:500px;">
-                <tbody>
-                  <tr>
-                    <td>From:</td>
-                    <td>{{request.fromDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                  <tr>
-                    <td>To:</td>
-                    <td>{{request.toDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                </tbody>
+              <table fxFlex>
+                  <tbody>
+                      <tr>
+                          <th style="text-align: end;">From:</th>
+                          <td>{{request?.fromDate | date:'short'}}</td>
+                      </tr>
+                      <tr>
+                          <th style="text-align: end;">To:</th>
+                          <td>{{request?.toDate | date:'short'}}</td>
+                      </tr>
+                  </tbody>
               </table>
-              <div fxFlex></div>
+
+              <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
+                <mat-chip color="accent" selected>Bundled</mat-chip>
+              </mat-chip-list>
             </mat-card-content>
           </div>
         </div>
@@ -49,29 +51,39 @@
       <mat-card *ngFor="let request of reservedList" fxFlex>
         <div fxLayout="row" fxLayoutAlign="center center">
           <div fxFlex>
+
             <mat-card-header fxLayout="row" fxLayoutAlign="center">
-              <div fxFlex>
-                <mat-card-title>{{vehicleName(request)}}
-                </mat-card-title>
+
+              <mat-card-title>{{vehicleName(request)}}</mat-card-title>
+              <mat-card-subtitle>{{request?.ad?.address}}</mat-card-subtitle>
+
+
+              <div fxFlex="15%" *ngIf="request.bundleId">
+                <button mat-mini-fab color="accent" matTooltip="View bundle" (click)="viewBundle(request)">
+                  <mat-icon>details</mat-icon>
+                </button>
               </div>
             </mat-card-header>
 
             <mat-divider horizontal style="height:100px;"></mat-divider>
 
             <mat-card-content fxLayout="row" fxLayoutAlign="center center">
-              <table style="width:500px;">
-                <tbody>
-                  <tr>
-                    <td>From:</td>
-                    <td>{{request.fromDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                  <tr>
-                    <td>To:</td>
-                    <td>{{request.toDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                </tbody>
+              <table fxFlex>
+                  <tbody>
+                      <tr>
+                          <th style="text-align: end;">From:</th>
+                          <td>{{request?.fromDate | date:'short'}}</td>
+                      </tr>
+                      <tr>
+                          <th style="text-align: end;">To:</th>
+                          <td>{{request?.toDate | date:'short'}}</td>
+                      </tr>
+                  </tbody>
               </table>
-              <div fxFlex></div>
+
+              <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
+                <mat-chip color="accent" selected>Bundled</mat-chip>
+              </mat-chip-list>
             </mat-card-content>
           </div>
         </div>
@@ -84,37 +96,61 @@
       &nbsp;
       Pending
     </ng-template>
-    <div fxLayout = "column" style="height:100%;" fxLayoutAlign="center center">
+
+    <mat-spinner fxLayout = "column" style="height:100%;" fxLayoutAlign="center center" color="accent" *ngIf="loadingPending" ></mat-spinner>
+    <div fxLayout = "column" style="height:100%;" fxLayoutAlign="center center" *ngIf="!loadingPending">
       <mat-card *ngFor="let request of pendingList" fxFlex >
         <div fxLayout="row" fxLayoutAlign="center center">
           <div fxFlex>
             <mat-card-header fxLayout="row" fxLayoutAlign="center">
-              <div fxFlex>
-                <mat-card-title>{{vehicleName(request)}}
-                </mat-card-title>
-              </div>
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-card-header fxFlex>
+
+                    <mat-card-title>{{vehicleName(request)}}</mat-card-title>
+                    <mat-card-subtitle>{{request?.ad?.address}}</mat-card-subtitle>
+                </mat-card-header>
+
+
+                <div fxFlex="15%" *ngIf="!request.bundleId">
+                    <button mat-mini-fab color="accent" matTooltip="Accept request" (click)="acceptRequest(request)">
+                      <mat-icon>thumb_up</mat-icon>
+                    </button>
+                  </div>
+                  &nbsp;
+                  <div fxFlex="15%"*ngIf="!request.bundleId">
+                    <button mat-mini-fab color="warn" matTooltip="Decline request" (click)="declineRequest(request)">
+                      <mat-icon>thumb_down</mat-icon>
+                    </button>
+                  </div>
+
+                <div fxFlex="15%" *ngIf="request.bundleId">
+                  <button mat-mini-fab color="accent" matTooltip="View bundle" (click)="viewBundle(request)">
+                    <mat-icon>details</mat-icon>
+                  </button>
+                </div>
+            </div>
             </mat-card-header>
 
             <mat-divider horizontal style="height:100px;"></mat-divider>
 
             <mat-card-content fxLayout="row" fxLayoutAlign="center center">
-              <table style="width:500px;">
-                <tbody>
-                  <tr>
-                    <td>From:</td>
-                    <td>{{request.fromDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                  <tr>
-                    <td>To:</td>
-                    <td>{{request.toDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                </tbody>
+              <table fxFlex>
+                  <tbody>
+                      <tr>
+                          <th style="text-align: end;">From:</th>
+                          <td>{{request?.fromDate | date:'short'}}</td>
+                      </tr>
+                      <tr>
+                          <th style="text-align: end;">To:</th>
+                          <td>{{request?.toDate | date:'short'}}</td>
+                      </tr>
+                  </tbody>
               </table>
+
+              <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
+                <mat-chip color="accent" selected>Bundled</mat-chip>
+              </mat-chip-list>
             </mat-card-content>
-            <mat-card-actions fxLayout="row" fxLayoutAlign="end">
-              <button mat-raised-button color="primary">Accept</button>
-              <button mat-raised-button color="warn">Decline</button>
-          </mat-card-actions>
           </div>
         </div>
 
@@ -141,19 +177,22 @@
             <mat-divider horizontal style="height:100px;"></mat-divider>
 
             <mat-card-content fxLayout="row" fxLayoutAlign="center center">
-              <table style="width:500px;">
-                <tbody>
-                  <tr>
-                    <td>From:</td>
-                    <td>{{request.fromDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                  <tr>
-                    <td>To:</td>
-                    <td>{{request.toDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                </tbody>
+              <table fxFlex>
+                  <tbody>
+                      <tr>
+                          <th style="text-align: end;">From:</th>
+                          <td>{{request?.fromDate | date:'short'}}</td>
+                      </tr>
+                      <tr>
+                          <th style="text-align: end;">To:</th>
+                          <td>{{request?.toDate | date:'short'}}</td>
+                      </tr>
+                  </tbody>
               </table>
-              <div fxFlex></div>
+
+              <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
+                <mat-chip color="accent" selected>Bundled</mat-chip>
+              </mat-chip-list>
             </mat-card-content>
           </div>
         </div>
@@ -180,22 +219,79 @@
             <mat-divider horizontal style="height:100px;"></mat-divider>
 
             <mat-card-content fxLayout="row" fxLayoutAlign="center center">
-              <table style="width:500px;">
-                <tbody>
-                  <tr>
-                    <td>From:</td>
-                    <td>{{request.fromDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                  <tr>
-                    <td>To:</td>
-                    <td>{{request.toDate |  date:'MM/dd/yyyy'}}</td>
-                  </tr>
-                </tbody>
+              <table fxFlex>
+                  <tbody>
+                      <tr>
+                          <th style="text-align: end;">From:</th>
+                          <td>{{request?.fromDate | date:'short'}}</td>
+                      </tr>
+                      <tr>
+                          <th style="text-align: end;">To:</th>
+                          <td>{{request?.toDate | date:'short'}}</td>
+                      </tr>
+                  </tbody>
               </table>
-              <div fxFlex></div>
+
+              <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
+                <mat-chip color="accent" selected>Bundled</mat-chip>
+              </mat-chip-list>
             </mat-card-content>
           </div>
         </div>
+      </mat-card>
+    </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon color="accent" class="example-tab-icon">done_all</mat-icon>
+      &nbsp;
+      Completed
+    </ng-template>
+
+    <div fxLayout = "column" style="height:100%;" fxLayoutAlign="center center">
+      <mat-card *ngFor="let request of pendingList" fxFlex >
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxFlex>
+            <mat-card-header fxLayout="row" fxLayoutAlign="center">
+              <div fxLayout="row" fxLayoutAlign="center center">
+                <mat-card-header fxFlex>
+                    <mat-card-title>{{vehicleName(request)}}</mat-card-title>
+                    <mat-card-subtitle>{{request?.ad?.address}}</mat-card-subtitle>
+                </mat-card-header>
+
+                <div fxFlex="15%">
+                    <button mat-mini-fab color="accent" matTooltip="Rent report">
+                      <mat-icon>assignment</mat-icon>
+                    </button>
+                  </div>
+
+            </div>
+            </mat-card-header>
+
+            <mat-divider horizontal style="height:100px;"></mat-divider>
+
+            <mat-card-content fxLayout="row" fxLayoutAlign="center center">
+              <table fxFlex>
+                  <tbody>
+                      <tr>
+                          <th style="text-align: end;">From:</th>
+                          <td>{{request?.fromDate | date:'short'}}</td>
+                      </tr>
+                      <tr>
+                          <th style="text-align: end;">To:</th>
+                          <td>{{request?.toDate | date:'short'}}</td>
+                      </tr>
+                  </tbody>
+              </table>
+
+              <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
+                <mat-chip color="accent" selected>Bundled</mat-chip>
+              </mat-chip-list>
+            </mat-card-content>
+          </div>
+        </div>
+
       </mat-card>
     </div>
   </mat-tab>

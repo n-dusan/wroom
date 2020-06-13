@@ -7,9 +7,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { RequestsOverviewComponent } from './components/requests-overview/requests-overview.component';
 import { ContactOwnerComponent } from './components/contact-owner/contact-owner.component';
+import { BundleDialogComponent } from './components/bundle-dialog/bundle-dialog.component';
 
 @NgModule({
-  declarations: [VehicleOccupancyListComponent, RequestsOverviewComponent, ContactOwnerComponent],
+  declarations: [VehicleOccupancyListComponent, RequestsOverviewComponent, ContactOwnerComponent, BundleDialogComponent],
   imports: [
     RentsRoutingModule,
     MaterialModule,

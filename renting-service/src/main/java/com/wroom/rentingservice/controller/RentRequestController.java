@@ -8,12 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.wroom.rentingservice.config.EndpointConfig;
 import com.wroom.rentingservice.converter.BundleConverter;
@@ -90,6 +85,22 @@ public class RentRequestController {
 			log.error(logContent + "General exception");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	@PutMapping("/decline/{id}")
+	public ResponseEntity<RentRequestDTO> decline(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(RentConverter.fromEntity(rentsService.decline(id)), HttpStatus.OK);
+	}
+
+	@PutMapping("/accept/{id}")
+	public ResponseEntity<RentRequestDTO> accept(@PathVariable("id") Long id) {
+		return new ResponseEntity<>(RentConverter.fromEntity(rentsService.accept(id)), HttpStatus.OK);
+	}
+
+	@GetMapping("/pending/{user}")
+	public ResponseEntity<List<RentRequestDTO>> getPending(@PathVariable("user") Long userId) {
+		return new ResponseEntity<>(RentConverter.fromEntityList(rentsService.getPending(userId), RentConverter::fromEntity),
+				HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")

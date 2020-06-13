@@ -7,6 +7,7 @@
 
     <div fxLayout="column">
       <mat-nav-list>
+        <div fxLayout="column" fxLayoutAlign="center"> <a mat-list-item> <b> {{user?.email}} </b> </a></div>
         <div fxLayout="column" fxLayoutAlign="center" *ngIf="user?.privileges[0] === 'ROLE_AGENT'">
             <a mat-list-item routerLink="/vehicles/new">Register a Car</a>
             <a mat-list-item routerLink="/ads/overview">My Ads</a>

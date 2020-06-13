@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/modules/shared/service/auth.service';
 import { LoggedUser } from 'src/app/modules/auth/model/logged-user.model';
 import { RentsService } from '../../services/rents.service';
-import { RentRequest } from 'src/app/modules/shared/models/rent-request';
+import { RentRequest } from 'src/app/modules/shared/models/rent-request.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ContactOwnerComponent } from '../contact-owner/contact-owner.component';
 
