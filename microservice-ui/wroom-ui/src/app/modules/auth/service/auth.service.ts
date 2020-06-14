@@ -17,13 +17,22 @@ export class AuthService {
   loggedUserSubject: BehaviorSubject<LoggedUser>;
   loggedUser: Observable<LoggedUser>;
 
-  private baseUrl: string = environment.protocol 
-                        + '://' + environment.domain 
-                        + ':' 
+  private baseUrl: string = environment.protocol
+                        + '://' + environment.domain
+                        + ':'
                         + environment.port
-                        + environment.api 
-                        + environment.authService 
+                        + environment.api
+                        + environment.authService
                         + '/auth';
+
+
+  private userUrl: string = environment.protocol
+                      + '://' + environment.domain
+                      + ':'
+                      + environment.port
+                      + environment.api
+                      + environment.authService
+                      + '/user';
 
 
   constructor(private httpClient: HttpClient,
@@ -96,6 +105,10 @@ export class AuthService {
 
   changePassword(token: ResetPassword): Observable<any> {
     return this.httpClient.put(this.baseUrl + '/reset-password', token);
+  }
+
+  getUser(userId: number): Observable<LoggedUser> {
+    return this.httpClient.get<LoggedUser>(this.userUrl + '/' + userId);
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {

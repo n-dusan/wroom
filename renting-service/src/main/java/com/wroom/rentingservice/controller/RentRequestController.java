@@ -28,6 +28,10 @@ public class RentRequestController {
 	private static final String LOG_SEND_REQUEST = "action=sendRequest user=%s times=%s ";
 	private static final String LOG_SEND_BUNDLED_REQUEST = "action=sendBundledRequest user=%s times=%s ";
 	private static final String LOG_OCCUPY = "action=occupy user=%s times=%s ";
+	private static final String LOG_DECLINE_REQUEST = "action=decline_request user=%s times=%s";
+	private static final String LOG_ACCEPT_REQUEST = "action=accept_request user=%s times=%s";
+	private static final String LOG_ACCEPT_BUNDLE = "action=accept_bundle user=%s times=%s";
+	private static final String LOG_DECLINE_BUNDLE = "action=accept_bundle user=%s times=%s";
 
 	private final RentsService rentsService;
 	private final RequestCounter requestCounter;
@@ -88,13 +92,35 @@ public class RentRequestController {
 	}
 
 	@PutMapping("/decline/{id}")
-	public ResponseEntity<RentRequestDTO> decline(@PathVariable("id") Long id) {
+	public ResponseEntity<RentRequestDTO> decline(@PathVariable("id") Long id, Authentication auth) {
+		String logContent = String.format(LOG_DECLINE_REQUEST, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
+		log.info(logContent);
 		return new ResponseEntity<>(RentConverter.fromEntity(rentsService.decline(id)), HttpStatus.OK);
 	}
 
 	@PutMapping("/accept/{id}")
-	public ResponseEntity<RentRequestDTO> accept(@PathVariable("id") Long id) {
+	public ResponseEntity<RentRequestDTO> accept(@PathVariable("id") Long id, Authentication auth) {
+		String logContent = String.format(LOG_ACCEPT_REQUEST, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
+		log.info(logContent);
 		return new ResponseEntity<>(RentConverter.fromEntity(rentsService.accept(id)), HttpStatus.OK);
+	}
+
+
+	@PutMapping("/bundle/decline/{id}")
+	public ResponseEntity<List<RentRequestDTO>> declineBundle(@PathVariable("id") Long bundleId, Authentication auth) {
+		String logContent = String.format(LOG_DECLINE_BUNDLE, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
+		log.info(logContent);
+		return new ResponseEntity<>(RentConverter.fromEntityList(bundleService.decline(bundleId), RentConverter::fromEntity),
+				HttpStatus.OK);
+	}
+
+
+	@PutMapping("/bundle/accept/{id}")
+	public ResponseEntity<List<RentRequestDTO>> acceptBundle(@PathVariable("id") Long bundleId, Authentication auth) {
+		String logContent = String.format(LOG_ACCEPT_BUNDLE, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
+		log.info(logContent);
+		return new ResponseEntity<>(RentConverter.fromEntityList(bundleService.accept(bundleId), RentConverter::fromEntity),
+				HttpStatus.OK);
 	}
 
 	@GetMapping("/pending/{user}")

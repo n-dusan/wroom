@@ -8,6 +8,8 @@ import { RentRequest } from '../../../shared/models/rent-request.model';
 import { VehicleService } from '../../../vehicles/services/vehicle-features/vehicle.service';
 import { Vehicle } from '../../../shared/models/vehicle.model';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog } from '@angular/material/dialog';
+import { BundleDialogComponent } from '../bundle-dialog/bundle-dialog.component';
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -34,7 +36,8 @@ export class VehicleOccupancyListComponent implements OnInit {
   constructor(private authService: AuthService,
     private rentService: RentsService,
     private vehicleService: VehicleService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.refresh();
@@ -72,6 +75,15 @@ export class VehicleOccupancyListComponent implements OnInit {
 
   viewBundle(request: RentRequest) {
     console.log('my bundle', request);
+    let dialogRef = this.dialog.open(BundleDialogComponent, {
+      data: {
+        bundleId: request.bundleId //prosledjujes bundle ka komponenti, treba bek da dobavi rent requestove i dugme za bless. posle toga ide placanje
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refresh()
+    });
   }
 
   refresh() {
@@ -104,7 +116,7 @@ export class VehicleOccupancyListComponent implements OnInit {
             this.canceledList.push(r);
           } else if (r.status == 'RESERVED') {
             this.reservedList.push(r);
-          } else {
+          } else if(r.status == 'PHYSICALLY_RESERVED') {
             this.physicallyReservedList.push(r);
           }
         }

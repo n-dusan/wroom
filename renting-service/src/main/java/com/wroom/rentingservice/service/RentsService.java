@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.wroom.rentingservice.exception.GeneralException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +27,13 @@ public class RentsService {
 	private final RentRequestRepository rentRepository;
 	private final AdRepository adRepository;
 	private final AdService adService;
-	private final BundleService bundleService;
 
-	public RentsService(RentRequestRepository rr, AdService a,
-			BundleService bs, AdRepository adRepository) {
+	@Autowired
+	private BundleService bundleService;
+
+	public RentsService(RentRequestRepository rr, AdService a, AdRepository adRepository) {
 		this.rentRepository = rr;
 		this.adService = a;
-		this.bundleService = bs;
 		this.adRepository = adRepository;
 	}
 
@@ -245,7 +246,6 @@ public class RentsService {
 					if(!flag) {
 						System.out.println("Flag je false");
 						pendingList.add(rentRequest);
-						System.out.println("Pending list " + pendingList);
 					}
 
 				}

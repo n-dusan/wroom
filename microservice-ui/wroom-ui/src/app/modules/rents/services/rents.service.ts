@@ -48,6 +48,18 @@ export class RentsService {
       return this.http.get<RentRequest[]>(this.baseUrl + '/pending/' + userId).pipe(catchError(this.handleException));
     }
 
+    getBundledRequests(bundleId: number): Observable<RentRequest[]> {
+      return this.http.get<RentRequest[]>(this.baseUrl + '/bundle/' + bundleId).pipe(catchError(this.handleException));
+    }
+
+    acceptBundle(bundleId: number): Observable<RentRequest[]> {
+      return this.http.put<RentRequest[]>(this.baseUrl + '/bundle/accept/' + bundleId, {}).pipe(catchError(this.handleException));
+    }
+
+    declineBundle(bundleId: number): Observable<RentRequest[]> {
+      return this.http.put<RentRequest[]>(this.baseUrl + '/bundle/decline/' + bundleId, {}).pipe(catchError(this.handleException));
+    }
+
     private handleException(err: HttpErrorResponse): Observable<never> {
       return throwError(err.error);
     }
