@@ -138,7 +138,6 @@
 	</dependencies>
 
 	<build>
-		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
@@ -167,7 +166,6 @@
 				<!-- /SOAP -->
 
 			</plugins>
-		</pluginManagement>
 	</build>
 
 </project>

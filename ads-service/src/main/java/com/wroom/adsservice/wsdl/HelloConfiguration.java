@@ -17,7 +17,7 @@ public class HelloConfiguration {
 	}
 
 	@Bean
-	public HelloClient countryClient(Jaxb2Marshaller marshaller) {
+	public HelloClient helloClient(Jaxb2Marshaller marshaller) {
 		HelloClient client = new HelloClient();
 		client.setDefaultUri("http://localhost:8081/ws");
 		client.setMarshaller(marshaller);

@@ -8,7 +8,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
 public class HelloEndpoint {
-	private static final String NAMESPACE_URI ="http://localhost:8094/hello";
+	private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
 
 	private HelloRepository helloRepository;
 
@@ -17,9 +17,10 @@ public class HelloEndpoint {
 		this.helloRepository = helloRepository;
 	}
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "helloRequest")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "hello")
 	@ResponsePayload
 	public HelloResponse hello(@RequestPayload HelloRequest request) {
+		System.out.println(">>>>>>>>>>> I'm reached !");
 		HelloResponse response = new HelloResponse();
 		response.setHello(this.helloRepository.sayHello(request.getName()));
 		return response;
