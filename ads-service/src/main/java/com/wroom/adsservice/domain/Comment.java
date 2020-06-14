@@ -40,4 +40,5 @@ public class Comment {
     private Ad ad;
 
 
+
 }

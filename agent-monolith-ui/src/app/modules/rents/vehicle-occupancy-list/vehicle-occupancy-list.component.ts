@@ -92,7 +92,7 @@ export class VehicleOccupancyListComponent implements OnInit {
   addComment(ad: Ad){
     const dialogRef = this.dialog.open(NewCommentComponent, {
       width: '500px',
-      height: '300px',
+      height: '400px',
       data: ad
     });
     dialogRef.afterClosed().subscribe(result => {

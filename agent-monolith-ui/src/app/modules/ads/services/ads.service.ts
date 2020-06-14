@@ -74,6 +74,18 @@ export class AdsService {
     return this.http.post<CommentModel>(`${this.adsUrl}/comment/` + id, comment);
   }
 
+  getAllComments() : Observable<CommentModel[]> {
+    return this.http.get<CommentModel[]>(this.adsUrl + '/comments');
+  }
+
+  confirm(id: number) {
+    return this.http.post(this.adsUrl + '/confirm/' + id, id);
+  }
+
+  refuse(id: number) {
+    return this.http.post(this.adsUrl + '/refuse/' + id, id);
+  }
+
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);

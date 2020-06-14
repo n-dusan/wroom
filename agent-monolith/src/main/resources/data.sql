@@ -289,17 +289,25 @@ values(1, '2020-06-23 00:00:00.000000', 'COMPLETED', '2020-06-23 00:00:00.000000
 --values(4, '2020-07-17 10:00:00.000000', 'PHYSICALLY_RESERVED', '2020-07-18 00:00:00.000000', null, 1, 4); 
 
 -- Rates
-insert into rate(id, rating, ad_id)
-values (1, 5, 1);
-insert into rate(id, rating, ad_id)
-values (2, 4, 1);
-insert into rate(id, rating, ad_id)
-values (3, 3, 2);
-insert into rate(id, rating, ad_id)
-values (4, 4, 2);
-insert into rate(id, rating, ad_id)
-values (5, 3, 3);
+--insert into rate(id, rating, ad_id)
+--values (1, 5, 1);
+--insert into rate(id, rating, ad_id)
+--values (2, 4, 1);
+--insert into rate(id, rating, ad_id)
+--values (3, 3, 2);
+--insert into rate(id, rating, ad_id)
+--values (4, 4, 2);
+--insert into rate(id, rating, ad_id)
+--values (5, 3, 3);
 
 --Comment
-insert into comment (id, approved, client_username, content, deleted, title, ad_id, comment_date)
-values(1, false, 'Mila', 'Sadrzaj komentara', false, 'Naslov komentara', 1, '2020-08-15 00:00:00.000000')
+insert into comment(id, approved, client_username, comment_date, content, deleted, rating, title, ad_id)
+values(1, false, 'Mila', '2020-06-13 01:28:25.000000', 'Sadrzaj komentara', false, 6.3, 'Naslov komentara', 1);
+insert into comment(id, approved, client_username, comment_date, content, deleted, rating, title, ad_id)
+values(2, false, 'Zivorad', '2020-06-13 01:28:25.000000', 'Ovo je drugi sadrzaj', false, 4, 'Naslov komentara2', 1);
+insert into comment(id, approved, client_username, comment_date, content, deleted, rating, title, ad_id)
+values(3, false, 'Zivorad', '2020-06-13 01:28:25.000000', 'Ovo je drugi sadrzaj', false, 3, 'Naslov komentara2', 2);
+insert into comment(id, approved, client_username, comment_date, content, deleted, rating, title, ad_id)
+values(4, false, 'Zivorad', '2020-06-13 01:28:25.000000', 'Ovo je drugi sadrzaj', false, 4, 'Naslov komentara2', 2);
+insert into comment(id, approved, client_username, comment_date, content, deleted, rating, title, ad_id)
+values(5, false, 'Zivorad', '2020-06-13 01:28:25.000000', 'Ovo je drugi sadrzaj', false, 3, 'Naslov komentara2', 3);

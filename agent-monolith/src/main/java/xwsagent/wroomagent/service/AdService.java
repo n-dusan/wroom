@@ -1,5 +1,6 @@
 package xwsagent.wroomagent.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -121,10 +122,39 @@ public class AdService {
     	User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
     	comment.setClientUsername(user.getName() + " " + user.getSurname());
     	comment.setAd(findById(id));
+    	comment.setRating(dto.getRating());
     	Calendar cal = Calendar.getInstance();
     	Date date = cal.getTime();
     	comment.setCommentDate(date);
     	commentRepository.save(comment);
     	return comment;
     }
+    
+    public List<Comment> getComments(){
+		List<Comment> list = new ArrayList<Comment>();
+		for(Comment c : commentRepository.findAll()) {
+			if(c.isApproved() == false && c.isDeleted() == false) {
+				list.add(c);
+			}
+		}
+		return list;
+	}
+	
+	public Comment findByCommentId(Long id) {
+		return commentRepository.findById(id)
+				.orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " ad"));
+	}
+	
+	public void confirm(Long id) {
+		Comment comment = findByCommentId(id);
+		comment.setApproved(true);
+		commentRepository.save(comment);
+	}
+	
+	public void refuse(Long id) {
+		Comment comment = findByCommentId(id);
+		comment.setApproved(false);
+		comment.setDeleted(true);
+		commentRepository.save(comment);
+	}
 }

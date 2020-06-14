@@ -9,8 +9,15 @@
       <mat-label>Content</mat-label>
       <textarea matInput formControlName="content"></textarea>
     </mat-form-field>
-
+    <div style="border-style: groove;">
+    &nbsp;
+    Add rate
+    &nbsp;
+    <mat-slider #matslider (input)="pitch($event)" thumbLabel tickInterval="0.1" min="0" max="10"></mat-slider>
+    <br/>
+  </div>
     <div>
+        <br/>
         <button mat-raised-button color="accent" type="submit">Add</button>
     </div>
 </form>

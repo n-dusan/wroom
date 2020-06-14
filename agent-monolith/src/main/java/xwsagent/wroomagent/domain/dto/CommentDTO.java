@@ -18,6 +18,8 @@ public class CommentDTO {
     private String content;
 
     private Date commentDate;
+    
+    private Integer rating;
 
     private boolean deleted;
 
