@@ -6,7 +6,7 @@
 	<element name="helloRequest">
 		<complexType>
 			<sequence>
-				<element name="name" type="string" />
+				<element name="name" type="tns:name" />
 			</sequence>
 		</complexType>
 	</element>
@@ -14,9 +14,16 @@
 	<element name="helloResponse">
 		<complexType>
 			<sequence>
-				<element name="hello" type="string" />
+				<element name="name" type="tns:name" />
 			</sequence>
 		</complexType>
 	</element>
+
+	<simpleType name="name">
+        <restriction base="string">
+            <maxLength value="50"/>
+            <minLength value="2"/>
+        </restriction>
+    </simpleType>
 
 </schema>

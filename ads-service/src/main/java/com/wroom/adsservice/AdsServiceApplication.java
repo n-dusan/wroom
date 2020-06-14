@@ -31,7 +31,7 @@ public class AdsServiceApplication {
 			
 			try {
 				HelloResponse response = quoteClient.sayHello(name);
-				System.err.println(response.getHello());
+				System.err.println(response.getName());
 			}catch (Exception e) {
 				System.out.println("EXCEPTION!!!!");
 				e.printStackTrace();

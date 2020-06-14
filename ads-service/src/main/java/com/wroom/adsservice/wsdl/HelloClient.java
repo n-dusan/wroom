@@ -16,7 +16,7 @@ public class HelloClient extends WebServiceGatewaySupport {
 		System.out.println("Requesting hello for " + name);
 
 		HelloResponse response = (HelloResponse) getWebServiceTemplate()
-				.marshalSendAndReceive("http://ftn.com/wroom-agent/xsd/hello", request);
+				.marshalSendAndReceive(request);
 
 		return response;
 	}

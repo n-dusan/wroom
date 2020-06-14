@@ -17,12 +17,12 @@ public class HelloEndpoint {
 		this.helloRepository = helloRepository;
 	}
 
-	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "hello")
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "helloRequest")
 	@ResponsePayload
 	public HelloResponse hello(@RequestPayload HelloRequest request) {
 		System.out.println(">>>>>>>>>>> I'm reached !");
 		HelloResponse response = new HelloResponse();
-		response.setHello(this.helloRepository.sayHello(request.getName()));
+		response.setName(this.helloRepository.sayHello(request.getName()));
 		return response;
 	}
 }
