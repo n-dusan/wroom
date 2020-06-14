@@ -40,7 +40,6 @@ export class RequestsOverviewComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
-
    this.refresh();
   }
 
@@ -180,6 +179,19 @@ export class RequestsOverviewComponent implements OnInit {
   }
 
 
+  cancelRequest(request: RentRequest) {
+    if(request.bundleId) {
+      this.rentsService.declineBundle(request.bundleId).subscribe((response: RentRequest[]) => {
+        this.toastr.success('Woooohooo', 'Canceled le bundle')
+        this.ngOnInit();
+      }, error => this.toastr.error(':(', 'Went south'))
+    } else {
+      this.rentsService.decline(request.id).subscribe((response: RentRequest) => {
+        this.toastr.success('Woooohooo', 'Canceled the request')
+        this.ngOnInit();
+      }, error => this.toastr.error(':(', 'Went south'))
+    }
+  }
 
 
 }

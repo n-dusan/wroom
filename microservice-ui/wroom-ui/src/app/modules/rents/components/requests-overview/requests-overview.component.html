@@ -25,7 +25,7 @@
                             </mat-card-header>
 
                             <div fxFlex="15%">
-                                <button mat-mini-fab color="accent" matTooltip="Contact owner" >
+                                <button mat-mini-fab color="accent" (click)="cancelRequest(pendingRequest)" matTooltip="Cancel request" >
                                     <mat-icon>clear</mat-icon>
                                 </button>
                             </div>
@@ -103,6 +103,12 @@
                               <button mat-mini-fab color="accent" matTooltip="Pay" (click)="payRequest(reservedRequest)">
                                   <mat-icon>payment</mat-icon>
                               </button>
+                              &nbsp;
+                              <div fxFlex="15%">
+                                <button mat-mini-fab color="accent" (click)="cancelRequest(reservedRequest)" matTooltip="Cancel request" >
+                                    <mat-icon>clear</mat-icon>
+                                </button>
+                            </div>
                           </div>
                         </div>
 
@@ -237,11 +243,6 @@
                                 <mat-card-subtitle>{{canceledRequest?.ad?.address}}</mat-card-subtitle>
                             </mat-card-header>
 
-                            <div fxFlex="15%">
-                                <button mat-mini-fab color="accent" matTooltip="Contact owner">
-                                    <mat-icon>clear</mat-icon>
-                                </button>
-                            </div>
                         </div>
 
                         <mat-card-content style="padding-left: 10px;padding-right: 10px;">
