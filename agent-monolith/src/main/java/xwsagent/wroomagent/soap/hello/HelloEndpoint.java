@@ -8,7 +8,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 @Endpoint
 public class HelloEndpoint {
-	private static final String NAMESPACE_URI ="https://wroom.com/hello";
+	private static final String NAMESPACE_URI ="http://localhost:8094/hello";
 
 	private HelloRepository helloRepository;
 
