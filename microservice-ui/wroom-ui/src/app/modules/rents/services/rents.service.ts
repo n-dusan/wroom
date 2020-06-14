@@ -60,6 +60,15 @@ export class RentsService {
       return this.http.put<RentRequest[]>(this.baseUrl + '/bundle/decline/' + bundleId, {}).pipe(catchError(this.handleException));
     }
 
+
+    payRequest(id: number): Observable<RentRequest[]> {
+      return this.http.put<RentRequest[]>(this.baseUrl + '/pay/' + id, {}).pipe(catchError(this.handleException));
+    }
+
+    payBundle(id: number): Observable<RentRequest[]> {
+      return this.http.put<RentRequest[]>(this.baseUrl + '/bundle/pay/' + id, {}).pipe(catchError(this.handleException));
+    }
+
     private handleException(err: HttpErrorResponse): Observable<never> {
       return throwError(err.error);
     }

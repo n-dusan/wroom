@@ -118,6 +118,8 @@ public class VehicleController {
 				HttpStatus.OK);
 	}
 
+
+
 	/**
 	 * Fetch one specific vehicle
 	 * 

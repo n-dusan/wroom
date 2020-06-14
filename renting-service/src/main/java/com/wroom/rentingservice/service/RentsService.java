@@ -129,7 +129,7 @@ public class RentsService {
 				if(r.getStatus() == RequestStatus.PENDING) {
 					r.setStatus(RequestStatus.CANCELED);
 					this.rentRepository.saveAndFlush(r);
-				}else {
+				} else {
 					return false;
 				}
 			}
@@ -255,5 +255,59 @@ public class RentsService {
 		System.out.println("Pending list " + pendingList);
 		return pendingList;
 	}
+
+
+
+	public RentRequest pay(Long id) {
+
+		RentRequest rentRequest = findById(id);
+
+		Ad ad = adService.findById(rentRequest.getId());
+		List<RentRequest> otherRequests = rentRepository.findByAd(ad);
+
+		for(RentRequest r : otherRequests) {
+
+			if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate())) {
+				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				}
+			}
+
+			if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate()) && r.getFromDate().before(rentRequest.getToDate())) {
+				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				}
+			}
+
+			if(r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate()) && r.getToDate().after(rentRequest.getFromDate())) {
+				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				}
+			}
+
+			if(r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate()) ) {
+				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				}
+			}
+
+			if(rentRequest.getFromDate().equals(r.getFromDate()) || rentRequest.getToDate().equals(r.getToDate())) {
+				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				}
+			}
+		}
+
+		rentRequest.setStatus(RequestStatus.PAID);
+		rentRepository.save(rentRequest);
+		return rentRequest;
+	}
+
+
 
 }

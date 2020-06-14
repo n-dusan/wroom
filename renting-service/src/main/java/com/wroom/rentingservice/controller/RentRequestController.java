@@ -33,6 +33,9 @@ public class RentRequestController {
 	private static final String LOG_ACCEPT_BUNDLE = "action=accept_bundle user=%s times=%s";
 	private static final String LOG_DECLINE_BUNDLE = "action=accept_bundle user=%s times=%s";
 
+	private static final String LOG_PAY_BUNDLE = "action=accept_bundle user=%s times=%s";
+	private static final String LOG_PAY_REQUEST = "action=accept_bundle user=%s times=%s";
+
 	private final RentsService rentsService;
 	private final RequestCounter requestCounter;
 	private final BundleService bundleService;
@@ -120,6 +123,22 @@ public class RentRequestController {
 		String logContent = String.format(LOG_ACCEPT_BUNDLE, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		log.info(logContent);
 		return new ResponseEntity<>(RentConverter.fromEntityList(bundleService.accept(bundleId), RentConverter::fromEntity),
+				HttpStatus.OK);
+	}
+
+	@PutMapping("/bundle/pay/{id}")
+	public ResponseEntity<List<RentRequestDTO>> payBundle(@PathVariable("id") Long bundleId, Authentication auth) {
+		String logContent = String.format(LOG_PAY_BUNDLE, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
+		log.info(logContent);
+		return new ResponseEntity<>(RentConverter.fromEntityList(bundleService.pay(bundleId), RentConverter::fromEntity),
+				HttpStatus.OK);
+	}
+
+	@PutMapping("/pay/{id}")
+	public ResponseEntity<RentRequestDTO> payRequest(@PathVariable("id") Long id, Authentication auth) {
+		String logContent = String.format(LOG_PAY_REQUEST, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
+		log.info(logContent);
+		return new ResponseEntity<>(RentConverter.fromEntity(rentsService.pay(id)),
 				HttpStatus.OK);
 	}
 

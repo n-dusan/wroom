@@ -10,6 +10,8 @@ import { Vehicle } from '../../../shared/models/vehicle.model';
 import { ToastrService } from 'ngx-toastr';
 import { MatDialog } from '@angular/material/dialog';
 import { BundleDialogComponent } from '../bundle-dialog/bundle-dialog.component';
+import { PriceList } from 'src/app/modules/search/model/price-list.model';
+import { PriceListService } from 'src/app/modules/ads/services/price-list.service';
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -20,8 +22,14 @@ export class VehicleOccupancyListComponent implements OnInit {
 
   loggedUser: LoggedUser;
   private ngUnsubscribe = new Subject();
+
+  loadedVehicles: boolean = false;
+  loadedPriceLists: boolean = false;
+
+
   requestList: RentRequest[] = [];
   vehicleList: Vehicle[] = [];
+  priceListList: PriceList[] = [];
   public dateFrom: any;
   public dateTo: any;
   vehicle: Vehicle = new Vehicle();
@@ -37,7 +45,8 @@ export class VehicleOccupancyListComponent implements OnInit {
     private rentService: RentsService,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private priceListService: PriceListService) { }
 
   ngOnInit(): void {
     this.refresh();
@@ -53,7 +62,6 @@ export class VehicleOccupancyListComponent implements OnInit {
 
 
   declineRequest(request: RentRequest) {
-    console.log('declinig', request);
     this.rentService.decline(request.id).subscribe((responseRequest: RentRequest) => {
       this.toastr.success('Declined', 'Declined that bad boy');
       console.log(responseRequest);
@@ -64,7 +72,6 @@ export class VehicleOccupancyListComponent implements OnInit {
   }
 
   acceptRequest(request: RentRequest) {
-    console.log('acc', request);
     this.rentService.accept(request.id).subscribe((responseRequest: RentRequest) => {
       this.toastr.success('Successfully reserved', 'Accepted');
       this.ngOnInit();
@@ -86,13 +93,75 @@ export class VehicleOccupancyListComponent implements OnInit {
     });
   }
 
+  pricePerDay(request: RentRequest){
+    const priceList = this.priceListList.find(x => x.id == request.ad.priceListId);
+
+    return priceList?.pricePerDay;
+  }
+
+  pricePerMile(request: RentRequest) {
+    const priceList = this.priceListList.find(x => x.id == request.ad.priceListId);
+
+    return priceList?.pricePerMile
+  }
+
+  priceCDW(request: RentRequest) {
+    const priceList = this.priceListList.find(x => x.id == request.ad.priceListId);
+    const vehicle = this.vehicleList.find(x => x.id == request.ad.vehicleId);
+
+    if(vehicle?.cdw) {
+      return priceList?.priceCDW
+    }
+
+    return 0
+  }
+
+  discount(request: RentRequest) {
+    const priceList = this.priceListList.find(x => x.id == request.ad.priceListId);
+
+    return priceList?.discount
+  }
+
+
+  calculatePrice(request: RentRequest): string {
+    const vehicle = this.vehicleList.find(x => x.id == request.ad.vehicleId);
+    const priceList = this.priceListList.find(x => x.id == request.ad.priceListId);
+
+
+    let toDate = new Date(request.toDate);
+    let fromDate = new Date(request.fromDate);
+
+    var Difference_In_Time = toDate.getTime() - fromDate.getTime();
+
+    // To calculate the no. of days between two dates
+    var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+
+    if(vehicle?.cdw) {
+      let total = +Difference_In_Days * +priceList?.pricePerDay + priceList?.priceCDW
+      return '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '</b>$ + <b>' + priceList?.priceCDW + '$</b> cdw = '
+      + '<b>' +  total + '$</b>';
+    }
+
+    let total = +Difference_In_Days * +priceList?.pricePerDay;
+    return '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '$</b> = '
+      + '<b>' +  total + '$</b>';
+  }
+
   refresh() {
     this.authService.whoami().subscribe(data => {
 
       this.loggedUser = data;
 
-      this.vehicleService.getAllActiveForUser(this.loggedUser.id).subscribe((data: Vehicle[]) => {
+
+
+      this.vehicleService.getAll().subscribe((data: Vehicle[]) => {
         this.vehicleList = data;
+        this.loadedVehicles = true;
+      })
+
+      this.priceListService.findAll().subscribe((data: PriceList[]) => {
+        this.priceListList = data;
+        this.loadedPriceLists = true;
       })
 
       this.rentService.getAllActiveForUser(this.loggedUser.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe((data: RentRequest[]) => {

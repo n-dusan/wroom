@@ -19,6 +19,10 @@ export class PriceListService {
       this.http.get<PriceList[]>(this.url + '/'+user.id+'/all').pipe(catchError(this.handleException))));
   }
 
+  findAll(): Observable<PriceList[]> {
+      return this.http.get<PriceList[]>(this.url).pipe(catchError(this.handleException));
+  }
+
   findById(id: number): Observable<PriceList> {
     return this.http.get<PriceList>(this.url + `/${id}`).pipe(catchError(this.handleException));
   }

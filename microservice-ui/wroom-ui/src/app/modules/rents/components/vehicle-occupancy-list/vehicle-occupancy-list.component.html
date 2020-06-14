@@ -1,5 +1,9 @@
 
-<mat-tab-group mat-align-tabs="center" dynamicHeight style="background-color: white; margin: 25px;">
+<div class="spinner" style="margin: 25px;" fxLayout="row" fxLayoutAlign="center" *ngIf="!loadedVehicles && !loadedPriceLists">
+<mat-spinner color="accent" ></mat-spinner>
+</div>
+
+<mat-tab-group *ngIf="loadedVehicles && loadedPriceLists" mat-align-tabs="center" dynamicHeight style="background-color: white; margin: 25px;">
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon color="accent" class="example-tab-icon">event_note</mat-icon>
@@ -57,29 +61,47 @@
               <mat-card-title>{{vehicleName(request)}}</mat-card-title>
               <mat-card-subtitle>{{request?.ad?.address}}</mat-card-subtitle>
 
-
-              <!-- <div fxFlex="15%" *ngIf="request.bundleId">
-                <button mat-mini-fab color="accent" matTooltip="View bundle" (click)="viewBundle(request)">
-                  <mat-icon>details</mat-icon>
-                </button>
-              </div> -->
             </mat-card-header>
 
             <mat-divider horizontal style="height:100px;"></mat-divider>
 
             <mat-card-content fxLayout="row" fxLayoutAlign="center center">
               <table fxFlex>
-                  <tbody>
-                      <tr>
-                          <th style="text-align: end;">From:</th>
-                          <td>{{request?.fromDate | date:'short'}}</td>
-                      </tr>
-                      <tr>
-                          <th style="text-align: end;">To:</th>
-                          <td>{{request?.toDate | date:'short'}}</td>
-                      </tr>
-                  </tbody>
-              </table>
+                <tbody>
+                    <tr>
+                        <th style="text-align: end;">From:</th>
+                        <td>{{request?.fromDate | date:'short'}}</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: end;">To:</th>
+                        <td>{{request?.toDate | date:'short'}}</td>
+                    </tr>
+                    <tr>
+                      <th style="text-align: end;">Price per day:</th>
+                      <td>{{pricePerDay(request) + '$'}}</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Price per mile (if limit exceeded):</th>
+                      <td>{{pricePerMile(request)}} $</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Collision damage waiver:</th>
+                      <td>{{priceCDW(request) === 0 ? 'Not included' : (priceCDW(request) + '$')}}</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Discount over 30 days:</th>
+                      <td>{{discount(request)}} %</td>
+                    </tr>
+
+                  <tr>
+                      <th style="text-align: end;">Total price: </th>
+                      <td [innerHTML]="calculatePrice(request)"></td>
+                  </tr>
+                </tbody>
+            </table>
 
               <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
                 <mat-chip color="accent" selected>Bundled</mat-chip>
@@ -135,17 +157,41 @@
 
             <mat-card-content fxLayout="row" fxLayoutAlign="center center">
               <table fxFlex>
-                  <tbody>
-                      <tr>
-                          <th style="text-align: end;">From:</th>
-                          <td>{{request?.fromDate | date:'short'}}</td>
-                      </tr>
-                      <tr>
-                          <th style="text-align: end;">To:</th>
-                          <td>{{request?.toDate | date:'short'}}</td>
-                      </tr>
-                  </tbody>
-              </table>
+                <tbody>
+                    <tr>
+                        <th style="text-align: end;">From:</th>
+                        <td>{{request?.fromDate | date:'short'}}</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: end;">To:</th>
+                        <td>{{request?.toDate | date:'short'}}</td>
+                    </tr>
+                    <tr>
+                      <th style="text-align: end;">Price per day:</th>
+                      <td>{{pricePerDay(request) + '$'}}</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Price per mile (if limit exceeded):</th>
+                      <td>{{pricePerMile(request)}} $</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Collision damage waiver:</th>
+                      <td>{{priceCDW(request) === 0 ? 'Not included' : (priceCDW(request) + '$')}}</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Discount over 30 days:</th>
+                      <td>{{discount(request)}} %</td>
+                    </tr>
+
+                  <tr>
+                      <th style="text-align: end;">Total price: </th>
+                      <td [innerHTML]="calculatePrice(request)"></td>
+                  </tr>
+                </tbody>
+            </table>
 
               <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
                 <mat-chip color="accent" selected>Bundled</mat-chip>
@@ -178,17 +224,42 @@
 
             <mat-card-content fxLayout="row" fxLayoutAlign="center center">
               <table fxFlex>
-                  <tbody>
-                      <tr>
-                          <th style="text-align: end;">From:</th>
-                          <td>{{request?.fromDate | date:'short'}}</td>
-                      </tr>
-                      <tr>
-                          <th style="text-align: end;">To:</th>
-                          <td>{{request?.toDate | date:'short'}}</td>
-                      </tr>
-                  </tbody>
-              </table>
+                <tbody>
+                    <tr>
+                        <th style="text-align: end;">From:</th>
+                        <td>{{request?.fromDate | date:'short'}}</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: end;">To:</th>
+                        <td>{{request?.toDate | date:'short'}}</td>
+                    </tr>
+                    <tr>
+                      <th style="text-align: end;">Price per day:</th>
+                      <td>{{pricePerDay(request) + '$'}}</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Price per mile (if limit exceeded):</th>
+                      <td>{{pricePerMile(request)}} $</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Collision damage waiver:</th>
+                      <td>{{priceCDW(request) === 0 ? 'Not included' : (priceCDW(request) + '$')}}</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Discount over 30 days:</th>
+                      <td>{{discount(request)}} %</td>
+                    </tr>
+
+                  <tr>
+                      <th style="text-align: end;">Total price: </th>
+                      <td [innerHTML]="calculatePrice(request)"></td>
+                  </tr>
+                </tbody>
+            </table>
+
 
               <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
                 <mat-chip color="accent" selected>Bundled</mat-chip>
@@ -273,17 +344,42 @@
 
             <mat-card-content fxLayout="row" fxLayoutAlign="center center">
               <table fxFlex>
-                  <tbody>
-                      <tr>
-                          <th style="text-align: end;">From:</th>
-                          <td>{{request?.fromDate | date:'short'}}</td>
-                      </tr>
-                      <tr>
-                          <th style="text-align: end;">To:</th>
-                          <td>{{request?.toDate | date:'short'}}</td>
-                      </tr>
-                  </tbody>
-              </table>
+                <tbody>
+                    <tr>
+                        <th style="text-align: end;">From:</th>
+                        <td>{{request?.fromDate | date:'short'}}</td>
+                    </tr>
+                    <tr>
+                        <th style="text-align: end;">To:</th>
+                        <td>{{request?.toDate | date:'short'}}</td>
+                    </tr>
+                    <tr>
+                      <th style="text-align: end;">Price per day:</th>
+                      <td>{{pricePerDay(request) + '$'}}</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Price per mile (if limit exceeded):</th>
+                      <td>{{pricePerMile(request)}} $</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Collision damage waiver:</th>
+                      <td>{{priceCDW(request) === 0 ? 'Not included' : (priceCDW(request) + '$')}}</td>
+                    </tr>
+
+                    <tr>
+                      <th style="text-align: end;">Discount over 30 days:</th>
+                      <td>{{discount(request)}} %</td>
+                    </tr>
+
+                  <tr>
+                      <th style="text-align: end;">Total price: </th>
+                      <td [innerHTML]="calculatePrice(request)"></td>
+                  </tr>
+                </tbody>
+            </table>
+
 
               <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
                 <mat-chip color="accent" selected>Bundled</mat-chip>
