@@ -118,10 +118,15 @@ export class NewVehicleComponent implements OnInit {
   urls = [];
 
   onSelectFile(event) {
+    console.log(event)
     var files = event.target.files;
     for(let file of files) {
-      if(file.type !== 'image/png' || file.type !=='image/jpg' || file.type !=='image/jpeg') {
+      if(file.type !== 'image/png' && file.type !=='image/jpg' && file.type !=='image/jpeg') {
         this.toastr.error('Valid types are: .png, .jpg and .jpeg', 'Please upload valid file type')
+        return;
+      }
+      if(file.size >= 8000000) { 
+        this.toastr.error('File size limit is 8MB', 'File too big')
         return;
       }
     }
