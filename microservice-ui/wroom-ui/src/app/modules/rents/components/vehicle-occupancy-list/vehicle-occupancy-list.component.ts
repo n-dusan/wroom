@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BundleDialogComponent } from '../bundle-dialog/bundle-dialog.component';
 import { PriceList } from 'src/app/modules/search/model/price-list.model';
 import { PriceListService } from 'src/app/modules/ads/services/price-list.service';
+import { RentReportDialogComponent } from '../rent-report-dialog/rent-report-dialog.component';
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -201,6 +202,20 @@ export class VehicleOccupancyListComponent implements OnInit {
 
     );
 
+  }
+
+
+  createReport(request: RentRequest) {
+
+    let dialogRef = this.dialog.open(RentReportDialogComponent, {
+      data: {
+        request: request
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.refresh()
+    });
   }
 
 }

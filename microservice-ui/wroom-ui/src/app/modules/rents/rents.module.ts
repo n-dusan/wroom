@@ -8,9 +8,18 @@ import { SharedModule } from '../shared/shared.module';
 import { RequestsOverviewComponent } from './components/requests-overview/requests-overview.component';
 import { ContactOwnerComponent } from './components/contact-owner/contact-owner.component';
 import { BundleDialogComponent } from './components/bundle-dialog/bundle-dialog.component';
+import { RentReportDialogComponent } from './components/rent-report-dialog/rent-report-dialog.component';
+import { StatisticsComponent } from './components/statistics/statistics.component';
 
 @NgModule({
-  declarations: [VehicleOccupancyListComponent, RequestsOverviewComponent, ContactOwnerComponent, BundleDialogComponent],
+  declarations: [
+    VehicleOccupancyListComponent,
+    RequestsOverviewComponent,
+    ContactOwnerComponent,
+    BundleDialogComponent,
+    RentReportDialogComponent,
+    StatisticsComponent
+  ],
   imports: [
     RentsRoutingModule,
     MaterialModule,
