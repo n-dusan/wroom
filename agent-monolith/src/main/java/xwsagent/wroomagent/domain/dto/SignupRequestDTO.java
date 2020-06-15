@@ -24,7 +24,7 @@ public class SignupRequestDTO {
 
 	@Size(min = 10, max = 20, message = "Number of characters must be greater than 10 and less than 21.")
 	@Pattern(regexp ="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#$@!%&*?])[A-Za-z\\d#$@!%&*?]{10,20}$",
-	message="You need to enter at least 10 characters, uppercase, lowercase, and some of the following characters: #$@!%&*?")
+	message="You need to enter at least 8 characters, uppercase, lowercase, and some of the following characters: #$@!%&*?")
 	private String password;
 	
 	@NotNull(message = "Name cannot be null.")
