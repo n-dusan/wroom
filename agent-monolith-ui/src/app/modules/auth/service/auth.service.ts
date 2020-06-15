@@ -77,7 +77,7 @@ export class AuthService {
   }
 
   changePassword(token: ResetPassword): Observable<any> {
-    return this.httpClient.put(this.baseUrl + '/reset-password', token);
+    return this.httpClient.put(this.baseUrl + '/reset-password', token).pipe(catchError(this.handleException));
   }
 
   testRole(): Observable<string> {
