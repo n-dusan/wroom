@@ -118,6 +118,14 @@ export class NewVehicleComponent implements OnInit {
   urls = [];
 
   onSelectFile(event) {
+    var files = event.target.files;
+    for(let file of files) {
+      if(file.type !== 'image/png' || file.type !=='image/jpg' || file.type !=='image/jpeg') {
+        this.toastr.error('Valid types are: .png, .jpg and .jpeg', 'Please upload valid file type')
+        return;
+      }
+    }
+
     if (event.target.files && event.target.files[0]) {
       var filesAmount = event.target.files.length;
       for (let i = 0; i < filesAmount; i++) {
