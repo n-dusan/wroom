@@ -38,8 +38,7 @@ import { BrowserModule } from '@angular/platform-browser';
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
-    FormsModule,
-    BrowserModule
+    FormsModule
   ],
   exports: []
 })
