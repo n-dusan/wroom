@@ -118,7 +118,7 @@ export class NewVehicleComponent implements OnInit {
   urls = [];
 
   onSelectFile(event) {
-    console.log(event)
+    
     var files = event.target.files;
     for(let file of files) {
       if(file.type !== 'image/png' && file.type !=='image/jpg' && file.type !=='image/jpeg') {
