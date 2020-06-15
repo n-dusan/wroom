@@ -27,7 +27,9 @@
 
             </mat-card-content>
             <mat-card-actions fxLayout="row" fxLayoutAlign="center">
-                <button mat-raised-button type="submit" color="accent">Log In</button>
+              <mat-spinner color="accent" diameter="24" *ngIf="!loaded"></mat-spinner>
+                <button mat-raised-button type="submit" color="accent">
+                   Log In</button>
             </mat-card-actions>
         </form>
 

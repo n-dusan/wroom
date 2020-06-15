@@ -211,6 +211,14 @@ public class RentsService {
 	}
 
 
+	public RentRequest complete(Long id) {
+		RentRequest rentRequest = findById(id);
+
+		rentRequest.setStatus(RequestStatus.COMPLETED);
+		return this.rentRepository.save(rentRequest);
+	}
+
+
 	public List<RentRequest> getPending(Long userId) {
 
 		List<Ad> adList = adRepository.findAllActiveUser(userId);
@@ -262,7 +270,7 @@ public class RentsService {
 
 		RentRequest rentRequest = findById(id);
 
-		Ad ad = adService.findById(rentRequest.getId());
+		Ad ad = adService.findById(rentRequest.getAd().getId());
 		List<RentRequest> otherRequests = rentRepository.findByAd(ad);
 
 		for(RentRequest r : otherRequests) {
@@ -270,6 +278,9 @@ public class RentsService {
 			if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate())) {
 				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
 					r.setStatus(RequestStatus.CANCELED);
+
+					clearBundles(r);
+
 					this.rentRepository.saveAndFlush(r);
 				}
 			}
@@ -277,6 +288,7 @@ public class RentsService {
 			if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate()) && r.getFromDate().before(rentRequest.getToDate())) {
 				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
 					r.setStatus(RequestStatus.CANCELED);
+					clearBundles(r);
 					this.rentRepository.saveAndFlush(r);
 				}
 			}
@@ -284,6 +296,7 @@ public class RentsService {
 			if(r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate()) && r.getToDate().after(rentRequest.getFromDate())) {
 				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
 					r.setStatus(RequestStatus.CANCELED);
+					clearBundles(r);
 					this.rentRepository.saveAndFlush(r);
 				}
 			}
@@ -298,6 +311,7 @@ public class RentsService {
 			if(rentRequest.getFromDate().equals(r.getFromDate()) || rentRequest.getToDate().equals(r.getToDate())) {
 				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
 					r.setStatus(RequestStatus.CANCELED);
+					clearBundles(r);
 					this.rentRepository.saveAndFlush(r);
 				}
 			}
@@ -309,5 +323,16 @@ public class RentsService {
 	}
 
 
+	public void clearBundles(RentRequest r) {
+
+		BundledRequests bundle = r.getBundle();
+
+		if(bundle != null) {
+			List<RentRequest> bundledRequests = bundleService.findBundledRentRequests(r.getBundle().getId());
+			for (RentRequest bundledRequest : bundledRequests) {
+				decline(bundledRequest.getId());
+			}
+		}
+	}
 
 }

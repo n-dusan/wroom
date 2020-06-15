@@ -18,6 +18,7 @@ import { MatchingPassword } from './validators/matching-password.validator';
 export class AuthComponent implements OnInit {
 
   initPage = true;
+  loaded: boolean = true;
 
   signupForm: FormGroup;
   loginForm: FormGroup;
@@ -80,10 +81,13 @@ export class AuthComponent implements OnInit {
   loginSubmit() {
     const request = new LoginRequest(this.loginForm.value.email, this.loginForm.value.pass);
 
+    this.loaded = false;
+
     this.authService.login(request).subscribe(
       data => {
         this.initPage = false;
         this.router.navigateByUrl('/home');
+        this.loaded = true;
       },
       error => {
         this.errorMessage = error;

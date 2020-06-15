@@ -31,7 +31,7 @@ export class CreateBundleDialogComponent implements OnInit {
     req.checked = !req.checked;
     if(req.checked) {
       this.checked.push(request);
-      
+
     } else {
       const idx = this.checked.indexOf(request);
       if(idx) {
@@ -43,6 +43,12 @@ export class CreateBundleDialogComponent implements OnInit {
 
   bundleClick() {
     this.bundled = !this.bundled;
+    console.log('bundled', this.bundled)
+    if(this.bundled) {
+      this.toastr.info('Bundle', 'Requests will be bundled together');
+    } else {
+      this.toastr.info('Bundle', 'Requests wont be bundled together');
+    }
   }
 
   sendClick() {
@@ -88,7 +94,7 @@ export class CreateBundleDialogComponent implements OnInit {
         }
         this.dialogRef.close({ data: forSending });
       }
-      
+
     } else {
       // Obican
       this.requestService.send(forSending[0]).subscribe(

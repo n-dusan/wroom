@@ -38,6 +38,7 @@ export class VehicleOccupancyListComponent implements OnInit {
   canceledList: RentRequest[] = [];
   reservedList: RentRequest[] = [];
   physicallyReservedList: RentRequest[] = [];
+  completedList: RentRequest[] = [];
 
   loadingPending = true;
 
@@ -84,7 +85,7 @@ export class VehicleOccupancyListComponent implements OnInit {
     console.log('my bundle', request);
     let dialogRef = this.dialog.open(BundleDialogComponent, {
       data: {
-        bundleId: request.bundleId //prosledjujes bundle ka komponenti, treba bek da dobavi rent requestove i dugme za bless. posle toga ide placanje
+        bundleId: request.bundleId
       }
     });
 
@@ -187,6 +188,8 @@ export class VehicleOccupancyListComponent implements OnInit {
             this.reservedList.push(r);
           } else if(r.status == 'PHYSICALLY_RESERVED') {
             this.physicallyReservedList.push(r);
+          } else if(r.status == 'COMPLETED') {
+            this.completedList.push(r);
           }
         }
       })

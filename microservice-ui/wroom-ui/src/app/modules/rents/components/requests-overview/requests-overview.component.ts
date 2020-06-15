@@ -91,8 +91,6 @@ export class RequestsOverviewComponent implements OnInit {
     const vehicle = this.vehicleList.find(x => x.id == request.ad.vehicleId);
     const priceList = this.priceListList.find(x => x.id == request.ad.priceListId);
 
-
-    console.log('request', request);
     let toDate = new Date(request.toDate);
     let fromDate = new Date(request.fromDate);
 
@@ -155,6 +153,9 @@ export class RequestsOverviewComponent implements OnInit {
             }
             else if (request.status === 'CANCELED') {
               this.canceled.push(request);
+            }
+            else if(request.status === 'COMPLETED') {
+              this.completed.push(request);
             }
           }
 
