@@ -10,11 +10,9 @@ public class HelloConfiguration {
 	@Bean
 	public Jaxb2Marshaller marshaller() {
 		Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-		// this package must match the package in the <generatePackage> specified in
-		// pom.xml
+		// this package must match the package in the <generatePackage> specified in pom.xml
 		String [] packagesToScan = {"com.wroom.adsservice.wsdl"};
 		marshaller.setPackagesToScan(packagesToScan);
-//		marshaller.setContextPath("com.wroom.adsservice.wsdl");
 		return marshaller;
 	}
 
@@ -22,7 +20,6 @@ public class HelloConfiguration {
 	public HelloClient helloClient(Jaxb2Marshaller marshaller) {
 		HelloClient client = new HelloClient();
 		client.setDefaultUri("http://localhost:8081/ws");
-//		client.setDefaultUri("http://ftn.com/wroom-agent/xsd");
 		client.setMarshaller(marshaller);
 		client.setUnmarshaller(marshaller);
 		return client;

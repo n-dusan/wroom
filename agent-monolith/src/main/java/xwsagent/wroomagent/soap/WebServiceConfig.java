@@ -29,7 +29,6 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("HelloPort");
 		wsdl11Definition.setTargetNamespace("http://com.ftn.wroom-agent/xsd");
-//		wsdl11Definition.setTargetNamespace("http://ftn.com/wroom-agent/xsd");
 		wsdl11Definition.setLocationUri("/ws");
 		wsdl11Definition.setSchema(helloSchema);
 		return wsdl11Definition;
