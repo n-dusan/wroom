@@ -94,7 +94,7 @@
             Select images
             </label>
           </div>
-          <input #fileInput type='file' id="file" name="file" (change)="onSelectFile($event)" multiple style="display:none;">
+          <input #fileInput type='file' accept="image/*" id="file" name="file" (change)="onSelectFile($event)" multiple style="display:none;">
           <br>
           
           <button mat-raised-button color="accent" fancyBtn (click)="doneClick()" matStepperNext>Done</button>
