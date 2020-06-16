@@ -233,6 +233,25 @@ services:
   #      - mysql
   #
 
+
+
+  flask-gps:
+    build:
+      context: ./gps-service
+      dockerfile: Dockerfile
+    image: xws:gps
+    container_name: gps
+    networks:
+      - xws-network
+    ports:
+      - 5000:5000
+    environment:
+      RMQ_HOST: rabbitmq-broker
+    volumes:
+      - ./gps-service:/app
+    depends_on:
+      - rabbitmq-broker
+
 volumes:
   mysql-data:
 
