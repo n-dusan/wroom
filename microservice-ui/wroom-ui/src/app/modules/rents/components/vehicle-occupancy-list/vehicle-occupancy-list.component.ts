@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../../../auth/service/auth.service';
 import { RentsService } from '../../services/rents.service';
 import { LoggedUser } from '../../../auth/model/logged-user.model';
@@ -8,11 +8,14 @@ import { RentRequest } from '../../../shared/models/rent-request.model';
 import { VehicleService } from '../../../vehicles/services/vehicle-features/vehicle.service';
 import { Vehicle } from '../../../shared/models/vehicle.model';
 import { ToastrService } from 'ngx-toastr';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BundleDialogComponent } from '../bundle-dialog/bundle-dialog.component';
 import { PriceList } from 'src/app/modules/search/model/price-list.model';
 import { PriceListService } from 'src/app/modules/ads/services/price-list.service';
 import { RentReportDialogComponent } from '../rent-report-dialog/rent-report-dialog.component';
+import { Ad } from 'src/app/modules/shared/models/ad.model';
+import { NewCommentComponent } from 'src/app/modules/ads/comments/new-comment/new-comment.component';
+
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -48,7 +51,9 @@ export class VehicleOccupancyListComponent implements OnInit {
     private vehicleService: VehicleService,
     private toastr: ToastrService,
     private dialog: MatDialog,
-    private priceListService: PriceListService) { }
+    private priceListService: PriceListService,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    
 
   ngOnInit(): void {
     this.refresh();
@@ -187,9 +192,9 @@ export class VehicleOccupancyListComponent implements OnInit {
             this.canceledList.push(r);
           } else if (r.status == 'RESERVED') {
             this.reservedList.push(r);
-          } else if(r.status == 'PHYSICALLY_RESERVED') {
+          } else if (r.status == 'PHYSICALLY_RESERVED'){
             this.physicallyReservedList.push(r);
-          } else if(r.status == 'COMPLETED') {
+          } else {
             this.completedList.push(r);
           }
         }
@@ -215,6 +220,17 @@ export class VehicleOccupancyListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.refresh()
+    });
+  }
+
+  addComment(ad: Ad){
+    const dialogRef = this.dialog.open(NewCommentComponent, {
+      width: '500px',
+      height: '400px',
+      data: ad
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
     });
   }
 

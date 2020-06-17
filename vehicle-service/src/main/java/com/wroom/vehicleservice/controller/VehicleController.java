@@ -232,4 +232,12 @@ public class VehicleController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	//list for admin
+	@GetMapping("/allVehicles")
+	public ResponseEntity<?> getVehicles() {
+		return new ResponseEntity<>(
+			VehicleConverter.fromEntityList(vehicleService.findAll(), VehicleConverter::fromEntity),
+			HttpStatus.OK);
+	}
 }

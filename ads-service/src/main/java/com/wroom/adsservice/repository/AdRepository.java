@@ -1,6 +1,8 @@
 package com.wroom.adsservice.repository;
 
 import com.wroom.adsservice.domain.Ad;
+import com.wroom.adsservice.domain.Comment;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,5 +24,6 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
 
     @Query(value = "SELECT a FROM Ad a WHERE (a.vehicleId = :vehicle)")
     List<Ad> findByVehicleId(@Param("vehicle") Long vehicle);
+    
 }
 
