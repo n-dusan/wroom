@@ -46,13 +46,17 @@ public class AdConverter extends AbstractConverter {
     public static double averageRate(Set<Comment> comments) {
     	if(comments != null) {
     		int sum = 0;
+    		int n = 0;
     		List<Comment> commentList = new ArrayList<Comment>();
     		commentList.addAll(comments);
     		if(commentList.size() > 0) {
     			for(Comment c : commentList) {
-        			sum += c.getRate();
+    				if(c.getRate() != null && c.getRate() != 0) {
+    					sum += c.getRate();
+    					n++;
+    				}
         		}
-        		return sum*1.0/comments.size();
+        		return sum*1.0/n;
     		}
     	}
     	return 0;
