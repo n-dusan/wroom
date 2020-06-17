@@ -8,6 +8,8 @@ import { Subject } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommentDetailsComponent } from '../comment-details/comment-details.component';
 import { ToastrService } from 'ngx-toastr';
+import { VehicleService } from 'src/app/modules/shared/service/vehicle.service';
+import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
 
 @Component({
   selector: 'app-comments-overview',
@@ -17,25 +19,44 @@ import { ToastrService } from 'ngx-toastr';
 export class CommentsOverviewComponent implements OnInit {
   displayedColumns: string[] = ['username', 'ad', 'comment', 'confirm', 'refuse'];
   dataCommentsSource : MatTableDataSource<any>;
+  listAds: any[] = [];
+  vehicleList: any[] = [];
 
 
   constructor(private adsService: AdsService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public dialog: MatDialog,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private vehicleService: VehicleService) { }
 
   ngOnInit(): void {
     this.loadComments();
+    this.loadAds();
+    this.vehicleService.allVehicles().subscribe((data: Vehicle[]) => {
+      this.vehicleList = data;
+    })
+
   }
 
   loadComments(){
     this.adsService.getAllComments().subscribe(
       data => {
         this.dataCommentsSource = new MatTableDataSource(data);
-        console.log(data[0].title)
       }
     );
   }
+  
+  loadAds(){
+    this.adsService.getAllAds().subscribe(
+      data => {
+        this.listAds = data;
+        console.log(this.listAds)        
+      }
+    );  
+   
+  }
+
+  
 
   viewComment(comment:CommentModel){
     const dialogRef = this.dialog.open(CommentDetailsComponent, {
@@ -65,6 +86,18 @@ export class CommentsOverviewComponent implements OnInit {
         this.toastr.success('You have successfully refused comment!', 'Success')
     } 
     )  
+  }
+
+  selectAd(adId: number){
+    
+    const ad = this.listAds.find(x => x.id == adId);
+    
+    const vehicle = this.vehicleList.find(x => x.id == ad.vehicleId); 
+      const modelType = vehicle?.modelType?.name;  
+      const brandType = vehicle?.brandType?.name;   
+      const address = ad?.address
+      const ret = brandType + " " + modelType + ", " + address; 
+      return ret;
   }
   
 
