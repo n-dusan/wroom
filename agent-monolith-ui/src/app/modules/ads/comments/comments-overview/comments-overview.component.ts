@@ -68,8 +68,8 @@ export class CommentsOverviewComponent implements OnInit {
 
   viewComment(comment:CommentModel){
     const dialogRef = this.dialog.open(CommentDetailsComponent, {
-      width: '500px',
-      height: '250px',
+      width: '600px',
+      height: '400px',
       data: comment
     });
     dialogRef.afterClosed().subscribe(result => {
