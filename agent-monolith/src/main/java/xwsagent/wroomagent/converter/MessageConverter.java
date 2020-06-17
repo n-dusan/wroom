@@ -1,7 +1,7 @@
-package com.wroom.rentingservice.converter;
+package xwsagent.wroomagent.converter;
 
-import com.wroom.rentingservice.domain.Message;
-import com.wroom.rentingservice.domain.dto.MessageDTO;
+import xwsagent.wroomagent.domain.Message;
+import xwsagent.wroomagent.domain.dto.MessageDTO;
 
 public class MessageConverter extends AbstractConverter {
 
@@ -12,7 +12,9 @@ public class MessageConverter extends AbstractConverter {
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getFromUserId() == null ? null : entity.getFromUserId(),
-                entity.getDate()
+                entity.getDate(),
+                entity.getFromUser() == null ? null : entity.getFromUser(),
+                entity.getToUser() == null ? null : entity.getToUser()
         );
     }
 
@@ -20,13 +22,13 @@ public class MessageConverter extends AbstractConverter {
     	return new Message(
     			null, 
     			null, 
-    			dto.getToUserId(), 
-    			dto.getRentRequestId(), 
+    			dto.getToUserId() == null ? null : dto.getToUserId(), 
+    			dto.getRentRequestId() == null ? null : dto.getRentRequestId(), 
     			dto.getTitle(), 
     			dto.getContent(),
     			dto.getDate(),
-    			null,
-    			null);
+    			dto.getFromUser() == null ? null : dto.getFromUser(),
+    			dto.getToUser() == null ? null : dto.getToUser());
     }
 	
 }

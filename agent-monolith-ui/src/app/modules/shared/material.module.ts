@@ -26,6 +26,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 const modules = [
@@ -56,7 +57,8 @@ const modules = [
   MatSlideToggleModule,
   MatDividerModule,
   MatBadgeModule,
-  MatTooltipModule
+  MatTooltipModule,
+  MatChipsModule
 ]
 
 @NgModule({

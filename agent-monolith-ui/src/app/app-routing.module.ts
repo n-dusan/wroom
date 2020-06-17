@@ -6,12 +6,14 @@ import { EmailConfirmationComponent } from './modules/shared/components/email-co
 import { ShoppingCartComponent } from './modules/shared/components/shopping-cart/shopping-cart.component';
 import { AdminGuard } from './modules/shared/guards/admin.guard';
 import { ResetPasswordComponent } from './modules/shared/components/reset-password/reset-password.component';
+import { InboxComponent } from './modules/shared/components/inbox/inbox.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'cart', component: ShoppingCartComponent },
+  { path: 'inbox', component: InboxComponent },
   { path: 'confirm/:token', component: EmailConfirmationComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'auth', loadChildren: () => import('./modules/auth/auth.module').then(mod => mod.AuthModule)/*, canActivate:[AlreadyAuthenticatedGuard]*/},

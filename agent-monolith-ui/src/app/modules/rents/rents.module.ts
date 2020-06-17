@@ -5,9 +5,13 @@ import { VehicleOccupancyListComponent } from './vehicle-occupancy-list/vehicle-
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
+import { ContactOwnerComponent } from './components/contact-owner/contact-owner.component';
 
 @NgModule({
-  declarations: [VehicleOccupancyListComponent],
+  declarations: [
+    VehicleOccupancyListComponent,
+    ContactOwnerComponent
+  ],
   imports: [
     RentsRoutingModule,
     MaterialModule,

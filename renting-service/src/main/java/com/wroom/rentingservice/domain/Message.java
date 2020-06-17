@@ -23,10 +23,10 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Long fromUserId;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Long toUserId;
 	
 	@Column(nullable = false)
@@ -42,5 +42,10 @@ public class Message {
 	@Column(nullable = false)
 	private Date date;
 	
+	@Column(nullable = true)
+	private String fromUser;
+	
+	@Column(nullable = true)
+	private String toUser;
 
 }

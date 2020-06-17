@@ -297,3 +297,10 @@ insert into rate(id, rating, ad_id)
 values (4, 4, 2);
 insert into rate(id, rating, ad_id)
 values (5, 3, 3);
+
+
+-- Messages
+insert into message(id, content, date, rent_request_id, title, from_user, to_user_id)
+values(1, 'Hello Monolith, how are you doing?', '2020-06-05 10:00:00.000000', 1, 'Hello', 'zika@maildrop.cc', 1);
+insert into message(id, content, date, rent_request_id, title, to_user, from_user_id)
+values(2, 'Hello Ziko, good.', '2020-06-05 11:00:00.000000', 1, 'Hello-Reply', 'zika@maildrop.cc', 1);
