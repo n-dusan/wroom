@@ -17,8 +17,6 @@ export class AdsService {
   private vehicleUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.vehicleService + '/vehicle';
   private priceListUrl = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + environment.adsService + '/price-list';
 
-  private commentsUrl = 'http://localhost:8094/ads'
-
   constructor(private http: HttpClient,
     private authService: AuthService) {}
 
@@ -72,16 +70,24 @@ export class AdsService {
       this.http.get<number>(this.adsUrl + '/count/' + user.id).pipe(catchError(this.handleException))));
   }
 
+  addComment(comment: CommentModel, id: number) : Observable<CommentModel> {
+    return this.http.post<CommentModel>(`${this.adsUrl}/comment/` + id, comment);
+  }
+
   getAllComments() : Observable<CommentModel[]> {
-    return this.http.get<CommentModel[]>(this.commentsUrl + '/comments');
+    return this.http.get<CommentModel[]>(this.adsUrl + '/comments');
   }
 
   confirm(id: number) {
-    return this.http.post(this.commentsUrl + '/confirm/' + id, id);
+    return this.http.post(this.adsUrl + '/confirm/' + id, id);
   }
 
   refuse(id: number) {
-    return this.http.post(this.commentsUrl + '/refuse/' + id, id);
+    return this.http.post(this.adsUrl + '/refuse/' + id, id);
+  }
+
+  getAllAds(): Observable<Ad[]>{
+    return this.http.get<Ad[]>(this.adsUrl + '/allAds');  
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {

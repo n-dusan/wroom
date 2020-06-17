@@ -199,4 +199,12 @@ public class AdController {
 		}
 
 	}
+    
+  //list for admin
+    @GetMapping("/allAds")
+	public ResponseEntity<List<AdDTO>> getAllAds() {
+		return new ResponseEntity<>(
+				AdConverter.fromEntityList(adService.findAll(), AdConverter::fromEntity),
+				HttpStatus.OK);
+	}
 }

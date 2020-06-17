@@ -14,6 +14,7 @@ import { AdsOverviewComponent } from './ads-overview/ads-overview.component';
 import { DetailsDialogComponent } from './ads-overview/details-dialog/details-dialog.component';
 import { CommentsOverviewComponent } from './comments/comments-overview/comments-overview.component';
 import { CommentDetailsComponent } from './comments/comment-details/comment-details.component';
+import { NewCommentComponent } from './comments/new-comment/new-comment.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CommentDetailsComponent } from './comments/comment-details/comment-deta
     AdsOverviewComponent,
     DetailsDialogComponent,
     CommentsOverviewComponent,
-    CommentDetailsComponent
+    CommentDetailsComponent,
+    NewCommentComponent
   ],
   imports: [
     MaterialModule,

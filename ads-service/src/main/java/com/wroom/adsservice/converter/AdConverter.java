@@ -1,8 +1,9 @@
 package com.wroom.adsservice.converter;
 
 import com.wroom.adsservice.domain.Ad;
-import com.wroom.adsservice.domain.Rate;
+import com.wroom.adsservice.domain.Comment;
 import com.wroom.adsservice.domain.dto.AdDTO;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class AdConverter extends AbstractConverter {
                 entity.getLocation().getId(),
                 entity.getAddress(),
                 entity.isGps(),
-                averageRate(entity.getRates())
+                averageRate(entity.getComments())
         );
     }
 
@@ -41,18 +42,18 @@ public class AdConverter extends AbstractConverter {
         return ad;
     }
 
-    public static double averageRate(Set<Rate> rates) {
-        if(rates != null) {
-            int sum = 0;
-            List<Rate> rateList = new ArrayList<Rate>();
-            rateList.addAll(rates);
-            if(rateList.size() > 0) {
-                for(Rate r : rateList) {
-                    sum += r.getRating();
-                }
-                return sum*1.0/rates.size();
-            }
-        }
-        return 0;
+    public static double averageRate(Set<Comment> comments) {
+    	if(comments != null) {
+    		int sum = 0;
+    		List<Comment> rateList = new ArrayList<Comment>();
+    		rateList.addAll(comments);
+    		if(rateList.size() > 0) {
+    			for(Comment c : rateList) {
+        			sum += c.getRating();
+        		}
+        		return sum*1.0/comments.size();
+    		}
+    	}
+    	return 0;
     }
 }

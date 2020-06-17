@@ -56,5 +56,5 @@ public class Ad {
     private Location location;
 
     @OneToMany(mappedBy = "ad")
-    private Set<Rate> rates;
+	private Set<Comment> comments;
 }

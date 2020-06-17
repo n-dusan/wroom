@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { AuthService } from '../../../auth/service/auth.service';
 import { RentsService } from '../../services/rents.service';
 import { LoggedUser } from '../../../auth/model/logged-user.model';
@@ -7,6 +7,9 @@ import { Subject } from 'rxjs';
 import { RentRequest } from '../../../shared/models/rent-request';
 import { VehicleService } from '../../../vehicles/services/vehicle-features/vehicle.service';
 import { Vehicle } from '../../../shared/models/vehicle.model';
+import { Ad } from 'src/app/modules/shared/models/ad.model';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -26,10 +29,13 @@ export class VehicleOccupancyListComponent implements OnInit {
   canceledList: RentRequest[] = [];
   reservedList: RentRequest[] = [];
   physicallyReservedList: RentRequest[] = [];
+  completedList: RentRequest[] = [];
 
   constructor(private authService: AuthService,
     private rentService: RentsService,
-    private vehicleService: VehicleService) { }
+    private vehicleService: VehicleService,
+    public dialog: MatDialog,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.authService.whoami().subscribe(data => {
@@ -54,8 +60,10 @@ export class VehicleOccupancyListComponent implements OnInit {
             this.canceledList.push(r);
           } else if (r.status == 'RESERVED') {
             this.reservedList.push(r);
-          } else {
+          } else if (r.status == 'PHYSICALLY_RESERVED'){
             this.physicallyReservedList.push(r);
+          } else {
+            this.completedList.push(r);
           }
         }
       })
@@ -75,6 +83,17 @@ export class VehicleOccupancyListComponent implements OnInit {
       const brandType = vehicle?.brandType?.name;
       const ret = brandType + " " + modelType;
       return ret;
+  }
+
+  addComment(ad: Ad){
+    const dialogRef = this.dialog.open(NewCommentComponent, {
+      width: '500px',
+      height: '400px',
+      data: ad
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
 }

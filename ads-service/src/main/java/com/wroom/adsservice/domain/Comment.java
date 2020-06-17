@@ -26,6 +26,9 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date commentDate;
+    
+    @Column
+    private Integer rating;
 
     @Column
     private boolean deleted;

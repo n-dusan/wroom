@@ -15,7 +15,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./comments-overview.component.css']
 })
 export class CommentsOverviewComponent implements OnInit {
-  displayedColumns: string[] = ['username', 'comment', 'confirm', 'refuse'];
+  displayedColumns: string[] = ['username', 'ad', 'comment', 'confirm', 'refuse'];
   dataCommentsSource : MatTableDataSource<any>;
 
 

@@ -2,17 +2,13 @@ export class CommentModel{
     id:number;
     title: string;
     content: string;
-    clientUsername: string;
-    approved: boolean;
+    rating: number;
     adId: number;
-    commentDate: Date;
 
-    constructor(title?: string, content?: string, clientUsername?: string, approved?: boolean, adId?: number, commentDate?: Date){
+    constructor(title?: string, content?: string, rating?: number, adId?: number){
         this.title = title;
         this.content = content;
-        this.clientUsername = clientUsername;
-        this.approved = approved;
+        this.rating = rating;
         this.adId = adId;
-        this.commentDate = commentDate;
     }
 }

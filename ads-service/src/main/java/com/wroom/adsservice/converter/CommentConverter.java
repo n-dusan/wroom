@@ -10,6 +10,7 @@ public class CommentConverter extends AbstractConverter{
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getCommentDate(),
+                entity.getRating(),
                 entity.isDeleted(),
                 entity.isApproved(),
                 entity.getClientUsername(),
@@ -22,6 +23,7 @@ public class CommentConverter extends AbstractConverter{
         comment.setTitle(dto.getTitle());
         comment.setContent(dto.getContent());
         comment.setCommentDate(dto.getCommentDate());
+        comment.setRating(dto.getRating());
         if(dto.isDeleted()) {
             comment.setDeleted(dto.isDeleted());
             comment.setDeleted(true);
