@@ -20,25 +20,25 @@ public class AdsServiceApplication {
 		System.out.println("Ad.");
 	}
 
-	@Bean
-	CommandLineRunner lookup(HelloClient quoteClient) {
-		return args -> {
-			String name = "Tingle Girls";
-
-			if (args.length > 0) {
-				name = args[0];
-			}
-			
-			try {
-				HelloResponse response = quoteClient.sayHello(name);
-				System.err.println(response.getName());
-			}catch (Exception e) {
-				System.out.println("EXCEPTION!!!!");
-				e.printStackTrace();
-			}
-			
-			
-		};
-	}
+//	@Bean
+//	CommandLineRunner lookup(HelloClient quoteClient) {
+//		return args -> {
+//			String name = "Tingle Girls";
+//
+//			if (args.length > 0) {
+//				name = args[0];
+//			}
+//
+//			try {
+//				HelloResponse response = quoteClient.sayHello(name);
+//				System.err.println(response.getName());
+//			}catch (Exception e) {
+//				System.out.println("EXCEPTION!!!!");
+//				e.printStackTrace();
+//			}
+//
+//
+//		};
+//	}
 
 }

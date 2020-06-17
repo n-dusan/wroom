@@ -10,6 +10,8 @@ import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
 import { VehicleService } from 'src/app/modules/vehicles/services/vehicle-features/vehicle.service';
 import { PriceListService } from 'src/app/modules/ads/services/price-list.service';
 import { ToastrService } from 'ngx-toastr';
+import { RentReportService } from '../../services/rent-report.service';
+import { RentReport } from 'src/app/modules/shared/models/rent-report.model';
 
 @Component({
   selector: 'app-requests-overview',
@@ -32,12 +34,16 @@ export class RequestsOverviewComponent implements OnInit {
   canceled: RentRequest[] = [];
   completed: RentRequest[] = [];
 
+
+  reportList: RentReport[] = [];
+
   constructor(private authService: AuthService,
     private rentsService: RentsService,
     private dialog: MatDialog,
     private priceListService: PriceListService,
     private vehicleService: VehicleService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private rentReportService: RentReportService) { }
 
   ngOnInit(): void {
    this.refresh();
@@ -137,6 +143,10 @@ export class RequestsOverviewComponent implements OnInit {
     this.authService.whoami().subscribe(data => {
       this.loggedUser = data;
 
+      this.rentReportService.findAll().subscribe((data: RentReport[]) => {
+        this.reportList = data;
+      })
+
       this.rentsService.getRequestedForUser(this.loggedUser.id).subscribe(
         data => {
           console.log(data)
@@ -194,5 +204,20 @@ export class RequestsOverviewComponent implements OnInit {
     }
   }
 
+
+  checkRequest(request: RentRequest) {
+    let report = this.reportList.find(x => x.rentRequestId == request.id);
+
+    if(report) {
+      return true;
+    }
+
+    return false;
+  }
+
+  showReport(request: RentRequest) {
+    let report = this.reportList.find(x => x.rentRequestId == request.id);
+    return 'Miles passed:' + '<b> ' + report.traveledMiles + '</b> <br/> Note: ' + '<b>' + (report.note ? report.note : 'unspecified') + '</b>'
+  }
 
 }

@@ -1,1 +1,39 @@
-<p>rent-report-dialog works!</p>
+<div class="content" fxLayout="column" fxLayoutAlign="center center" style="padding-top: 25px;">
+
+  <h1>Report</h1>
+
+  <form fxFlex [formGroup]="form">
+      <mat-card class="example-card">
+          <mat-card-content fxLayout="column" fxLayoutAlign="center">
+
+              <div fxFlex>
+                <mat-form-field>
+                  <mat-label>Miles passed</mat-label>
+                  <input matInput formControlName="miles" type="number">
+                </mat-form-field>
+              </div>
+
+              <div fxFlex>
+                <mat-form-field>
+                  <mat-label>Notes</mat-label>
+                  <textarea matInput formControlName="notes"></textarea>
+                </mat-form-field>
+
+              </div>
+
+              <!-- <div fxFlex>
+                  <mat-slide-toggle formControlName="damages"
+                      [checked]="checked">
+                    CDW damages?
+              </mat-slide-toggle>
+              </div> -->
+
+          </mat-card-content>
+          <mat-card-actions fxLayout="column" fxLayoutAlign="center">
+              <button fxFlex mat-raised-button color="accent" (click)="onFormSubmit()">Confirm</button>
+          </mat-card-actions>
+      </mat-card>
+  </form>
+
+
+</div>

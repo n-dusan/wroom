@@ -13,6 +13,8 @@ import { BundleDialogComponent } from '../bundle-dialog/bundle-dialog.component'
 import { PriceList } from 'src/app/modules/search/model/price-list.model';
 import { PriceListService } from 'src/app/modules/ads/services/price-list.service';
 import { RentReportDialogComponent } from '../rent-report-dialog/rent-report-dialog.component';
+import { RentReport } from 'src/app/modules/shared/models/rent-report.model';
+import { RentReportService } from '../../services/rent-report.service';
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -41,6 +43,9 @@ export class VehicleOccupancyListComponent implements OnInit {
   physicallyReservedList: RentRequest[] = [];
   completedList: RentRequest[] = [];
 
+
+  reportList: RentReport[] = [];
+
   loadingPending = true;
 
   constructor(private authService: AuthService,
@@ -48,7 +53,8 @@ export class VehicleOccupancyListComponent implements OnInit {
     private vehicleService: VehicleService,
     private toastr: ToastrService,
     private dialog: MatDialog,
-    private priceListService: PriceListService) { }
+    private priceListService: PriceListService,
+    private rentReportService: RentReportService) { }
 
   ngOnInit(): void {
     this.refresh();
@@ -150,6 +156,12 @@ export class VehicleOccupancyListComponent implements OnInit {
   }
 
   refresh() {
+    this.canceledList = [];
+    this.completedList = [];
+    this.pendingList = [];
+    this.physicallyReservedList = [];
+    this.reservedList = [];
+
     this.authService.whoami().subscribe(data => {
 
       this.loggedUser = data;
@@ -164,6 +176,10 @@ export class VehicleOccupancyListComponent implements OnInit {
       this.priceListService.findAll().subscribe((data: PriceList[]) => {
         this.priceListList = data;
         this.loadedPriceLists = true;
+      })
+
+      this.rentReportService.findAll().subscribe((data: RentReport[]) => {
+        this.reportList = data;
       })
 
       this.rentService.getAllActiveForUser(this.loggedUser.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe((data: RentRequest[]) => {
@@ -216,6 +232,21 @@ export class VehicleOccupancyListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.refresh()
     });
+  }
+
+  checkRequest(request: RentRequest) {
+    let report = this.reportList.find(x => x.rentRequestId == request.id);
+
+    if(report) {
+      return true;
+    }
+
+    return false;
+  }
+
+  showReport(request: RentRequest) {
+    let report = this.reportList.find(x => x.rentRequestId == request.id);
+    return 'Miles passed:' + '<b> ' + report.traveledMiles + '</b> <br/> Note: ' + '<b>' + (report.note ? report.note : 'unspecified') + '</b>'
   }
 
 }

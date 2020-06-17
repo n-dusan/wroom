@@ -2,7 +2,6 @@ package com.wroom.rentingservice.controller;
 
 import java.util.List;
 
-import com.wroom.rentingservice.domain.RentRequest;
 import com.wroom.rentingservice.service.BundleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

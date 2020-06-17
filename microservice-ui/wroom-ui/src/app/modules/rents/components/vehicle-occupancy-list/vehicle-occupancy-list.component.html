@@ -331,7 +331,7 @@
                     <mat-card-subtitle>{{request?.ad?.address}}</mat-card-subtitle>
                 </mat-card-header>
 
-                <div fxFlex="15%">
+                <div fxFlex="15%" *ngIf="!checkRequest(request)">
                     <button mat-mini-fab color="accent" matTooltip="Rent report" (click)="createReport(request)">
                       <mat-icon>assignment</mat-icon>
                     </button>
@@ -376,6 +376,11 @@
                   <tr>
                       <th style="text-align: end;">Total price: </th>
                       <td [innerHTML]="calculatePrice(request)"></td>
+                  </tr>
+
+                  <tr *ngIf="checkRequest(request)">
+                    <th> Report </th>
+                    <td [innerHtml]="showReport(request)"> </td>
                   </tr>
                 </tbody>
             </table>

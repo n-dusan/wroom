@@ -268,7 +268,6 @@
                 </div>
             </mat-tab>
 
-
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon color="accent" class="example-tab-icon">done_all</mat-icon>
@@ -333,8 +332,18 @@
                       <th style="text-align: end;">Total price: </th>
                       <td [innerHTML]="calculatePrice(request)"></td>
                   </tr>
-                </tbody>
-            </table>
+
+                  <tr>
+                    <th style="text-align: end;">Total price: </th>
+                    <td [innerHTML]="calculatePrice(request)"></td>
+                </tr>
+
+                <tr *ngIf="checkRequest(request)">
+                  <th> Report </th>
+                  <td [innerHtml]="showReport(request)"> </td>
+                </tr>
+              </tbody>
+          </table>
 
               <mat-chip-list class="no-wrap" *ngIf="request.bundleId">
                 <mat-chip color="accent" selected>Bundled</mat-chip>
