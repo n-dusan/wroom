@@ -27,10 +27,11 @@ public class CommentService {
 	public List<Comment> findByAd(Long adId) {
 		List<Comment> ret = this.commentRepository.findByAd(this.adService.findById(adId));
 		for(Comment c: ret) {
-			if(c.isDeleted() || !c.isApproved()) {
+			if(c.isDeleted() && !c.isApproved()) {
 				ret.remove(c);
 			}
 		}
+		System.out.println(ret + "Ovo je list");
 		return ret;
 	}
 	
