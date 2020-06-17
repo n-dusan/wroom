@@ -64,7 +64,8 @@ public class Ad {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Location location;
+	
+	@OneToMany
+	private Set<Comment> comments;
 
-	@OneToMany(mappedBy = "ad")
-	private Set<Rate> rates;
 }

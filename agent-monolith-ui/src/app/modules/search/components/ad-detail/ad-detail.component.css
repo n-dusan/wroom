@@ -15,3 +15,9 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+.reply {
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    padding: 10px;
+}

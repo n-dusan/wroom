@@ -98,7 +98,6 @@ public class AdController {
 	 */
 	@GetMapping("/{ad}")
 	public ResponseEntity<AdDTO> getAd(@PathVariable("ad") Long adId) {
-		System.out.println("THIS IS AN ID: " + adId);
 		return new ResponseEntity<>(AdConverter.fromEntity(adService.findById(adId)), HttpStatus.OK);
 	}
 

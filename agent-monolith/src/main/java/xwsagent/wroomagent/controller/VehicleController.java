@@ -147,7 +147,7 @@ public class VehicleController {
 		try {
 			return new ResponseEntity<>(vehicleService.getVehiclesImage(), HttpStatus.OK);
 		} catch (Exception e) {
-			System.out.println("Exception is thrown");
+			System.err.println("Exception is thrown");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
