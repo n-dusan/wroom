@@ -5,6 +5,9 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommentDetailsComponent } from '../comment-details/comment-details.component';
 import { ToastrService } from 'ngx-toastr';
 import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
+import { VehicleService } from 'src/app/modules/shared/service/vehicle.service';
+import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
+import { Ad } from 'src/app/modules/shared/models/ad.model';
 
 
 @Component({
@@ -13,17 +16,24 @@ import { CommentModel } from 'src/app/modules/shared/models/comment-model.model'
   styleUrls: ['./comments-overview.component.css']
 })
 export class CommentsOverviewComponent implements OnInit {
-  displayedColumns: string[] = ['username', 'comment', 'confirm', 'refuse'];
+  displayedColumns: string[] = ['username', 'ad', 'comment', 'confirm', 'refuse'];
   dataCommentsSource : MatTableDataSource<any>;
   listAds: any[] = [];
+  vehicleList: any[] = [];
 
   constructor(private adsService: AdsService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public dialog: MatDialog,
-              private toastr: ToastrService) { }
+              private toastr: ToastrService,
+              private vehicleService: VehicleService) { }
 
   ngOnInit(): void {
     this.loadComments();
+    this.loadAds();
+    this.vehicleService.allVehicles().subscribe((data: Vehicle[]) => {
+      this.vehicleList = data;
+    })
+
   }
 
   loadComments(){
@@ -34,15 +44,26 @@ export class CommentsOverviewComponent implements OnInit {
     );
   }
   
-  selectAd(id: number){
+  loadAds(){
     this.adsService.getAllAds().subscribe(
       data => {
         this.listAds = data;
+        console.log(this.listAds)        
       }
     );  
-    const ad = this.listAds.find(x => x.id == id); 
-    const ret = ad.brandType + " " + ad.modelType;
-    return ret;
+   
+  }
+
+  selectAd(adId: number){
+    
+    const ad = this.listAds.find(x => x.id == adId);
+    
+    const vehicle = this.vehicleList.find(x => x.id == ad.vehicleId); 
+      const modelType = vehicle?.modelType?.name;  
+      const brandType = vehicle?.brandType?.name;   
+      const address = ad?.address
+      const ret = brandType + " " + modelType + ", " + address; 
+      return ret;
   }
 
   viewComment(comment:CommentModel){

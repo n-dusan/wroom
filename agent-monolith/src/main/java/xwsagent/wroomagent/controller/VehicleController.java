@@ -180,4 +180,12 @@ public class VehicleController {
 	public ResponseEntity<?> getAdImage(@PathVariable(name = "id") Long id) {
 		return new ResponseEntity<>(this.vehicleService.getImage(id), HttpStatus.OK);
 	}
+	
+	//list for admin
+	@GetMapping("/allVehicles")
+	public ResponseEntity<?> getVehicles() {
+		return new ResponseEntity<>(
+				VehicleConverter.fromEntityList(vehicleService.findAll(), VehicleConverter::fromEntity),
+				HttpStatus.OK);
+	}
 }

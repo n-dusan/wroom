@@ -10,6 +10,7 @@ import { AuthService } from '../../auth/service/auth.service';
 import { LoggedUser } from '../../auth/model/logged-user.model';
 import { CommentModel } from '../../shared/models/comment-model.model';
 
+
 @Injectable({providedIn: 'root'})
 export class AdsService {
 
