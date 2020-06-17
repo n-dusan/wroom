@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AdsService } from '../../services/ads.service';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommentDetailsComponent } from '../comment-details/comment-details.component';
 import { ToastrService } from 'ngx-toastr';
 import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
+
 
 @Component({
   selector: 'app-comments-overview',
@@ -17,7 +15,7 @@ import { CommentModel } from 'src/app/modules/shared/models/comment-model.model'
 export class CommentsOverviewComponent implements OnInit {
   displayedColumns: string[] = ['username', 'comment', 'confirm', 'refuse'];
   dataCommentsSource : MatTableDataSource<any>;
-
+  listAds: any[] = [];
 
   constructor(private adsService: AdsService,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -34,6 +32,17 @@ export class CommentsOverviewComponent implements OnInit {
         this.dataCommentsSource = new MatTableDataSource(data);
       }
     );
+  }
+  
+  selectAd(id: number){
+    this.adsService.getAllAds().subscribe(
+      data => {
+        this.listAds = data;
+      }
+    );  
+    const ad = this.listAds.find(x => x.id == id); 
+    const ret = ad.brandType + " " + ad.modelType;
+    return ret;
   }
 
   viewComment(comment:CommentModel){

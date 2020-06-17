@@ -86,6 +86,9 @@ export class AdsService {
     return this.http.post(this.adsUrl + '/refuse/' + id, id);
   }
 
+  getAllAds(): Observable<Ad[]>{
+    return this.http.get<Ad[]>(this.adsUrl + '/allAds');  
+  }
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);

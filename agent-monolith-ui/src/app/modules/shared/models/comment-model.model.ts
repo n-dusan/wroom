@@ -3,10 +3,12 @@ export class CommentModel{
     title: string;
     content: string;
     rating: number;
+    adId: number;
 
-    constructor(title?: string, content?: string, rating?: number){
+    constructor(title?: string, content?: string, rating?: number, adId?: number){
         this.title = title;
         this.content = content;
         this.rating = rating;
+        this.adId = adId;
     }
 }

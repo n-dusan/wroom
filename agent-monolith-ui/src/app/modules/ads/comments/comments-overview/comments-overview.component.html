@@ -8,6 +8,11 @@
       <td mat-cell *matCellDef="let element"> {{element.clientUsername}}</td>
     </ng-container>
 
+    <ng-container matColumnDef="ad">
+      <th mat-header-cell *matHeaderCellDef> Ad </th>
+      <td mat-cell *matCellDef="let element"> {{selectAd(element.adId)}}</td>
+    </ng-container>
+
     <ng-container matColumnDef="comment">
       <th mat-header-cell *matHeaderCellDef> Comment  </th>
       <td mat-cell *matCellDef="let element">
