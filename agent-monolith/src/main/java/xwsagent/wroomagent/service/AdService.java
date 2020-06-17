@@ -120,7 +120,8 @@ public class AdService {
     	comment.setApproved(false);
     	comment.setDeleted(false);
     	User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
-    	comment.setClientUsername(user.getName() + " " + user.getSurname());
+    	//comment.setClientUsername(user.getName() + " " + user.getSurname());
+    	comment.setClientUsername(user.getEmail());
     	comment.setAd(findById(id));
     	comment.setRate(dto.getRate());
     	Calendar cal = Calendar.getInstance();

@@ -8,6 +8,8 @@ import { VehicleService } from 'src/app/modules/shared/service/vehicle.service';
 import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
 import { Ad } from 'src/app/modules/shared/models/ad.model';
 import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { UserService } from 'src/app/modules/admin/services/user.service';
 
 
 @Component({
@@ -20,12 +22,14 @@ export class CommentsOverviewComponent implements OnInit {
   dataCommentsSource : MatTableDataSource<any>;
   listAds: any[] = [];
   vehicleList: any[] = [];
+  userList: any[] = [];
 
   constructor(private adsService: AdsService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public dialog: MatDialog,
               private toastr: ToastrService,
-              private vehicleService: VehicleService) { }
+              private vehicleService: VehicleService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
     this.loadComments();
@@ -33,13 +37,16 @@ export class CommentsOverviewComponent implements OnInit {
     this.vehicleService.allVehicles().subscribe((data: Vehicle[]) => {
       this.vehicleList = data;
     })
+    this.userService.findAllEnabled().subscribe((data: any[]) => {
+      this.userList = data;
+    })
+
 
   }
 
   loadComments(){
     this.adsService.getAllComments().subscribe(
       data => {
-        console.log('comments', data)
         this.dataCommentsSource = new MatTableDataSource(data);
       }
     );
@@ -48,11 +55,15 @@ export class CommentsOverviewComponent implements OnInit {
   loadAds(){
     this.adsService.getAllAds().subscribe(
       data => {
-        this.listAds = data;
-        // console.log(this.listAds)        
+        this.listAds = data;       
       }
     );  
    
+  }
+
+  getUsername(username: String){
+    const user = this.userList.find(x => x.email == username);  
+    return user?.name + " " + user?.surname;
   }
 
   selectAd(adId: number){
