@@ -134,7 +134,7 @@ export class AdDetailComponent implements OnInit {
           this.authService.loggedUserSubject.subscribe(
             data => {
               this.loaded = true;
-              if(data.id == this.ad.ownerId) {
+              if(data?.id == this.ad.ownerId) {
                 this.isOwner = true;
               }
             }

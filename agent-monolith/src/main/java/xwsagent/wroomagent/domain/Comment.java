@@ -24,21 +24,21 @@ public class Comment {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date commentDate;
-    
-    @Column
-    private Integer rating;
 
     @Column
     private boolean deleted;
 
     @Column
-    private Boolean approved;
+    private boolean approved;
     
     @Column
     private Integer rate;
 
     @Column
     private String clientUsername;
+    
+    @Column
+    private Long clientId;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Ad ad;

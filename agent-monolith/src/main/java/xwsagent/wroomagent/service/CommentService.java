@@ -19,9 +19,19 @@ public class CommentService {
 		this.adService = adService;
 	}
 
-
+	/**
+	 * Returns all comments that are approved and NOT deleted for a given ad.
+	 * @param adId
+	 * @return
+	 */
 	public List<Comment> findByAd(Long adId) {
-		return this.commentRepository.findByAd(this.adService.findById(adId));
+		List<Comment> ret = this.commentRepository.findByAd(this.adService.findById(adId));
+		for(Comment c: ret) {
+			if(c.isDeleted() || !c.isApproved()) {
+				ret.remove(c);
+			}
+		}
+		return ret;
 	}
 	
 }

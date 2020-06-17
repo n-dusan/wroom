@@ -16,8 +16,10 @@ public class CommentDTO {
 	private Date date;
 	private Integer rate;
 	private String username;
+	private Long clientId;
 	private Long adId;
 	private Long replyId;
 	private boolean reply;
-	
+	private boolean approved;
+	private boolean deleted;
 }

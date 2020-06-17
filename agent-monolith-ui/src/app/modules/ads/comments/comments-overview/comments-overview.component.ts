@@ -39,6 +39,7 @@ export class CommentsOverviewComponent implements OnInit {
   loadComments(){
     this.adsService.getAllComments().subscribe(
       data => {
+        console.log('comments', data)
         this.dataCommentsSource = new MatTableDataSource(data);
       }
     );
@@ -48,7 +49,7 @@ export class CommentsOverviewComponent implements OnInit {
     this.adsService.getAllAds().subscribe(
       data => {
         this.listAds = data;
-        console.log(this.listAds)        
+        // console.log(this.listAds)        
       }
     );  
    

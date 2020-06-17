@@ -38,7 +38,7 @@ export class NewCommentComponent implements OnInit {
   save() {
     this.adsService.addComment(this.comment, this.local_data.id)
       .subscribe(data => {
-      this.toastr.success('Comment is in a progress!', 'Success')
+      this.toastr.success('Your comment is being processed.', 'Success')
     },
 
     error => {

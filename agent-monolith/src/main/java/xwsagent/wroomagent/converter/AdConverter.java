@@ -23,7 +23,8 @@ public class AdConverter extends AbstractConverter {
                 entity.getLocation().getId(),
                 entity.getAddress(),
                 entity.isGps(),
-                averageRate(entity.getComments())
+                averageRate(entity.getComments()),
+                entity.getVehicle().getOwner().getId()
         );
     }
 

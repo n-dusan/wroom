@@ -10,12 +10,15 @@ public class CommentConverter extends AbstractConverter{
 				entity.getId(),
 				entity.getTitle(),
 				entity.getContent(),
-				entity.getDate(),
+				entity.getCommentDate(),
 				entity.getRate(),
-				entity.getClient().getEmail(),
+				entity.getClientUsername(),
+				entity.getClientId(),
 				entity.getAd().getId(),
 				entity.getReplyId() == null ? null : entity.getReplyId(),
-				entity.isReply()
+				entity.isReply(),
+				entity.isApproved(),
+				entity.isDeleted()
 		);
 	}
 	
@@ -25,10 +28,11 @@ public class CommentConverter extends AbstractConverter{
 				dto.getTitle(),
 				dto.getContent(),
 				dto.getDate(),
-				null,
-				null,
+				dto.isApproved(),
+				dto.isDeleted(),
 				dto.getRate(),
-				null,
+				dto.getUsername(),
+				dto.getClientId(),
 				null,
 				dto.getReplyId(),
 				dto.isReply()
