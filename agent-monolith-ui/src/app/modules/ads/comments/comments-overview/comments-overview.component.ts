@@ -4,10 +4,10 @@ import { AdsService } from '../../services/ads.service';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { CommentDetailsComponent } from '../comment-details/comment-details.component';
 import { ToastrService } from 'ngx-toastr';
-import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
 import { VehicleService } from 'src/app/modules/shared/service/vehicle.service';
 import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
 import { Ad } from 'src/app/modules/shared/models/ad.model';
+import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
 
 
 @Component({
@@ -67,7 +67,7 @@ export class CommentsOverviewComponent implements OnInit {
       return ret;
   }
 
-  viewComment(comment:CommentModel){
+  viewComment(comment:Comment){
     const dialogRef = this.dialog.open(CommentDetailsComponent, {
       width: '600px',
       height: '400px',

@@ -49,8 +49,8 @@ export class NewCommentComponent implements OnInit {
   onSubmit() {
     this.comment.title = this.addComment.value.title;
     this.comment.content = this.addComment.value.content;
-    this.comment.rating = this.rate;
-    console.log(this.comment.rating)
+    this.comment.rate = this.rate;
+    console.log(this.comment.rate)
     this.save();
   }
 
