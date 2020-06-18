@@ -150,7 +150,7 @@
                             </div>
                             <div fxFlex="7%" *ngIf="!comment.replyObj && isOwner">
                                 <button mat-icon-button style="padding: 0px; margin: 0px;vertical-align:middle;"
-                                    matTooltip="Reply">
+                                    matTooltip="Reply" (click)="addReply(ad, comment)">
                                     <mat-icon style="padding: 0px; margin: 0px;vertical-align:middle;" color="accent">
                                         reply
                                     </mat-icon>

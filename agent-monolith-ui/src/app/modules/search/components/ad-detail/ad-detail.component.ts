@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { AdDetailDialogData } from './dialog-data.model';
 import { AdService } from '../../service/ad.service';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,8 @@ import { PriceList } from '../../model/price-list.model';
 import { CommentsService } from 'src/app/modules/shared/service/comments.service';
 import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { NewReplyComponent } from 'src/app/modules/ads/comments/new-reply/new-reply.component';
+import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
 
 @Component({
   selector: 'app-ad-detail',
@@ -42,7 +44,8 @@ export class AdDetailComponent implements OnInit {
     private authService: AuthService,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
-    public sanitizer: DomSanitizer) { }
+    public sanitizer: DomSanitizer,
+    private dialog: MatDialog,) { }
 
   ngOnInit(): void {
     this.fetchAd();
@@ -147,6 +150,17 @@ export class AdDetailComponent implements OnInit {
         }
       )
     }
+  }
+
+  addReply(ad: Ad, comment: Comment){
+    const dialogRef = this.dialog.open(NewReplyComponent, {
+      width: '500px',
+      height: '400px',
+      data: {ad, comment}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
 }

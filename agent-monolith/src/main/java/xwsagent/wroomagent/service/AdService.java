@@ -113,6 +113,11 @@ public class AdService {
     	return UserConverter.fromEntity(this.adRepository.findById(ad_id).get().getVehicle().getOwner());
     }
     
+    public Comment findCommentById(Long id) {
+		return commentRepository.findById(id).orElseThrow(
+				() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " comment"));
+	}
+    
     public Comment addComment(CommentDTO dto, Long id, Authentication auth) {
     	Comment comment = CommentConverter.toEntity(dto);
     	comment.setTitle(dto.getTitle());
@@ -120,7 +125,6 @@ public class AdService {
     	comment.setApproved(false);
     	comment.setDeleted(false);
     	User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
-    	//comment.setClientUsername(user.getName() + " " + user.getSurname());
     	comment.setClientUsername(user.getEmail());
     	comment.setClientId(user.getId());
     	comment.setAd(findById(id));
@@ -129,6 +133,27 @@ public class AdService {
     	Date date = cal.getTime();
     	comment.setCommentDate(date);
     	commentRepository.save(comment);
+    	return comment;
+    }
+    
+    public Comment addReply(CommentDTO dto, Long id, Authentication auth) {
+    	Comment comment = CommentConverter.toEntity(dto);
+    	comment.setTitle(dto.getTitle());
+    	comment.setContent(dto.getContent());
+    	comment.setApproved(false);
+    	comment.setDeleted(false);
+    	User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
+    	comment.setClientUsername(user.getEmail());
+    	comment.setClientId(user.getId());
+    	comment.setAd(findCommentById(id).getAd());
+    	Calendar cal = Calendar.getInstance();
+    	Date date = cal.getTime();
+    	comment.setCommentDate(date);
+    	comment.setReply(true);
+    	commentRepository.save(comment);
+    	Comment c = findCommentById(id);
+    	c.setReplyId(comment.getId());
+    	commentRepository.save(c);
     	return comment;
     }
     

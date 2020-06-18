@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.domain.Comment;
+import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.CommentRepository;
 
 @Service
@@ -27,11 +28,12 @@ public class CommentService {
 	public List<Comment> findByAd(Long adId) {
 		List<Comment> ret = this.commentRepository.findByAd(this.adService.findById(adId));
 		for(Comment c: ret) {
-			if(c.isDeleted() || !c.isApproved()) {
+			if(c.isDeleted() && !c.isApproved()) {
 				ret.remove(c);
 			}
 		}
 		return ret;
 	}
+	
 	
 }
