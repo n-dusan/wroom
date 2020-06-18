@@ -15,22 +15,17 @@ import java.util.Date;
 public class CommentDTO {
 
 	private Long id;
-
-    private String title;
-
-    private String content;
-
-    private Date commentDate;
-    
-    private Integer rating;
-
-    private boolean deleted;
-
-    private boolean approved;
-
-    private String clientUsername;
-
-    private Long adId;
+	private String title;
+	private String content;
+	private Date date;
+	private Integer rate;
+	private String username;
+	private Long clientId;
+	private Long adId;
+	private Long replyId;
+	private boolean reply;
+	private boolean approved;
+	private boolean deleted;
 
 }
 

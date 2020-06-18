@@ -1,11 +1,11 @@
-package xwsagent.wroomagent.service;
+package com.wroom.adsservice.service;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import xwsagent.wroomagent.domain.Comment;
-import xwsagent.wroomagent.repository.CommentRepository;
+import com.wroom.adsservice.domain.Comment;
+import com.wroom.adsservice.repository.CommentRepository;
 
 @Service
 public class CommentService {

@@ -11,4 +11,12 @@
     padding: 30px;
     height: 70vh;
 
+    background-color: rgb(197, 197, 197);
+}
+
+
+.reply {
+    border: 1px solid lightgray;
+    border-radius: 2px;
+    padding: 10px;
 }

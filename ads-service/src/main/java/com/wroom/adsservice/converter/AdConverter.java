@@ -49,7 +49,9 @@ public class AdConverter extends AbstractConverter {
     		rateList.addAll(comments);
     		if(rateList.size() > 0) {
     			for(Comment c : rateList) {
-        			sum += c.getRating();
+    				if(c.getRate() != null) {
+    					sum += c.getRate();
+    				}
         		}
         		return sum*1.0/comments.size();
     		}
