@@ -15,12 +15,12 @@ import { MessageDetailsComponent } from './components/message-details/message-de
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+
 const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
 
 @NgModule({
   declarations: [
-    // This is where all declared components go! (if you add new component,
-    // import it here!)
     ControlMessagesComponent,
     HomeComponent,
     EmailConfirmationComponent,
@@ -37,7 +37,8 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     AngularYandexMapsModule.forRoot(YANDEX_API_KEY),
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxChartsModule
   ],
   exports: [
     // If you want your component to be usable from outside of this module,
@@ -47,7 +48,8 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
     AngularYandexMapsModule,
     ControlMessagesComponent,
     VehicleDetailsComponent,
-    AdDetailComponent
+    AdDetailComponent,
+    NgxChartsModule
   ]
 })
 export class SharedModule { }

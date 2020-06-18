@@ -333,11 +333,6 @@
                       <td [innerHTML]="calculatePrice(request)"></td>
                   </tr>
 
-                  <tr>
-                    <th style="text-align: end;">Total price: </th>
-                    <td [innerHTML]="calculatePrice(request)"></td>
-                </tr>
-
                 <tr *ngIf="checkRequest(request)">
                   <th> Report </th>
                   <td [innerHtml]="showReport(request)"> </td>
