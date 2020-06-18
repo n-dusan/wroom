@@ -147,7 +147,7 @@ public class VehicleController {
 		try {
 			return new ResponseEntity<>(vehicleService.getVehiclesImage(), HttpStatus.OK);
 		} catch (Exception e) {
-			System.out.println("Exception is thrown");
+			System.err.println("Exception is thrown");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -178,5 +178,13 @@ public class VehicleController {
 	@GetMapping(value="/image/ad/{id}")
 	public ResponseEntity<?> getAdImage(@PathVariable(name = "id") Long id) {
 		return new ResponseEntity<>(this.vehicleService.getImage(id), HttpStatus.OK);
+	}
+	
+	//list for admin
+	@GetMapping("/allVehicles")
+	public ResponseEntity<?> getVehicles() {
+		return new ResponseEntity<>(
+				VehicleConverter.fromEntityList(vehicleService.findAll(), VehicleConverter::fromEntity),
+				HttpStatus.OK);
 	}
 }

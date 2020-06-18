@@ -277,8 +277,10 @@ values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00
 
 
 -- Rent Requests
-insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id)
-values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-07 00:00:00.000000', null, 1); --Opel Astra iz Wuhana
+--insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
+--values(1, '2020-06-05 00:00:00.000000', 'PAID', '2020-06-07 00:00:00.000000', null, 1, 1); --Opel Astra iz Wuhana
+insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
+values(1, '2020-06-23 00:00:00.000000', 'COMPLETED', '2020-06-23 00:00:00.000000', null, 1, 1);
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
 --values(2, '2020-07-05 10:00:00.000000', 'PENDING', '2020-07-15 00:00:00.000000', null, 1, 4); 
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
@@ -286,14 +288,17 @@ values(1, '2020-06-05 10:00:00.000000', 'PAID', '2020-06-07 00:00:00.000000', nu
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
 --values(4, '2020-07-17 10:00:00.000000', 'PHYSICALLY_RESERVED', '2020-07-18 00:00:00.000000', null, 1, 4); 
 
--- Rates
-insert into rate(id, rating, ad_id)
-values (1, 5, 1);
-insert into rate(id, rating, ad_id)
-values (2, 4, 1);
-insert into rate(id, rating, ad_id)
-values (3, 3, 2);
-insert into rate(id, rating, ad_id)
-values (4, 4, 2);
-insert into rate(id, rating, ad_id)
-values (5, 3, 3);
+
+-- Messages
+insert into message(id, content, date, rent_request_id, title, from_user, to_user_id)
+values(1, 'Hello Monolith, how are you doing?', '2020-06-05 10:00:00.000000', 1, 'Hello', 'zika@maildrop.cc', 1);
+insert into message(id, content, date, rent_request_id, title, to_user, from_user_id)
+values(2, 'Hello Ziko, good.', '2020-06-05 11:00:00.000000', 1, 'Hello-Reply', 'zika@maildrop.cc', 1);
+
+-- Comments
+insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
+values(1, true, 'This vehicle is great', '2020-06-05 11:00:00.000000', false, 9, 'Nice', 1, 1, 3, false, 'mila@maildrop.cc');
+insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply, client_username)
+values(2, true, 'Great service', '2020-06-08 12:00:00.000000', false, 8, 'OK', 1, 2, false, 'mila@maildrop.cc');
+insert into comment(id, content, approved, comment_date, deleted, ad_id, client_id, reply, client_username)
+values(3, 'Thank you very much' ,true, '2020-06-08 10:00:00.000000', false, 1, 2, true, 'zika@maildrop.cc');

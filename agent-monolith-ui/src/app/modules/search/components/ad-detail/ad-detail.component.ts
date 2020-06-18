@@ -9,6 +9,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Vehicle } from '../../model/vehicle.model';
 import { PricelistDetailDialogData } from '../price-details/pricelist-dialog-data.model';
 import { PriceList } from '../../model/price-list.model';
+import { CommentsService } from 'src/app/modules/shared/service/comments.service';
+import { Comment } from 'src/app/modules/shared/models/comment.model';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Component({
   selector: 'app-ad-detail',
@@ -20,8 +23,12 @@ export class AdDetailComponent implements OnInit {
   ad: Ad;
   vehicle: Vehicle;
   images: string[] = [];
+  comments: Comment[] = [];
   currentImageIndex: number = 0;
   currentImage: string = "";
+  loaded: boolean = false;
+  isOwner: boolean = false;
+
   priceData: PricelistDetailDialogData = {
     pricelistId: null,
     mileLimit: null,
@@ -31,6 +38,8 @@ export class AdDetailComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<AdDetailComponent>,
     @Inject(MAT_DIALOG_DATA) public data: AdDetailDialogData,
     private adService: AdService,
+    private commentsService: CommentsService,
+    private authService: AuthService,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
     public sanitizer: DomSanitizer) { }
@@ -63,7 +72,7 @@ export class AdDetailComponent implements OnInit {
         this.toastr.error('There was an unexpected error.', 'Vehicle')
       }
     );
-    
+
   }
 
   fetchImages() {
@@ -90,20 +99,54 @@ export class AdDetailComponent implements OnInit {
   }
 
   leftImageClick() {
-    if(this.currentImageIndex > 0) {
+    if (this.currentImageIndex > 0) {
       this.currentImageIndex = this.currentImageIndex - 1;
       this.currentImage = this.images[this.currentImageIndex];
     }
   }
 
   rightImageClick() {
-    if(this.currentImageIndex < this.images.length - 1) {
+    if (this.currentImageIndex < this.images.length - 1) {
       this.currentImageIndex = this.currentImageIndex + 1;
       this.currentImage = this.images[this.currentImageIndex];
     }
-    else if(this.currentImageIndex == this.images.length - 1) {
+    else if (this.currentImageIndex == this.images.length - 1) {
       this.currentImageIndex = 0;
       this.currentImage = this.images[0];
     }
   }
+
+  onTabClick(event: any) {
+    if (event.index == 1) {
+      this.commentsService.getAll(this.ad.id).subscribe(
+        data => {
+          this.comments = data;
+          console.log(this.comments)
+          for(let c of this.comments) {
+            if(c.replyId != null) {
+              c.replyObj = this.comments.find(obj => {return obj.id === c.replyId});
+              const i = this.comments.indexOf(c.replyObj);
+              this.comments.splice(i, 1);
+            }
+          }
+
+          // check if logged user is the owner
+          this.authService.loggedUserSubject.subscribe(
+            data => {
+              this.loaded = true;
+              if(data?.id == this.ad.ownerId) {
+                this.isOwner = true;
+              }
+            }
+          )
+          
+        },
+        error => {
+          this.loaded = true;
+          this.toastr.error('An unexpected error has occurred.', 'Comments')
+        }
+      )
+    }
+  }
+
 }

@@ -194,4 +194,48 @@
       </mat-card>
     </div>    
   </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon color="accent" class="example-tab-icon">lock</mat-icon>
+      &nbsp;
+      Completed
+    </ng-template>
+    <div  fxLayout = "column" style="height:100%;" fxLayoutAlign="center center">
+      <mat-card *ngFor="let request of completedList" fxFlex>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <div fxFlex>
+            <mat-card-header fxLayout="row" fxLayoutAlign="center">
+              <div fxFlex>
+                <mat-card-title>{{vehicleName(request)}}</mat-card-title>
+              </div>
+              <button fxFlex="10%" mat-button (click)="addComment(request.ad)" style="margin-right: 10px;">
+                <mat-icon color="accent">add_comment</mat-icon>
+              </button>
+            </mat-card-header>
+
+            <mat-divider horizontal style="height:100px;"></mat-divider>
+
+            <mat-card-content fxLayout="row" fxLayoutAlign="center center">
+              <table style="width:500px;">
+                <tbody>
+                  <tr>
+                    <td>From:</td>
+                    <td>{{request.fromDate |  date:'MM/dd/yyyy'}}</td>
+                  </tr>
+                  <tr>
+                    <td>To:</td>
+                    <td>{{request.toDate |  date:'MM/dd/yyyy'}}</td>
+                  </tr>
+                  
+                </tbody>
+              
+              </table>
+              <div fxFlex></div>
+              
+            </mat-card-content>
+          </div>
+        </div>
+      </mat-card>
+    </div>  
+  </mat-tab>
 </mat-tab-group>

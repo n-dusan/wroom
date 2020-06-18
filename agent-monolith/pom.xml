@@ -163,6 +163,8 @@
 						</sources>
 					</configuration>
 				</plugin>
+				
+				
 				<!-- /SOAP -->
 
 			</plugins>

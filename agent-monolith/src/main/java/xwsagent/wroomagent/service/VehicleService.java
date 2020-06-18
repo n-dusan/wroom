@@ -143,7 +143,7 @@ public class VehicleService {
 			OutputStream out = null;
 			String fileName = f.getOriginalFilename();
 			System.out.println("File name " + fileName);
-			String path = "./target/classes/static/images/";
+			String path = "target/classes/static/images/";
 			File newFile = new File(path + fileName);
 			System.out.println(newFile.getAbsolutePath());
 			// System.out.println(newFile.getP);

@@ -23,8 +23,8 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient,
     private router: Router) {
-      this.loggedUserSubject = new BehaviorSubject<LoggedUser>(JSON.parse(localStorage.getItem('LoggedUser')));
-      this.loggedUser = this.loggedUserSubject.asObservable();
+    this.loggedUserSubject = new BehaviorSubject<LoggedUser>(JSON.parse(localStorage.getItem('LoggedUser')));
+    this.loggedUser = this.loggedUserSubject.asObservable();
   }
 
   signup(data: SignupRequest): Observable<SignupRequest> {
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   getToken() {
-      return localStorage.getItem('token');
+    return localStorage.getItem('token');
   }
 
   logout() {
@@ -55,10 +55,22 @@ export class AuthService {
     this.router.navigate(['/auth']);
   }
 
+  reauthenticate() {
+    const tok = localStorage.getItem('token');
+    if (tok) {
+      this.httpClient.get<any>(this.baseUrl + '/whoami').subscribe(
+        data => {
+          this.loggedUserSubject.next(data)
+          this.loggedUser = this.loggedUserSubject.asObservable();
+        }
+      );
+    }
+  }
+
   whoami() {
     const tok = localStorage.getItem('token');
     // console.log('whoami token', tok)
-    if(tok) {
+    if (tok) {
       // Set user to BehaviourSubject?
       return this.httpClient.get<any>(this.baseUrl + '/whoami');
     }

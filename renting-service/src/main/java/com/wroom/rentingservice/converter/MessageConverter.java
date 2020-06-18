@@ -24,7 +24,9 @@ public class MessageConverter extends AbstractConverter {
     			dto.getRentRequestId(), 
     			dto.getTitle(), 
     			dto.getContent(),
-    			dto.getDate());
+    			dto.getDate(),
+    			null,
+    			null);
     }
 	
 }

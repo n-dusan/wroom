@@ -1,4 +1,8 @@
-<div class="content" fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10px">
+<div *ngIf="!loaded">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="content" fxLayout="row" fxLayoutAlign="center start" fxLayoutGap="10px" *ngIf="loaded">
 
     <!-- Filters -->
     <div fxFlex="20%" class="filters">

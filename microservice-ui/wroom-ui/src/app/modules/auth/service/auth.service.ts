@@ -26,6 +26,7 @@ export class AuthService {
                         + '/auth';
 
 
+
   private userUrl: string = environment.protocol
                       + '://' + environment.domain
                       + ':'
@@ -48,7 +49,7 @@ export class AuthService {
 
   login(data: LoginRequest): Observable<any> {
     return this.httpClient.post<any>(this.baseUrl + '/login', data).pipe(catchError(this.handleException)).pipe(map((res: LoggedUser) => {
-      // console.log('login result;', res);
+      //console.log('login result;', res);
       localStorage.setItem('token', JSON.stringify(res.token));
       this.loggedUserSubject.next(res);
       this.loggedUser = this.loggedUserSubject.asObservable();

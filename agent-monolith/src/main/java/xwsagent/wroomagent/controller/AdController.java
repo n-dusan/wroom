@@ -21,8 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.log4j.Log4j2;
 import xwsagent.wroomagent.config.EndpointConfig;
 import xwsagent.wroomagent.converter.AdConverter;
+import xwsagent.wroomagent.converter.CommentConverter;
 import xwsagent.wroomagent.converter.LocationConverter;
+import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.domain.dto.AdDTO;
+import xwsagent.wroomagent.domain.dto.CommentDTO;
 import xwsagent.wroomagent.domain.dto.LocationDTO;
 import xwsagent.wroomagent.domain.dto.SearchCriteriaDTO;
 import xwsagent.wroomagent.domain.dto.UserDTO;
@@ -98,7 +101,6 @@ public class AdController {
 	 */
 	@GetMapping("/{ad}")
 	public ResponseEntity<AdDTO> getAd(@PathVariable("ad") Long adId) {
-		System.out.println("THIS IS AN ID: " + adId);
 		return new ResponseEntity<>(AdConverter.fromEntity(adService.findById(adId)), HttpStatus.OK);
 	}
 
@@ -188,5 +190,50 @@ public class AdController {
 	@GetMapping(value = "/owner/{ad_id}")
 	public ResponseEntity<UserDTO> getOwner(@PathVariable("ad_id") Long ad_id) {
 		return new ResponseEntity<>(adService.getOwner(ad_id), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="/comment/{id}")
+	public ResponseEntity<CommentDTO> addComment(@PathVariable("id")Long id, @RequestBody CommentDTO commentDTO, Authentication auth) {
+		
+		return new ResponseEntity<>(CommentConverter.fromEntity(adService.addComment(commentDTO,id, auth)), HttpStatus.OK);
+	}
+	
+	@GetMapping("/comments")
+    public ResponseEntity<List<CommentDTO>> getAllComments() {
+    	
+        return new ResponseEntity<>(CommentConverter.fromEntityList(adService.getComments(), CommentConverter::fromEntity),
+                HttpStatus.OK);
+    }
+    
+    @PostMapping(value = "/confirm/{id}")
+	public ResponseEntity<?> confirm(@PathVariable("id") Long id) {
+		Comment comment = adService.findByCommentId(id);
+		if (comment.isApproved() == false) {
+			adService.confirm(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+    
+    @PostMapping(value = "/refuse/{id}")
+	public ResponseEntity<?> refuse(@PathVariable("id") Long id) {
+		Comment comment = adService.findByCommentId(id);
+		if (comment.isApproved() == false) {
+			adService.refuse(id);
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+    
+    //list for admin
+    @GetMapping("/allAds")
+	public ResponseEntity<List<AdDTO>> getAllAds() {
+		return new ResponseEntity<>(
+				AdConverter.fromEntityList(adService.findAll(), AdConverter::fromEntity),
+				HttpStatus.OK);
 	}
 }

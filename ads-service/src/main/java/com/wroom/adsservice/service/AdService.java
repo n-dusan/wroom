@@ -2,19 +2,24 @@ package com.wroom.adsservice.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.wroom.adsservice.converter.AMQPAdConverter;
 import com.wroom.adsservice.converter.AMQPLocationConverter;
 import com.wroom.adsservice.converter.AMQPPriceListConverter;
 import com.wroom.adsservice.converter.AdConverter;
+import com.wroom.adsservice.converter.CommentConverter;
 import com.wroom.adsservice.converter.LocationConverter;
 import com.wroom.adsservice.converter.PriceListConverter;
 import com.wroom.adsservice.domain.Ad;
+import com.wroom.adsservice.domain.Comment;
 import com.wroom.adsservice.domain.Location;
 import com.wroom.adsservice.domain.dto.AdDTO;
+import com.wroom.adsservice.domain.dto.CommentDTO;
 import com.wroom.adsservice.domain.dto.LocationDTO;
 import com.wroom.adsservice.domain.dto.UserDTO;
 import com.wroom.adsservice.domain.dto.VehicleDTO;
@@ -25,8 +30,10 @@ import com.wroom.adsservice.producer.AdsProducer;
 import com.wroom.adsservice.producer.messages.AdsMessage;
 import com.wroom.adsservice.producer.messages.OperationEnum;
 import com.wroom.adsservice.repository.AdRepository;
+import com.wroom.adsservice.repository.CommentRepository;
 import com.wroom.adsservice.repository.LocationRepository;
 import com.wroom.adsservice.repository.PriceListRepository;
+
 
 @Service
 public class AdService {
@@ -37,16 +44,18 @@ public class AdService {
 	private final VehicleClient vehicleClient;
 	private final AuthClient authClient;
 	private final AdsProducer adsProducer;
+	private final CommentRepository commentRepository;
 
 	public AdService(LocationRepository locationRepository, AdRepository adRepository,
 			PriceListRepository priceListRepository, VehicleClient vehicleClient, AuthClient authClient,
-			AdsProducer adsProducer) {
+			AdsProducer adsProducer, CommentRepository commentRepository) {
 		this.locationRepository = locationRepository;
 		this.adRepository = adRepository;
 		this.priceListRepository = priceListRepository;
 		this.vehicleClient = vehicleClient;
 		this.authClient = authClient;
 		this.adsProducer = adsProducer;
+		this.commentRepository = commentRepository;
 	}
 
 	public List<Ad> findAll() {
@@ -169,5 +178,49 @@ public class AdService {
 //    public UserDTO getOwner(Long ad_id) {
 //        return UserConverter.fromEntity(this.adRepository.findById(ad_id).get().getVehicle().getOwner());
 //    }
-
+	
+	 public Comment addComment(CommentDTO dto, Long id, Authentication auth) {
+	    	Comment comment = CommentConverter.toEntity(dto);
+	    	comment.setTitle(dto.getTitle());
+	    	comment.setContent(dto.getContent());
+	    	comment.setApproved(false);
+	    	comment.setDeleted(false);
+//	    	User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
+//	    	comment.setClientUsername(user.getName() + " " + user.getSurname());
+	    	comment.setAd(findById(id));
+	    	comment.setRating(dto.getRating());
+	    	Calendar cal = Calendar.getInstance();
+	    	Date date = cal.getTime();
+	    	comment.setCommentDate(date);
+	    	commentRepository.save(comment);
+	    	return comment;
+	    }
+	
+	public List<Comment> getComments(){
+		List<Comment> list = new ArrayList<Comment>();
+		for(Comment c : commentRepository.findAll()) {
+			if(c.isApproved() == false && c.isDeleted() == false) {
+				list.add(c);
+			}
+		}
+		return list;
+	}
+	
+	public Comment findByCommentId(Long id) {
+		return commentRepository.findById(id)
+				.orElseThrow(() -> new GeneralException("Unable to find reference to " + id.toString() + " comment"));
+	}
+	
+	public void confirm(Long id) {
+		Comment comment = findByCommentId(id);
+		comment.setApproved(true);
+		commentRepository.save(comment);
+	}
+	
+	public void refuse(Long id) {
+		Comment comment = findByCommentId(id);
+		comment.setApproved(false);
+		comment.setDeleted(true);
+		commentRepository.save(comment);
+	}
 }

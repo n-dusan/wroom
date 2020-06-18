@@ -18,9 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.converter.UserConverter;
-import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.domain.PasswordResetToken;
 import xwsagent.wroomagent.domain.RentRequest;
+import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.auth.RoleName;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.auth.VerificationToken;
@@ -95,10 +95,12 @@ public class AuthenticationService {
 			throw new UsernameAlreadyExistsException("Username already exists!");
 		}
 
-		User user = new User(null, request.getName(), request.getSurname(), request.getEmail(),
-				encoder.encode(request.getPassword()), new HashSet<RentRequest>(), null, new HashSet<Comment>(), null,
-				Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)), false, true, null);
-
+		User user = new User(
+				null, request.getName(), request.getSurname(), request.getEmail(), encoder.encode(request.getPassword()),
+				new HashSet<RentRequest>(), new HashSet<Vehicle>(), Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)),
+				false,false, null
+		);
+		
 		user.setEnabled(false);
 		user.setNonLocked(false);
 
