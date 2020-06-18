@@ -21,26 +21,4 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/search'])
   }
 
-  testRoleClick() {
-    this.authService.testRole().subscribe(
-      () => {
-        this.toastr.success('You are allowed to test this button','Congrats!')
-      },
-      error => {
-        this.toastr.error('You are not allowed to test that button','Error')
-      }
-    );
-  }
-
-  testPermissionClick() {
-    this.authService.testPermission().subscribe(
-      () => {
-        this.toastr.success('You are allowed to test this button','Congrats!')
-      },
-      error => {
-        this.toastr.error('You are not allowed to test that button','Error')
-      }
-    );
-  }
-
 }

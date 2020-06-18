@@ -1,16 +1,18 @@
 import { Ad } from '../../ads/model/ad.model';
 
-export class RentRequest{
-    id:number;
-    status: String;
-    fromDate:Date;
-    toDate: Date;
-    ad: Ad;
+export class RentRequest {
 
-    constructor(status?: String, fromDate?: Date, toDate?: Date, ad?: Ad){
-        this.status = status;
-        this.fromDate = fromDate;
-        this.toDate = toDate;
-        this.ad = ad;
-    }
+  public constructor(
+      public id?: number,
+      public status?: string,
+      public fromDate?: Date,
+      public toDate?: Date,
+      public requestedUserId?: number,
+      public ad?: Ad,
+      public requestedUserUsername?: string,
+      public checked?: boolean,
+      public bundleId?: number,
+      public requestId?: number
+  ) { }
+
 }

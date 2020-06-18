@@ -41,6 +41,10 @@ export class VehicleService {
     return this.http.get<Vehicle[]>(this.baseUrl, httpOptions);
   }
 
+  getAll(): Observable<Vehicle[]> {
+    return this.http.get<Vehicle[]>(this.baseUrl + '/all');
+  }
+
   getImages(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/getImages/` + id);
   }

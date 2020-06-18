@@ -27,7 +27,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
-import {MatSliderModule } from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider';
 
 
 const modules = [

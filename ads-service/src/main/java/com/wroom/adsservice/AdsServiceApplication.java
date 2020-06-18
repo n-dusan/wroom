@@ -28,7 +28,7 @@ public class AdsServiceApplication {
 //			if (args.length > 0) {
 //				name = args[0];
 //			}
-//			
+
 //			try {
 //				HelloResponse response = quoteClient.sayHello(name);
 //				System.err.println(response.getName());
@@ -36,8 +36,7 @@ public class AdsServiceApplication {
 //				System.out.println("EXCEPTION!!!!");
 //				e.printStackTrace();
 //			}
-//			
-//			
+
 //		};
 //	}
 

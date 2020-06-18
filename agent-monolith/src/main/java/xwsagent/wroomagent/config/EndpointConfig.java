@@ -16,5 +16,6 @@ public class EndpointConfig {
     public static final String RENT_BASE_URL = "/api/rents";
     public static final String MESSAGES_BASE_URL = "/api/messages";
     public static final String COMMENTS_BASE_URL = "/api/comments";
+    public static final String REPORT_BASE_URL = "/api/report";
     
 }

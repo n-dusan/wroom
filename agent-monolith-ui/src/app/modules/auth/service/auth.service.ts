@@ -18,8 +18,6 @@ export class AuthService {
   loggedUser: Observable<LoggedUser>;
 
   private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/auth';
-  private stubUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/stub';
-
 
   constructor(private httpClient: HttpClient,
     private router: Router) {
@@ -53,6 +51,10 @@ export class AuthService {
     this.loggedUserSubject.next(null);
     this.loggedUser = this.loggedUserSubject.asObservable();
     this.router.navigate(['/auth']);
+  }
+
+  getUser(userId: number): Observable<LoggedUser> {
+    return this.httpClient.get<LoggedUser>(this.baseUrl + '/' + userId);
   }
 
   reauthenticate() {
@@ -92,13 +94,6 @@ export class AuthService {
     return this.httpClient.put(this.baseUrl + '/reset-password', token).pipe(catchError(this.handleException));
   }
 
-  testRole(): Observable<string> {
-    return this.httpClient.get<string>(this.stubUrl + '/test-auth-role');
-  }
-
-  testPermission(): Observable<string> {
-    return this.httpClient.get<string>(this.stubUrl + '/test-auth-permission');
-  }
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);
