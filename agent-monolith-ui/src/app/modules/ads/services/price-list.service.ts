@@ -12,6 +12,11 @@ export class PriceListService {
 
   constructor(private http: HttpClient) {}
 
+
+  findAll(): Observable<PriceList[]> {
+    return this.http.get<PriceList[]>(this.url).pipe(catchError(this.handleException));
+  }
+
   findAllActive(): Observable<PriceList[]> {
     return this.http.get<PriceList[]>(this.url).pipe(catchError(this.handleException));
   }

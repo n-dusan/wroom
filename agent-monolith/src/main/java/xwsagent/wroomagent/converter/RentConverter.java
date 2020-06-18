@@ -7,14 +7,16 @@ import xwsagent.wroomagent.domain.dto.UserDTO;
 
 public class RentConverter extends AbstractConverter{
 
-	public static RentRequestDTO fromEntity(RentRequest entity) {
+    public static RentRequestDTO fromEntity(RentRequest entity) {
         return new RentRequestDTO(
                 entity.getId(),
                 entity.getStatus(),
                 entity.getFromDate(),
                 entity.getToDate(),
-                new UserDTO(entity.getRequestedUser().getId(), entity.getRequestedUser().getEmail(), entity.getRequestedUser().getPassword(), entity.getRequestedUser().getName(), entity.getRequestedUser().getSurname(), entity.getRequestedUser().isNonLocked()),
-                AdConverter.fromEntity(entity.getAd())
+                entity.getRequestedUser() == null ? null : entity.getRequestedUser().getId(),
+                AdConverter.fromEntity(entity.getAd()),
+                entity.getBundle() == null ? null : entity.getBundle().getId(),
+                entity.getRentReport() == null ? null : entity.getRentReport().getId()
         );
     }
 

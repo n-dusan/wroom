@@ -27,4 +27,5 @@ public class RentRequestDTO {
 	private Long requestedUserId;
 	private AdDTO ad;
 	private Long bundleId;
+	private Long reportId;
 }

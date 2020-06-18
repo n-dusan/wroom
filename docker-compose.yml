@@ -212,45 +212,45 @@ services:
 
 
 
-  #  agent:
-  #    build:
-  #      context: ./
-  #      dockerfile: Dockerfile
-  #    image: xws:agent
-  #    container_name: agent
-  #    restart: on-failure
-  #    networks:
-  #      - xws-network
-  #    ports:
-  #      - 8081:8081
-  #    environment:
-  #      DATABASE_USERNAME: root
-  #      DATABASE_PASSWORD: root
-  #      DATABASE_DOMAIN: mysql
-  #      DATABASE_SCHEMA: agent
-  #      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
-  #    depends_on:
-  #      - mysql
-  #
+#  agent:
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+#    image: xws:agent
+#    container_name: agent
+#    restart: on-failure
+#    networks:
+#      - xws-network
+#    ports:
+#      - 8081:8081
+#    environment:
+#      DATABASE_USERNAME: root
+#      DATABASE_PASSWORD: root
+#      DATABASE_DOMAIN: mysql
+#      DATABASE_SCHEMA: agent
+#      CLOUDAMQP_URL: ${CLOUDAMQP_URL}
+#    depends_on:
+#      - mysql
 
 
 
-  flask-gps:
-    build:
-      context: ./gps-service
-      dockerfile: Dockerfile
-    image: xws:gps
-    container_name: gps
-    networks:
-      - xws-network
-    ports:
-      - 5000:5000
-    environment:
-      RMQ_HOST: rabbitmq-broker
-    volumes:
-      - ./gps-service:/app
-    depends_on:
-      - rabbitmq-broker
+
+#  flask-gps:
+#    build:
+#      context: ./gps-service
+#      dockerfile: Dockerfile
+#    image: xws:gps
+#    container_name: gps
+#    networks:
+#      - xws-network
+#    ports:
+#      - 5000:5000
+#    environment:
+#      RMQ_HOST: rabbitmq-broker
+#    volumes:
+#      - ./gps-service:/app
+#    depends_on:
+#      - rabbitmq-broker
 
 volumes:
   mysql-data:

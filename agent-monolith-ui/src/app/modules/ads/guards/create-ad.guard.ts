@@ -13,15 +13,20 @@ export class CreateAdGuard implements CanActivate {
 
   constructor(private adsService: AdsService, private toastr: ToastrService) {}
 
-  canActivate(): Observable<boolean> {
+  // canActivate(): Observable<boolean> {
 
-    return this.adsService.checkAdCount().pipe(map((data: number) => {
-      if(data < 3) {
-        return true;
-      } else {
-        this.toastr.error('Ad limit exceeded (3)', 'Nope')
-        return false;
-      }
-    }));
+  //   return this.adsService.checkAdCount().pipe(map((data: number) => {
+  //     if(data < 3) {
+  //       return true;
+  //     } else {
+  //       this.toastr.error('Ad limit exceeded (3)', 'Nope')
+  //       return false;
+  //     }
+  //   }));
+  // }
+
+  canActivate(): boolean {
+
+    return true;
   }
 }
