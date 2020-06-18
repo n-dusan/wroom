@@ -1,4 +1,4 @@
-package xwsagent.wroomagent.controller;
+package com.wroom.adsservice.controller;
 
 import java.util.List;
 
@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wroom.adsservice.config.EndpointConfig;
+import com.wroom.adsservice.converter.CommentConverter;
+import com.wroom.adsservice.domain.dto.CommentDTO;
+import com.wroom.adsservice.service.CommentService;
+
 import lombok.extern.log4j.Log4j2;
-import xwsagent.wroomagent.config.EndpointConfig;
-import xwsagent.wroomagent.converter.CommentConverter;
-import xwsagent.wroomagent.domain.dto.CommentDTO;
-import xwsagent.wroomagent.service.CommentService;
 
 @RestController
 @RequestMapping(value = EndpointConfig.COMMENTS_BASE_URL)

@@ -19,6 +19,7 @@ export class Ad {
       public locationObj?: AdLocation,
       public priceListObj?: PriceList,
       public image?: string,
-      public averageRate?: number
+      public averageRate?: number,
+      public ownerId?: number
     ) {}
   }

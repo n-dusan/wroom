@@ -71,6 +71,19 @@ export class AuthService {
     this.router.navigate(['/auth']);
   }
 
+  reauthenticate() {
+    const tok = localStorage.getItem('token');
+    if (tok) {
+      this.httpClient.get<any>(this.baseUrl + '/whoami').subscribe(
+        data => {
+          this.loggedUserSubject.next(data)
+          this.loggedUser = this.loggedUserSubject.asObservable();
+          console.log('reauthenticated', this.loggedUserSubject)
+        }
+      );
+    }
+  }
+
   // fix this
   whoami() {
     const tok = localStorage.getItem('token');

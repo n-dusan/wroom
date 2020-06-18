@@ -30,28 +30,46 @@ export class AppComponent {
 
 
   ngOnInit(): void {
-    this.authService.loggedUserSubject.subscribe(
-      data => {
-        this.user = data;
-        this.getShoppingCart();
-      }
-    );
 
-    //send whoami to server to re-authenticate
-    this.authService.whoami().subscribe(
-      data => {
-        this.user = data;
-        console.log(this.user)
-        this.getShoppingCart();
-      },
-      error => {
-        if (error.status == 401) {
-          localStorage.removeItem('token');
-          this.router.navigate(['auth']);
-        }
-        this.loaded = true;
+    this.authService.getLoggedUser().subscribe(data => {
+      this.user = data;
+      if (this.user == null) {
+        this.authService.reauthenticate();
+        console.log('reauthenticated')
       }
-    );
+      this.getShoppingCart();
+    }); 
+
+    // this.authService.loggedUserSubject.subscribe(
+    //   data => {
+    //     this.user = data;
+    //     this.getShoppingCart();
+    //   }
+    // );
+
+    if (this.user == null) {
+      this.authService.loggedUserSubject.subscribe(
+        data => {
+          this.user = data;
+        }
+      )
+    }
+
+    // //send whoami to server to re-authenticate
+    // this.authService.whoami().subscribe(
+    //   data => {
+    //     this.user = data;
+    //     console.log(this.user)
+    //     this.getShoppingCart();
+    //   },
+    //   error => {
+    //     if (error.status == 401) {
+    //       localStorage.removeItem('token');
+    //       this.router.navigate(['auth']);
+    //     }
+    //     this.loaded = true;
+    //   }
+    // );
 
   }
 

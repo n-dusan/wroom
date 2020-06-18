@@ -188,7 +188,7 @@ public class AdService {
 //	    	User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
 //	    	comment.setClientUsername(user.getName() + " " + user.getSurname());
 	    	comment.setAd(findById(id));
-	    	comment.setRating(dto.getRating());
+	    	comment.setRate(dto.getRate());
 	    	Calendar cal = Calendar.getInstance();
 	    	Date date = cal.getTime();
 	    	comment.setCommentDate(date);

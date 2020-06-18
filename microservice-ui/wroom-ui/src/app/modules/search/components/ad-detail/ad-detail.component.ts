@@ -8,8 +8,10 @@ import { VehicleService } from '../../../vehicles/services/vehicle-features/vehi
 import { DomSanitizer } from '@angular/platform-browser';
 import { Vehicle } from '../../model/vehicle.model';
 import { PricelistDetailDialogData } from '../price-details/pricelist-dialog-data.model';
-import { PriceList } from '../../model/price-list.model';
 import { SearchService } from '../../service/search.service';
+import { CommentModel } from 'src/app/modules/shared/models/comment.model';
+import { CommentsService } from 'src/app/modules/shared/service/comments.service';
+import { AuthService } from 'src/app/modules/shared/service/auth.service';
 
 @Component({
   selector: 'app-ad-detail',
@@ -21,8 +23,13 @@ export class AdDetailComponent implements OnInit {
   ad: Ad;
   vehicle: Vehicle;
   images: string[] = [];
+  comments: CommentModel[] = [];
+  loaded: boolean = false;
+  isOwner: boolean = false;
+
   currentImageIndex: number = 0;
   currentImage: string = "";
+
   priceData: PricelistDetailDialogData = {
     pricelistId: null,
     mileLimit: null,
@@ -33,6 +40,8 @@ export class AdDetailComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: AdDetailDialogData,
     private adService: AdService,
     private vehicleService: VehicleService,
+    private commentsService: CommentsService,
+    private authService: AuthService,
     private toastr: ToastrService,
     public sanitizer: DomSanitizer,
     private searchService: SearchService) { }
@@ -106,6 +115,41 @@ export class AdDetailComponent implements OnInit {
     else if(this.currentImageIndex == this.images.length - 1) {
       this.currentImageIndex = 0;
       this.currentImage = this.images[0];
+    }
+  }
+
+  onTabClick(event: any) {
+    if (event.index == 1) {
+      this.commentsService.getAll(this.ad.id).subscribe(
+        data => {
+          console.log(data)
+          this.comments = data;
+          console.log(this.comments)
+          for(let c of this.comments) {
+            if(c.replyId != null) {
+              c.replyObj = this.comments.find(obj => {return obj.id === c.replyId});
+              const i = this.comments.indexOf(c.replyObj);
+              this.comments.splice(i, 1);
+            }
+          }
+
+          // check if logged user is the owner
+          this.authService.loggedUserSubject.subscribe(
+            data => {
+              console.log('user', data)
+              this.loaded = true;
+              if(data?.id == this.ad.ownerId) {
+                this.isOwner = true;
+              }
+            }
+          )
+          
+        },
+        error => {
+          this.loaded = true;
+          this.toastr.error('An unexpected error has occurred.', 'Comments')
+        }
+      )
     }
   }
 }
