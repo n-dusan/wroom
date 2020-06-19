@@ -8,7 +8,7 @@ import { Vehicle } from '../../shared/models/vehicle.model';
 import { Ad } from '../model/ad.model';
 import { AuthService } from '../../auth/service/auth.service';
 import { LoggedUser } from '../../auth/model/logged-user.model';
-import { CommentModel } from '../../shared/models/comment.model';
+import { CommentModel } from '../../shared/models/comment-model.model';
 
 @Injectable({providedIn: 'root'})
 export class AdsService {
@@ -88,6 +88,10 @@ export class AdsService {
 
   getAllAds(): Observable<Ad[]>{
     return this.http.get<Ad[]>(this.adsUrl + '/allAds');  
+  }
+
+  addReply(comment: CommentModel, id:number) : Observable<CommentModel> {
+    return this.http.post<CommentModel>(`${this.adsUrl}/reply/` + id, comment);
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {
