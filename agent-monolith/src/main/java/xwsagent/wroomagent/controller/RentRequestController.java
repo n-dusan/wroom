@@ -179,7 +179,6 @@ public class RentRequestController {
 	public List<RentRequestDTO> findByAd(@PathVariable("id") Long id) {
 		return this.rentsService.findByAd(id);
 	}
-
 	
 
 }

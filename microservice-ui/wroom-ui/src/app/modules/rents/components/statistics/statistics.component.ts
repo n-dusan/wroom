@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
+
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
@@ -25,6 +27,9 @@ export class StatisticsComponent implements OnInit {
     domain: ['#5AA454', '#C7B42C', '#AAAAAA']
   };
   schemeType: string = 'ordinal';
+
+
+  vehicleList: Vehicle[] = [];
 
   constructor() {}
 
