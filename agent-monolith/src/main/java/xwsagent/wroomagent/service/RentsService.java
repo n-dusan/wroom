@@ -66,7 +66,16 @@ public class RentsService {
 		entity.setRequestedUser(this.userRepository.findById(requestedUserID).get());
 		entity.setStatus(RequestStatus.PENDING);
 		entity.setAd(this.adService.findById(dto.getAd().getId()));
-		return this.rentRepository.save(entity);
+		
+		RentRequest saved = this.rentRepository.save(entity);
+		try {
+			this.rentsClient.send(entity);
+		} catch(Exception e) {
+			System.out.println("Error during soap sending");
+			e.printStackTrace();
+		}
+		
+		return saved;
 	}
 
 	public BundledRequests sendBundleRequest(RentRequestDTO[] dtos, Long requestedUserID) {
@@ -190,7 +199,13 @@ public class RentsService {
 		}
 		
 		// Send rent request to wroom
-		this.rentsClient.send(rentRepository.save(rentRequest));
+		RentRequest saved = rentRepository.save(rentRequest);
+		try {
+			this.rentsClient.send(saved);		
+		} catch(Exception e) {
+			System.out.println("Error during soap sending");
+			e.printStackTrace();
+		}
 		
 		return true;
 	}
