@@ -36,6 +36,13 @@
 		</sequence>
 	</complexType>
 
+	<complexType name="BundledRequestsSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="requests" type="tns:RentRequestSoap"  maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
 	<element name="SendRentRequest">
 		<complexType>
 			<sequence>
@@ -48,6 +55,22 @@
 		<complexType>
 			<sequence>
 				<element name="rentRequest" type="tns:RentRequestSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="SendBundleRequest">
+		<complexType>
+			<sequence>
+				<element name="bundle" type="tns:BundledRequestsSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="SendBundleResponse">
+		<complexType>
+			<sequence>
+				<element name="bundle" type="tns:BundledRequestsSoap"></element>
 			</sequence>
 		</complexType>
 	</element>

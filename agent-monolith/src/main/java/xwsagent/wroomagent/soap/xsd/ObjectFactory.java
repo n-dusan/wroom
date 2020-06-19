@@ -84,4 +84,28 @@ public class ObjectFactory {
         return new SendRentResponse();
     }
     
+    /**
+     * Create an instance of {@link SendBundleRequest }
+     * 
+     */
+    public SendBundleRequest createSendBundleRequest() {
+        return new SendBundleRequest();
+    }
+
+    /**
+     * Create an instance of {@link BundledRequestsSoap }
+     * 
+     */
+    public BundledRequestsSoap createBundledRequestsSoap() {
+        return new BundledRequestsSoap();
+    }
+
+    /**
+     * Create an instance of {@link SendBundleResponse }
+     * 
+     */
+    public SendBundleResponse createSendBundleResponse() {
+        return new SendBundleResponse();
+    }
+    
 }

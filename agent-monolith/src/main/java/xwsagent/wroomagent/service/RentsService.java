@@ -96,7 +96,15 @@ public class RentsService {
 		}
 		bundle.setRequests(requests);
 
-		return this.bundleService.save(bundle);
+		BundledRequests entity = this.bundleService.save(bundle);
+		try {
+			this.rentsClient.sendBundle(entity);
+		} catch(Exception e) {
+			System.out.println("Error during soap sending");
+			e.printStackTrace();
+		}
+		
+		return entity;
 	}
 
 	public boolean occupy(RentRequestDTO rentRequestDTO, Authentication auth) {

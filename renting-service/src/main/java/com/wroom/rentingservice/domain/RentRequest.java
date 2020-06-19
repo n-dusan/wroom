@@ -50,7 +50,7 @@ public class RentRequest {
 	@Column
 	private Long requestedUserId;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne
 	private Ad ad;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
