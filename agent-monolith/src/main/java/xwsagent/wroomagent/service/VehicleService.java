@@ -33,6 +33,7 @@ import xwsagent.wroomagent.repository.GearboxTypeRepository;
 import xwsagent.wroomagent.repository.ModelTypeRepository;
 import xwsagent.wroomagent.repository.VehicleRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
+import xwsagent.wroomagent.soap.clients.VehicleClient;
 
 @Service
 public class VehicleService {
@@ -46,12 +47,13 @@ public class VehicleService {
 	private final GearboxTypeRepository gearboxTypeRepository;
 	private final UserRepository userRepository;
 	private final AdRepository adRepository;
+	private final VehicleClient vehicleClient;
 
 	public VehicleService(VehicleRepository vehicleRepository, ImageService imageService,
 			ModelTypeRepository modelTypeRepository, BrandTypeRepository brandTypeRepository,
 			BodyTypeRepository bodyTypeRepository, FuelTypeRepository fuelTypeRepository,
 			GearboxTypeRepository gearboxTypeRepository, UserRepository userRepository,
-			AdRepository adRepository) {
+			AdRepository adRepository, VehicleClient vehicleClient) {
 		this.vehicleRepository = vehicleRepository;
 		this.imageService = imageService;
 		this.modelTypeRepository = modelTypeRepository;
@@ -61,6 +63,7 @@ public class VehicleService {
 		this.gearboxTypeRepository = gearboxTypeRepository;
 		this.userRepository = userRepository;
 		this.adRepository = adRepository;
+		this.vehicleClient = vehicleClient;
 	}
 
 	public List<Vehicle> findAll() {
@@ -123,7 +126,13 @@ public class VehicleService {
 		if (loggedInUser.isPresent()) {
 			entity.setOwner(loggedInUser.get());
 		}
-		return vehicleRepository.save(entity);
+		
+		Vehicle saved = vehicleRepository.save(entity);
+		
+		//Send to wroom
+		this.vehicleClient.send(saved);
+		
+		return saved;
 	}
 
 	public List<byte[]> getFile(Long id) throws IOException {

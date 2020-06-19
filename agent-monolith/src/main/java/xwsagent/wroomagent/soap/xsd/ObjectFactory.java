@@ -132,4 +132,35 @@ public class ObjectFactory {
         return new CommentResponse();
     }
     
+    /**
+     * Create an instance of {@link SendVehicleRequest }
+     * 
+     */
+    public SendVehicleRequest createSendVehicleRequest() {
+        return new SendVehicleRequest();
+    }
+
+    /**
+     * Create an instance of {@link VehicleSoap }
+     * 
+     */
+    public VehicleSoap createVehicleSoap() {
+        return new VehicleSoap();
+    }
+
+    /**
+     * Create an instance of {@link SendVehicleResponse }
+     * 
+     */
+    public SendVehicleResponse createSendVehicleResponse() {
+        return new SendVehicleResponse();
+    }
+
+    /**
+     * Create an instance of {@link ModelType }
+     * 
+     */
+    public ModelType createModelType() {
+        return new ModelType();
+    }
 }

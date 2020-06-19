@@ -6,4 +6,4 @@
 //
 
 @javax.xml.bind.annotation.XmlSchema(namespace = "http://ftn.com/wroom-agent/xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package xwsagent.wroomagent.soap.xsd;
+package com.wroom.vehicleservice.soap.xsd;
