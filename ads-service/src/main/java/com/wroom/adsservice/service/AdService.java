@@ -35,6 +35,8 @@ import com.wroom.adsservice.repository.LocationRepository;
 import com.wroom.adsservice.repository.PriceListRepository;
 
 
+
+
 @Service
 public class AdService {
 
@@ -185,14 +187,42 @@ public class AdService {
 	    	comment.setContent(dto.getContent());
 	    	comment.setApproved(false);
 	    	comment.setDeleted(false);
-//	    	User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
-//	    	comment.setClientUsername(user.getName() + " " + user.getSurname());
+	    	//User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
+	    	//comment.setClientUsername(user.getEmail());
+	    	//comment.setClientId(user.getId());
 	    	comment.setAd(findById(id));
 	    	comment.setRate(dto.getRate());
 	    	Calendar cal = Calendar.getInstance();
 	    	Date date = cal.getTime();
 	    	comment.setCommentDate(date);
 	    	commentRepository.save(comment);
+	    	return comment;
+	    }
+	 
+	 public Comment addReply(CommentDTO dto, Long id, Authentication auth) {
+	    	Comment comment = CommentConverter.toEntity(dto);
+	    	comment.setTitle(dto.getTitle());
+	    	comment.setContent(dto.getContent());
+	    	comment.setApproved(false);
+	    	comment.setDeleted(false);
+	    	// ------Ne znam kako da prilagodim ovo mikroservisima------//
+	    	//User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
+	    	//comment.setClientUsername(user.getEmail());
+	    	//comment.setClientId(user.getId());
+	    	//comment.setAd(findCommentById(id).getAd());
+	    	//------------------------------------------------//
+	    	Calendar cal = Calendar.getInstance();
+	    	Date date = cal.getTime();
+	    	comment.setCommentDate(date);
+	    	comment.setReply(true);
+	    	commentRepository.save(comment);
+	    	
+	    	Comment c = findByCommentId(id);
+	    	c.setReplyId(comment.getId());
+	    	commentRepository.save(c);
+	    	
+//	    	Send to wroom with soap
+	    	
 	    	return comment;
 	    }
 	

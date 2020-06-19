@@ -11,11 +11,9 @@ import org.springframework.stereotype.Service;
 import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.converter.CommentConverter;
 import xwsagent.wroomagent.converter.UserConverter;
-import xwsagent.wroomagent.converter.VehicleConverter;
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.domain.Location;
-import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 import xwsagent.wroomagent.domain.dto.CommentDTO;
@@ -113,11 +111,6 @@ public class AdService {
     	return UserConverter.fromEntity(this.adRepository.findById(ad_id).get().getVehicle().getOwner());
     }
     
-    public Comment findCommentById(Long id) {
-		return commentRepository.findById(id).orElseThrow(
-				() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " comment"));
-	}
-    
     public Comment addComment(CommentDTO dto, Long id, Authentication auth) {
     	Comment comment = CommentConverter.toEntity(dto);
     	comment.setTitle(dto.getTitle());
@@ -145,14 +138,14 @@ public class AdService {
     	User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
     	comment.setClientUsername(user.getEmail());
     	comment.setClientId(user.getId());
-    	comment.setAd(findCommentById(id).getAd());
+    	comment.setAd(findByCommentId(id).getAd());
     	Calendar cal = Calendar.getInstance();
     	Date date = cal.getTime();
     	comment.setCommentDate(date);
     	comment.setReply(true);
     	commentRepository.save(comment);
     	
-    	Comment c = findCommentById(id);
+    	Comment c = findByCommentId(id);
     	c.setReplyId(comment.getId());
     	commentRepository.save(c);
     	
@@ -173,7 +166,7 @@ public class AdService {
 	
 	public Comment findByCommentId(Long id) {
 		return commentRepository.findById(id)
-				.orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " ad"));
+				.orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " comment"));
 	}
 	
 	public void confirm(Long id) {
