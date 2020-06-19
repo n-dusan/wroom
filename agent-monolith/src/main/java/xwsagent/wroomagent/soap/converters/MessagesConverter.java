@@ -1,7 +1,5 @@
 package xwsagent.wroomagent.soap.converters;
 
-import java.util.Date;
-
 public class MessagesConverter {
 
 	public static xwsagent.wroomagent.domain.Message fromSoapMessage(xwsagent.wroomagent.soap.xsd.Message soap) {

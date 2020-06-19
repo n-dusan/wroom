@@ -1,20 +1,18 @@
 package com.wroom.rentingservice.service;
 
-import com.wroom.rentingservice.domain.Ad;
-import com.wroom.rentingservice.domain.RentRequest;
-import com.wroom.rentingservice.domain.enums.RequestStatus;
-import com.wroom.rentingservice.exception.GeneralException;
-import com.wroom.rentingservice.repository.RentRequestRepository;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wroom.rentingservice.domain.Ad;
 import com.wroom.rentingservice.domain.BundledRequests;
+import com.wroom.rentingservice.domain.RentRequest;
+import com.wroom.rentingservice.domain.enums.RequestStatus;
+import com.wroom.rentingservice.exception.GeneralException;
 import com.wroom.rentingservice.repository.BundleRepository;
-
-import lombok.AllArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.wroom.rentingservice.repository.RentRequestRepository;
 
 @Service
 public class BundleService {
@@ -37,7 +35,7 @@ public class BundleService {
 		return this.bundleRepository.save(b);
 	}
 
-	public BundledRequests findById(Long id) {
+	public BundledRequests findById(Long id) { 
 	 	return bundleRepository.findById(id).orElseThrow(
 				() -> new GeneralException("Unable to find reference to " + id.toString() + " bundle"));
 	}

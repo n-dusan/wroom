@@ -4,7 +4,7 @@ import com.wroom.rentingservice.domain.Message;
 import com.wroom.rentingservice.domain.dto.MessageDTO;
 
 public class MessageConverter extends AbstractConverter {
-
+ 
 	public static MessageDTO fromEntity(Message entity) {
         return new MessageDTO(
                 entity.getToUserId(),

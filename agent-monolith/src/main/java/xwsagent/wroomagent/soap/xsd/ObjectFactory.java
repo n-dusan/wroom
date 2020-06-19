@@ -60,4 +60,28 @@ public class ObjectFactory {
         return new SendMessageResponse();
     }
 
+    /**
+     * Create an instance of {@link SendRentRequest }
+     * 
+     */
+    public SendRentRequest createSendRentRequest() {
+        return new SendRentRequest();
+    }
+
+    /**
+     * Create an instance of {@link RentRequestSoap }
+     * 
+     */
+    public RentRequestSoap createRentRequestSoap() {
+        return new RentRequestSoap();
+    }
+
+    /**
+     * Create an instance of {@link SendRentResponse }
+     * 
+     */
+    public SendRentResponse createSendRentResponse() {
+        return new SendRentResponse();
+    }
+    
 }

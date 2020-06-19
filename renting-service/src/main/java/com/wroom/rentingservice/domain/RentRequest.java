@@ -18,13 +18,14 @@ import javax.persistence.TemporalType;
 
 import com.wroom.rentingservice.domain.enums.RequestStatus;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @ToString
 public class RentRequest {
 

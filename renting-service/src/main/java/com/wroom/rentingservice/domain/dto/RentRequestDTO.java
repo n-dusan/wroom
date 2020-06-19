@@ -2,14 +2,14 @@ package com.wroom.rentingservice.domain.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+
 import com.wroom.rentingservice.domain.enums.RequestStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.validation.constraints.NotNull;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class RentRequestDTO {

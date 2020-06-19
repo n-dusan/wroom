@@ -182,7 +182,7 @@
 					</executions>
 					<configuration>
 						<sources>
-							<source>${project.basedir}/src/main/resources/xsd/messages.xsd</source>
+							<source>${project.basedir}/src/main/resources/xsd/soap.xsd</source>
 						</sources>
 					</configuration>
 				</plugin>

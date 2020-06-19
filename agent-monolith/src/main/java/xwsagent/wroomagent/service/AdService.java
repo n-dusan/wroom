@@ -156,6 +156,8 @@ public class AdService {
     	c.setReplyId(comment.getId());
     	commentRepository.save(c);
     	
+//    	Send to wroom with soap
+    	
     	return comment;
     }
     

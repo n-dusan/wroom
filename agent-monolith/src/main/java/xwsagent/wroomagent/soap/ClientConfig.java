@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
 import xwsagent.wroomagent.soap.clients.MessagesClient;
+import xwsagent.wroomagent.soap.clients.RentsClient;
 
 @Configuration
 public class ClientConfig {
@@ -18,15 +19,25 @@ public class ClientConfig {
 		return marshaller;
 	}
 
+	// When adding new clients, make sure to create a new Bean for them
+	
 	@Bean
 	public MessagesClient messagesClient(Jaxb2Marshaller marshaller) {
 		MessagesClient client = new MessagesClient();
-		client.setDefaultUri("http://localhost:8075/ws");
+		client.setDefaultUri("http://localhost:8075/ws");	// renting-service port
 		client.setMarshaller(marshaller);
 		client.setUnmarshaller(marshaller);
 		return client;
 	}
 	
-	// When adding new clients, create a new Bean for them
+	@Bean
+	public RentsClient rentsClient(Jaxb2Marshaller marshaller) {
+		RentsClient client = new RentsClient();
+		client.setDefaultUri("http://localhost:8075/ws");	// renting-service port
+		client.setMarshaller(marshaller);
+		client.setUnmarshaller(marshaller);
+		return client;
+	}
+	
 	
 }
