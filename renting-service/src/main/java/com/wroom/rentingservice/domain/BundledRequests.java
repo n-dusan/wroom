@@ -22,7 +22,7 @@ public class BundledRequests {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@OneToMany(mappedBy = "bundle", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "bundle", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<RentRequest> requests;
 	
 }

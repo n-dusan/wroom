@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+import xwsagent.wroomagent.soap.clients.CommentsClient;
 import xwsagent.wroomagent.soap.clients.MessagesClient;
 import xwsagent.wroomagent.soap.clients.RentsClient;
 
@@ -34,6 +35,15 @@ public class ClientConfig {
 	public RentsClient rentsClient(Jaxb2Marshaller marshaller) {
 		RentsClient client = new RentsClient();
 		client.setDefaultUri("http://localhost:8075/ws");	// renting-service port
+		client.setMarshaller(marshaller);
+		client.setUnmarshaller(marshaller);
+		return client;
+	}
+	
+	@Bean
+	public CommentsClient commentsClient(Jaxb2Marshaller marshaller) {
+		CommentsClient client = new CommentsClient();
+		client.setDefaultUri("http://localhost:8074/ws");	// ads-service port
 		client.setMarshaller(marshaller);
 		client.setUnmarshaller(marshaller);
 		return client;

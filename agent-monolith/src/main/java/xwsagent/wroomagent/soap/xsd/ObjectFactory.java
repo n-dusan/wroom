@@ -108,4 +108,28 @@ public class ObjectFactory {
         return new SendBundleResponse();
     }
     
+    /**
+     * Create an instance of {@link CommentRequest }
+     * 
+     */
+    public CommentRequest createCommentRequest() {
+        return new CommentRequest();
+    }
+
+    /**
+     * Create an instance of {@link CommentSoap }
+     * 
+     */
+    public CommentSoap createCommentSoap() {
+        return new CommentSoap();
+    }
+
+    /**
+     * Create an instance of {@link CommentResponse }
+     * 
+     */
+    public CommentResponse createCommentResponse() {
+        return new CommentResponse();
+    }
+    
 }

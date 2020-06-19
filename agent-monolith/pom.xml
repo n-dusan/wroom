@@ -159,7 +159,7 @@
 					</executions>
 					<configuration>
 						<sources>
-							<source>${project.basedir}/src/main/resources/xsd/rents.xsd</source>
+							<source>${project.basedir}/src/main/resources/xsd/soap.xsd</source>
 						</sources>
 					</configuration>
 				</plugin>
