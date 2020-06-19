@@ -12,6 +12,8 @@ import { PriceListService } from 'src/app/modules/ads/services/price-list.servic
 import { ToastrService } from 'ngx-toastr';
 import { RentReportService } from '../../services/rent-report.service';
 import { RentReport } from 'src/app/modules/shared/models/rent-report.model';
+import { Ad } from 'src/app/modules/shared/models/ad.model';
+import { NewCommentComponent } from 'src/app/modules/ads/comments/new-comment/new-comment.component';
 
 @Component({
   selector: 'app-requests-overview',
@@ -218,6 +220,17 @@ export class RequestsOverviewComponent implements OnInit {
   showReport(request: RentRequest) {
     let report = this.reportList.find(x => x.rentRequestId == request.id);
     return 'Miles passed:' + '<b> ' + report.traveledMiles + '</b> <br/> Note: ' + '<b>' + (report.note ? report.note : 'unspecified') + '</b>'
+  }
+
+  addComment(ad: Ad){
+    const dialogRef = this.dialog.open(NewCommentComponent, {
+      width: '500px',
+      height: '400px',
+      data: ad
+    });
+    dialogRef.afterClosed().subscribe(result => {
+
+    });
   }
 
 }

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { CommentModel } from 'src/app/modules/shared/models/comment.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AdsService } from '../../services/ads.service';
 import { takeUntil } from 'rxjs/operators';
@@ -10,6 +9,8 @@ import { CommentDetailsComponent } from '../comment-details/comment-details.comp
 import { ToastrService } from 'ngx-toastr';
 import { VehicleService } from 'src/app/modules/shared/service/vehicle.service';
 import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
+import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
+import { UserService } from 'src/app/modules/admin/services/user.service';
 
 @Component({
   selector: 'app-comments-overview',
@@ -21,13 +22,14 @@ export class CommentsOverviewComponent implements OnInit {
   dataCommentsSource : MatTableDataSource<any>;
   listAds: any[] = [];
   vehicleList: any[] = [];
-
+  userList: any[] = [];
 
   constructor(private adsService: AdsService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public dialog: MatDialog,
               private toastr: ToastrService,
-              private vehicleService: VehicleService) { }
+              private vehicleService: VehicleService,
+              private userService: UserService) { }
 
   ngOnInit(): void {
     this.loadComments();
@@ -35,6 +37,10 @@ export class CommentsOverviewComponent implements OnInit {
     this.vehicleService.allVehicles().subscribe((data: Vehicle[]) => {
       this.vehicleList = data;
     })
+    this.userService.findAllEnabled().subscribe((data: any[]) => {
+      this.userList = data;
+    })
+
 
   }
 
@@ -49,19 +55,33 @@ export class CommentsOverviewComponent implements OnInit {
   loadAds(){
     this.adsService.getAllAds().subscribe(
       data => {
-        this.listAds = data;
-        console.log(this.listAds)        
+        this.listAds = data;       
       }
     );  
    
   }
 
-  
+  getUsername(username: String){
+    const user = this.userList.find(x => x.email == username);  
+    return user?.name + " " + user?.surname;
+  }
 
-  viewComment(comment:CommentModel){
+  selectAd(adId: number){
+    
+    const ad = this.listAds.find(x => x.id == adId);
+    
+    const vehicle = this.vehicleList.find(x => x.id == ad.vehicleId); 
+      const modelType = vehicle?.modelType?.name;  
+      const brandType = vehicle?.brandType?.name;   
+      const address = ad?.address
+      const ret = brandType + " " + modelType + ", " + address; 
+      return ret;
+  }
+
+  viewComment(comment:Comment){
     const dialogRef = this.dialog.open(CommentDetailsComponent, {
-      width: '500px',
-      height: '250px',
+      width: '600px',
+      height: '400px',
       data: comment
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -87,18 +107,5 @@ export class CommentsOverviewComponent implements OnInit {
     } 
     )  
   }
-
-  selectAd(adId: number){
-    
-    const ad = this.listAds.find(x => x.id == adId);
-    
-    const vehicle = this.vehicleList.find(x => x.id == ad.vehicleId); 
-      const modelType = vehicle?.modelType?.name;  
-      const brandType = vehicle?.brandType?.name;   
-      const address = ad?.address
-      const ret = brandType + " " + modelType + ", " + address; 
-      return ret;
-  }
-  
 
 }

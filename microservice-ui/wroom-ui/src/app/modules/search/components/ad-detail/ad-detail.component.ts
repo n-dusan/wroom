@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { AdDetailDialogData } from './dialog-data.model';
 import { AdService } from '../../service/ad.service';
 import { ToastrService } from 'ngx-toastr';
@@ -9,9 +9,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Vehicle } from '../../model/vehicle.model';
 import { PricelistDetailDialogData } from '../price-details/pricelist-dialog-data.model';
 import { SearchService } from '../../service/search.service';
-import { CommentModel } from 'src/app/modules/shared/models/comment.model';
 import { CommentsService } from 'src/app/modules/shared/service/comments.service';
 import { AuthService } from 'src/app/modules/shared/service/auth.service';
+import { Comment } from 'src/app/modules/shared/models/comment.model';
+import { NewReplyComponent } from 'src/app/modules/ads/comments/new-reply/new-reply.component';
 
 @Component({
   selector: 'app-ad-detail',
@@ -23,7 +24,7 @@ export class AdDetailComponent implements OnInit {
   ad: Ad;
   vehicle: Vehicle;
   images: string[] = [];
-  comments: CommentModel[] = [];
+  comments: Comment[] = [];
   loaded: boolean = false;
   isOwner: boolean = false;
 
@@ -44,7 +45,8 @@ export class AdDetailComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     public sanitizer: DomSanitizer,
-    private searchService: SearchService) { }
+    private searchService: SearchService,
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.fetchAd();
@@ -151,5 +153,16 @@ export class AdDetailComponent implements OnInit {
         }
       )
     }
+  }
+
+  addReply(ad: Ad, comment: Comment){
+    const dialogRef = this.dialog.open(NewReplyComponent, {
+      width: '500px',
+      height: '300px',
+      data: {ad, comment}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.fetchAd();
+    });
   }
 }

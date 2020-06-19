@@ -1,9 +1,9 @@
 import { Component, OnInit, Optional, Inject} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { CommentModel } from 'src/app/modules/shared/models/comment.model';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AdsService } from '../../services/ads.service';
+import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
 
 @Component({
   selector: 'app-new-comment',
@@ -38,7 +38,7 @@ export class NewCommentComponent implements OnInit {
   save() {
     this.adsService.addComment(this.comment, this.local_data.id)
       .subscribe(data => {
-      this.toastr.success('Comment is in a progress!', 'Success')
+      this.toastr.success('Your comment is being processed.', 'Success')
     },
 
     error => {
