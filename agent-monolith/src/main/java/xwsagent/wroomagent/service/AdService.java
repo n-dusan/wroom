@@ -151,10 +151,17 @@ public class AdService {
     	comment.setCommentDate(date);
     	comment.setReply(true);
     	commentRepository.save(comment);
+    	
     	Comment c = findCommentById(id);
+    	sacuvajTaj(comment,c);
     	c.setReplyId(comment.getId());
     	commentRepository.save(c);
+    	
     	return comment;
+    }
+    
+    public void sacuvajTaj(Comment reply, Comment comment) {
+    	
     }
     
     public List<Comment> getComments(){
@@ -175,6 +182,7 @@ public class AdService {
 	public void confirm(Long id) {
 		Comment comment = findByCommentId(id);
 		comment.setApproved(true);
+		
 		commentRepository.save(comment);
 	}
 	

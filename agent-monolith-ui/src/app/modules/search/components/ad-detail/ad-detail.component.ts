@@ -13,7 +13,6 @@ import { CommentsService } from 'src/app/modules/shared/service/comments.service
 import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { NewReplyComponent } from 'src/app/modules/ads/comments/new-reply/new-reply.component';
-import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
 
 @Component({
   selector: 'app-ad-detail',
