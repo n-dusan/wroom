@@ -153,15 +153,10 @@ public class AdService {
     	commentRepository.save(comment);
     	
     	Comment c = findCommentById(id);
-    	sacuvajTaj(comment,c);
     	c.setReplyId(comment.getId());
     	commentRepository.save(c);
     	
     	return comment;
-    }
-    
-    public void sacuvajTaj(Comment reply, Comment comment) {
-    	
     }
     
     public List<Comment> getComments(){

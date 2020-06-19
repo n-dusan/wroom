@@ -154,11 +154,11 @@ export class AdDetailComponent implements OnInit {
   addReply(ad: Ad, comment: Comment){
     const dialogRef = this.dialog.open(NewReplyComponent, {
       width: '500px',
-      height: '400px',
+      height: '300px',
       data: {ad, comment}
     });
     dialogRef.afterClosed().subscribe(result => {
-
+      this.fetchAd();
     });
   }
 
