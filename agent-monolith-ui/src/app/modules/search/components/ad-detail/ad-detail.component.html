@@ -170,7 +170,8 @@
                             </div>
                         </mat-card-content>
 
-                        <div *ngIf="comment.replyObj" class="reply" fxLayout="row" fxLayoutAlign="start center">
+                        <div *ngIf="comment.replyObj && comment.replyObj?.approved" 
+                        class="reply" fxLayout="row" fxLayoutAlign="start center">
                             <b>Reply:&nbsp;</b>
                             {{comment?.replyObj?.content}}
                         </div>

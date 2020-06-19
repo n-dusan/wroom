@@ -5,7 +5,6 @@ import { AdService } from '../../service/ad.service';
 import { ToastrService } from 'ngx-toastr';
 import { Ad } from '../../model/ad.model';
 import { VehicleService } from '../../service/vehicle.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Vehicle } from '../../model/vehicle.model';
 import { PricelistDetailDialogData } from '../price-details/pricelist-dialog-data.model';
 import { PriceList } from '../../model/price-list.model';
@@ -13,6 +12,7 @@ import { CommentsService } from 'src/app/modules/shared/service/comments.service
 import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
 import { NewReplyComponent } from 'src/app/modules/ads/comments/new-reply/new-reply.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-ad-detail',
@@ -122,15 +122,22 @@ export class AdDetailComponent implements OnInit {
     if (event.index == 1) {
       this.commentsService.getAll(this.ad.id).subscribe(
         data => {
+
           this.comments = data;
-          console.log(this.comments)
+
           for(let c of this.comments) {
+            console.log(c)
             if(c.replyId != null) {
-              c.replyObj = this.comments.find(obj => {return obj.id === c.replyId});
-              const i = this.comments.indexOf(c.replyObj);
-              this.comments.splice(i, 1);
+              const reply = this.comments.find(obj => {return obj.id === c.replyId});
+              if(reply != null) {
+                c.replyObj = reply;
+                const i = this.comments.indexOf(c.replyObj);
+                this.comments.splice(i, 1);
+              }
             }
           }
+
+          console.log('komentari posle fora',this.comments)
 
           // check if logged user is the owner
           this.authService.loggedUserSubject.subscribe(
