@@ -115,7 +115,14 @@ public class AdService {
     public void delete(Long adId) {
         Ad ad = findById(adId);
         ad.setDeleted(true);
-        adRepository.save(ad);
+        
+        Ad deleted = adRepository.save(ad);
+        
+        try {
+			this.adsClient.send(deleted, Operation.DELETE);
+		} catch (Exception e) {
+			System.err.println("Did not sync with ads service");
+		}
     }
 
     public Integer countAds(Long user_id) {

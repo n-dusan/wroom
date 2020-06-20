@@ -8,6 +8,11 @@ public class AdSoapConverter {
 	public static Ad fromAdSoap(AdSoap soap) {
 		Ad ret = new Ad();
 		ret.setLocalId(soap.getId());
+		
+		if(soap.getOwnerUsername() != null) {
+			ret.setOwnerUsername(soap.getOwnerUsername());
+		}
+		
 		ret.setPublishDate(soap.getPublishDate());
 		ret.setAvailableFrom(soap.getAvailableFrom());
 		ret.setAvailableTo(soap.getAvailableTo());

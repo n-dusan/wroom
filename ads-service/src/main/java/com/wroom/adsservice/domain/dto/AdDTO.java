@@ -47,4 +47,6 @@ public class AdDTO {
     private Double averageRate;
     
     private Long localId;
+    
+    private String ownerUsername;
 }

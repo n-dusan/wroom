@@ -22,6 +22,7 @@ public class AdSoapConverter {
 		ret.setVehicleId(entity.getVehicle().getId());
 		ret.setPriceListId(entity.getPriceList().getId());
 		ret.setLocationId(entity.getLocation().getId());
+		ret.setOwnerUsername(entity.getVehicle().getOwner().getEmail());
 		return ret;
 	}
 	

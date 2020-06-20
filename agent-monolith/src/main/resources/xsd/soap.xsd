@@ -126,6 +126,7 @@
 			<element name="vehicleId" type="tns:id"></element>
 			<element name="priceListId" type="tns:id"></element>
 			<element name="locationId" type="tns:id"></element>
+			<element name="ownerUsername" type="string"></element>
 		</sequence>
 	</complexType>
 

@@ -3,6 +3,7 @@ package com.wroom.adsservice.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.security.core.Authentication;
@@ -33,7 +34,6 @@ import com.wroom.adsservice.repository.AdRepository;
 import com.wroom.adsservice.repository.CommentRepository;
 import com.wroom.adsservice.repository.LocationRepository;
 import com.wroom.adsservice.repository.PriceListRepository;
-
 
 @Service
 public class AdService {
@@ -92,14 +92,15 @@ public class AdService {
 	public Ad save(AdDTO adDTO) {
 		Ad ad = AdConverter.toEntity(adDTO);
 		// ad.setVehicle(vehicleService.findById(adDTO.getVehicleId()));
-		
+
 //		VehicleDTO vehicle = this.vehicleClient.findVehicleById(adDTO.getVehicleId());
 //		ad.setVehicleId(vehicle.getId());
-		
+
 		ad.setVehicleId(adDTO.getVehicleId());
 		ad.setPriceList(priceListRepository.findOneById(adDTO.getPriceListId()));
 		ad.setLocation(locationRepository.findOneById(adDTO.getLocationId()));
 		ad.setPublishDate(Calendar.getInstance().getTime());
+//		ad.setComments(new HashSet<Comment>());
 
 		Ad entity = adRepository.save(ad);
 
@@ -115,7 +116,7 @@ public class AdService {
 		} catch (Exception e) {
 			System.err.println("Did not sync with search service");
 		}
-		
+
 		return entity;
 	}
 
@@ -167,13 +168,53 @@ public class AdService {
 		Ad entity = adRepository.save(ad);
 
 		// Notify search service
-		AdDTO adDTO = AdConverter.fromEntity(entity);
-		AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.DELETE);
-		message.setPriceList(
-				AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
-		message.setLocation(
-				AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
-		this.adsProducer.send(message);
+		try {
+			AdDTO adDTO = AdConverter.fromEntity(entity);
+			AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.DELETE);
+			message.setPriceList(
+					AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+			message.setLocation(
+					AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+			this.adsProducer.send(message);
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
+
+	}
+
+	public Ad deleteByLocalId(Long localId, String ownerUsername) {
+		Ad entity = this.findByLocalId(localId, ownerUsername);
+		
+		if(entity != null) {
+			entity.setDeleted(true);
+			Ad saved = adRepository.save(entity);
+
+			// Notify search service
+			try {
+				AdDTO adDTO = AdConverter.fromEntity(saved);
+				AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.DELETE);
+				message.setPriceList(
+						AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+				message.setLocation(
+						AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+				this.adsProducer.send(message);
+			} catch (Exception e) {
+				System.err.println("Did not sync with search service");
+			}
+			
+			return saved;
+		}
+		
+		return entity;
+	}
+	
+	public Ad findByLocalId(Long id, String username) {
+		try {
+			return adRepository.findByLocalId(id, username);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Integer countAds(Long user_id) {
@@ -185,45 +226,45 @@ public class AdService {
 //    public UserDTO getOwner(Long ad_id) {
 //        return UserConverter.fromEntity(this.adRepository.findById(ad_id).get().getVehicle().getOwner());
 //    }
-	
-	 public Comment addComment(CommentDTO dto, Long id, Authentication auth) {
-	    	Comment comment = CommentConverter.toEntity(dto);
-	    	comment.setTitle(dto.getTitle());
-	    	comment.setContent(dto.getContent());
-	    	comment.setApproved(false);
-	    	comment.setDeleted(false);
+
+	public Comment addComment(CommentDTO dto, Long id, Authentication auth) {
+		Comment comment = CommentConverter.toEntity(dto);
+		comment.setTitle(dto.getTitle());
+		comment.setContent(dto.getContent());
+		comment.setApproved(false);
+		comment.setDeleted(false);
 //	    	User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
 //	    	comment.setClientUsername(user.getName() + " " + user.getSurname());
-	    	comment.setAd(findById(id));
-	    	comment.setRate(dto.getRate());
-	    	Calendar cal = Calendar.getInstance();
-	    	Date date = cal.getTime();
-	    	comment.setCommentDate(date);
-	    	commentRepository.save(comment);
-	    	return comment;
-	    }
-	
-	public List<Comment> getComments(){
+		comment.setAd(findById(id));
+		comment.setRate(dto.getRate());
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		comment.setCommentDate(date);
+		commentRepository.save(comment);
+		return comment;
+	}
+
+	public List<Comment> getComments() {
 		List<Comment> list = new ArrayList<Comment>();
-		for(Comment c : commentRepository.findAll()) {
-			if(c.isApproved() == false && c.isDeleted() == false) {
+		for (Comment c : commentRepository.findAll()) {
+			if (c.isApproved() == false && c.isDeleted() == false) {
 				list.add(c);
 			}
 		}
 		return list;
 	}
-	
+
 	public Comment findByCommentId(Long id) {
 		return commentRepository.findById(id)
 				.orElseThrow(() -> new GeneralException("Unable to find reference to " + id.toString() + " comment"));
 	}
-	
+
 	public void confirm(Long id) {
 		Comment comment = findByCommentId(id);
 		comment.setApproved(true);
 		commentRepository.save(comment);
 	}
-	
+
 	public void refuse(Long id) {
 		Comment comment = findByCommentId(id);
 		comment.setApproved(false);

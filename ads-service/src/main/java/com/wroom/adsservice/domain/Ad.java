@@ -60,4 +60,7 @@ public class Ad {
     
     @Column
     private Long localId;
+    
+    @Column
+    private String ownerUsername;
 }

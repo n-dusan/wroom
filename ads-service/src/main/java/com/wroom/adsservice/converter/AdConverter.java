@@ -12,8 +12,8 @@ import java.util.Set;
 public class AdConverter extends AbstractConverter {
 
     public static AdDTO fromEntity(Ad entity) {
-        return new AdDTO(
-                entity.getId(),
+    	AdDTO ret = new AdDTO(
+    			entity.getId(),
                 entity.getVehicleId(),
                 entity.getPriceList().getId(),
                 entity.getAvailableFrom(),
@@ -23,9 +23,17 @@ public class AdConverter extends AbstractConverter {
                 entity.getLocation().getId(),
                 entity.getAddress(),
                 entity.isGps(),
-                averageRate(entity.getComments()),
-                entity.getLocalId() == null ? null : entity.getLocalId()
-        );
+                null,
+                entity.getLocalId() == null ? null : entity.getLocalId(),
+                entity.getOwnerUsername() == null ? null : entity.getOwnerUsername()
+    	);
+    	
+    	try {
+    		ret.setAverageRate(averageRate(entity.getComments()));
+    	} catch(Exception e) {
+    		System.err.println("Error during calculating average rate");
+    	}
+        return ret;
     }
 
     public static Ad toEntity(AdDTO dto) {
@@ -43,21 +51,29 @@ public class AdConverter extends AbstractConverter {
         if(dto.getLocalId() != null) {
         	ad.setLocalId(dto.getLocalId());
         }
+        if(dto.getOwnerUsername() != null) {
+        	ad.setOwnerUsername(dto.getOwnerUsername());
+        }
         return ad;
     }
 
     public static double averageRate(Set<Comment> comments) {
     	if(comments != null) {
-    		int sum = 0;
-    		List<Comment> rateList = new ArrayList<Comment>();
-    		rateList.addAll(comments);
-    		if(rateList.size() > 0) {
-    			for(Comment c : rateList) {
-    				if(c.getRate() != null) {
-    					sum += c.getRate();
-    				}
+    		if(comments.size() > 0) {
+    			int sum = 0;
+        		int n = 0;
+        		List<Comment> commentList = new ArrayList<Comment>();
+        		
+        		commentList.addAll(comments);
+        		if(commentList.size() > 0) {
+        			for(Comment c : commentList) {
+        				if(c.getRate() != null && c.getRate() != 0) {
+        					sum += c.getRate();
+        					n++;
+        				}
+            		}
+            		return sum*1.0/n;
         		}
-        		return sum*1.0/comments.size();
     		}
     	}
     	return 0;

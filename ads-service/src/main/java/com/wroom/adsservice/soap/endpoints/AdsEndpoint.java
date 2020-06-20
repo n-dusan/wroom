@@ -48,6 +48,8 @@ private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
 			}
 		}
 		else if(request.getOperation() == Operation.DELETE) {
+			Ad deleted = this.adService.deleteByLocalId(entity.getLocalId(), entity.getOwnerUsername());
+			response.setAd(AdSoapConverter.toAdSoap(deleted));
 			System.out.println(">>>>>>>>>>> Ad deleted!");
 		}
 		else if(request.getOperation() == Operation.UPDATE) {

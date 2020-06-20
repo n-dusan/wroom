@@ -1,14 +1,13 @@
 package com.wroom.adsservice.repository;
 
-import com.wroom.adsservice.domain.Ad;
-import com.wroom.adsservice.domain.Comment;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.wroom.adsservice.domain.Ad;
 
 @Repository
 public interface AdRepository extends JpaRepository<Ad, Long> {
@@ -25,5 +24,7 @@ public interface AdRepository extends JpaRepository<Ad, Long> {
     @Query(value = "SELECT a FROM Ad a WHERE (a.vehicleId = :vehicle)")
     List<Ad> findByVehicleId(@Param("vehicle") Long vehicle);
     
+    @Query(value="select a.* from ad a where a.local_id=:id and a.owner_username=:username", nativeQuery=true)
+    Ad findByLocalId(Long id, String username);
 }
 

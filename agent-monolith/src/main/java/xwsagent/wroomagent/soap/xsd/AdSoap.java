@@ -39,6 +39,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="vehicleId" type="{http://ftn.com/wroom-agent/xsd}id"/&gt;
  *         &lt;element name="priceListId" type="{http://ftn.com/wroom-agent/xsd}id"/&gt;
  *         &lt;element name="locationId" type="{http://ftn.com/wroom-agent/xsd}id"/&gt;
+ *         &lt;element name="ownerUsername" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -59,7 +60,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "address",
     "vehicleId",
     "priceListId",
-    "locationId"
+    "locationId",
+    "ownerUsername"
 })
 public class AdSoap {
 
@@ -91,6 +93,8 @@ public class AdSoap {
     protected long priceListId;
     
     protected long locationId;
+    
+    protected String ownerUsername;
 
     /**
      * Gets the value of the id property.
@@ -300,4 +304,21 @@ public class AdSoap {
         this.locationId = value;
     }
 
+    /**
+     * Gets the value of the ownerUsername property.
+     * 
+     */
+	public String getOwnerUsername() {
+		return ownerUsername;
+	}
+
+	/**
+     * Sets the value of the ownerUsername property.
+     * 
+     */
+	public void setOwnerUsername(String ownerUsername) {
+		this.ownerUsername = ownerUsername;
+	}
+
+    
 }
