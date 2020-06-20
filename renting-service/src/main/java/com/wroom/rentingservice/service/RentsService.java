@@ -207,9 +207,7 @@ public class RentsService {
 	}
 
 	public RentRequest accept(Long id) {
-
 		RentRequest rentRequest = findById(id);
-
 		rentRequest.setStatus(RequestStatus.RESERVED);
 		return this.rentRepository.save(rentRequest);
 	}

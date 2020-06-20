@@ -21,7 +21,7 @@ public class RentRequestSoapConverter {
 	
 	public static RentRequest fromSoapRequest(RentRequestSoap soap) {
 		RentRequest ret = new RentRequest();
-//		ret.setId(soap.getId());
+		ret.setId(soap.getId());
 		ret.setFromDate(soap.getFromDate());
 		ret.setToDate(soap.getToDate());
 		ret.setStatus(RequestStatus.valueOf(soap.getStatus().toString()));

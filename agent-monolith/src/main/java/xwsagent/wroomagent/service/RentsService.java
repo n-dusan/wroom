@@ -214,7 +214,7 @@ public class RentsService {
 		try {
 			this.rentsClient.send(saved, OperationRents.OCCUPY);		
 		} catch(Exception e) {
-			System.out.println("Error during soap sending");
+			System.err.println("Error during soap sending");
 			e.printStackTrace();
 		}
 		
@@ -244,17 +244,43 @@ public class RentsService {
 
 	public RentRequest decline(Long id) {
 		RentRequest rentRequest = findById(id);
-
 		rentRequest.setStatus(RequestStatus.CANCELED);
-		return this.rentRepository.save(rentRequest);
+		RentRequest saved = this.rentRepository.save(rentRequest);
+		
+		try {
+			RentRequest sending = saved;
+			
+			// Kada budemo imali sinhronizovane baze, u monolitnoj cemo imati podatak
+			// o tome koji id dati entitet ima na wroom-u. Zato se ovde vrsi promena id-ja
+//			sending.setId(sending.getWroomId());
+			this.rentsClient.send(sending, OperationRents.DECLINE);
+		} catch(Exception e) {
+			System.err.println("Did not sync");
+		}
+		
+		return saved;
 	}
 
 	public RentRequest accept(Long id) {
-
 		RentRequest rentRequest = findById(id);
-
 		rentRequest.setStatus(RequestStatus.RESERVED);
-		return this.rentRepository.save(rentRequest);
+		
+		RentRequest saved = this.rentRepository.save(rentRequest);
+		
+		try {
+			RentRequest sending = saved;
+			
+			// Kada budemo imali sinhronizovane baze, u monolitnoj cemo imati podatak
+			// o tome koji id dati entitet ima na wroom-u.
+			// Zato se ovde za request.id stavlja request.wroomId (za sada jos ne)
+			sending.setId(saved.getId());
+			
+			this.rentsClient.send(sending, OperationRents.ACCEPT);
+		} catch(Exception e) {
+			System.err.println("Did not sync");
+		}
+		
+		return saved;
 	}
 
 	public RentRequest complete(Long id) {

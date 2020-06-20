@@ -70,9 +70,23 @@ public class RentRequestEndpoint {
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
-			
 		}
-		
+		else if(request.getOperation() == OperationRents.ACCEPT) {
+			try {
+				this.rentsService.accept(entity.getId()); 
+				System.out.println(">>>>>>> Accepted");
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else if(request.getOperation() == OperationRents.DECLINE) {
+			try {
+				this.rentsService.decline(entity.getId());
+				System.out.println(">>>>>>> Declined");
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 
 		response.setRentRequest(RentRequestSoapConverter.toSoapRequest(entity));
