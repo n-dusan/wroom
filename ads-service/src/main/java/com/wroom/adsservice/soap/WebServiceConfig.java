@@ -24,15 +24,15 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		return new ServletRegistrationBean(servlet, "/ws/*");
 	}
 
-//	@Bean(name = "comments")
-//	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema helloSchema) {
-//		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-//		wsdl11Definition.setPortTypeName("CommentsPort");
-//		wsdl11Definition.setTargetNamespace("http://ftn.com/ads-service/xsd");
-//		wsdl11Definition.setLocationUri("/ws");
-//		wsdl11Definition.setSchema(soapSchema());
-//		return wsdl11Definition;
-//	}
+	@Bean(name = "comments")
+	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema helloSchema) {
+		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+		wsdl11Definition.setPortTypeName("CommentsPort");
+		wsdl11Definition.setTargetNamespace("http://ftn.com/ads-service/xsd");
+		wsdl11Definition.setLocationUri("/ws");
+		wsdl11Definition.setSchema(soapSchema());
+		return wsdl11Definition;
+	}
 
 	@Bean
 	public XsdSchema soapSchema() {
