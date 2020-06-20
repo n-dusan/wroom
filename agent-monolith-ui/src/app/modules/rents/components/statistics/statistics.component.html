@@ -1,4 +1,5 @@
-<ngx-charts-bar-horizontal-2d
+<div class="content" style="margin: 25px;" fxLayout="column" fxLayoutAlign="center center" *ngIf="vehiceList.length > 0 && !loading">
+  <ngx-charts-bar-horizontal-2d
   [view]="view"
   [scheme]="colorScheme"
   [schemeType]="schemeType"
@@ -17,3 +18,15 @@
   (deactivate)="onDeactivate($event)"
   >
 </ngx-charts-bar-horizontal-2d>
+</div>
+
+<div class="content" style="margin: 25px;" fxLayout="column" fxLayoutAlign="center center" *ngIf="vehiceList.length == 0 && !loading">
+  <h1> Add a new vehicle and come back for statistics.</h1>
+</div>
+
+<div class="spinner" style="margin: 25px;" fxLayout="row" fxLayoutAlign="center" *ngIf="loading">
+  <mat-spinner color="accent" ></mat-spinner>
+</div>
+
+
+

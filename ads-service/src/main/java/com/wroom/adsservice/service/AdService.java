@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
+import com.wroom.adsservice.jwt.UserPrincipal;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -283,6 +284,9 @@ public class AdService {
 	    	//User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
 	    	//comment.setClientUsername(user.getEmail());
 	    	//comment.setClientId(user.getId());
+		 	UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		 	comment.setClientUsername(user.getUsername());
+		 	comment.setClientId(user.getId());
 	    	comment.setAd(findById(id));
 	    	comment.setRate(dto.getRate());
 	    	Calendar cal = Calendar.getInstance();
@@ -299,10 +303,10 @@ public class AdService {
 	    	comment.setApproved(false);
 	    	comment.setDeleted(false);
 	    	// ------Ne znam kako da prilagodim ovo mikroservisima------//
-	    	//User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
-	    	//comment.setClientUsername(user.getEmail());
-	    	//comment.setClientId(user.getId());
-	    	//comment.setAd(findCommentById(id).getAd());
+		 	UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+	    	comment.setClientUsername(user.getUsername());
+	    	comment.setClientId(user.getId());
+	    	comment.setAd(findByCommentId(id).getAd());
 	    	//------------------------------------------------//
 	    	Calendar cal = Calendar.getInstance();
 	    	Date date = cal.getTime();

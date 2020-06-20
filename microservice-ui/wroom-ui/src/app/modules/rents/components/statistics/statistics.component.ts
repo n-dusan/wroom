@@ -1,14 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+
+import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
+import { VehicleChart } from 'src/app/modules/shared/models/vehicle-chart.model';
+import { VehicleService } from 'src/app/modules/vehicles/services/vehicle-features/vehicle.service';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { LoggedUser } from 'src/app/modules/auth/model/logged-user.model';
+
+import { CommentsService } from 'src/app/modules/shared/service/comments.service';
+import { RentReportService } from '../../services/rent-report.service';
+import { Comment } from 'src/app/modules/shared/models/comment.model';
+import { RentReport } from 'src/app/modules/shared/models/rent-report.model';
 
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit, OnDestroy {
 
   multi: any[];
   view: any[] = [700, 400];
+
+  loading: boolean = false;
 
   // options
   showXAxis: boolean = true;
@@ -26,73 +39,88 @@ export class StatisticsComponent implements OnInit {
   };
   schemeType: string = 'ordinal';
 
-  constructor() {}
+  vehiceList: Vehicle[] = [];
+  multiList: VehicleChart[] = [];
+
+  interval: any;
+
+  constructor(private vehicleService: VehicleService,
+    private authService: AuthService,
+    private commentsService: CommentsService,
+    private rentReportService: RentReportService) {}
 
   ngOnInit(): void {
-    this.multi = [
-      {
-        "name": "United Kingdom",
-        "series": [
-          {
-            "name": "2010",
-            "value": 36240,
-            "extra": {
-              "code": "uk"
-            }
-          },
-          {
-            "name": "2000",
-            "value": 32543,
-            "extra": {
-              "code": "uk"
-            }
-          },
-          {
-            "name": "1990",
-            "value": 26424,
-            "extra": {
-              "code": "uk"
-            }
+
+    this.interval = this.refresh();
+
+    this.authService.whoami().subscribe((user: LoggedUser) => {
+      this.loading = true;
+
+      this.vehicleService.getAllActiveForUser(user.id).subscribe((data: Vehicle[]) => {
+        this.vehiceList = data;
+        //for each vehicle iterate and query, append to multiList
+        for(let i = 0; i < this.vehiceList.length; i++) {
+          let vehicle = this.vehiceList[i];
+          let vehicleId = this.vehiceList[i].id;
+
+          console.log('vehicle', vehicle.brandType)
+
+          let chart = {
+            'name': vehicle.brandType.name + ' ' + vehicle.modelType.name,
+            'series': []
           }
-        ]
-      },
-      {
-        "name": "Kuwait",
-        "series": [
-          {
-            "name": "1990",
-            "value": 28819
-          },
-          {
-            "name": "2000",
-            "value": 38345
-          },
-          {
-            "name": "2010",
-            "value": 44274
-          }
-        ]
-      },
-      {
-        "name": "Switzerland",
-        "series": [
-          {
-            "name": "1990",
-            "value": 11356
-          },
-          {
-            "name": "2000",
-            "value": 45329
-          },
-          {
-            "name": "2010",
-            "value": 44744
-          }
-        ]
-      }
-    ]
+
+          this.commentsService.getForVehicle(vehicleId).subscribe((comments: Comment[]) => {
+            console.log('am i here', comments)
+            this.commentsService.getAvgVehicle(vehicleId).subscribe((avgRate: number) => {
+              console.log('avg rate', avgRate)
+              this.rentReportService.getForVehicle(vehicleId).subscribe((reports: RentReport[]) => {
+                console.log('le charts', reports)
+                let traveledMiles = 0;
+                for(let i = 0; i < reports.length; i++) {
+                    traveledMiles += reports[i].traveledMiles
+                }
+               // traveledMiles += vehicle.mileage;
+
+                chart.series.push({
+                  'name': 'traveled miles',
+                  'value': traveledMiles
+                })
+                chart.series.push(
+                  {
+                    'name': 'comments',
+                    'value': comments.length ? comments.length : 0
+                  }
+                );
+                chart.series.push({
+                  'name': 'average rate',
+                  'value': avgRate ? avgRate : 0
+                });
+                console.log('chart', chart)
+                this.multiList.push(chart);
+
+                if(i == this.vehiceList.length - 1) {
+                  this.loading = false;
+                }
+              })
+            })
+          })
+
+
+        }
+
+      })
+    });
 
   }
+
+  refresh() {
+    return setInterval(() => {
+      console.log('timer ', this.multiList)
+      this.multi = this.multiList
+    }, 1000)
+  }
+
 
   onSelect(data): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
@@ -107,4 +135,7 @@ export class StatisticsComponent implements OnInit {
   }
 
 
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
+  }
 }

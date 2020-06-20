@@ -4,6 +4,7 @@ import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
 import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.soap.converters.RentRequestSoapConverter;
+import xwsagent.wroomagent.soap.xsd.CommentListResponse;
 import xwsagent.wroomagent.soap.xsd.CommentRequest;
 import xwsagent.wroomagent.soap.xsd.CommentResponse;
 
@@ -19,5 +20,9 @@ public class CommentsClient extends WebServiceGatewaySupport {
 		
 		return response;
 	}
+
+//	public CommentListResponse getComments() {
+//
+//	}
 	
 }

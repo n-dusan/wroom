@@ -18,4 +18,12 @@ export class CommentsService {
         return this.http.get<Comment[]>(this.baseUrl + '/' + adId);
     }
 
+    getForVehicle(vehicleId: number): Observable<Comment[]> {
+      return this.http.get<Comment[]>(this.baseUrl + '/vehicle/' + vehicleId);
+    }
+
+    getAvgVehicle(vehicleId: number): Observable<number> {
+      return this.http.get<number>(this.baseUrl + '/vehicle/' + vehicleId + '/avg');
+    }
+
 }
