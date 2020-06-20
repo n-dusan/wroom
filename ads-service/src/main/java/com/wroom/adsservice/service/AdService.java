@@ -154,13 +154,13 @@ public class AdService {
 		try {
 			int size = entity.getComments().size();
 		} catch (Exception e) {
-			entity.setComments(new HashSet<Comment>());
+			entity.setComments(null);
 		}
 		
 		entity.setPublishDate(ad.getPublishDate());
 		entity.setAvailableFrom(ad.getAvailableFrom());
 		entity.setAvailableTo(ad.getAvailableTo());
-		if(ad.getMileLimit() != null) {
+		if(ad.getMileLimit() != null && ad.getMileLimit() != 0.0) {
 			entity.setMileLimit(ad.getMileLimit());
 			entity.setMileLimitEnabled(true);
 		} else {
