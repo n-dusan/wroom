@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Injectable } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Company } from 'src/app/modules/shared/models/company.model';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+
+
 
 @Component({
   selector: 'app-register-company',
@@ -11,7 +13,9 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 export class RegisterCompanyComponent implements OnInit {
   registerForm: FormGroup;
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthService) { }
+              private authService: AuthService) {
+   
+  }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({

@@ -9,26 +9,35 @@
                         <mat-icon matPrefix>perm_identity</mat-icon>
                         <mat-label>Name</mat-label>
                         <input matInput type="text" formControlName="name">
+                        <mat-error *ngIf="registerForm.get('name').hasError('required')">Field must not be empty!</mat-error>
                     </mat-form-field>
                     <mat-form-field fxFlex appearance="outline">
                         <mat-icon matPrefix>alternate_email</mat-icon>
                         <mat-label>E-Mail</mat-label>
-                        <input matInput type="text" formControlName="email">
+                        <input matInput type="email" formControlName="email">
+                        <mat-error *ngIf="registerForm.get('email').hasError('required')">Field must not be empty!</mat-error>
                     </mat-form-field>
                     <mat-form-field fxFlex appearance="outline">
                         <mat-icon matPrefix>language</mat-icon>
                         <mat-label>Website</mat-label>
                         <input matInput type="text" formControlName="website">
+                        <mat-hint align="start"><strong>Enter valid form for website (www.website.com)!</strong> </mat-hint>
+                        <mat-error *ngIf="registerForm.get('website').hasError('required')">Field must not be empty!</mat-error>
                     </mat-form-field>
                     <mat-form-field fxFlex appearance="outline">
                         <mat-icon matPrefix>location_on</mat-icon>
                         <mat-label>Address</mat-label>
                         <input matInput type="text" formControlName="address">
+                        <mat-error *ngIf="registerForm.get('address').hasError('required')">Field must not be empty!</mat-error>
                     </mat-form-field>
                     <mat-form-field fxFlex appearance="outline">
                         <mat-icon matPrefix>business</mat-icon>
                         <mat-label>Business number</mat-label>
-                        <input matInput type="text" formControlName="businessNumber">
+                        <input matInput type="number" formControlName="businessNumber" #message maxlength="10">
+                        <mat-hint align="start"><strong>Number of characters must be 10!</strong> </mat-hint>
+                        <mat-hint align="end">{{message.value.length}} / 10</mat-hint>
+                        <mat-error *ngIf="registerForm.get('businessNumber').hasError('required')">Field must not be empty!</mat-error>
+                      
                     </mat-form-field>
                 </div>
                

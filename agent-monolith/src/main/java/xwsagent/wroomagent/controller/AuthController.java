@@ -154,10 +154,8 @@ public class AuthController {
 	}
 	
 	@PostMapping(value = "/company", consumes = "application/json")
-	public ResponseEntity<CompanyDTO> registerCompany(@RequestBody CompanyDTO companyDTO) {
-		System.out.println("Tu je prvi");
+	public ResponseEntity<CompanyDTO> registerCompany(@Valid @RequestBody CompanyDTO companyDTO) {
 		try {
-			System.out.println("Tu je drugi");
 			return new ResponseEntity<>(UserConverter.fromEntityCompany(authService.registerCompany(companyDTO)),
 					HttpStatus.OK);
 		} catch (Exception e) {

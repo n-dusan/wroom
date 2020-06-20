@@ -96,7 +96,7 @@ export class AuthService {
   }
 
   register(company: Company): Observable<any> {
-    return this.httpClient.post(this.baseUrl + '/company', company);
+    return this.httpClient.post(this.baseUrl + '/company', company).pipe(catchError(this.handleException));
   }
 
 
