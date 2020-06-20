@@ -92,11 +92,8 @@ public class AdService {
 	public Ad save(AdDTO adDTO) {
 		Ad ad = AdConverter.toEntity(adDTO);
 		// ad.setVehicle(vehicleService.findById(adDTO.getVehicleId()));
-
-//		VehicleDTO vehicle = this.vehicleClient.findVehicleById(adDTO.getVehicleId());
-//		ad.setVehicleId(vehicle.getId());
-
 		ad.setVehicleId(adDTO.getVehicleId());
+		
 		ad.setPriceList(priceListRepository.findOneById(adDTO.getPriceListId()));
 		ad.setLocation(locationRepository.findOneById(adDTO.getLocationId()));
 		ad.setPublishDate(Calendar.getInstance().getTime());
@@ -132,16 +129,66 @@ public class AdService {
 		Ad entity = adRepository.save(ad);
 
 		// Notify search service
-		AdDTO adDTO = AdConverter.fromEntity(entity);
-		AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.UPDATE);
-		message.setPriceList(
-				AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
-		message.setLocation(
-				AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
-		this.adsProducer.send(message);
+		try {
+			AdDTO adDTO = AdConverter.fromEntity(entity);
+			AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.UPDATE);
+			message.setPriceList(
+					AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+			message.setLocation(
+					AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+			this.adsProducer.send(message);
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
+		
 
 		return entity;
-
+	}
+	
+	public Ad update(Ad ad) {
+		if(ad == null) {
+			throw new GeneralException("Forwarded ad is null");
+		}
+		Ad entity = this.findByLocalId(ad.getLocalId(), ad.getOwnerUsername());
+		
+		try {
+			int size = entity.getComments().size();
+		} catch (Exception e) {
+			entity.setComments(new HashSet<Comment>());
+		}
+		
+		entity.setPublishDate(ad.getPublishDate());
+		entity.setAvailableFrom(ad.getAvailableFrom());
+		entity.setAvailableTo(ad.getAvailableTo());
+		if(ad.getMileLimit() != null) {
+			entity.setMileLimit(ad.getMileLimit());
+			entity.setMileLimitEnabled(true);
+		} else {
+			ad.setMileLimitEnabled(false);
+		}
+		entity.setGps(ad.isGps());
+		entity.setDeleted(ad.isDeleted());
+		entity.setAddress(ad.getAddress());
+		entity.setVehicleId(ad.getVehicleId());
+		entity.setPriceList(this.priceListRepository.findOneById(ad.getPriceList().getId()));
+		entity.setLocation(this.locationRepository.findOneById(ad.getLocation().getId()));
+		entity.setOwnerUsername(ad.getOwnerUsername());
+		entity.setLocalId(ad.getLocalId());
+		
+		Ad saved = this.adRepository.save(entity);
+		try {
+			AdDTO adDTO = AdConverter.fromEntity(saved);
+			AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.UPDATE);
+			message.setPriceList(
+					AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+			message.setLocation(
+					AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+			this.adsProducer.send(message);
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
+		
+		return saved;
 	}
 
 	public List<Ad> findAllActiveForUser(Long userId, String jwt) {

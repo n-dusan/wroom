@@ -30,7 +30,7 @@ private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "SendAdRequest")
 	@ResponsePayload
-	public SendAdResponse sendMessageToService(@RequestPayload SendAdRequest request) {
+	public SendAdResponse sendAd(@RequestPayload SendAdRequest request) {
 		System.out.println(">>>>>>>>>>> Received an Ad!");
 		SendAdResponse response = new SendAdResponse();
 		
@@ -53,6 +53,8 @@ private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
 			System.out.println(">>>>>>>>>>> Ad deleted!");
 		}
 		else if(request.getOperation() == Operation.UPDATE) {
+			Ad updated = this.adService.update(entity);
+			response.setAd(AdSoapConverter.toAdSoap(updated));
 			System.out.println(">>>>>>>>>>> Ad updated!");
 		}
 		

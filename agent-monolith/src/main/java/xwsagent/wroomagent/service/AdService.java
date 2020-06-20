@@ -105,7 +105,16 @@ public class AdService {
         ad.setPriceList(priceListRepository.findOneById(dto.getPriceListId()));
         ad.setLocation(locationRepository.findOneById(dto.getLocationId()));
         ad.setPublishDate(Calendar.getInstance().getTime());
-        return adRepository.save(ad);
+        
+        Ad saved = adRepository.save(ad);
+        
+        try {
+			this.adsClient.send(saved, Operation.UPDATE);
+		} catch (Exception e) {
+			System.err.println("Did not sync with ad service");
+		}
+        
+        return saved;
     }
 
     public List<Ad> findAllActiveForUser(Long userId) {
