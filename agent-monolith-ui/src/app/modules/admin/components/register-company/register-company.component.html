@@ -1,0 +1,42 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <mat-card class="example-card" fxFlex style="width: 30%; padding: 40px; margin-top:40px;">
+
+        <form  [formGroup]="registerForm" (submit)="registerSubmit()">
+            <mat-card-content style="text-align: center;">
+                <h1>Register company</h1>
+                <div fxLayout="column" fxLayoutAlign="center">
+                    <mat-form-field fxFlex appearance="outline">
+                        <mat-icon matPrefix>perm_identity</mat-icon>
+                        <mat-label>Name</mat-label>
+                        <input matInput type="text" formControlName="name">
+                    </mat-form-field>
+                    <mat-form-field fxFlex appearance="outline">
+                        <mat-icon matPrefix>alternate_email</mat-icon>
+                        <mat-label>E-Mail</mat-label>
+                        <input matInput type="email" formControlName="email">
+                    </mat-form-field>
+                    <mat-form-field fxFlex appearance="outline">
+                        <mat-icon matPrefix>language</mat-icon>
+                        <mat-label>Website</mat-label>
+                        <input matInput type="text" formControlName="website">
+                    </mat-form-field>
+                    <mat-form-field fxFlex appearance="outline">
+                        <mat-icon matPrefix>location_on</mat-icon>
+                        <mat-label>Address</mat-label>
+                        <input matInput formControlName="address">
+                    </mat-form-field>
+                    <mat-form-field fxFlex appearance="outline">
+                        <mat-icon matPrefix>business</mat-icon>
+                        <mat-label>Business number</mat-label>
+                        <input matInput formControlName="businessNumber">
+                    </mat-form-field>
+                </div>
+               
+            </mat-card-content>
+            <mat-card-actions fxLayout="row" fxLayoutAlign="center">
+                <button mat-raised-button type="submit"  color="accent">Register</button>
+            </mat-card-actions>
+        </form>
+    </mat-card>
+
+</div>

@@ -95,7 +95,7 @@ public class AuthenticationService {
 		roles.add(this.roleRepository.findByName(RoleName.ROLE_USER));
 		roles.add(this.roleRepository.findByName(RoleName.ROLE_RENTING_USER));
 		User user = new User(null, request.getName(), request.getSurname(), request.getEmail(),
-				encoder.encode(request.getPassword()), roles, false, true, null);
+				encoder.encode(request.getPassword()), roles, false, true, null, null, null);
 
 		user.setEnabled(true);
 		user.setNonLocked(false);

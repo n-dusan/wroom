@@ -75,5 +75,11 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column
 	private Date lastPasswordChange;
+	
+	@Column
+	private String businessNumber;
+	
+	@Column
+	private String address;
 
 }

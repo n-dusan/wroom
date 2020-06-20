@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/comments" xmlns:tns="http://www.example.org/comments" elementFormDefault="qualified">
+	<simpleType name="id">
+		<restriction base="long"></restriction>
+	</simpleType>
+	
+	<simpleType name="title">
+		<restriction base="string"></restriction>
+	</simpleType>
+	
+	<simpleType name="content">
+		<restriction base="string"></restriction>
+	</simpleType>
+	
+	<simpleType name="commentDate">
+		<restriction base="date"></restriction>
+	</simpleType>
+
+	<simpleType name="date">
+		<restriction base="date"></restriction>
+	</simpleType>
+
+	<complexType name="RentRequestSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="title" type="tns:title"></element>
+			<element name="content" type="tns:content"></element>
+			<element name="commentDate" type="tns:commentDate"></element>
+			<element name="toDate" type="tns:date"></element>
+			<element name="requestedUserUsername" type="string"></element>
+			<element name="ad" type="tns:id"></element>
+			<element name="rentReport" type="tns:id"></element>
+			<element name="bundle" type="tns:id"></element>
+		</sequence>
+	</complexType>
+
+	<element name="SendRentRequest">
+		<complexType>
+			<sequence>
+				<element name="rentRequest" type="tns:RentRequestSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="SendRentResponse">
+		<complexType>
+			<sequence>
+				<element name="rentRequest" type="tns:RentRequestSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+</schema>

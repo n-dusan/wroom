@@ -98,7 +98,7 @@ public class AuthenticationService {
 		User user = new User(
 				null, request.getName(), request.getSurname(), request.getEmail(), encoder.encode(request.getPassword()),
 				new HashSet<RentRequest>(), new HashSet<Vehicle>(), Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)),
-				false,false, null
+				false,false, null, null, null
 		);
 		
 		user.setEnabled(false);

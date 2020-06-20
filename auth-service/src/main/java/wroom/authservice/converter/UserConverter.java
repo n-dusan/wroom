@@ -5,6 +5,7 @@ import java.util.Set;
 
 import wroom.authservice.domain.Role;
 import wroom.authservice.domain.User;
+import wroom.authservice.dto.CompanyDTO;
 import wroom.authservice.dto.UserDTO;
 
 public class UserConverter extends AbstractConverter{
@@ -18,6 +19,17 @@ public class UserConverter extends AbstractConverter{
 				getRoles(entity.getRoles()),
 				entity.isNonLocked(),
 				entity.isEnabled()
+		);
+	}
+	
+	public static CompanyDTO fromEntityCompany(User entity) {
+		return new CompanyDTO(
+				entity.getId(),
+				entity.getEmail(),
+				entity.isEnabled(),
+				entity.isNonLocked(),
+				entity.getBusinessNumber(),
+				entity.getAddress()
 		);
 	}
 	

@@ -63,4 +63,10 @@ public class User {
 	@Column(name="last_password_change")
 	private Date lastPasswordChange;
 	
+	@Column
+	private String businessNumber;
+	
+	@Column(nullable = false)
+	private String address;
+	
 }

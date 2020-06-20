@@ -7,13 +7,15 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { AdminWelcomeComponent } from './components/admin-welcome/admin-welcome.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
+import { RegisterCompanyComponent } from './components/register-company/register-company.component';
 
 
 @NgModule({
   declarations: [
     AdminComponent,
     AdminWelcomeComponent,
-    ManageUsersComponent
+    ManageUsersComponent,
+    RegisterCompanyComponent
   ],
   imports: [
     AdminRoutingModule,
