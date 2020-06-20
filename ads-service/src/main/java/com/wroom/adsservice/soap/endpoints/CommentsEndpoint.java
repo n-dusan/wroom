@@ -5,13 +5,13 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import com.wroom.adsservice.wsdl.CommentRequest;
-import com.wroom.adsservice.wsdl.CommentResponse;
+import com.wroom.adsservice.soap.xsd.CommentRequest;
+import com.wroom.adsservice.soap.xsd.CommentResponse;
 
 @Endpoint
 public class CommentsEndpoint {
 
-	private static final String NAMESPACE_URI ="http://ftn.com/ads-service/xsd";
+	private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
 
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "CommentRequest")

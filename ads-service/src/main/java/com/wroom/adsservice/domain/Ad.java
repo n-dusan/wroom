@@ -49,12 +49,15 @@ public class Ad {
     @Column
     private Long vehicleId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private PriceList priceList;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Location location;
 
     @OneToMany(mappedBy = "ad")
 	private Set<Comment> comments;
+    
+    @Column
+    private Long localId;
 }

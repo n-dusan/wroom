@@ -23,7 +23,8 @@ public class AdConverter extends AbstractConverter {
                 entity.getLocation().getId(),
                 entity.getAddress(),
                 entity.isGps(),
-                averageRate(entity.getComments())
+                averageRate(entity.getComments()),
+                entity.getLocalId() == null ? null : entity.getLocalId()
         );
     }
 
@@ -39,6 +40,9 @@ public class AdConverter extends AbstractConverter {
         }
         ad.setAddress(dto.getAddress());
         ad.setGps(dto.isGps());
+        if(dto.getLocalId() != null) {
+        	ad.setLocalId(dto.getLocalId());
+        }
         return ad;
     }
 

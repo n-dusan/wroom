@@ -112,8 +112,25 @@
 			<element name="requests" type="tns:RentRequestSoap"  maxOccurs="unbounded"></element>
 		</sequence>
 	</complexType>
+	
+	<complexType name="AdSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="publishDate" type="tns:date"></element>
+			<element name="availableFrom" type="tns:date"></element>
+			<element name="availableTo" type="tns:date"></element>
+			<element name="mileLimit" type="double"></element>
+			<element name="gps" type="boolean"></element>
+			<element name="deleted" type="boolean"></element>
+			<element name="address" type="string"></element>
+			<element name="vehicleId" type="tns:id"></element>
+			<element name="priceListId" type="tns:id"></element>
+			<element name="locationId" type="tns:id"></element>
+		</sequence>
+	</complexType>
 
 	<!-- Requests and Responses -->
+	<!-- Comments -->
 	<element name="CommentRequest">
 		<complexType>
 			<sequence>
@@ -129,6 +146,7 @@
 		</complexType>
 	</element>
 
+	<!-- Vehicles -->
 	<element name="SendVehicleRequest">
 		<complexType>
 			<sequence>
@@ -145,6 +163,7 @@
 		</complexType>
 	</element>
 	
+	<!-- RentRequests -->
 	<element name="SendRentRequest">
 		<complexType>
 			<sequence>
@@ -161,6 +180,7 @@
 		</complexType>
 	</element>
 	
+	<!-- Bundles -->
 	<element name="SendBundleRequest">
 		<complexType>
 			<sequence>
@@ -173,6 +193,23 @@
 		<complexType>
 			<sequence>
 				<element name="bundle" type="tns:BundledRequestsSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- Ads -->
+	<element name="SendAdRequest">
+		<complexType>
+			<sequence>
+				<element name="ad" type="tns:AdSoap"></element>
+				<element name="operation" type="tns:operation"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SendAdResponse">
+		<complexType>
+			<sequence>
+				<element name="ad" type="tns:AdSoap"></element>
 			</sequence>
 		</complexType>
 	</element>

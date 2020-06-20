@@ -6,7 +6,7 @@
 //
 
 
-package com.wroom.adsservice.wsdl;
+package com.wroom.adsservice.soap.xsd;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
@@ -35,22 +35,6 @@ public class ObjectFactory {
      */
     public ObjectFactory() {
     }
-
-    /**
-     * Create an instance of {@link HelloRequest }
-     * 
-     */
-    public HelloRequest createHelloRequest() {
-        return new HelloRequest();
-    }
-
-    /**
-     * Create an instance of {@link HelloResponse }
-     * 
-     */
-    public HelloResponse createHelloResponse() {
-        return new HelloResponse();
-    }
     
     /**
      * Create an instance of {@link CommentRequest }
@@ -74,6 +58,30 @@ public class ObjectFactory {
      */
     public CommentResponse createCommentResponse() {
         return new CommentResponse();
+    }
+
+    /**
+     * Create an instance of {@link SendAdRequest }
+     * 
+     */
+    public SendAdRequest createSendAdRequest() {
+        return new SendAdRequest();
+    }
+
+    /**
+     * Create an instance of {@link AdSoap }
+     * 
+     */
+    public AdSoap createAdSoap() {
+        return new AdSoap();
+    }
+
+    /**
+     * Create an instance of {@link SendAdResponse }
+     * 
+     */
+    public SendAdResponse createSendAdResponse() {
+        return new SendAdResponse();
     }
 
 }

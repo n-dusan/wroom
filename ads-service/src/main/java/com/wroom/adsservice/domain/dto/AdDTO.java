@@ -45,4 +45,6 @@ public class AdDTO {
     private boolean gps;
 
     private Double averageRate;
+    
+    private Long localId;
 }

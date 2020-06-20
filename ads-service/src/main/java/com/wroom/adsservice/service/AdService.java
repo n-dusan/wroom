@@ -92,8 +92,11 @@ public class AdService {
 	public Ad save(AdDTO adDTO) {
 		Ad ad = AdConverter.toEntity(adDTO);
 		// ad.setVehicle(vehicleService.findById(adDTO.getVehicleId()));
-		VehicleDTO vehicle = this.vehicleClient.findVehicleById(adDTO.getVehicleId());
-		ad.setVehicleId(vehicle.getId());
+		
+//		VehicleDTO vehicle = this.vehicleClient.findVehicleById(adDTO.getVehicleId());
+//		ad.setVehicleId(vehicle.getId());
+		
+		ad.setVehicleId(adDTO.getVehicleId());
 		ad.setPriceList(priceListRepository.findOneById(adDTO.getPriceListId()));
 		ad.setLocation(locationRepository.findOneById(adDTO.getLocationId()));
 		ad.setPublishDate(Calendar.getInstance().getTime());
@@ -101,14 +104,18 @@ public class AdService {
 		Ad entity = adRepository.save(ad);
 
 		// Notify search service
-		AdDTO dto = AdConverter.fromEntity(entity);
-		AdsMessage message = AMQPAdConverter.toAdsMessage(dto, OperationEnum.CREATE);
-		message.setPriceList(
-				AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
-		message.setLocation(
-				AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
-		this.adsProducer.send(message);
-
+		try {
+			AdDTO dto = AdConverter.fromEntity(entity);
+			AdsMessage message = AMQPAdConverter.toAdsMessage(dto, OperationEnum.CREATE);
+			message.setPriceList(
+					AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+			message.setLocation(
+					AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+			this.adsProducer.send(message);
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
+		
 		return entity;
 	}
 
