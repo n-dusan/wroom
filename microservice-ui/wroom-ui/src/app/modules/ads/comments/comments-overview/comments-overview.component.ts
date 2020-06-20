@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AdsService } from '../../services/ads.service';
 import { takeUntil } from 'rxjs/operators';
@@ -51,30 +52,33 @@ export class CommentsOverviewComponent implements OnInit {
       }
     );
   }
-  
+
   loadAds(){
     this.adsService.getAllAds().subscribe(
       data => {
-        this.listAds = data;       
+        this.listAds = data;
+        console.log(this.listAds)
       }
-    );  
-   
+    );
+
   }
 
+
+
   getUsername(username: String){
-    const user = this.userList.find(x => x.email == username);  
+    const user = this.userList.find(x => x.email == username);
     return user?.name + " " + user?.surname;
   }
 
   selectAd(adId: number){
-    
+
     const ad = this.listAds.find(x => x.id == adId);
-    
-    const vehicle = this.vehicleList.find(x => x.id == ad.vehicleId); 
-      const modelType = vehicle?.modelType?.name;  
-      const brandType = vehicle?.brandType?.name;   
+
+    const vehicle = this.vehicleList.find(x => x.id == ad.vehicleId);
+      const modelType = vehicle?.modelType?.name;
+      const brandType = vehicle?.brandType?.name;
       const address = ad?.address
-      const ret = brandType + " " + modelType + ", " + address; 
+      const ret = brandType + " " + modelType + ", " + address;
       return ret;
   }
 
@@ -86,26 +90,26 @@ export class CommentsOverviewComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
 
-    });  
+    });
   }
 
-  confirm(comment: CommentModel){
+  confirm(comment: Comment){
     this.adsService.confirm(comment.id).subscribe(
       response => {
         this.loadComments();
         this.toastr.success('You have successfully approved comment!', 'Success')
-    } 
+    }
     )
   }
-  
 
-  refuse(comment: CommentModel){
+
+  refuse(comment: Comment){
     this.adsService.refuse(comment.id).subscribe(
       response => {
         this.loadComments();
         this.toastr.success('You have successfully refused comment!', 'Success')
-    } 
-    )  
+    }
+    )
   }
 
 }

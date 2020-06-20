@@ -1,6 +1,7 @@
 import { Component, OnInit, Optional, Inject} from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AdsService } from '../../services/ads.service';
 import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
@@ -12,14 +13,14 @@ import { CommentModel } from 'src/app/modules/shared/models/comment-model.model'
 })
 export class NewCommentComponent implements OnInit {
   addComment: FormGroup;
-  comment: CommentModel = new CommentModel();
+  comment: Comment = new Comment();
   rate: number;
 
   constructor( @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
                private formBuilder: FormBuilder,
                private adsService: AdsService,
-               private toastr: ToastrService) { 
-               
+               private toastr: ToastrService) {
+
                }
   local_data = this.data;
 
@@ -28,7 +29,7 @@ export class NewCommentComponent implements OnInit {
       title: new FormControl(null, Validators.required),
       content: new FormControl(null, Validators.required)
     });
-    
+
   }
 
   pitch(event: any) {

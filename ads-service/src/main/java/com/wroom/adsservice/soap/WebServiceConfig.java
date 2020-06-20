@@ -25,10 +25,20 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	}
 
 	@Bean(name = "ads")
-	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema helloSchema) {
+	public DefaultWsdl11Definition defaultWsdl11DefinitionAds(XsdSchema helloSchema) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("AdsPort");
 		wsdl11Definition.setTargetNamespace("http://ftn.com/wroom-agent/xsd");
+		wsdl11Definition.setLocationUri("/ws");
+		wsdl11Definition.setSchema(soapSchema());
+		return wsdl11Definition;
+	}
+
+	@Bean(name = "comments")
+	public DefaultWsdl11Definition defaultWsdl11DefinitionComments(XsdSchema helloSchema) {
+		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
+		wsdl11Definition.setPortTypeName("CommentsPort");
+		wsdl11Definition.setTargetNamespace("http://ftn.com/ads-service/xsd");
 		wsdl11Definition.setLocationUri("/ws");
 		wsdl11Definition.setSchema(soapSchema());
 		return wsdl11Definition;
