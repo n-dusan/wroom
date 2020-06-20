@@ -29,7 +29,8 @@ public class RentRequestSoapConverter {
 				null,
 				null,
 				null,
-				null
+				null,
+				soap.getId()
 		);
 	}
 	

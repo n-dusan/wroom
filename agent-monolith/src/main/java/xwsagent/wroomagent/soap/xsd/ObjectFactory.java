@@ -83,5 +83,84 @@ public class ObjectFactory {
     public SendRentResponse createSendRentResponse() {
         return new SendRentResponse();
     }
+
+    /**
+     * Create an instance of {@link SendBundleRequest }
+     * 
+     */
+    public SendBundleRequest createSendBundleRequest() {
+        return new SendBundleRequest();
+    }
+
+    /**
+     * Create an instance of {@link BundledRequestsSoap }
+     * 
+     */
+    public BundledRequestsSoap createBundledRequestsSoap() {
+        return new BundledRequestsSoap();
+    }
+
+    /**
+     * Create an instance of {@link SendBundleResponse }
+     * 
+     */
+    public SendBundleResponse createSendBundleResponse() {
+        return new SendBundleResponse();
+    }
     
+    /**
+     * Create an instance of {@link CommentRequest }
+     * 
+     */
+    public CommentRequest createCommentRequest() {
+        return new CommentRequest();
+    }
+
+    /**
+     * Create an instance of {@link CommentSoap }
+     * 
+     */
+    public CommentSoap createCommentSoap() {
+        return new CommentSoap();
+    }
+
+    /**
+     * Create an instance of {@link CommentResponse }
+     * 
+     */
+    public CommentResponse createCommentResponse() {
+        return new CommentResponse();
+    }
+    
+    /**
+     * Create an instance of {@link SendVehicleRequest }
+     * 
+     */
+    public SendVehicleRequest createSendVehicleRequest() {
+        return new SendVehicleRequest();
+    }
+
+    /**
+     * Create an instance of {@link VehicleSoap }
+     * 
+     */
+    public VehicleSoap createVehicleSoap() {
+        return new VehicleSoap();
+    }
+
+    /**
+     * Create an instance of {@link SendVehicleResponse }
+     * 
+     */
+    public SendVehicleResponse createSendVehicleResponse() {
+        return new SendVehicleResponse();
+    }
+
+    /**
+     * Create an instance of {@link ModelType }
+     * 
+     */
+    public ModelType createModelType() {
+        return new ModelType();
+    }
 }

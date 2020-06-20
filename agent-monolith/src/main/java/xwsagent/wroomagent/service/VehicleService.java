@@ -33,6 +33,8 @@ import xwsagent.wroomagent.repository.GearboxTypeRepository;
 import xwsagent.wroomagent.repository.ModelTypeRepository;
 import xwsagent.wroomagent.repository.VehicleRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
+import xwsagent.wroomagent.soap.clients.VehicleClient;
+import xwsagent.wroomagent.soap.xsd.Operation;
 
 @Service
 public class VehicleService {
@@ -46,12 +48,13 @@ public class VehicleService {
 	private final GearboxTypeRepository gearboxTypeRepository;
 	private final UserRepository userRepository;
 	private final AdRepository adRepository;
+	private final VehicleClient vehicleClient;
 
 	public VehicleService(VehicleRepository vehicleRepository, ImageService imageService,
 			ModelTypeRepository modelTypeRepository, BrandTypeRepository brandTypeRepository,
 			BodyTypeRepository bodyTypeRepository, FuelTypeRepository fuelTypeRepository,
 			GearboxTypeRepository gearboxTypeRepository, UserRepository userRepository,
-			AdRepository adRepository) {
+			AdRepository adRepository, VehicleClient vehicleClient) {
 		this.vehicleRepository = vehicleRepository;
 		this.imageService = imageService;
 		this.modelTypeRepository = modelTypeRepository;
@@ -61,6 +64,7 @@ public class VehicleService {
 		this.gearboxTypeRepository = gearboxTypeRepository;
 		this.userRepository = userRepository;
 		this.adRepository = adRepository;
+		this.vehicleClient = vehicleClient;
 	}
 
 	public List<Vehicle> findAll() {
@@ -83,7 +87,9 @@ public class VehicleService {
 	public void delete(Long id) {
 		Vehicle vehicle = findById(id);
 		vehicle.setDeleted(true);
-		vehicleRepository.save(vehicle);
+		Vehicle saved = vehicleRepository.save(vehicle);
+		
+		this.vehicleClient.send(saved, Operation.DELETE);
 	}
 
 	public Vehicle update(Vehicle vehicle, VehicleDTO vehicleDTO) {
@@ -99,7 +105,15 @@ public class VehicleService {
 		vehicle.setFuelType(this.fuelTypeRepository.findByName(vehicleDTO.getFuelType().getName()));
 		vehicle.setGearboxType(this.gearboxTypeRepository.findByName(vehicleDTO.getGearboxType().getName()));
 
-		this.vehicleRepository.save(vehicle);
+		Vehicle saved = this.vehicleRepository.save(vehicle);
+		
+		try {
+			this.vehicleClient.send(saved, Operation.UPDATE);
+		} catch(Exception e) {
+			System.err.println("Did not sync with wroom.");
+		}
+		
+		
 		return vehicle;
 	}
 
@@ -123,7 +137,13 @@ public class VehicleService {
 		if (loggedInUser.isPresent()) {
 			entity.setOwner(loggedInUser.get());
 		}
-		return vehicleRepository.save(entity);
+		
+		Vehicle saved = vehicleRepository.save(entity);
+		
+		//Send to wroom
+		this.vehicleClient.send(saved, Operation.CREATE);
+		
+		return saved;
 	}
 
 	public List<byte[]> getFile(Long id) throws IOException {

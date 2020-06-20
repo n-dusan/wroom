@@ -25,6 +25,7 @@ import xwsagent.wroomagent.repository.AdRepository;
 import xwsagent.wroomagent.repository.RentRequestRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
 import xwsagent.wroomagent.soap.clients.RentsClient;
+import xwsagent.wroomagent.soap.xsd.OperationRents;
 
 @Service
 public class RentsService {
@@ -66,7 +67,18 @@ public class RentsService {
 		entity.setRequestedUser(this.userRepository.findById(requestedUserID).get());
 		entity.setStatus(RequestStatus.PENDING);
 		entity.setAd(this.adService.findById(dto.getAd().getId()));
-		return this.rentRepository.save(entity);
+		
+		RentRequest saved = this.rentRepository.save(entity);
+		
+//		No need to send this to wroom
+//		try {
+//			this.rentsClient.send(entity, OperationRents.);
+//		} catch(Exception e) {
+//			System.out.println("Error during soap sending");
+//			e.printStackTrace();
+//		}
+		
+		return saved;
 	}
 
 	public BundledRequests sendBundleRequest(RentRequestDTO[] dtos, Long requestedUserID) {
@@ -87,7 +99,15 @@ public class RentsService {
 		}
 		bundle.setRequests(requests);
 
-		return this.bundleService.save(bundle);
+		BundledRequests entity = this.bundleService.save(bundle);
+		try {
+			this.rentsClient.sendBundle(entity);
+		} catch(Exception e) {
+			System.out.println("Error during soap sending");
+			e.printStackTrace();
+		}
+		
+		return entity;
 	}
 
 	public boolean occupy(RentRequestDTO rentRequestDTO, Authentication auth) {
@@ -134,7 +154,7 @@ public class RentsService {
 			RentRequest saved = rentRepository.save(rentRequest);
 			
 			try {
-				this.rentsClient.send(saved);		
+				this.rentsClient.send(saved, OperationRents.OCCUPY);		
 			} catch(Exception e) {
 				System.out.println("Error during soap sending");
 				e.printStackTrace();
@@ -190,7 +210,13 @@ public class RentsService {
 		}
 		
 		// Send rent request to wroom
-		this.rentsClient.send(rentRepository.save(rentRequest));
+		RentRequest saved = rentRepository.save(rentRequest);
+		try {
+			this.rentsClient.send(saved, OperationRents.OCCUPY);		
+		} catch(Exception e) {
+			System.err.println("Error during soap sending");
+			e.printStackTrace();
+		}
 		
 		return true;
 	}
@@ -218,17 +244,43 @@ public class RentsService {
 
 	public RentRequest decline(Long id) {
 		RentRequest rentRequest = findById(id);
-
 		rentRequest.setStatus(RequestStatus.CANCELED);
-		return this.rentRepository.save(rentRequest);
+		RentRequest saved = this.rentRepository.save(rentRequest);
+		
+		try {
+			RentRequest sending = saved;
+			
+			// Kada budemo imali sinhronizovane baze, u monolitnoj cemo imati podatak
+			// o tome koji id dati entitet ima na wroom-u. Zato se ovde vrsi promena id-ja
+//			sending.setId(sending.getWroomId());
+			this.rentsClient.send(sending, OperationRents.DECLINE);
+		} catch(Exception e) {
+			System.err.println("Did not sync");
+		}
+		
+		return saved;
 	}
 
 	public RentRequest accept(Long id) {
-
 		RentRequest rentRequest = findById(id);
-
 		rentRequest.setStatus(RequestStatus.RESERVED);
-		return this.rentRepository.save(rentRequest);
+		
+		RentRequest saved = this.rentRepository.save(rentRequest);
+		
+		try {
+			RentRequest sending = saved;
+			
+			// Kada budemo imali sinhronizovane baze, u monolitnoj cemo imati podatak
+			// o tome koji id dati entitet ima na wroom-u.
+			// Zato se ovde za request.id stavlja request.wroomId (za sada jos ne)
+			sending.setId(saved.getId());
+			
+			this.rentsClient.send(sending, OperationRents.ACCEPT);
+		} catch(Exception e) {
+			System.err.println("Did not sync");
+		}
+		
+		return saved;
 	}
 
 	public RentRequest complete(Long id) {

@@ -5,5 +5,5 @@
 // Generated on: 2020.06.17 at 02:17:58 PM CEST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http://ftn.com/renting-service/xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+@javax.xml.bind.annotation.XmlSchema(namespace = "http://ftn.com/wroom-agent/xsd", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
 package xwsagent.wroomagent.soap.xsd;
