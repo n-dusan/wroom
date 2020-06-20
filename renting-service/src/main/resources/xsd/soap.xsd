@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://ftn.com/renting-service/xsd"
-	xmlns:tns="http://ftn.com/renting-service/xsd"
+	targetNamespace="http://ftn.com/wroom-agent/xsd"
+	xmlns:tns="http://ftn.com/wroom-agent/xsd"
 	elementFormDefault="qualified">
 
 	<simpleType name="id">

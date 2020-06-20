@@ -15,7 +15,7 @@ public class VehicleClient extends WebServiceGatewaySupport{
 		request.setVehicle(VehicleSoapConverter.toVehicleSoap(entity));
 		request.setOperation(operation);
 		
-		System.out.println(">>>>>> Sening vehicle to wroom");
+		System.out.println(">>>>>> Sending vehicle to wroom");
 		SendVehicleResponse response = (SendVehicleResponse) getWebServiceTemplate().marshalSendAndReceive(request);
 		System.out.println(">>>>>> Sent");
 		

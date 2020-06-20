@@ -9,14 +9,17 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import com.wroom.rentingservice.converter.RentConverter;
 import com.wroom.rentingservice.domain.BundledRequests;
 import com.wroom.rentingservice.domain.RentRequest;
 import com.wroom.rentingservice.domain.enums.RequestStatus;
 import com.wroom.rentingservice.repository.AdRepository;
 import com.wroom.rentingservice.repository.BundleRepository;
 import com.wroom.rentingservice.repository.RentRequestRepository;
+import com.wroom.rentingservice.service.RentsService;
 import com.wroom.rentingservice.soap.converters.BundledRequestsSoapConverter;
 import com.wroom.rentingservice.soap.converters.RentRequestSoapConverter;
+import com.wroom.rentingservice.soap.xsd.OperationRents;
 import com.wroom.rentingservice.soap.xsd.RentRequestSoap;
 import com.wroom.rentingservice.soap.xsd.SendBundleRequest;
 import com.wroom.rentingservice.soap.xsd.SendBundleResponse;
@@ -26,24 +29,26 @@ import com.wroom.rentingservice.soap.xsd.SendRentResponse;
 @Endpoint
 public class RentRequestEndpoint {
 
-	private static final String NAMESPACE_URI ="http://ftn.com/renting-service/xsd";
+	private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
 	
 	@Autowired
 	private RentRequestRepository rentsRepository;
-	
+	@Autowired
+	private RentsService rentsService;
 	@Autowired 
 	private AdRepository adsRepository;
-	
 	@Autowired
 	private BundleRepository bundleRepository;
 	
 	@Autowired
 	public RentRequestEndpoint(RentRequestRepository rentsRepository,
 			AdRepository adsRepository,
-			BundleRepository bundleRepository) {
+			BundleRepository bundleRepository,
+			RentsService rentsService) {
 		this.rentsRepository = rentsRepository;
 		this.adsRepository = adsRepository;
 		this.bundleRepository = bundleRepository;
+		this.rentsService = rentsService;
 	}
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "SendRentRequest")
@@ -55,12 +60,20 @@ public class RentRequestEndpoint {
 		RentRequest entity = RentRequestSoapConverter.fromSoapRequest(request.getRentRequest());
 		entity.setAd(this.adsRepository.findById(request.getRentRequest().getAd()).get());
 
-		// TODO: report i bundle dodati 
+		// TODO
 //		entity.setRentReport(rentReport);
-//		entity.setBundle(bundle);
 		
-		this.rentsRepository.save(entity);
-		System.out.println(">>>>>>> Saved a RentRequest");
+		if(request.getOperation() == OperationRents.OCCUPY) {
+			try {
+				this.rentsService.occupy(RentConverter.fromEntity(entity), null);
+				System.out.println(">>>>>>> Occupied");
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		
 
 		response.setRentRequest(RentRequestSoapConverter.toSoapRequest(entity));
 		return response;

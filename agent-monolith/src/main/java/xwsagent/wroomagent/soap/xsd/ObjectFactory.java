@@ -83,7 +83,7 @@ public class ObjectFactory {
     public SendRentResponse createSendRentResponse() {
         return new SendRentResponse();
     }
-    
+
     /**
      * Create an instance of {@link SendBundleRequest }
      * 

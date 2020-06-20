@@ -25,6 +25,7 @@ import xwsagent.wroomagent.repository.AdRepository;
 import xwsagent.wroomagent.repository.RentRequestRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
 import xwsagent.wroomagent.soap.clients.RentsClient;
+import xwsagent.wroomagent.soap.xsd.OperationRents;
 
 @Service
 public class RentsService {
@@ -68,12 +69,14 @@ public class RentsService {
 		entity.setAd(this.adService.findById(dto.getAd().getId()));
 		
 		RentRequest saved = this.rentRepository.save(entity);
-		try {
-			this.rentsClient.send(entity);
-		} catch(Exception e) {
-			System.out.println("Error during soap sending");
-			e.printStackTrace();
-		}
+		
+//		No need to send this to wroom
+//		try {
+//			this.rentsClient.send(entity, OperationRents.);
+//		} catch(Exception e) {
+//			System.out.println("Error during soap sending");
+//			e.printStackTrace();
+//		}
 		
 		return saved;
 	}
@@ -151,7 +154,7 @@ public class RentsService {
 			RentRequest saved = rentRepository.save(rentRequest);
 			
 			try {
-				this.rentsClient.send(saved);		
+				this.rentsClient.send(saved, OperationRents.OCCUPY);		
 			} catch(Exception e) {
 				System.out.println("Error during soap sending");
 				e.printStackTrace();
@@ -209,7 +212,7 @@ public class RentsService {
 		// Send rent request to wroom
 		RentRequest saved = rentRepository.save(rentRequest);
 		try {
-			this.rentsClient.send(saved);		
+			this.rentsClient.send(saved, OperationRents.OCCUPY);		
 		} catch(Exception e) {
 			System.out.println("Error during soap sending");
 			e.printStackTrace();

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" 
-targetNamespace="http://ftn.com/wroom-agent/xsd"
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://ftn.com/wroom-agent/xsd"
 	xmlns:tns="http://ftn.com/wroom-agent/xsd"
-elementFormDefault="qualified">
+	elementFormDefault="qualified">
 
 	<simpleType name="operation">
 		<restriction base="string">
@@ -12,14 +12,35 @@ elementFormDefault="qualified">
 		</restriction>
 	</simpleType>
 
+	<simpleType name="operationRents">
+		<restriction base="string">
+			<enumeration value="OCCUPY"></enumeration>
+			<enumeration value="ACCEPT"></enumeration>
+			<enumeration value="DECLINE"></enumeration>
+			<enumeration value="COMPLETE"></enumeration>
+			<enumeration value="PAY"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="status">
+		<restriction base="string">
+			<enumeration value="PENDING"></enumeration>
+			<enumeration value="RESERVED"></enumeration>
+			<enumeration value="CANCELED"></enumeration>
+			<enumeration value="PAID"></enumeration>
+			<enumeration value="PHYSICALLY_RESERVED"></enumeration>
+			<enumeration value="COMPLETED"></enumeration>
+		</restriction>
+	</simpleType>
+
 	<simpleType name="id">
 		<restriction base="long"></restriction>
 	</simpleType>
-	
+
 	<simpleType name="commentTitle">
 		<restriction base="string"></restriction>
 	</simpleType>
-	
+
 	<simpleType name="commentContent">
 		<restriction base="string"></restriction>
 	</simpleType>
@@ -27,22 +48,22 @@ elementFormDefault="qualified">
 	<simpleType name="date">
 		<restriction base="date"></restriction>
 	</simpleType>
-	
+
 	<simpleType name="rate">
 		<restriction base="int"></restriction>
 	</simpleType>
-	
+
 	<simpleType name="image">
 		<restriction base="base64Binary"></restriction>
 	</simpleType>
-	
+
 	<complexType name="modelType">
 		<sequence>
 			<element name="modelName" type="string"></element>
 			<element name="brandName" type="string"></element>
 		</sequence>
 	</complexType>
-	
+
 	<!-- Objects -->
 	<complexType name="CommentSoap">
 		<sequence>
@@ -55,7 +76,7 @@ elementFormDefault="qualified">
 			<element name="rate" type="tns:rate"></element>
 		</sequence>
 	</complexType>
-	
+
 	<complexType name="VehicleSoap">
 		<sequence>
 			<element name="id" type="tns:id"></element>
@@ -71,7 +92,27 @@ elementFormDefault="qualified">
 			<element name="images" type="tns:image" maxOccurs="unbounded"></element>
 		</sequence>
 	</complexType>
-	
+
+	<complexType name="RentRequestSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="status" type="tns:status"></element>
+			<element name="fromDate" type="tns:date"></element>
+			<element name="toDate" type="tns:date"></element>
+			<element name="requestedUserUsername" type="string"></element>
+			<element name="ad" type="tns:id"></element>
+			<element name="rentReport" type="tns:id"></element>
+			<element name="bundle" type="tns:id"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="BundledRequestsSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="requests" type="tns:RentRequestSoap"  maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
 	<!-- Requests and Responses -->
 	<element name="CommentRequest">
 		<complexType>
@@ -87,7 +128,7 @@ elementFormDefault="qualified">
 			</sequence>
 		</complexType>
 	</element>
-	
+
 	<element name="SendVehicleRequest">
 		<complexType>
 			<sequence>
@@ -100,6 +141,38 @@ elementFormDefault="qualified">
 		<complexType>
 			<sequence>
 				<element name="vehicle" type="tns:VehicleSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="SendRentRequest">
+		<complexType>
+			<sequence>
+				<element name="rentRequest" type="tns:RentRequestSoap"></element>
+				<element name="operation" type="tns:operationRents"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SendRentResponse">
+		<complexType>
+			<sequence>
+				<element name="rentRequest" type="tns:RentRequestSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="SendBundleRequest">
+		<complexType>
+			<sequence>
+				<element name="bundle" type="tns:BundledRequestsSoap"></element>
+				<element name="operation" type="tns:operationRents"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SendBundleResponse">
+		<complexType>
+			<sequence>
+				<element name="bundle" type="tns:BundledRequestsSoap"></element>
 			</sequence>
 		</complexType>
 	</element>

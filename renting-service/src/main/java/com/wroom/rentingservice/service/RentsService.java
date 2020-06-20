@@ -86,7 +86,11 @@ public class RentsService {
 		rentRequest.setStatus(RequestStatus.PHYSICALLY_RESERVED);
 		rentRequest.setFromDate(rentRequestDTO.getFromDate());
 		rentRequest.setToDate(rentRequestDTO.getToDate());
-		rentRequest.setRequestedUserId(((UserPrincipal) auth.getPrincipal()).getId());
+		
+		if(auth != null) {
+			rentRequest.setRequestedUserId(((UserPrincipal) auth.getPrincipal()).getId());
+		}
+		
 		
 //		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
 //		Optional<User> loggedInUser = userRepository.findByEmail(user.getUsername());
