@@ -34,6 +34,7 @@ import xwsagent.wroomagent.repository.ModelTypeRepository;
 import xwsagent.wroomagent.repository.VehicleRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
 import xwsagent.wroomagent.soap.clients.VehicleClient;
+import xwsagent.wroomagent.soap.xsd.Operation;
 
 @Service
 public class VehicleService {
@@ -86,7 +87,9 @@ public class VehicleService {
 	public void delete(Long id) {
 		Vehicle vehicle = findById(id);
 		vehicle.setDeleted(true);
-		vehicleRepository.save(vehicle);
+		Vehicle saved = vehicleRepository.save(vehicle);
+		
+		this.vehicleClient.send(saved, Operation.DELETE);
 	}
 
 	public Vehicle update(Vehicle vehicle, VehicleDTO vehicleDTO) {
@@ -102,7 +105,15 @@ public class VehicleService {
 		vehicle.setFuelType(this.fuelTypeRepository.findByName(vehicleDTO.getFuelType().getName()));
 		vehicle.setGearboxType(this.gearboxTypeRepository.findByName(vehicleDTO.getGearboxType().getName()));
 
-		this.vehicleRepository.save(vehicle);
+		Vehicle saved = this.vehicleRepository.save(vehicle);
+		
+		try {
+			this.vehicleClient.send(saved, Operation.UPDATE);
+		} catch(Exception e) {
+			System.err.println("Did not sync with wroom.");
+		}
+		
+		
 		return vehicle;
 	}
 
@@ -130,7 +141,7 @@ public class VehicleService {
 		Vehicle saved = vehicleRepository.save(entity);
 		
 		//Send to wroom
-		this.vehicleClient.send(saved);
+		this.vehicleClient.send(saved, Operation.CREATE);
 		
 		return saved;
 	}

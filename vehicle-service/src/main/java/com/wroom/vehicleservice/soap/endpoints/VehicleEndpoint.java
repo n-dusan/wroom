@@ -12,7 +12,9 @@ import com.wroom.vehicleservice.repository.FuelTypeRepository;
 import com.wroom.vehicleservice.repository.GearboxTypeRepository;
 import com.wroom.vehicleservice.repository.ModelTypeRepository;
 import com.wroom.vehicleservice.repository.VehicleRepository;
+import com.wroom.vehicleservice.service.VehicleService;
 import com.wroom.vehicleservice.soap.converters.VehicleSoapConverter;
+import com.wroom.vehicleservice.soap.xsd.Operation;
 import com.wroom.vehicleservice.soap.xsd.SendVehicleRequest;
 import com.wroom.vehicleservice.soap.xsd.SendVehicleResponse;
 
@@ -23,6 +25,8 @@ public class VehicleEndpoint {
 	
 	@Autowired
 	private VehicleRepository vehicleRepository;
+	@Autowired
+	private VehicleService vehicleService;
 	@Autowired
 	private ModelTypeRepository modelTypeRepository;
 	@Autowired
@@ -35,25 +39,32 @@ public class VehicleEndpoint {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "SendVehicleRequest")
 	@ResponsePayload
-	public SendVehicleResponse sendMessageToService(@RequestPayload SendVehicleRequest request) {
+	public SendVehicleResponse sendVehicle(@RequestPayload SendVehicleRequest request) {
 		System.out.println(">>>>>>>>>>> Received a Vehicle!");
 		
 		SendVehicleResponse response = new SendVehicleResponse();
 		
-		try {
-			Vehicle entity = VehicleSoapConverter.fromVehicleSoap(request.getVehicle());
-			entity.setModelType(this.modelTypeRepository.findByName(request.getVehicle().getModelType().getModelName()));
-			entity.setBodyType(this.bodyTypeRepository.findOneByName(request.getVehicle().getBodyType()));
-			entity.setFuelType(this.fuelTypeRepository.findByName(request.getVehicle().getFuelType()));
-			entity.setGearboxType(this.gearboxTypeRepository.findByName(request.getVehicle().getGearboxType()));
+		Vehicle entity = VehicleSoapConverter.fromVehicleSoap(request.getVehicle());
+		entity.setModelType(this.modelTypeRepository.findByName(request.getVehicle().getModelType().getModelName()));
+		entity.setBodyType(this.bodyTypeRepository.findOneByName(request.getVehicle().getBodyType()));
+		entity.setFuelType(this.fuelTypeRepository.findByName(request.getVehicle().getFuelType()));
+		entity.setGearboxType(this.gearboxTypeRepository.findByName(request.getVehicle().getGearboxType()));
+		 
+		if(request.getOperation() == Operation.CREATE) {
 			Vehicle saved = this.vehicleRepository.save(entity);
 			response.setVehicle(VehicleSoapConverter.toVehicleSoap(saved));
-		} catch(Exception e) {
-			e.printStackTrace();
+		}
+		else if(request.getOperation() == Operation.DELETE) {
+			Vehicle deleted = this.vehicleService.deleteByLocalId(entity.getLocalId(), entity.getOwnerUsername());
+			response.setVehicle(VehicleSoapConverter.toVehicleSoap(deleted));
+		}
+		else if(request.getOperation() == Operation.UPDATE) {
+			Vehicle updated = this.vehicleService.update(entity);
+			response.setVehicle(VehicleSoapConverter.toVehicleSoap(updated));
 		}
 		
 		
-		System.out.println(">>>>>>>>>>> Vehicle saved!");
+		System.out.println(">>>>>>>>>>> Success!");
 		return response;
 	}
 }

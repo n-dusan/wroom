@@ -4,6 +4,14 @@ targetNamespace="http://ftn.com/wroom-agent/xsd"
 	xmlns:tns="http://ftn.com/wroom-agent/xsd"
 elementFormDefault="qualified">
 
+	<simpleType name="operation">
+		<restriction base="string">
+			<enumeration value="CREATE"></enumeration>
+			<enumeration value="UPDATE"></enumeration>
+			<enumeration value="DELETE"></enumeration>
+		</restriction>
+	</simpleType>
+
 	<simpleType name="id">
 		<restriction base="long"></restriction>
 	</simpleType>
@@ -84,6 +92,7 @@ elementFormDefault="qualified">
 		<complexType>
 			<sequence>
 				<element name="vehicle" type="tns:VehicleSoap"></element>
+				<element name="operation" type="tns:operation"></element>
 			</sequence>
 		</complexType>
 	</element>

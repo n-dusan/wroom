@@ -29,13 +29,12 @@ public class VehicleSoapConverter {
 	
 	public static Vehicle fromVehicleSoap(VehicleSoap soap) {
 		Vehicle ret = new Vehicle();
-//		ret.setLocalId(soap.getId());
+		ret.setLocalId(soap.getId());
 		ret.setMileage(soap.getMileage());
 		ret.setChildSeats(soap.getChildSeats());
 		ret.setCdw(soap.isCdw());
 		ret.setDeleted(soap.isDeleted());
-//		ret.setOwnerUsername(soap.getOwner());
-		
+		ret.setOwnerUsername(soap.getOwner());
 		//Vehicle features are set in calling method
 		
 		return ret;

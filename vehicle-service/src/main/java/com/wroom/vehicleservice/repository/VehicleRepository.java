@@ -24,5 +24,8 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     
     @Query(value="select v.* from vehicle v where deleted=false", nativeQuery=true)
     List<Vehicle> findAll();
+    
+    @Query(value="select v.* from vehicle v where local_id=:id and v.owner_username=:username", nativeQuery=true)
+    Vehicle findByLocalId(Long id, String username);
 
 }

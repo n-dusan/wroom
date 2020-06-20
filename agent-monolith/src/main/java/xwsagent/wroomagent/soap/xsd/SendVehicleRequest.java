@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -26,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
  *         &lt;element name="vehicle" type="{http://ftn.com/wroom-agent/xsd}VehicleSoap"/&gt;
+ *         &lt;element name="operation" type="{http://ftn.com/wroom-agent/xsd}operation"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -36,13 +38,17 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "vehicle"
+    "vehicle",
+    "operation"
 })
 @XmlRootElement(name = "SendVehicleRequest")
 public class SendVehicleRequest {
 
     @XmlElement(required = true)
     protected VehicleSoap vehicle;
+    @XmlElement(required = true)
+    @XmlSchemaType(name = "string")
+    protected Operation operation;
 
     /**
      * Gets the value of the vehicle property.
@@ -66,6 +72,30 @@ public class SendVehicleRequest {
      */
     public void setVehicle(VehicleSoap value) {
         this.vehicle = value;
+    }
+
+    /**
+     * Gets the value of the operation property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Operation }
+     *     
+     */
+    public Operation getOperation() {
+        return operation;
+    }
+
+    /**
+     * Sets the value of the operation property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Operation }
+     *     
+     */
+    public void setOperation(Operation value) {
+        this.operation = value;
     }
 
 }
