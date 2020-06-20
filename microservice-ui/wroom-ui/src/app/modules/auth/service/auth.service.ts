@@ -8,6 +8,7 @@ import { LoggedUser } from '../model/logged-user.model';
 import { LoginRequest } from '../model/login-request.model';
 import { map, catchError } from 'rxjs/operators';
 import { ResetPassword } from '../../shared/models/reset-password.model';
+import { Company } from '../../shared/models/company.model';
 
 @Injectable({
   providedIn: 'root'
@@ -123,6 +124,10 @@ export class AuthService {
 
   getUser(userId: number): Observable<LoggedUser> {
     return this.httpClient.get<LoggedUser>(this.userUrl + '/' + userId);
+  }
+
+  register(company: Company): Observable<any> {
+    return this.httpClient.post(this.baseUrl + '/company', company).pipe(catchError(this.handleException));
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {
