@@ -47,4 +47,8 @@ public class RentReportService {
 
         return saved;
     }
+
+    public List<RentReport> getReportsForVehicle(Long vehicleId) {
+        return this.rentReportRepository.findAllByVehicle(vehicleId);
+    }
 }

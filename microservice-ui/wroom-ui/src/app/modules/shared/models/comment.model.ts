@@ -1,4 +1,4 @@
-export class CommentModel{
+export class Comment {
     public constructor(
         public id?: number,
         public title?: string,
@@ -9,6 +9,6 @@ export class CommentModel{
         public adId?: number,
         public replyId?: number,
         public reply?: boolean,
-        public replyObj?: CommentModel
+        public replyObj?: Comment
     ) {}
 }

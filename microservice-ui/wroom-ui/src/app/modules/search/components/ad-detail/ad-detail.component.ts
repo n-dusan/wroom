@@ -9,7 +9,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Vehicle } from '../../model/vehicle.model';
 import { PricelistDetailDialogData } from '../price-details/pricelist-dialog-data.model';
 import { SearchService } from '../../service/search.service';
-import { CommentModel } from 'src/app/modules/shared/models/comment.model';
+import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { CommentsService } from 'src/app/modules/shared/service/comments.service';
 import { AuthService } from 'src/app/modules/shared/service/auth.service';
 
@@ -23,7 +23,7 @@ export class AdDetailComponent implements OnInit {
   ad: Ad;
   vehicle: Vehicle;
   images: string[] = [];
-  comments: CommentModel[] = [];
+  comments: Comment[] = [];
   loaded: boolean = false;
   isOwner: boolean = false;
 
@@ -143,7 +143,7 @@ export class AdDetailComponent implements OnInit {
               }
             }
           )
-          
+
         },
         error => {
           this.loaded = true;
