@@ -163,4 +163,28 @@ public class ObjectFactory {
     public ModelType createModelType() {
         return new ModelType();
     }
+    
+    /**
+     * Create an instance of {@link SendAdRequest }
+     * 
+     */
+    public SendAdRequest createSendAdRequest() {
+        return new SendAdRequest();
+    }
+
+    /**
+     * Create an instance of {@link AdSoap }
+     * 
+     */
+    public AdSoap createAdSoap() {
+        return new AdSoap();
+    }
+
+    /**
+     * Create an instance of {@link SendAdResponse }
+     * 
+     */
+    public SendAdResponse createSendAdResponse() {
+        return new SendAdResponse();
+    }
 }

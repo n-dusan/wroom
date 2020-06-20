@@ -6,7 +6,7 @@
 //
 
 
-package com.wroom.adsservice.wsdl;
+package com.wroom.adsservice.soap.xsd;
 
 import java.util.Date;
 

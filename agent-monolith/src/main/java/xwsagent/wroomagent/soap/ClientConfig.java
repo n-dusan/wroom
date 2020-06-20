@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+import xwsagent.wroomagent.soap.clients.AdsClient;
 import xwsagent.wroomagent.soap.clients.CommentsClient;
 import xwsagent.wroomagent.soap.clients.MessagesClient;
 import xwsagent.wroomagent.soap.clients.RentsClient;
@@ -55,6 +56,15 @@ public class ClientConfig {
 	public RentsClient rentsClient(Jaxb2Marshaller marshaller) {
 		RentsClient client = new RentsClient();
 		client.setDefaultUri(this.renting_uri);	
+		client.setMarshaller(marshaller);
+		client.setUnmarshaller(marshaller);
+		return client;
+	}
+	
+	@Bean
+	public AdsClient adsClient(Jaxb2Marshaller marshaller) {
+		AdsClient client = new AdsClient();
+		client.setDefaultUri(this.ads_uri);
 		client.setMarshaller(marshaller);
 		client.setUnmarshaller(marshaller);
 		return client;

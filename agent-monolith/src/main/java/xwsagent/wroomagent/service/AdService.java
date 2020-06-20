@@ -25,6 +25,8 @@ import xwsagent.wroomagent.repository.CommentRepository;
 import xwsagent.wroomagent.repository.LocationRepository;
 import xwsagent.wroomagent.repository.PriceListRepository;
 import xwsagent.wroomagent.repository.VehicleRepository;
+import xwsagent.wroomagent.soap.clients.AdsClient;
+import xwsagent.wroomagent.soap.xsd.Operation;
 
 @Service
 public class AdService {
@@ -35,6 +37,7 @@ public class AdService {
     private final VehicleService vehicleService;
     private final UserService userService;
     private final CommentRepository commentRepository;
+    private final AdsClient adsClient;
 
     public AdService(LocationRepository locationRepository,
                      AdRepository adRepository,
@@ -42,13 +45,15 @@ public class AdService {
                      VehicleRepository vehicleRepository,
                      VehicleService vehicleService,
                      UserService userService,
-                     CommentRepository commentRepository) {
+                     CommentRepository commentRepository,
+                     AdsClient adsClient) {
         this.locationRepository = locationRepository;
         this.adRepository = adRepository;
         this.priceListRepository = priceListRepository;
         this.vehicleService = vehicleService;
         this.userService = userService;
         this.commentRepository = commentRepository;
+        this.adsClient = adsClient;
     }
 
     public List<Ad> findAll() {
@@ -79,7 +84,18 @@ public class AdService {
         ad.setPriceList(priceListRepository.findOneById(adDTO.getPriceListId()));
         ad.setLocation(locationRepository.findOneById(adDTO.getLocationId()));
         ad.setPublishDate(Calendar.getInstance().getTime());
-        return adRepository.save(ad);
+        
+        Ad saved = adRepository.save(ad);
+        
+        try {
+        	System.out.println(">>>>>>> Sending to wroom");
+        	this.adsClient.send(saved, Operation.CREATE);
+        	System.out.println(">>>>>>> Success");
+        } catch (Exception e) {
+			System.err.println("Did not sync");
+		}
+        
+        return saved;
     }
 
     public Ad update(Long adId, AdDTO dto) {
@@ -89,7 +105,16 @@ public class AdService {
         ad.setPriceList(priceListRepository.findOneById(dto.getPriceListId()));
         ad.setLocation(locationRepository.findOneById(dto.getLocationId()));
         ad.setPublishDate(Calendar.getInstance().getTime());
-        return adRepository.save(ad);
+        
+        Ad saved = adRepository.save(ad);
+        
+        try {
+			this.adsClient.send(saved, Operation.UPDATE);
+		} catch (Exception e) {
+			System.err.println("Did not sync with ad service");
+		}
+        
+        return saved;
     }
 
     public List<Ad> findAllActiveForUser(Long userId) {
@@ -99,7 +124,14 @@ public class AdService {
     public void delete(Long adId) {
         Ad ad = findById(adId);
         ad.setDeleted(true);
-        adRepository.save(ad);
+        
+        Ad deleted = adRepository.save(ad);
+        
+        try {
+			this.adsClient.send(deleted, Operation.DELETE);
+		} catch (Exception e) {
+			System.err.println("Did not sync with ads service");
+		}
     }
 
     public Integer countAds(Long user_id) {

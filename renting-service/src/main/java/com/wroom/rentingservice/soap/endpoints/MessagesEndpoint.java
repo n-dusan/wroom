@@ -14,7 +14,7 @@ import com.wroom.rentingservice.soap.xsd.SendMessageResponse;
 @Endpoint
 public class MessagesEndpoint {
 
-	private static final String NAMESPACE_URI ="http://ftn.com/renting-service/xsd";
+	private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
 
 	@Autowired
 	private MessageRepository messageRepository;
