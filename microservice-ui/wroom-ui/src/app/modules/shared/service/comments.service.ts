@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CommentModel } from '../models/comment.model';
+import { Comment } from '../models/comment.model';
 
 @Injectable({
     providedIn: 'root'
@@ -21,8 +21,8 @@ export class CommentsService {
 
     constructor(private http: HttpClient) { }
 
-    getAll(adId: number): Observable<CommentModel[]> {
-        return this.http.get<CommentModel[]>(this.baseUrl + '/' + adId);
+    getAll(adId: number): Observable<Comment[]> {
+        return this.http.get<Comment[]>(this.baseUrl + '/' + adId);
     }
 
 }

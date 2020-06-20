@@ -8,6 +8,7 @@ import { LoggedUser } from '../model/logged-user.model';
 import { LoginRequest } from '../model/login-request.model';
 import { map, catchError } from 'rxjs/operators';
 import { ResetPassword } from '../../shared/models/reset-password.model';
+import { Company } from '../../shared/models/company.model';
 
 @Injectable({
   providedIn: 'root'
@@ -92,6 +93,10 @@ export class AuthService {
 
   changePassword(token: ResetPassword): Observable<any> {
     return this.httpClient.put(this.baseUrl + '/reset-password', token).pipe(catchError(this.handleException));
+  }
+
+  register(company: Company): Observable<any> {
+    return this.httpClient.post(this.baseUrl + '/company', company).pipe(catchError(this.handleException));
   }
 
 

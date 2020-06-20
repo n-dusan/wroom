@@ -50,7 +50,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String email;
 
-	@Column(nullable = false)
+	@Column
 	private String password;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "requestedUser")
@@ -75,5 +75,13 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column
 	private Date lastPasswordChange;
+	
+	@Column
+	private String businessNumber;
+	
+	@Column
+	private String address;
 
+
+	
 }

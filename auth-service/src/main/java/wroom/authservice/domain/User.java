@@ -46,7 +46,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String email;
 
-	@Column(nullable = false)
+	@Column
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -62,5 +62,11 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name="last_password_change")
 	private Date lastPasswordChange;
+	
+	@Column
+	private String businessNumber;
+	
+	@Column
+	private String address;
 	
 }

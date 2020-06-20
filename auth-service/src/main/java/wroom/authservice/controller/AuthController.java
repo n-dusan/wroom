@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.log4j.Log4j2;
 import wroom.authservice.config.EndpointConfig;
+import wroom.authservice.converter.UserConverter;
+import wroom.authservice.dto.CompanyDTO;
 import wroom.authservice.dto.LoggedUserDTO;
 import wroom.authservice.dto.LoginRequestDTO;
 import wroom.authservice.dto.ResetPasswordDTO;
@@ -183,5 +185,16 @@ public class AuthController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+	@PostMapping(value = "/company", consumes = "application/json")
+	public ResponseEntity<CompanyDTO> registerCompany(@Valid @RequestBody CompanyDTO companyDTO) {
+		try {
+			return new ResponseEntity<>(UserConverter.fromEntityCompany(authenticationService.registerCompany(companyDTO)),
+					HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
 	}
 }
