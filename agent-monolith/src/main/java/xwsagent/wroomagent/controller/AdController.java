@@ -198,6 +198,12 @@ public class AdController {
 		return new ResponseEntity<>(CommentConverter.fromEntity(adService.addComment(commentDTO,id, auth)), HttpStatus.OK);
 	}
 	
+	@PostMapping(value="/reply/{id}")
+	public ResponseEntity<CommentDTO> addReply(@PathVariable("id")Long id, @RequestBody CommentDTO commentDTO, Authentication auth) {
+		
+		return new ResponseEntity<>(CommentConverter.fromEntity(adService.addReply(commentDTO,id, auth)), HttpStatus.OK);
+	}
+	
 	@GetMapping("/comments")
     public ResponseEntity<List<CommentDTO>> getAllComments() {
     	

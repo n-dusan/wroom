@@ -17,6 +17,7 @@ import { CommentsOverviewComponent } from './comments/comments-overview/comments
 import { CommentDetailsComponent } from './comments/comment-details/comment-details.component';
 import { MatSlideToggleModule, MatSlideToggle } from '@angular/material/slide-toggle';
 import { BrowserModule } from '@angular/platform-browser';
+import { NewReplyComponent } from './comments/new-reply/new-reply.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { BrowserModule } from '@angular/platform-browser';
     DetailsDialogComponent,
     NewCommentComponent,
     CommentsOverviewComponent,
-    CommentDetailsComponent
+    CommentDetailsComponent,
+    NewReplyComponent
   ],
   imports: [
     MaterialModule,

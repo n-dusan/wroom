@@ -15,6 +15,7 @@ import { DetailsDialogComponent } from './ads-overview/details-dialog/details-di
 import { CommentsOverviewComponent } from './comments/comments-overview/comments-overview.component';
 import { CommentDetailsComponent } from './comments/comment-details/comment-details.component';
 import { NewCommentComponent } from './comments/new-comment/new-comment.component';
+import { NewReplyComponent } from './comments/new-reply/new-reply.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { NewCommentComponent } from './comments/new-comment/new-comment.componen
     DetailsDialogComponent,
     CommentsOverviewComponent,
     CommentDetailsComponent,
-    NewCommentComponent
+    NewCommentComponent,
+    NewReplyComponent
   ],
   imports: [
     MaterialModule,

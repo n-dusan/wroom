@@ -5,7 +5,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public abstract class AbstractConverter {
-
+ 
     public static <D, E> List<D> fromEntityList(List<E> entityList, Function<E, D> e) {
         return entityList.stream().map(e).collect(Collectors.toList());
     }

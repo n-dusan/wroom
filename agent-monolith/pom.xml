@@ -159,11 +159,10 @@
 					</executions>
 					<configuration>
 						<sources>
-							<source>${project.basedir}/src/main/resources/xsd/hello.xsd</source>
+							<source>${project.basedir}/src/main/resources/xsd/soap.xsd</source>
 						</sources>
 					</configuration>
 				</plugin>
-				
 				
 				<!-- /SOAP -->
 

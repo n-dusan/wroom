@@ -10,6 +10,7 @@ const routes: Routes = [
       { path: 'users', component: ManageUsersComponent }
   ]},
   { path: 'vehicles', loadChildren: () => import('../../modules/vehicles/vehicles.module').then(mod => mod.VehiclesModule)},
+    { path: 'ads', loadChildren: () => import('../../modules/ads/ads.module').then(mod => mod.AdsModule) }
 ];
 
 @NgModule({

@@ -50,7 +50,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "date",
     "fromUser",
     "toUser"
-})
+}) 
 public class Message {
 
 	@XmlElement(required = true)

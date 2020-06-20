@@ -10,7 +10,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class BundleDTO {
 
-	private Long id;
+	private Long id; 
 	private Set<Long> requests;
 	
 }

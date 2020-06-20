@@ -17,7 +17,7 @@ public class MessagesConverter {
 				soap.getToUser()
 		);
 	}
-	
+	 
 	public static Message toSoapMessage(com.wroom.rentingservice.domain.Message entity) {
 		com.wroom.rentingservice.soap.xsd.Message ret = new Message();
 		ret.setContent(entity.getContent());

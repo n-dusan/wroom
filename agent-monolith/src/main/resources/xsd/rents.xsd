@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://ftn.com/wroom-agent/xsd"
+	xmlns:tns="http://ftn.com/wroom-agent/xsd"
+	elementFormDefault="qualified">
+
+	<simpleType name="id">
+		<restriction base="long"></restriction>
+	</simpleType>
+
+	<simpleType name="status">
+		<restriction base="string">
+			<enumeration value="PENDING"></enumeration>
+			<enumeration value="RESERVED"></enumeration>
+			<enumeration value="CANCELED"></enumeration>
+			<enumeration value="PAID"></enumeration>
+			<enumeration value="PHYSICALLY_RESERVED"></enumeration>
+			<enumeration value="COMPLETED"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="date">
+		<restriction base="date"></restriction>
+	</simpleType>
+
+	<complexType name="RentRequestSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="status" type="tns:status"></element>
+			<element name="fromDate" type="tns:date"></element>
+			<element name="toDate" type="tns:date"></element>
+			<element name="requestedUserUsername" type="string"></element>
+			<element name="ad" type="tns:id"></element>
+			<element name="rentReport" type="tns:id"></element>
+			<element name="bundle" type="tns:id"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="BundledRequestsSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="requests" type="tns:RentRequestSoap"  maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
+	<element name="SendRentRequest">
+		<complexType>
+			<sequence>
+				<element name="rentRequest" type="tns:RentRequestSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="SendRentResponse">
+		<complexType>
+			<sequence>
+				<element name="rentRequest" type="tns:RentRequestSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="SendBundleRequest">
+		<complexType>
+			<sequence>
+				<element name="bundle" type="tns:BundledRequestsSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="SendBundleResponse">
+		<complexType>
+			<sequence>
+				<element name="bundle" type="tns:BundledRequestsSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+</schema>

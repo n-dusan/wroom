@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Vehicle } from 'src/app/modules/shared/models/vehicle.model';
 import { VehicleChart } from 'src/app/modules/shared/models/vehicle-chart.model';
@@ -16,7 +16,7 @@ import { RentReport } from 'src/app/modules/shared/models/rent-report.model';
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
-export class StatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit, OnDestroy {
 
   multi: any[];
   view: any[] = [700, 400];
@@ -42,12 +42,16 @@ export class StatisticsComponent implements OnInit {
   vehiceList: Vehicle[] = [];
   multiList: VehicleChart[] = [];
 
+  interval: any;
+
   constructor(private vehicleService: VehicleService,
     private authService: AuthService,
     private commentsService: CommentsService,
     private rentReportService: RentReportService) {}
 
   ngOnInit(): void {
+
+    this.interval = this.refresh();
 
     this.authService.whoami().subscribe((user: LoggedUser) => {
       this.loading = true;
@@ -97,8 +101,6 @@ export class StatisticsComponent implements OnInit {
 
                 if(i == this.vehiceList.length - 1) {
                   this.loading = false;
-                  console.log('multilist', this.multiList)
-                  this.multi = this.multiList
                 }
               })
             })
@@ -106,12 +108,19 @@ export class StatisticsComponent implements OnInit {
 
 
         }
-        console.log('list ', this.vehiceList)
+
       })
     });
 
-
   }
+
+  refresh() {
+    return setInterval(() => {
+      console.log('timer ', this.multiList)
+      this.multi = this.multiList
+    }, 1000)
+  }
+
 
   onSelect(data): void {
     console.log('Item clicked', JSON.parse(JSON.stringify(data)));
@@ -126,4 +135,7 @@ export class StatisticsComponent implements OnInit {
   }
 
 
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
+  }
 }

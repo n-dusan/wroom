@@ -12,6 +12,11 @@ import org.springframework.ws.wsdl.wsdl11.DefaultWsdl11Definition;
 import org.springframework.xml.xsd.SimpleXsdSchema;
 import org.springframework.xml.xsd.XsdSchema;
 
+/**
+ * This class is used in **microservices --> soap --> monolith** communication
+ * @author Ana Svitlica
+ *
+ */
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {

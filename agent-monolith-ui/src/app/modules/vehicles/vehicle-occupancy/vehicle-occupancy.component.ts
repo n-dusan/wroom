@@ -70,6 +70,11 @@ export class VehicleOccupancyComponent implements OnInit {
     })
   }
 
+  returnAd(vehicle: Vehicle){
+    const ad = this.adsList.find(x => x.vehicleId == vehicle.id);  
+    return ad?.address;
+  }
+
   save(rentRequest: RentRequest){
     this.rentsService.occupy(rentRequest).subscribe(
       data => {

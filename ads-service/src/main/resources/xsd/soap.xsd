@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="http://ftn.com/ads-service/xsd"
+	xmlns:tns="http://ftn.com/ads-service/xsd"
+elementFormDefault="qualified">
+
+	<simpleType name="id">
+		<restriction base="long"></restriction>
+	</simpleType>
+	
+	<simpleType name="commentTitle">
+		<restriction base="string"></restriction>
+	</simpleType>
+	
+	<simpleType name="commentContent">
+		<restriction base="string"></restriction>
+	</simpleType>
+
+	<simpleType name="date">
+		<restriction base="date"></restriction>
+	</simpleType>
+	
+	<simpleType name="rate">
+		<restriction base="int"></restriction>
+	</simpleType>
+	
+	<complexType name="CommentSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="title" type="tns:commentTitle"></element>
+			<element name="content" type="tns:commentContent"></element>
+			<element name="commentDate" type="tns:date"></element>
+			<element name="deleted" type="boolean"></element>
+			<element name="approved" type="boolean"></element>
+			<element name="rate" type="tns:rate"></element>
+		</sequence>
+	</complexType>
+	
+	<element name="CommentRequest">
+		<complexType>
+			<sequence>
+				<element name="comment" type="tns:CommentSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="CommentResponse">
+		<complexType>
+			<sequence>
+				<element name="comment" type="tns:CommentSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+</schema>

@@ -19,7 +19,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Message {
 	
-	@Id
+	@Id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

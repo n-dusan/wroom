@@ -1,17 +1,18 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { AdDetailDialogData } from './dialog-data.model';
 import { AdService } from '../../service/ad.service';
 import { ToastrService } from 'ngx-toastr';
 import { Ad } from '../../model/ad.model';
 import { VehicleService } from '../../service/vehicle.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Vehicle } from '../../model/vehicle.model';
 import { PricelistDetailDialogData } from '../price-details/pricelist-dialog-data.model';
 import { PriceList } from '../../model/price-list.model';
 import { CommentsService } from 'src/app/modules/shared/service/comments.service';
 import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { NewReplyComponent } from 'src/app/modules/ads/comments/new-reply/new-reply.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-ad-detail',
@@ -42,7 +43,8 @@ export class AdDetailComponent implements OnInit {
     private authService: AuthService,
     private vehicleService: VehicleService,
     private toastr: ToastrService,
-    public sanitizer: DomSanitizer) { }
+    public sanitizer: DomSanitizer,
+    private dialog: MatDialog,) { }
 
   ngOnInit(): void {
     this.fetchAd();
@@ -120,15 +122,22 @@ export class AdDetailComponent implements OnInit {
     if (event.index == 1) {
       this.commentsService.getAll(this.ad.id).subscribe(
         data => {
+
           this.comments = data;
-          console.log(this.comments)
+
           for(let c of this.comments) {
+            console.log(c)
             if(c.replyId != null) {
-              c.replyObj = this.comments.find(obj => {return obj.id === c.replyId});
-              const i = this.comments.indexOf(c.replyObj);
-              this.comments.splice(i, 1);
+              const reply = this.comments.find(obj => {return obj.id === c.replyId});
+              if(reply != null) {
+                c.replyObj = reply;
+                const i = this.comments.indexOf(c.replyObj);
+                this.comments.splice(i, 1);
+              }
             }
           }
+
+          console.log('komentari posle fora',this.comments)
 
           // check if logged user is the owner
           this.authService.loggedUserSubject.subscribe(
@@ -147,6 +156,17 @@ export class AdDetailComponent implements OnInit {
         }
       )
     }
+  }
+
+  addReply(ad: Ad, comment: Comment){
+    const dialogRef = this.dialog.open(NewReplyComponent, {
+      width: '500px',
+      height: '300px',
+      data: {ad, comment}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.fetchAd();
+    });
   }
 
 }

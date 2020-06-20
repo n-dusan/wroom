@@ -91,6 +91,10 @@ export class AdsService {
     return this.http.get<Ad[]>(this.adsUrl + '/allAds');  
   }
 
+  addReply(comment: CommentModel, id:number) : Observable<CommentModel> {
+    return this.http.post<CommentModel>(`${this.adsUrl}/reply/` + id, comment);
+  }
+
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);
   }

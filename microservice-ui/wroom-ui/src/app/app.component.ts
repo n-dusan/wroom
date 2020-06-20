@@ -35,7 +35,7 @@ export class AppComponent {
       this.user = data;
       if (this.user == null) {
         this.authService.reauthenticate();
-        console.log('reauthenticated')
+        
       }
       this.getShoppingCart();
     }); 

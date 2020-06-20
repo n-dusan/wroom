@@ -24,19 +24,19 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		return new ServletRegistrationBean(servlet, "/ws/*");
 	}
 
-	@Bean(name = "messages")
+	@Bean(name = "rents")
 	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema helloSchema) {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-		wsdl11Definition.setPortTypeName("MessagesPort");
-		wsdl11Definition.setTargetNamespace("http://ftn.com/renting-service/xsd");
+		wsdl11Definition.setPortTypeName("RentsPort");
+		wsdl11Definition.setTargetNamespace("http://ftn.com/wroom-agent/xsd");
 		wsdl11Definition.setLocationUri("/ws");
-		wsdl11Definition.setSchema(helloSchema);
+		wsdl11Definition.setSchema(soapSchema());
 		return wsdl11Definition;
 	}
 
 	@Bean
-	public XsdSchema messagesSchema() {
-		return new SimpleXsdSchema(new ClassPathResource("xsd/messages.xsd"));
+	public XsdSchema soapSchema() {
+		return new SimpleXsdSchema(new ClassPathResource("xsd/soap.xsd"));
 	}
 	
 }

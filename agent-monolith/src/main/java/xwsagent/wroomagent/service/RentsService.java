@@ -24,6 +24,8 @@ import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.repository.AdRepository;
 import xwsagent.wroomagent.repository.RentRequestRepository;
 import xwsagent.wroomagent.repository.rbac.UserRepository;
+import xwsagent.wroomagent.soap.clients.RentsClient;
+import xwsagent.wroomagent.soap.xsd.OperationRents;
 
 @Service
 public class RentsService {
@@ -32,15 +34,18 @@ public class RentsService {
 	private final AdRepository adRepository;
 	private final AdService adService;
 	private final UserRepository userRepository;
+	private final RentsClient rentsClient;
 
 	@Autowired
 	private BundleService bundleService;
 
-	public RentsService(RentRequestRepository rr, AdService a, AdRepository adRepository, UserRepository userRepository) {
+	public RentsService(RentRequestRepository rr, AdService a, AdRepository adRepository, UserRepository userRepository,
+			RentsClient rentsClient) {
 		this.rentRepository = rr;
 		this.adService = a;
 		this.adRepository = adRepository;
 		this.userRepository = userRepository;
+		this.rentsClient = rentsClient;
 	}
 
 	public List<RentRequest> findAll() {
@@ -56,14 +61,24 @@ public class RentsService {
 				() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " rent request"));
 	}
 
-
 	public RentRequest sendRequest(RentRequestDTO dto, Long requestedUserID) {
 		RentRequest entity = RentConverter.toEntity(dto);
-		//entity.setRequestedUserId(dto.getRequestedUserId());
+		// entity.setRequestedUserId(dto.getRequestedUserId());
 		entity.setRequestedUser(this.userRepository.findById(requestedUserID).get());
 		entity.setStatus(RequestStatus.PENDING);
 		entity.setAd(this.adService.findById(dto.getAd().getId()));
-		return this.rentRepository.save(entity);
+		
+		RentRequest saved = this.rentRepository.save(entity);
+		
+//		No need to send this to wroom
+//		try {
+//			this.rentsClient.send(entity, OperationRents.);
+//		} catch(Exception e) {
+//			System.out.println("Error during soap sending");
+//			e.printStackTrace();
+//		}
+		
+		return saved;
 	}
 
 	public BundledRequests sendBundleRequest(RentRequestDTO[] dtos, Long requestedUserID) {
@@ -71,11 +86,11 @@ public class RentsService {
 		BundledRequests saved = this.bundleService.save(bundle);
 
 		Set<RentRequest> requests = new HashSet<RentRequest>();
-		for( RentRequestDTO requestDTO : dtos ) {
+		for (RentRequestDTO requestDTO : dtos) {
 			RentRequest newRequest = RentConverter.toEntity(requestDTO);
 			newRequest.setStatus(RequestStatus.PENDING);
 
-			//newRequest.setRequestedUserId(requestDTO.getRequestedUserId());
+			// newRequest.setRequestedUserId(requestDTO.getRequestedUserId());
 			newRequest.setRequestedUser(this.userRepository.findById(requestedUserID).get());
 			newRequest.setAd(this.adService.findById(requestDTO.getAd().getId()));
 
@@ -84,7 +99,15 @@ public class RentsService {
 		}
 		bundle.setRequests(requests);
 
-		return this.bundleService.save(bundle);
+		BundledRequests entity = this.bundleService.save(bundle);
+		try {
+			this.rentsClient.sendBundle(entity);
+		} catch(Exception e) {
+			System.out.println("Error during soap sending");
+			e.printStackTrace();
+		}
+		
+		return entity;
 	}
 
 	public boolean occupy(RentRequestDTO rentRequestDTO, Authentication auth) {
@@ -93,6 +116,7 @@ public class RentsService {
 		rentRequest.setFromDate(rentRequestDTO.getFromDate());
 		rentRequest.setToDate(rentRequestDTO.getToDate());
 
+		
 		//rentRequest.setRequestedUser((this.userRepository.findById(user.getId(),.)));
 
 		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
@@ -127,7 +151,15 @@ public class RentsService {
 		List<RentRequest> rentList = rentRepository.findByAd(ad);
 
 		if(rentList.size() == 0) {
-			rentRepository.save(rentRequest);
+			RentRequest saved = rentRepository.save(rentRequest);
+			
+			try {
+				this.rentsClient.send(saved, OperationRents.OCCUPY);		
+			} catch(Exception e) {
+				System.out.println("Error during soap sending");
+				e.printStackTrace();
+			}
+			
 			return true;
 		}
 
@@ -176,7 +208,16 @@ public class RentsService {
 				}
 			}
 		}
-		rentRepository.save(rentRequest);
+		
+		// Send rent request to wroom
+		RentRequest saved = rentRepository.save(rentRequest);
+		try {
+			this.rentsClient.send(saved, OperationRents.OCCUPY);		
+		} catch(Exception e) {
+			System.err.println("Error during soap sending");
+			e.printStackTrace();
+		}
+		
 		return true;
 	}
 
@@ -184,12 +225,12 @@ public class RentsService {
 		return this.rentRepository.findByRequestedUser(userId);
 	}
 
-	public List<RentRequestDTO> occupyList(Long userId){
+	public List<RentRequestDTO> occupyList(Long userId) {
 		List<Ad> adList = adRepository.findAllActiveUser(userId);
 		List<RentRequestDTO> retList = new ArrayList<RentRequestDTO>();
-		for(Ad ad : adList) {
+		for (Ad ad : adList) {
 			List<RentRequest> requestList = rentRepository.findByAd(ad);
-			for(RentRequest r: requestList) {
+			for (RentRequest r : requestList) {
 				retList.add(RentConverter.fromEntity(r));
 			}
 		}
@@ -201,22 +242,46 @@ public class RentsService {
 		return RentConverter.fromEntityList(this.findByAd(ad), RentConverter::fromEntity);
 	}
 
-
 	public RentRequest decline(Long id) {
 		RentRequest rentRequest = findById(id);
-
 		rentRequest.setStatus(RequestStatus.CANCELED);
-		return this.rentRepository.save(rentRequest);
+		RentRequest saved = this.rentRepository.save(rentRequest);
+		
+		try {
+			RentRequest sending = saved;
+			
+			// Kada budemo imali sinhronizovane baze, u monolitnoj cemo imati podatak
+			// o tome koji id dati entitet ima na wroom-u. Zato se ovde vrsi promena id-ja
+//			sending.setId(sending.getWroomId());
+			this.rentsClient.send(sending, OperationRents.DECLINE);
+		} catch(Exception e) {
+			System.err.println("Did not sync");
+		}
+		
+		return saved;
 	}
 
 	public RentRequest accept(Long id) {
-
 		RentRequest rentRequest = findById(id);
-
 		rentRequest.setStatus(RequestStatus.RESERVED);
-		return this.rentRepository.save(rentRequest);
+		
+		RentRequest saved = this.rentRepository.save(rentRequest);
+		
+		try {
+			RentRequest sending = saved;
+			
+			// Kada budemo imali sinhronizovane baze, u monolitnoj cemo imati podatak
+			// o tome koji id dati entitet ima na wroom-u.
+			// Zato se ovde za request.id stavlja request.wroomId (za sada jos ne)
+			sending.setId(saved.getId());
+			
+			this.rentsClient.send(sending, OperationRents.ACCEPT);
+		} catch(Exception e) {
+			System.err.println("Did not sync");
+		}
+		
+		return saved;
 	}
-
 
 	public RentRequest complete(Long id) {
 		RentRequest rentRequest = findById(id);
@@ -224,7 +289,6 @@ public class RentsService {
 		rentRequest.setStatus(RequestStatus.COMPLETED);
 		return this.rentRepository.save(rentRequest);
 	}
-
 
 	public List<RentRequest> getPending(Long userId) {
 
@@ -236,29 +300,29 @@ public class RentsService {
 		for (Ad ad : adList) {
 			List<RentRequest> requestList = rentRepository.findByAd(ad);
 			for (RentRequest rentRequest : requestList) {
-				//if flag is true, pending request is overlapped by a reserved one and should not be shown
+				// if flag is true, pending request is overlapped by a reserved one and should
+				// not be shown
 				flag = false;
 
-				if(rentRequest.getStatus() == RequestStatus.PENDING) {
+				if (rentRequest.getStatus() == RequestStatus.PENDING) {
 					System.out.println("Uso u pending");
 					for (RentRequest request : requestList) {
 
-						if(request.getId() != rentRequest.getId()) {
+						if (request.getId() != rentRequest.getId()) {
 							System.out.println("Uso ovde");
-							Integer count = rentRepository.findValidPendingRequests(userId,
-									ad.getId(),
-									rentRequest.getFromDate(),
-									rentRequest.getToDate());
+							Integer count = rentRepository.findValidPendingRequests(userId, ad.getId(),
+									rentRequest.getFromDate(), rentRequest.getToDate());
 							if (count != null) {
-								if(count > 0) {
+								if (count > 0) {
 									flag = true;
-									System.out.println(">>Rent request with ID" + rentRequest + "overlaps with a reserved one." + request);
+									System.out.println(">>Rent request with ID" + rentRequest
+											+ "overlaps with a reserved one." + request);
 								}
 							}
 						}
 					}
 
-					if(!flag) {
+					if (!flag) {
 						System.out.println("Flag je false");
 						pendingList.add(rentRequest);
 					}
@@ -271,8 +335,6 @@ public class RentsService {
 		return pendingList;
 	}
 
-
-
 	public RentRequest pay(Long id) {
 
 		RentRequest rentRequest = findById(id);
@@ -280,10 +342,10 @@ public class RentsService {
 		Ad ad = adService.findById(rentRequest.getAd().getId());
 		List<RentRequest> otherRequests = rentRepository.findByAd(ad);
 
-		for(RentRequest r : otherRequests) {
+		for (RentRequest r : otherRequests) {
 
-			if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate())) {
-				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+			if (r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate())) {
+				if (r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
 					r.setStatus(RequestStatus.CANCELED);
 
 					clearBundles(r);
@@ -292,31 +354,33 @@ public class RentsService {
 				}
 			}
 
-			if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate()) && r.getFromDate().before(rentRequest.getToDate())) {
-				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+			if (r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate())
+					&& r.getFromDate().before(rentRequest.getToDate())) {
+				if (r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
 					r.setStatus(RequestStatus.CANCELED);
 					clearBundles(r);
 					this.rentRepository.saveAndFlush(r);
 				}
 			}
 
-			if(r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate()) && r.getToDate().after(rentRequest.getFromDate())) {
-				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+			if (r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate())
+					&& r.getToDate().after(rentRequest.getFromDate())) {
+				if (r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
 					r.setStatus(RequestStatus.CANCELED);
 					clearBundles(r);
 					this.rentRepository.saveAndFlush(r);
 				}
 			}
 
-			if(r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate()) ) {
-				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+			if (r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate())) {
+				if (r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
 					r.setStatus(RequestStatus.CANCELED);
 					this.rentRepository.saveAndFlush(r);
 				}
 			}
 
-			if(rentRequest.getFromDate().equals(r.getFromDate()) || rentRequest.getToDate().equals(r.getToDate())) {
-				if(r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
+			if (rentRequest.getFromDate().equals(r.getFromDate()) || rentRequest.getToDate().equals(r.getToDate())) {
+				if (r.getStatus() == RequestStatus.PENDING && r.getId() != rentRequest.getId()) {
 					r.setStatus(RequestStatus.CANCELED);
 					clearBundles(r);
 					this.rentRepository.saveAndFlush(r);
@@ -329,12 +393,11 @@ public class RentsService {
 		return rentRequest;
 	}
 
-
 	public void clearBundles(RentRequest r) {
 
 		BundledRequests bundle = r.getBundle();
 
-		if(bundle != null) {
+		if (bundle != null) {
 			List<RentRequest> bundledRequests = bundleService.findBundledRentRequests(r.getBundle().getId());
 			for (RentRequest bundledRequest : bundledRequests) {
 				decline(bundledRequest.getId());

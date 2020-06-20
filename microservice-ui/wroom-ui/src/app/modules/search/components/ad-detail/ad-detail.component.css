@@ -8,12 +8,13 @@
 
 .content {
     overflow-y: scroll;
-    padding: 30px;
+    padding: 30px; 
     height: 70vh;
 
-    background-color: rgb(197, 197, 197);
+    background-image: url('../../../../../assets/bcg.png');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
-
 
 .reply {
     border: 1px solid lightgray;
