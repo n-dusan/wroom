@@ -25,12 +25,26 @@ public class UserConverter extends AbstractConverter{
 	public static CompanyDTO fromEntityCompany(User entity) {
 		return new CompanyDTO(
 				entity.getId(),
+				entity.getName(),
+				entity.getSurname(),
 				entity.getEmail(),
 				entity.isEnabled(),
 				entity.isNonLocked(),
 				entity.getBusinessNumber(),
 				entity.getAddress()
 		);
+	}
+	
+	public static User toEntity(CompanyDTO dto) {
+		User user = new User();
+		user.setName(dto.getName());
+		user.setSurname(dto.getWebsite());
+		user.setEmail(dto.getEmail());
+		user.setEnabled(dto.getEnabled());
+		user.setNonLocked(dto.getNonLocked());
+		user.setBusinessNumber(dto.getBusinessNumber());
+		user.setAddress(dto.getAddress());
+		return user;
 	}
 	
 	public static Set<String> getRoles(Set<Role> roles) {

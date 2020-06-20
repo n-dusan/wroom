@@ -46,7 +46,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String email;
 
-	@Column(nullable = false)
+	@Column
 	private String password;
 
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -66,7 +66,7 @@ public class User {
 	@Column
 	private String businessNumber;
 	
-	@Column(nullable = false)
+	@Column
 	private String address;
 	
 }

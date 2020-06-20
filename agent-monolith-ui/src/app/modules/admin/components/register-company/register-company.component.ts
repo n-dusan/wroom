@@ -2,6 +2,7 @@ import { Component, OnInit, Injectable } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Company } from 'src/app/modules/shared/models/company.model';
 import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -13,7 +14,8 @@ import { AuthService } from 'src/app/modules/auth/service/auth.service';
 export class RegisterCompanyComponent implements OnInit {
   registerForm: FormGroup;
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthService) {
+              private authService: AuthService,
+              private toastr: ToastrService) {
    
   }
 
@@ -30,10 +32,10 @@ export class RegisterCompanyComponent implements OnInit {
   save(company: Company){
     this.authService.register(company).subscribe(
       data => {
-        console.log('Success')
+        this.toastr.success('You have successfully registered a company')
       },
       error => {
-        console.log('Error')
+        this.toastr.error('Fields must not be empty or invalid')
       }
     );  
   }

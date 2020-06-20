@@ -82,13 +82,6 @@ public class User {
 	@Column
 	private String address;
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + ", password="
-				+ password + ", rentRequests=" + rentRequests + ", vehicles=" + vehicles + ", roles=" + roles
-				+ ", enabled=" + enabled + ", nonLocked=" + nonLocked + ", lastPasswordChange=" + lastPasswordChange
-				+ ", businessNumber=" + businessNumber + ", address=" + address + "]";
-	}
 
 	
 }
