@@ -49,8 +49,8 @@ public class BrandTypeService {
 		return bt;
 	}
 	
-	public void delete(String name) {
-		BrandType brandType = findByName(name);
+	public void delete(Long id) {
+		BrandType brandType = findById(id);
 		brandType.setDeleted(true);
 		brandTypeRepository.save(brandType);
 			

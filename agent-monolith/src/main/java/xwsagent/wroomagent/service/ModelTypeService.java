@@ -67,8 +67,8 @@ public class ModelTypeService {
 		return mt;
 	}
 	
-	public void delete(String name) {
-		ModelType modelType = findByName(name);
+	public void delete(Long id) {
+		ModelType modelType = findById(id);
 		modelType.setDeleted(true);
 		modelTypeRepository.save(modelType);
 			

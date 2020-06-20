@@ -63,9 +63,9 @@ public class BodyTypeController {
 	}
 
 	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
-	@DeleteMapping(value = "/{name}")
-	public ResponseEntity<Void> delete(@PathVariable("name") String name){
-		bodyTypeService.delete(name);
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+		bodyTypeService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

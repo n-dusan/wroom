@@ -158,40 +158,40 @@ export class FeaturesOverviewComponent implements OnInit {
     });
   }
 
-  deleteModel(name: string){
-    this.modelService.delete(name).subscribe(
+  deleteModel(id: number){
+    this.modelService.delete(id).subscribe(
       data => {
         this.loadModelData();
       }
     )
   }
 
-  deleteBody(name: string){
-    this.bodyService.delete(name).subscribe(
+  deleteBody(id: number){
+    this.bodyService.delete(id).subscribe(
       data => {
         this.loadBodyData();
       }
     )
   }
 
-  deleteBrand(name: string){
-    this.brandService.delete(name).subscribe(
+  deleteBrand(id: number){
+    this.brandService.delete(id).subscribe(
       data => {
         this.loadBrandData();
       }
     )
   }
 
-  deleteFuel(name: string){
-    this.fuelService.delete(name).subscribe(
+  deleteFuel(id: number){
+    this.fuelService.delete(id).subscribe(
       data => {
         this.loadFuelData();
       }
     )
   }
 
-  deleteGearbox(name: string){
-    this.gearboxService.delete(name).subscribe(
+  deleteGearbox(id: number){
+    this.gearboxService.delete(id).subscribe(
       data => {
         this.loadGearboxData();
       }
