@@ -24,6 +24,7 @@ import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.domain.auth.RoleName;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.auth.VerificationToken;
+import xwsagent.wroomagent.domain.dto.CompanyDTO;
 import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
 import xwsagent.wroomagent.domain.dto.ResetPasswordDTO;
@@ -190,6 +191,25 @@ public class AuthenticationService {
 		
 		t.setUsed(true);
 		this.passwordResetRepository.save(t);
+	}
+	
+	public User registerCompany(CompanyDTO companyDTO) {
+		User entity = UserConverter.toEntity(companyDTO);
+//		entity.setName(companyDTO.getName());
+//		entity.setSurname(companyDTO.getWebsite());
+//		entity.setEmail(companyDTO.getEmail());
+//		entity.setPassword(null);
+//		entity.setRentRequests(null);
+//		entity.setVehicles(null);
+//		entity.setRoles(null);
+//		entity.setEnabled(false);
+//		entity.setNonLocked(false);
+//		entity.setLastPasswordChange(null);
+//		entity.setBusinessNumber(companyDTO.getBusinessNumber());
+//		entity.setAddress(companyDTO.getAddress());
+		System.out.println(entity.toString());
+		
+		return userRepository.save(entity);
 	}
 	
 	

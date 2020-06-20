@@ -50,7 +50,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String email;
 
-	@Column(nullable = false)
+	@Column
 	private String password;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "requestedUser")
@@ -82,4 +82,13 @@ public class User {
 	@Column
 	private String address;
 
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", name=" + name + ", surname=" + surname + ", email=" + email + ", password="
+				+ password + ", rentRequests=" + rentRequests + ", vehicles=" + vehicles + ", roles=" + roles
+				+ ", enabled=" + enabled + ", nonLocked=" + nonLocked + ", lastPasswordChange=" + lastPasswordChange
+				+ ", businessNumber=" + businessNumber + ", address=" + address + "]";
+	}
+
+	
 }

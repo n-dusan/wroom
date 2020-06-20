@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Company } from 'src/app/modules/shared/models/company.model';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
 
 @Component({
   selector: 'app-register-company',
@@ -8,7 +10,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 })
 export class RegisterCompanyComponent implements OnInit {
   registerForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
@@ -20,8 +23,29 @@ export class RegisterCompanyComponent implements OnInit {
     })
   }
 
+  save(company: Company){
+    this.authService.register(company).subscribe(
+      data => {
+        console.log('Success')
+      },
+      error => {
+        console.log('Error')
+      }
+    );  
+  }
+
   registerSubmit(){
-   // const email = this.registerForm.value.email;
+    const email = this.registerForm.value.email;
+    const name = this.registerForm.value.name;
+    const website = this.registerForm.value.website;
+    const address = this.registerForm.value.address;
+    const businessNumber = this.registerForm.value.businessNumber;
+    const enabled = false;
+    const nonLocked = false;
+
+    const company = new Company(name, website, email, enabled, nonLocked, businessNumber, address);
+    console.log(company)
+    this.save(company);
   }
 
 }

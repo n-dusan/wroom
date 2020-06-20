@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -22,6 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.log4j.Log4j2;
 import xwsagent.wroomagent.config.EndpointConfig;
+import xwsagent.wroomagent.converter.UserConverter;
+import xwsagent.wroomagent.domain.dto.CompanyDTO;
 import xwsagent.wroomagent.domain.dto.LoggedUserDTO;
 import xwsagent.wroomagent.domain.dto.LoginRequestDTO;
 import xwsagent.wroomagent.domain.dto.ResetPasswordDTO;
@@ -30,7 +31,6 @@ import xwsagent.wroomagent.exception.APIError;
 import xwsagent.wroomagent.exception.PasswordTokenAlreadyUsed;
 import xwsagent.wroomagent.exception.TokenExpiredException;
 import xwsagent.wroomagent.exception.UsernameAlreadyExistsException;
-import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.AuthenticationService;
 import xwsagent.wroomagent.util.RequestCounter;
 
@@ -152,5 +152,19 @@ public class AuthController {
 		}
 		
 	}
+	
+	@PostMapping(value = "/company", consumes = "application/json")
+	public ResponseEntity<CompanyDTO> registerCompany(@RequestBody CompanyDTO companyDTO) {
+		System.out.println("Tu je prvi");
+		try {
+			System.out.println("Tu je drugi");
+			return new ResponseEntity<>(UserConverter.fromEntityCompany(authService.registerCompany(companyDTO)),
+					HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+	
 	
 }

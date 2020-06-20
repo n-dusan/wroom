@@ -30,4 +30,16 @@ public class UserConverter extends AbstractConverter {
 		);
 	}
 	
+	public static User toEntity(CompanyDTO dto) {
+		User user = new User();
+		user.setName(dto.getName());
+		user.setSurname(dto.getWebsite());
+		user.setEmail(dto.getEmail());
+		user.setEnabled(dto.getEnabled());
+		user.setNonLocked(dto.getNonLocked());
+		user.setBusinessNumber(dto.getBusinessNumber());
+		user.setAddress(dto.getAddress());
+		return user;
+	}
+	
 }
