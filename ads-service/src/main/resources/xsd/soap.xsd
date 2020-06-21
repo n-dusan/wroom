@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://ftn.com/wroom-agent/xsd"
+	xmlns:tns="http://ftn.com/wroom-agent/xsd"
+	elementFormDefault="qualified">
+
+	<simpleType name="id">
+		<restriction base="long"></restriction>
+	</simpleType>
+
+	<simpleType name="commentTitle">
+		<restriction base="string"></restriction>
+	</simpleType>
+
+	<simpleType name="commentContent">
+		<restriction base="string"></restriction>
+	</simpleType>
+
+	<simpleType name="date">
+		<restriction base="date"></restriction>
+	</simpleType>
+
+	<simpleType name="rate">
+		<restriction base="int"></restriction>
+	</simpleType>
+	
+	<simpleType name="operation">
+		<restriction base="string">
+			<enumeration value="CREATE"></enumeration>
+			<enumeration value="UPDATE"></enumeration>
+			<enumeration value="DELETE"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="AdSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="publishDate" type="tns:date"></element>
+			<element name="availableFrom" type="tns:date"></element>
+			<element name="availableTo" type="tns:date"></element>
+			<element name="mileLimit" type="double"></element>
+			<element name="gps" type="boolean"></element>
+			<element name="deleted" type="boolean"></element>
+			<element name="address" type="string"></element>
+			<element name="vehicleId" type="tns:id"></element>
+			<element name="priceListId" type="tns:id"></element>
+			<element name="locationId" type="tns:id"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="CommentSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="title" type="tns:commentTitle"></element>
+			<element name="content" type="tns:commentContent"></element>
+			<element name="commentDate" type="tns:date"></element>
+			<element name="deleted" type="boolean"></element>
+			<element name="approved" type="boolean"></element>
+			<element name="rate" type="tns:rate"></element>
+		</sequence>
+	</complexType>
+
+	<element name="CommentRequest">
+		<complexType>
+			<sequence>
+				<element name="comment" type="tns:CommentSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="CommentResponse">
+		<complexType>
+			<sequence>
+				<element name="comment" type="tns:CommentSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="SendAdRequest">
+		<complexType>
+			<sequence>
+				<element name="ad" type="tns:AdSoap"></element>
+				<element name="operation" type="tns:operation"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SendAdResponse">
+		<complexType>
+			<sequence>
+				<element name="ad" type="tns:AdSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

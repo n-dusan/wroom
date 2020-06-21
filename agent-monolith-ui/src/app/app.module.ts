@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './modules/shared/material.module';
@@ -13,6 +12,7 @@ import { AlreadyAuthenticatedGuard } from './modules/auth/guards/alreadyAuthenti
 import { CreateAdGuard } from './modules/ads/guards/create-ad.guard';
 import { SharedModule } from './modules/shared/shared.module';
 import { AdminGuard } from './modules/shared/guards/admin.guard';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [

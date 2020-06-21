@@ -30,6 +30,8 @@ import { SearchService } from './service/search.service';
 })
 export class SearchComponent implements OnInit {
 
+  loaded: boolean = true;
+
   ads: Ad[] = [];
   adsAfterSearch: Ad[] = [];
   allAds: Ad[] = [];
@@ -88,12 +90,12 @@ export class SearchComponent implements OnInit {
     // Fetching all necessary data
     // ADS
     // this.adService.all().subscribe(
-    this.searchService.ads().subscribe(       
+    this.searchService.ads().subscribe(
       data => {
         this.ads = data;                                              // WORKS
         this.allAds = data;
         this.adsAfterSearch = data;
-        this.dataSource = new MatTableDataSource(this.allAds); 
+        this.dataSource = new MatTableDataSource(this.allAds);
       },
       error => {
         this.toastr.error('There was an error!', 'Ads')
@@ -276,12 +278,15 @@ export class SearchComponent implements OnInit {
       new Date(this.basicSearchForm.value.to)
     );
 
+    this.loaded = false;
 
     this.searchService.search(searchCriteria).subscribe(
       data => {
         this.ads = this.allAds.filter(obj => { return data.find(ad => obj.id === ad.id) })
         this.adsAfterSearch = this.ads;
         this.dataSource = new MatTableDataSource(this.ads);
+
+        this.loaded = true;
       },
       error => {
         this.toastr.error('There was an error!', 'Bodies')

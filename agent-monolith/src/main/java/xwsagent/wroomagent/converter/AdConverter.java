@@ -1,12 +1,11 @@
 package xwsagent.wroomagent.converter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 import xwsagent.wroomagent.domain.Ad;
-import xwsagent.wroomagent.domain.Rate;
+import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.domain.dto.AdDTO;
 
 
@@ -24,7 +23,8 @@ public class AdConverter extends AbstractConverter {
                 entity.getLocation().getId(),
                 entity.getAddress(),
                 entity.isGps(),
-                averageRate(entity.getRates())
+                averageRate(entity.getComments()),
+                entity.getVehicle().getOwner().getId()
         );
     }
 
@@ -43,16 +43,20 @@ public class AdConverter extends AbstractConverter {
         return ad;
     }
     
-    public static double averageRate(Set<Rate> rates) {
-    	if(rates != null) {
+    public static double averageRate(Set<Comment> comments) {
+    	if(comments != null) {
     		int sum = 0;
-    		List<Rate> rateList = new ArrayList<Rate>();
-    		rateList.addAll(rates);
-    		if(rateList.size() > 0) {
-    			for(Rate r : rateList) {
-        			sum += r.getRating();
+    		int n = 0;
+    		List<Comment> commentList = new ArrayList<Comment>();
+    		commentList.addAll(comments);
+    		if(commentList.size() > 0) {
+    			for(Comment c : commentList) {
+    				if(c.getRate() != null && c.getRate() != 0) {
+    					sum += c.getRate();
+    					n++;
+    				}
         		}
-        		return sum*1.0/rates.size();
+        		return sum*1.0/n;
     		}
     	}
     	return 0;

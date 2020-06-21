@@ -3,6 +3,6 @@ package com.wroom.rentingservice.exception;
 public class GeneralException extends RuntimeException{
 
     public GeneralException(String message) {
-        super(message);
+        super(message); 
     }
 }

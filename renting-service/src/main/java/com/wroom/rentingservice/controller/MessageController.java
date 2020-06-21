@@ -53,18 +53,21 @@ public class MessageController {
 		String logContent = String.format(LOG_GET_RECEIVED, principal.getUsername(),
 				requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		log.info(logContent);
-		return new ResponseEntity<>(MessageConverter.fromEntityList(this.messageService.getReceived(principal.getId()),
+		return new ResponseEntity<>(MessageConverter.fromEntityList(
+				this.messageService.getReceived(principal.getId(), principal.getUsername()),
 				MessageConverter::fromEntity), HttpStatus.CREATED);
 	}
-	
+
 	@GetMapping(value = "/sent")
 	public ResponseEntity<?> sent(Authentication auth) {
 		UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
 		String logContent = String.format(LOG_GET_SENT, principal.getUsername(),
 				requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		log.info(logContent);
-		return new ResponseEntity<>(MessageConverter.fromEntityList(this.messageService.getSent(principal.getId()),
-				MessageConverter::fromEntity), HttpStatus.CREATED);
+		return new ResponseEntity<>(
+				MessageConverter.fromEntityList(this.messageService.getSent(principal.getId(), principal.getUsername()),
+						MessageConverter::fromEntity),
+				HttpStatus.CREATED);
 	}
 
 }

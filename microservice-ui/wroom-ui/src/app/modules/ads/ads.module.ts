@@ -12,6 +12,10 @@ import { VehicleListSelectComponent } from './create-ad/vehicle-list-select/vehi
 import { CreateCityComponent } from './create-city/create-city.component';
 import { AdsOverviewComponent } from './ads-overview/ads-overview.component';
 import { DetailsDialogComponent } from './ads-overview/details-dialog/details-dialog.component';
+import { CommentsOverviewComponent } from './comments/comments-overview/comments-overview.component';
+import { CommentDetailsComponent } from './comments/comment-details/comment-details.component';
+import { NewCommentComponent } from './comments/new-comment/new-comment.component';
+import { NewReplyComponent } from './comments/new-reply/new-reply.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +26,11 @@ import { DetailsDialogComponent } from './ads-overview/details-dialog/details-di
     VehicleListSelectComponent,
     CreateCityComponent,
     AdsOverviewComponent,
-    DetailsDialogComponent
+    DetailsDialogComponent,
+    CommentsOverviewComponent,
+    CommentDetailsComponent,
+    NewCommentComponent,
+    NewReplyComponent
   ],
   imports: [
     MaterialModule,

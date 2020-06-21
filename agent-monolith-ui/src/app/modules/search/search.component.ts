@@ -47,6 +47,8 @@ export class SearchComponent implements OnInit {
 
   localUrl: any[];
 
+  loaded: boolean = false;
+
   dataSource: MatTableDataSource<Ad>;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -79,6 +81,7 @@ export class SearchComponent implements OnInit {
     this.initAds();
     this.initFilters();
     this.initForms();
+    this.loaded = true;
 
   }
 
@@ -88,6 +91,7 @@ export class SearchComponent implements OnInit {
     this.adService.all().subscribe(
       data => {
         this.ads = data;
+        console.log(this.ads)
         // this.allAds = data;
         // this.adsAfterSearch = data;
         // this.dataSource = new MatTableDataSource(this.allAds); 

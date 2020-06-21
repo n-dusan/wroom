@@ -8,6 +8,7 @@ import { Vehicle } from '../../shared/models/vehicle.model';
 import { Ad } from '../model/ad.model';
 import { AuthService } from '../../auth/service/auth.service';
 import { LoggedUser } from '../../auth/model/logged-user.model';
+import { Comment } from '../../shared/models/comment.model';
 
 @Injectable({providedIn: 'root'})
 export class AdsService {
@@ -69,6 +70,29 @@ export class AdsService {
       this.http.get<number>(this.adsUrl + '/count/' + user.id).pipe(catchError(this.handleException))));
   }
 
+  addComment(comment: Comment, id: number) : Observable<Comment> {
+    return this.http.post<Comment>(`${this.adsUrl}/comment/` + id, comment);
+  }
+
+  getAllComments() : Observable<Comment[]> {
+    return this.http.get<Comment[]>(this.adsUrl + '/comments');
+  }
+
+  confirm(id: number) {
+    return this.http.post(this.adsUrl + '/confirm/' + id, id);
+  }
+
+  refuse(id: number) {
+    return this.http.post(this.adsUrl + '/refuse/' + id, id);
+  }
+
+  getAllAds(): Observable<Ad[]>{
+    return this.http.get<Ad[]>(this.adsUrl + '/allAds');
+  }
+
+  addReply(comment: Comment, id:number) : Observable<Comment> {
+    return this.http.post<Comment>(`${this.adsUrl}/reply/` + id, comment);
+  }
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);

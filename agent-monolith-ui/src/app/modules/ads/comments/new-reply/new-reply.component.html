@@ -1,0 +1,14 @@
+<h3>Add reply</h3>
+<form [formGroup]="addReply" class="example-form" (ngSubmit)="onSubmit()">
+  
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Content</mat-label>
+    <textarea matInput formControlName="content"></textarea>
+  </mat-form-field>
+  
+  <div>
+    <br />
+    <button mat-raised-button color="accent" type="submit">Add</button>
+  </div>
+</form>

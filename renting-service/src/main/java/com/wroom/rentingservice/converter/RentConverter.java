@@ -14,7 +14,10 @@ public class RentConverter extends AbstractConverter{
                 entity.getToDate(),
                 entity.getRequestedUserId(),
                 AdConverter.fromEntity(entity.getAd()),
-                entity.getBundle() == null ? null : entity.getBundle().getId()
+                entity.getBundle() == null ? null : entity.getBundle().getId(),
+                entity.getRentReport() == null ? null : entity.getRentReport().getId(),
+                entity.getOwnerUsername() == null ? null : entity.getOwnerUsername(),
+                entity.getLocalId() == null ? null: entity.getLocalId()
         );
     }
 
@@ -23,6 +26,15 @@ public class RentConverter extends AbstractConverter{
         rentRequest.setStatus(dto.getStatus());
         rentRequest.setFromDate(dto.getFromDate());
         rentRequest.setToDate(dto.getToDate());
+        
+        if(dto.getOwnerUsername() != null) {
+        	rentRequest.setOwnerUsername(dto.getOwnerUsername());
+        }
+        
+        if(dto.getLocalId() != null) {
+        	rentRequest.setLocalId(dto.getLocalId());
+        }
+        
         return rentRequest;
     }
 }

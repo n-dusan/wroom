@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://ftn.com/wroom-agent/xsd"
+	xmlns:tns="http://ftn.com/wroom-agent/xsd" elementFormDefault="qualified">
+
+	<element name="helloRequest">
+		<complexType>
+			<sequence>
+				<element name="name" type="tns:name" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="helloResponse">
+		<complexType>
+			<sequence>
+				<element name="name" type="tns:name" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<simpleType name="name">
+        <restriction base="string">
+            <maxLength value="50"/>
+            <minLength value="2"/>
+        </restriction>
+    </simpleType>
+
+</schema>

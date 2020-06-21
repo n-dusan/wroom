@@ -2,19 +2,26 @@ package com.wroom.adsservice.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
+import com.wroom.adsservice.jwt.UserPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import com.wroom.adsservice.converter.AMQPAdConverter;
 import com.wroom.adsservice.converter.AMQPLocationConverter;
 import com.wroom.adsservice.converter.AMQPPriceListConverter;
 import com.wroom.adsservice.converter.AdConverter;
+import com.wroom.adsservice.converter.CommentConverter;
 import com.wroom.adsservice.converter.LocationConverter;
 import com.wroom.adsservice.converter.PriceListConverter;
 import com.wroom.adsservice.domain.Ad;
+import com.wroom.adsservice.domain.Comment;
 import com.wroom.adsservice.domain.Location;
 import com.wroom.adsservice.domain.dto.AdDTO;
+import com.wroom.adsservice.domain.dto.CommentDTO;
 import com.wroom.adsservice.domain.dto.LocationDTO;
 import com.wroom.adsservice.domain.dto.UserDTO;
 import com.wroom.adsservice.domain.dto.VehicleDTO;
@@ -25,6 +32,7 @@ import com.wroom.adsservice.producer.AdsProducer;
 import com.wroom.adsservice.producer.messages.AdsMessage;
 import com.wroom.adsservice.producer.messages.OperationEnum;
 import com.wroom.adsservice.repository.AdRepository;
+import com.wroom.adsservice.repository.CommentRepository;
 import com.wroom.adsservice.repository.LocationRepository;
 import com.wroom.adsservice.repository.PriceListRepository;
 
@@ -37,16 +45,18 @@ public class AdService {
 	private final VehicleClient vehicleClient;
 	private final AuthClient authClient;
 	private final AdsProducer adsProducer;
+	private final CommentRepository commentRepository;
 
 	public AdService(LocationRepository locationRepository, AdRepository adRepository,
 			PriceListRepository priceListRepository, VehicleClient vehicleClient, AuthClient authClient,
-			AdsProducer adsProducer) {
+			AdsProducer adsProducer, CommentRepository commentRepository) {
 		this.locationRepository = locationRepository;
 		this.adRepository = adRepository;
 		this.priceListRepository = priceListRepository;
 		this.vehicleClient = vehicleClient;
 		this.authClient = authClient;
 		this.adsProducer = adsProducer;
+		this.commentRepository = commentRepository;
 	}
 
 	public List<Ad> findAll() {
@@ -83,22 +93,27 @@ public class AdService {
 	public Ad save(AdDTO adDTO) {
 		Ad ad = AdConverter.toEntity(adDTO);
 		// ad.setVehicle(vehicleService.findById(adDTO.getVehicleId()));
-		VehicleDTO vehicle = this.vehicleClient.findVehicleById(adDTO.getVehicleId());
-		ad.setVehicleId(vehicle.getId());
+		ad.setVehicleId(adDTO.getVehicleId());
+
 		ad.setPriceList(priceListRepository.findOneById(adDTO.getPriceListId()));
 		ad.setLocation(locationRepository.findOneById(adDTO.getLocationId()));
 		ad.setPublishDate(Calendar.getInstance().getTime());
+//		ad.setComments(new HashSet<Comment>());
 
 		Ad entity = adRepository.save(ad);
 
 		// Notify search service
-		AdDTO dto = AdConverter.fromEntity(entity);
-		AdsMessage message = AMQPAdConverter.toAdsMessage(dto, OperationEnum.CREATE);
-		message.setPriceList(
-				AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
-		message.setLocation(
-				AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
-		this.adsProducer.send(message);
+		try {
+			AdDTO dto = AdConverter.fromEntity(entity);
+			AdsMessage message = AMQPAdConverter.toAdsMessage(dto, OperationEnum.CREATE);
+			message.setPriceList(
+					AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+			message.setLocation(
+					AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+			this.adsProducer.send(message);
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
 
 		return entity;
 	}
@@ -115,16 +130,65 @@ public class AdService {
 		Ad entity = adRepository.save(ad);
 
 		// Notify search service
-		AdDTO adDTO = AdConverter.fromEntity(entity);
-		AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.UPDATE);
-		message.setPriceList(
-				AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
-		message.setLocation(
-				AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
-		this.adsProducer.send(message);
+		try {
+			AdDTO adDTO = AdConverter.fromEntity(entity);
+			AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.UPDATE);
+			message.setPriceList(
+					AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+			message.setLocation(
+					AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+			this.adsProducer.send(message);
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
 
 		return entity;
+	}
 
+	public Ad update(Ad ad) {
+		if (ad == null) {
+			throw new GeneralException("Forwarded ad is null");
+		}
+		Ad entity = this.findByLocalId(ad.getLocalId(), ad.getOwnerUsername());
+
+		try {
+			int size = entity.getComments().size();
+		} catch (Exception e) {
+			entity.setComments(null);
+		}
+
+		entity.setPublishDate(ad.getPublishDate());
+		entity.setAvailableFrom(ad.getAvailableFrom());
+		entity.setAvailableTo(ad.getAvailableTo());
+		if (ad.getMileLimit() != null && ad.getMileLimit() != 0.0) {
+			entity.setMileLimit(ad.getMileLimit());
+			entity.setMileLimitEnabled(true);
+		} else {
+			ad.setMileLimitEnabled(false);
+		}
+		entity.setGps(ad.isGps());
+		entity.setDeleted(ad.isDeleted());
+		entity.setAddress(ad.getAddress());
+		entity.setVehicleId(ad.getVehicleId());
+		entity.setPriceList(this.priceListRepository.findOneById(ad.getPriceList().getId()));
+		entity.setLocation(this.locationRepository.findOneById(ad.getLocation().getId()));
+		entity.setOwnerUsername(ad.getOwnerUsername());
+		entity.setLocalId(ad.getLocalId());
+
+		Ad saved = this.adRepository.save(entity);
+		try {
+			AdDTO adDTO = AdConverter.fromEntity(saved);
+			AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.UPDATE);
+			message.setPriceList(
+					AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+			message.setLocation(
+					AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+			this.adsProducer.send(message);
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
+
+		return saved;
 	}
 
 	public List<Ad> findAllActiveForUser(Long userId, String jwt) {
@@ -151,13 +215,53 @@ public class AdService {
 		Ad entity = adRepository.save(ad);
 
 		// Notify search service
-		AdDTO adDTO = AdConverter.fromEntity(entity);
-		AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.DELETE);
-		message.setPriceList(
-				AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
-		message.setLocation(
-				AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
-		this.adsProducer.send(message);
+		try {
+			AdDTO adDTO = AdConverter.fromEntity(entity);
+			AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.DELETE);
+			message.setPriceList(
+					AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+			message.setLocation(
+					AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+			this.adsProducer.send(message);
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
+
+	}
+
+	public Ad deleteByLocalId(Long localId, String ownerUsername) {
+		Ad entity = this.findByLocalId(localId, ownerUsername);
+
+		if (entity != null) {
+			entity.setDeleted(true);
+			Ad saved = adRepository.save(entity);
+
+			// Notify search service
+			try {
+				AdDTO adDTO = AdConverter.fromEntity(saved);
+				AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.DELETE);
+				message.setPriceList(AMQPPriceListConverter
+						.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+				message.setLocation(
+						AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
+				this.adsProducer.send(message);
+			} catch (Exception e) {
+				System.err.println("Did not sync with search service");
+			}
+
+			return saved;
+		}
+
+		return entity;
+	}
+
+	public Ad findByLocalId(Long id, String username) {
+		try {
+			return adRepository.findByLocalId(id, username);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Integer countAds(Long user_id) {
@@ -170,4 +274,89 @@ public class AdService {
 //        return UserConverter.fromEntity(this.adRepository.findById(ad_id).get().getVehicle().getOwner());
 //    }
 
+	public Comment addComment(CommentDTO dto, Long id, Authentication auth) {
+		Comment comment = CommentConverter.toEntity(dto);
+		comment.setTitle(dto.getTitle());
+		comment.setContent(dto.getContent());
+		comment.setApproved(false);
+		comment.setDeleted(false);
+		// User user = userService.findByEmail(((UserPrincipal)
+		// auth.getPrincipal()).getUsername());
+		// comment.setClientUsername(user.getEmail());
+		// comment.setClientId(user.getId());
+		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		comment.setClientUsername(user.getUsername());
+		comment.setClientId(user.getId());
+		comment.setAd(findById(id));
+		comment.setRate(dto.getRate());
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		comment.setCommentDate(date);
+		commentRepository.save(comment);
+		return comment;
+	}
+
+	public Comment addReply(CommentDTO dto, Long id, Authentication auth) {
+		Comment comment = CommentConverter.toEntity(dto);
+		comment.setTitle(dto.getTitle());
+		comment.setContent(dto.getContent());
+		comment.setApproved(false);
+		comment.setDeleted(false);
+		// ------Ne znam kako da prilagodim ovo mikroservisima------//
+		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		comment.setClientUsername(user.getUsername());
+		comment.setClientId(user.getId());
+		comment.setAd(findByCommentId(id).getAd());
+		// ------------------------------------------------//
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		comment.setCommentDate(date);
+		comment.setReply(true);
+		commentRepository.save(comment);
+
+		Comment c = findByCommentId(id);
+		c.setReplyId(comment.getId());
+		commentRepository.save(c);
+
+		return comment;
+	}
+	
+	public Comment reply(Comment reply, Long parentId) {
+		Comment parent = this.findByCommentId(parentId);
+		reply.setAd(parent.getAd());
+		Comment savedReply = this.commentRepository.save(reply);
+		parent.setReplyId(savedReply.getId());
+		this.commentRepository.save(parent);
+		
+		return savedReply;
+		
+	}
+
+	public List<Comment> getComments() {
+		List<Comment> list = new ArrayList<Comment>();
+		for (Comment c : commentRepository.findAll()) {
+			if (c.isApproved() == false && c.isDeleted() == false) {
+				list.add(c);
+			}
+		}
+		return list;
+	}
+
+	public Comment findByCommentId(Long id) {
+		return commentRepository.findById(id)
+				.orElseThrow(() -> new GeneralException("Unable to find reference to " + id.toString() + " comment"));
+	}
+
+	public void confirm(Long id) {
+		Comment comment = findByCommentId(id);
+		comment.setApproved(true);
+		commentRepository.save(comment);
+	}
+
+	public void refuse(Long id) {
+		Comment comment = findByCommentId(id);
+		comment.setApproved(false);
+		comment.setDeleted(true);
+		commentRepository.save(comment);
+	}
 }

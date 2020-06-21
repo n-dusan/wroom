@@ -4,7 +4,7 @@ import com.wroom.rentingservice.domain.Message;
 import com.wroom.rentingservice.domain.dto.MessageDTO;
 
 public class MessageConverter extends AbstractConverter {
-
+ 
 	public static MessageDTO fromEntity(Message entity) {
         return new MessageDTO(
                 entity.getToUserId(),
@@ -12,7 +12,9 @@ public class MessageConverter extends AbstractConverter {
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getFromUserId() == null ? null : entity.getFromUserId(),
-                entity.getDate()
+                entity.getDate(),
+                entity.getToUser() == null ? null : entity.getToUser(),
+                entity.getFromUser() == null ? null : entity.getFromUser()
         );
     }
 
@@ -24,7 +26,9 @@ public class MessageConverter extends AbstractConverter {
     			dto.getRentRequestId(), 
     			dto.getTitle(), 
     			dto.getContent(),
-    			dto.getDate());
+    			dto.getDate(),
+    			null,
+    			null);
     }
 	
 }

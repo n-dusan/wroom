@@ -28,6 +28,7 @@ export class UserService {
     return this.http.delete(this.userUrl + '/' + id, { responseType: 'text' }).pipe(catchError(this.handleException));
   }
 
+
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);
   }

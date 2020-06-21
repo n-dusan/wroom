@@ -69,6 +69,16 @@ public class VehicleService {
 				.orElseThrow(() -> new GeneralException("Unable to find reference to " + id.toString() + " vehicle"));
 	}
 
+	public Vehicle findByLocalId(Long id, String username) {
+		try {
+			return vehicleRepository.findByLocalId(id, username);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+	}
+
 	public List<Vehicle> findAllActiveForUser(Long userId) {
 		return vehicleRepository.findAllActiveForUser(userId);
 	}
@@ -83,12 +93,28 @@ public class VehicleService {
 		this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.DELETE));
 	}
 
+	public Vehicle deleteByLocalId(Long id, String username) {
+		Vehicle entity = this.findByLocalId(id, username);
+		entity.setDeleted(true);
+		Vehicle vehicle = vehicleRepository.save(entity);
+
+		// Notify search service
+		try {
+			VehicleDTO dto = VehicleConverter.fromEntity(vehicle);
+			this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.DELETE));
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service.");
+		}
+
+		return vehicle;
+	}
+
 	public Vehicle update(VehicleDTO vehicleDTO) {
 		if (vehicleDTO == null) {
 			throw new GeneralException("Forwarded DTO is null");
 		}
 		Vehicle entity = findById(vehicleDTO.getId());
-		
+
 		entity.setChildSeats(vehicleDTO.getChildSeats());
 		entity.setCdw(vehicleDTO.getCdw());
 		entity.setMileage(vehicleDTO.getMileage());
@@ -104,6 +130,33 @@ public class VehicleService {
 		this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.UPDATE));
 
 		return vehicle;
+	}
+
+	public Vehicle update(Vehicle vehicle) {
+		if (vehicle == null) {
+			throw new GeneralException("Forwarded vehicle is null");
+		}
+		Vehicle entity = this.findByLocalId(vehicle.getLocalId(), vehicle.getOwnerUsername());
+
+		entity.setChildSeats(vehicle.getChildSeats());
+		entity.setCdw(vehicle.getCdw());
+		entity.setMileage(vehicle.getMileage());
+		entity.setModelType(this.modelTypeRepository.findByName(vehicle.getModelType().getName()));
+		entity.setBodyType(this.bodyTypeRepository.findOneByName(vehicle.getBodyType().getName()));
+		entity.setFuelType(this.fuelTypeRepository.findByName(vehicle.getFuelType().getName()));
+		entity.setGearboxType(this.gearboxTypeRepository.findByName(vehicle.getGearboxType().getName()));
+
+		Vehicle saved = this.vehicleRepository.save(entity);
+
+		// Notify search service
+		try {
+			VehicleDTO dto = VehicleConverter.fromEntity(saved);
+			this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.UPDATE));
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service.");
+		}
+
+		return saved;
 	}
 
 	/**
@@ -124,10 +177,26 @@ public class VehicleService {
 		Vehicle vehicle = this.vehicleRepository.save(entity);
 
 		// Notify search service
-		VehicleDTO dto = VehicleConverter.fromEntity(vehicle);
-		this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.CREATE));
+		try {
+			VehicleDTO dto = VehicleConverter.fromEntity(vehicle);
+			this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.CREATE));
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
 
 		return vehicle;
+	}
+
+	public Vehicle save(Vehicle entity) {
+		Vehicle saved = this.vehicleRepository.save(entity);
+		// Notify search service
+		try {
+			VehicleDTO dto = VehicleConverter.fromEntity(saved);
+			this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.CREATE));
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
+		return saved;
 	}
 
 	public List<byte[]> getFile(Long id) throws IOException {

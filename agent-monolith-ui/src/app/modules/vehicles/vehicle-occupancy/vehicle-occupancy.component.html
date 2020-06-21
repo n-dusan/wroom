@@ -7,8 +7,8 @@
           <mat-form-field>
             <mat-label>Ad</mat-label>
             <mat-select formControlName="selectAd">
-              <mat-option *ngFor="let vehicle of vehicleList" selected value={{vehicle.id}}>{{vehicle.modelType.name}}
-                {{vehicle.brandType.name}}</mat-option>
+              <mat-option *ngFor="let vehicle of vehicleList" selected value={{vehicle.id}}>{{vehicle.brandType.name}}&nbsp;{{vehicle.modelType.name}}
+                 {{returnAd(vehicle)}}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

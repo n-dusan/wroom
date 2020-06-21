@@ -14,7 +14,7 @@ public class AdDTO {
     private Long vehicleId;
     private Long priceListId;
     private Long locationId;
-
+ 
     private Date availableFrom;
     private Date availableTo;
     private Double mileLimit;

@@ -27,12 +27,18 @@ public class MessageService {
 		return this.messageRepository.save(entity);
 	}
 	
-	public List<Message> getReceived(Long userId) {
-		return this.messageRepository.findByToUserId(userId);
+	public List<Message> getReceived(Long userId, String username) {
+		List<Message> received = this.messageRepository.findByToUserId(userId);
+		List<Message> receivedByUsername  = this.messageRepository.findByToUser(username);
+		received.addAll(receivedByUsername);
+		return received;
 	}
 	
-	public List<Message> getSent(Long userId) {
-		return this.messageRepository.findByFromUserId(userId);
+	public List<Message> getSent(Long userId, String username) {
+		List<Message> sent = this.messageRepository.findByFromUserId(userId);
+		List<Message> sentByUsername = this.messageRepository.findByFromUser(username);
+		sent.addAll(sentByUsername);
+		return sent;
 	}
 	
 }

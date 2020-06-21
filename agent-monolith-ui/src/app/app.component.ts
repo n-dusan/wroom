@@ -32,8 +32,12 @@ export class AppComponent implements OnInit {
     //   console.log('POST response: ', response)
     //   })
     // })
+
     this.authService.getLoggedUser().subscribe(data => {
       this.user = data;
+      if (this.user == null) {
+        this.authService.reauthenticate();
+      }
     });
 
     this.shoppingCartService.getShoppingCartAsObservable().subscribe(
@@ -43,18 +47,11 @@ export class AppComponent implements OnInit {
     )
 
     if (this.user == null) {
-      //send whoami to server to re-authenticate
-      this.authService.whoami().subscribe(
+      this.authService.loggedUserSubject.subscribe(
         data => {
           this.user = data;
-        },
-        error => {
-          if (error.status == 401) {
-            localStorage.removeItem('token');
-            this.router.navigate(['auth']);
-          }
         }
-      );
+      )
 
     }
 

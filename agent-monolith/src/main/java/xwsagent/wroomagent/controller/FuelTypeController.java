@@ -63,9 +63,9 @@ public class FuelTypeController {
 	}
 
 	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
-	@DeleteMapping(value = "/{name}")
-	public ResponseEntity<Void> delete(@PathVariable("name") String name){
-		fuelTypeService.delete(name);
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+		fuelTypeService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

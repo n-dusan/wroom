@@ -1,15 +1,14 @@
 package xwsagent.wroomagent.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xwsagent.wroomagent.domain.auth.User;
-
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Comment {
 
     @Id
@@ -19,23 +18,34 @@ public class Comment {
     @Column
     private String title;
 
-    @Column
+    @Column(nullable = false)
     private String content;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    @Column(nullable = false)
+    private Date commentDate;
 
     @Column
-    private Boolean deleted;
+    private boolean deleted;
 
     @Column
-    private Boolean approved;
+    private boolean approved;
+    
+    @Column
+    private Integer rate;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    private User client;
+    @Column
+    private String clientUsername;
+    
+    @Column
+    private Long clientId;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Ad ad;
 
-
+    @Column
+    private Long replyId;
+    
+    @Column(nullable = false)
+    private boolean reply;		// Marks if a comment is a reply to another comment
 }

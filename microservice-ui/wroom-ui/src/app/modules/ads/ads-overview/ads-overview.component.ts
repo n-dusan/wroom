@@ -25,6 +25,8 @@ export class AdsOverviewComponent implements OnInit {
   private ngUnsubscribe = new Subject();
   loggedUser: LoggedUser;
 
+  loaded: boolean = false;
+
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   isLoadingResults: boolean = true;
@@ -57,6 +59,7 @@ export class AdsOverviewComponent implements OnInit {
   refresh() {
     this.adsService.getAllActiveForUser(this.loggedUser.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe((data: Ad[]) => {
       this.dataSource.data = data;
+      this.loaded = true;
       console.log('my data', data)
     })
   }

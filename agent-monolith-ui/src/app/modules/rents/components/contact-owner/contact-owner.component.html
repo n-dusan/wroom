@@ -1,0 +1,24 @@
+<div class="spinner" style="margin: 25px;" fxLayout="row" fxLayoutAlign="center" *ngIf="!loaded">
+    <mat-spinner color="accent" ></mat-spinner>
+</div>
+
+
+<div class="content" *ngIf="loaded">
+    <h2 style="text-align: center;">Compose Message</h2>
+    <form [formGroup]="form" fxLayout="column" fxLayoutAlign="center">
+        <mat-form-field fxFlex appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title">
+        </mat-form-field>
+        <mat-form-field fxFlex appearance="outline">
+            <mat-label>Content</mat-label>
+            <textarea matInput formControlName="content"></textarea>
+        </mat-form-field>
+
+        <div fxLayout="row" fxLayoutAlign="end">
+            <button mat-mini-fab color="accent" matTooltip="Send" (click)="send()">
+                <mat-icon>send</mat-icon>
+            </button>
+        </div>
+    </form>
+</div>

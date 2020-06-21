@@ -9,13 +9,15 @@ import lombok.Setter;
 
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class MessageDTO {
-
+ 
 	private Long toUserId;
 	private Long rentRequestId;
 	private String title;
 	private String content;
 	private Long fromUserId;
 	private Date date;
+	private String toUser;
+	private String fromUser;
 	
 	
 }

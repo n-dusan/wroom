@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="http://ftn.com/wroom-agent/xsd" 
+xmlns:tns="http://ftn.com/wroom-agent/xsd" elementFormDefault="qualified">
+
+	<simpleType name="id">
+		<restriction base="long"></restriction>
+	</simpleType>
+	
+	<simpleType name="title">
+		<restriction base="string"></restriction>
+	</simpleType>
+	
+	<simpleType name="content">
+		<restriction base="string"></restriction>
+	</simpleType>
+	
+	<simpleType name="date">
+		<restriction base="date"></restriction>
+	</simpleType>
+	
+	<simpleType name="username">
+		<restriction base="string"></restriction>
+	</simpleType>
+	
+	<complexType name="Message">
+		<sequence>
+			<element name="rentRequestId" type="tns:id"></element>
+			<element name="title" type="tns:title"></element>
+			<element name="content" type="tns:content"></element>
+			<element name="date" type="tns:date"></element>
+			<element name="fromUser" type="tns:username"></element>
+			<element name="toUser" type="tns:username"></element>
+		</sequence>
+	</complexType>
+	
+	<element name="SendMessageRequest">
+		<complexType>
+			<sequence>
+				<element name="message" type="tns:Message"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SendMessageResponse">
+		<complexType>
+			<sequence>
+				<element name="message" type="tns:Message"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+</schema>

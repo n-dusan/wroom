@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateBundleDialogComponent } from '../create-bundle-dialog/create-bundle-dialog.component';
 import { RentRequest } from '../../models/rent-request.model';
 import { SearchService } from '../../service/search.service';
+import { AuthService } from 'src/app/modules/auth/service/auth.service';
+import { LoggedUser } from 'src/app/modules/auth/model/logged-user.model';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -28,7 +30,8 @@ export class ShoppingCartComponent implements OnInit {
     private toastr: ToastrService,
     public sanitizer: DomSanitizer,
     private dialog: MatDialog,
-    private searchService: SearchService) { }
+    private searchService: SearchService,
+    private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loaded = false;
@@ -139,23 +142,26 @@ export class ShoppingCartComponent implements OnInit {
 
   sendRequest(owner: OwnerAds) {
     var requests: RentRequest[] = [];
-    for (let ad of owner.adsObj) {
-      const from = this.cartItems.find(obj => { return obj.adId === ad.id })?.from;
-      const to = this.cartItems.find(obj => { return obj.adId === ad.id })?.to;
-      requests.push(new RentRequest(null, null, from, to, owner.ownerId, ad, null, false));
-    }
-
-    let dialogRef = this.dialog.open(CreateBundleDialogComponent,
-      {
-        data: requests
+    this.authService.whoami().subscribe( (user: LoggedUser) => {
+      for (let ad of owner.adsObj) {
+        const from = this.cartItems.find(obj => { return obj.adId === ad.id })?.from;
+        const to = this.cartItems.find(obj => { return obj.adId === ad.id })?.to;
+        requests.push(new RentRequest(null, null, from, to, user.id, ad, null, false, null));
       }
-    );
 
-    dialogRef.afterClosed().subscribe(
-      data => {
-        // TODO: Remove from cart requests that are sent
-      }
-    )
+      let dialogRef = this.dialog.open(CreateBundleDialogComponent,
+        {
+          data: requests
+        }
+      );
+
+      dialogRef.afterClosed().subscribe(
+        data => {
+          // TODO: Remove from cart requests that are sent
+        }
+      )
+    })
+
 
   }
 

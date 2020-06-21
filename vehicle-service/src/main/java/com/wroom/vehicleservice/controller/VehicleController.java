@@ -118,6 +118,8 @@ public class VehicleController {
 				HttpStatus.OK);
 	}
 
+
+
 	/**
 	 * Fetch one specific vehicle
 	 * 
@@ -229,5 +231,13 @@ public class VehicleController {
 			log.error(logContent + "General exception");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	//list for admin
+	@GetMapping("/allVehicles")
+	public ResponseEntity<?> getVehicles() {
+		return new ResponseEntity<>(
+			VehicleConverter.fromEntityList(vehicleService.findAll(), VehicleConverter::fromEntity),
+			HttpStatus.OK);
 	}
 }

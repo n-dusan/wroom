@@ -1,8 +1,9 @@
 package com.wroom.adsservice.converter;
 
 import com.wroom.adsservice.domain.Ad;
-import com.wroom.adsservice.domain.Rate;
+import com.wroom.adsservice.domain.Comment;
 import com.wroom.adsservice.domain.dto.AdDTO;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.Set;
 public class AdConverter extends AbstractConverter {
 
     public static AdDTO fromEntity(Ad entity) {
-        return new AdDTO(
-                entity.getId(),
+    	AdDTO ret = new AdDTO(
+    			entity.getId(),
                 entity.getVehicleId(),
                 entity.getPriceList().getId(),
                 entity.getAvailableFrom(),
@@ -22,8 +23,17 @@ public class AdConverter extends AbstractConverter {
                 entity.getLocation().getId(),
                 entity.getAddress(),
                 entity.isGps(),
-                averageRate(entity.getRates())
-        );
+                null,
+                entity.getLocalId() == null ? null : entity.getLocalId(),
+                entity.getOwnerUsername() == null ? null : entity.getOwnerUsername()
+    	);
+    	
+    	try {
+    		ret.setAverageRate(averageRate(entity.getComments()));
+    	} catch(Exception e) {
+    		System.err.println("Error during calculating average rate");
+    	}
+        return ret;
     }
 
     public static Ad toEntity(AdDTO dto) {
@@ -38,21 +48,35 @@ public class AdConverter extends AbstractConverter {
         }
         ad.setAddress(dto.getAddress());
         ad.setGps(dto.isGps());
+
+        if(dto.getLocalId() != null) {
+        	ad.setLocalId(dto.getLocalId());
+        }
+        if(dto.getOwnerUsername() != null) {
+        	ad.setOwnerUsername(dto.getOwnerUsername());
+        }
         return ad;
     }
 
-    public static double averageRate(Set<Rate> rates) {
-        if(rates != null) {
-            int sum = 0;
-            List<Rate> rateList = new ArrayList<Rate>();
-            rateList.addAll(rates);
-            if(rateList.size() > 0) {
-                for(Rate r : rateList) {
-                    sum += r.getRating();
-                }
-                return sum*1.0/rates.size();
-            }
-        }
-        return 0;
+    public static double averageRate(Set<Comment> comments) {
+    	if(comments != null) {
+    		if(comments.size() > 0) {
+    			int sum = 0;
+        		int n = 0;
+        		List<Comment> commentList = new ArrayList<Comment>();
+        		
+        		commentList.addAll(comments);
+        		if(commentList.size() > 0) {
+        			for(Comment c : commentList) {
+        				if(c.getRate() != null && c.getRate() != 0) {
+        					sum += c.getRate();
+        					n++;
+        				}
+            		}
+            		return sum*1.0/n;
+        		}
+    		}
+    	}
+    	return 0;
     }
 }

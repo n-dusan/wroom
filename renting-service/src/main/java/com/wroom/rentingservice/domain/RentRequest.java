@@ -18,12 +18,15 @@ import javax.persistence.TemporalType;
 
 import com.wroom.rentingservice.domain.enums.RequestStatus;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@ToString
 public class RentRequest {
 
 	@Id
@@ -47,7 +50,7 @@ public class RentRequest {
 	@Column
 	private Long requestedUserId;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne
 	private Ad ad;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -56,4 +59,9 @@ public class RentRequest {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private BundledRequests bundle;
 
+	@Column
+	private Long localId;
+	
+	@Column
+	private String ownerUsername;
 }

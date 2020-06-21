@@ -12,7 +12,7 @@ import com.wroom.rentingservice.domain.dto.BundleDTO;
 public class BundleConverter extends AbstractConverter {
 
 	public static BundleDTO fromEntity(BundledRequests entity) {
-        return new BundleDTO(
+        return new BundleDTO( 
         		entity.getId(),
         		getRequestIds(entity.getRequests())
         );

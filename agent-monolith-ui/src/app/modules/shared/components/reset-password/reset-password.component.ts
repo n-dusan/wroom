@@ -47,7 +47,9 @@ export class ResetPasswordComponent implements OnInit {
         this.router.navigate(['/auth'])
       },
       error => {
-        this.toastr.error('There was a problem', 'Error')
+        for(let er of error.errors) {
+          this.toastr.error(er, 'Error')
+        }
       }
     );
   }

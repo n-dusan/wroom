@@ -38,7 +38,7 @@ public class UserController {
         this.requestCounter = requestCounter;
     }
 
-   // @PreAuthorize("hasAuthority('MANAGE_USERS')")
+    @PreAuthorize("hasAuthority('MANAGE_USERS')")
     @PutMapping(value="/activate/{id}")
     public ResponseEntity<UserDTO> activate(@PathVariable Long id, Authentication auth) {
         String logContent = String.format(LOG_ACTIVATE, auth.getName(), requestCounter.get(EndpointConfig.USER_BASE_URL), "Activating user id " + id);
@@ -57,7 +57,7 @@ public class UserController {
      * GET /api/user
      * @return all enabled (who activated their email) users
      */
-    //@PreAuthorize("hasAuthority('MANAGE_USERS')")
+    @PreAuthorize("hasAuthority('MANAGE_USERS')")
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers() {
         return new ResponseEntity<>(UserConverter.fromEntityList(this.userService.findAllEnabled(), UserConverter::fromEntity),
@@ -82,7 +82,7 @@ public class UserController {
      * @param id
      * @return
      */
-    //@PreAuthorize("hasAuthority('MANAGE_USERS')")
+    @PreAuthorize("hasAuthority('MANAGE_USERS')")
     @PutMapping("/unlock/{id}")
     public ResponseEntity<UserDTO> unlockUser(@PathVariable("id") Long id, Authentication auth) {
         String logContent = String.format(LOG_UNLOCK_USER, auth.getName(), requestCounter.get(EndpointConfig.USER_BASE_URL), "Unlocking user id " + id);
@@ -91,7 +91,7 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasAuthority('MANAGE_USERS')")
+    @PreAuthorize("hasAuthority('MANAGE_USERS')")
     @DeleteMapping(value = "/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         userService.delete(id);
@@ -101,6 +101,11 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDTO> findUser(@PathVariable("id") Long id) {
         return new ResponseEntity<>(UserConverter.fromEntity(this.userService.findById(id)), HttpStatus.OK);
+    }
+    
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable("username") String username) {
+        return new ResponseEntity<>(UserConverter.fromEntity(this.userService.findByEmail(username)), HttpStatus.OK);
     }
 
 }

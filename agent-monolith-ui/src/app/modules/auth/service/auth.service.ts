@@ -8,6 +8,7 @@ import { LoggedUser } from '../model/logged-user.model';
 import { LoginRequest } from '../model/login-request.model';
 import { map, catchError } from 'rxjs/operators';
 import { ResetPassword } from '../../shared/models/reset-password.model';
+import { Company } from '../../shared/models/company.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,11 @@ export class AuthService {
   loggedUser: Observable<LoggedUser>;
 
   private baseUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/auth';
-  private stubUrl: string = environment.protocol + '://' + environment.domain + ':' + environment.port + environment.api + '/stub';
-
 
   constructor(private httpClient: HttpClient,
     private router: Router) {
-      this.loggedUserSubject = new BehaviorSubject<LoggedUser>(JSON.parse(localStorage.getItem('LoggedUser')));
-      this.loggedUser = this.loggedUserSubject.asObservable();
+    this.loggedUserSubject = new BehaviorSubject<LoggedUser>(JSON.parse(localStorage.getItem('LoggedUser')));
+    this.loggedUser = this.loggedUserSubject.asObservable();
   }
 
   signup(data: SignupRequest): Observable<SignupRequest> {
@@ -45,7 +44,7 @@ export class AuthService {
   }
 
   getToken() {
-      return localStorage.getItem('token');
+    return localStorage.getItem('token');
   }
 
   logout() {
@@ -55,10 +54,26 @@ export class AuthService {
     this.router.navigate(['/auth']);
   }
 
+  getUser(userId: number): Observable<LoggedUser> {
+    return this.httpClient.get<LoggedUser>(this.baseUrl + '/' + userId);
+  }
+
+  reauthenticate() {
+    const tok = localStorage.getItem('token');
+    if (tok) {
+      this.httpClient.get<any>(this.baseUrl + '/whoami').subscribe(
+        data => {
+          this.loggedUserSubject.next(data)
+          this.loggedUser = this.loggedUserSubject.asObservable();
+        }
+      );
+    }
+  }
+
   whoami() {
     const tok = localStorage.getItem('token');
     // console.log('whoami token', tok)
-    if(tok) {
+    if (tok) {
       // Set user to BehaviourSubject?
       return this.httpClient.get<any>(this.baseUrl + '/whoami');
     }
@@ -77,16 +92,13 @@ export class AuthService {
   }
 
   changePassword(token: ResetPassword): Observable<any> {
-    return this.httpClient.put(this.baseUrl + '/reset-password', token);
+    return this.httpClient.put(this.baseUrl + '/reset-password', token).pipe(catchError(this.handleException));
   }
 
-  testRole(): Observable<string> {
-    return this.httpClient.get<string>(this.stubUrl + '/test-auth-role');
+  register(company: Company): Observable<any> {
+    return this.httpClient.post(this.baseUrl + '/company', company).pipe(catchError(this.handleException));
   }
 
-  testPermission(): Observable<string> {
-    return this.httpClient.get<string>(this.stubUrl + '/test-auth-permission');
-  }
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);

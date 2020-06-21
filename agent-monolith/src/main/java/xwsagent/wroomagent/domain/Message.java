@@ -1,20 +1,52 @@
 package xwsagent.wroomagent.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
-@Getter @Setter @NoArgsConstructor
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Message {
-
-    @Id
+	
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+	@Column(nullable = true)
+	private Long fromUserId;
+	
+	@Column(nullable = true)
+	private Long toUserId;
+	
+	@Column(nullable = false)
+	private Long rentRequestId;
+	
+	@Column
+	private String title;
+	
+	@Column(nullable = false)
+	private String content;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
+	private Date date;
+	
+	@Column(nullable = true)
+	private String fromUser;
+	
+	@Column(nullable = true)
+	private String toUser;
+	
 
 }

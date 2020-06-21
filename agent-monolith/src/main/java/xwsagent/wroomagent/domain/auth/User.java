@@ -28,7 +28,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import xwsagent.wroomagent.domain.Comment;
-import xwsagent.wroomagent.domain.Rate;
 import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.domain.Vehicle;
 
@@ -51,7 +50,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String email;
 
-	@Column(nullable = false)
+	@Column
 	private String password;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "requestedUser")
@@ -60,11 +59,8 @@ public class User {
 	@OneToMany(mappedBy = "owner")
 	private Set<Vehicle> vehicles;
 
-	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Comment> comments;
-
-	@OneToMany(mappedBy = "client")
-	private Set<Rate> rates;
+//	@OneToMany(mappedBy = "client", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//	private Set<Comment> comments;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -79,5 +75,13 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column
 	private Date lastPasswordChange;
+	
+	@Column
+	private String businessNumber;
+	
+	@Column
+	private String address;
 
+
+	
 }

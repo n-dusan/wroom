@@ -19,6 +19,7 @@ RUN ["mvn", "package", "-DskipTests"]
 FROM openjdk:8-jdk-alpine
 WORKDIR /app
 RUN ["mkdir", "-p", "src/main/resources/static/images"]
+RUN ["mkdir", "-p", "target/classes/static/images"]
 COPY --from=agentMonolith /usr/src/agent/target/wroom-agent-0.0.1-SNAPSHOT.jar ./
 
 EXPOSE 8081

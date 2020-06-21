@@ -51,5 +51,11 @@ public class Vehicle {
 
     @OneToMany(mappedBy = "vehicle")
     private Set<Image> images;
+    
+    @Column
+    private Long localId;
+    
+    @Column
+    private String ownerUsername;
 
 }

@@ -10,5 +10,5 @@ public class InvalidJWTokenException extends Exception {
     public InvalidJWTokenException(Throwable e) {
         super(e);
     }
-
+ 
 }
