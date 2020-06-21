@@ -321,9 +321,16 @@ public class AdService {
 		return comment;
 	}
 	
-//	public Comment reply(Comment entity) {
-//		
-//	}
+	public Comment reply(Comment reply, Long parentId) {
+		Comment parent = this.findByCommentId(parentId);
+		reply.setAd(parent.getAd());
+		Comment savedReply = this.commentRepository.save(reply);
+		parent.setReplyId(savedReply.getId());
+		this.commentRepository.save(parent);
+		
+		return savedReply;
+		
+	}
 
 	public List<Comment> getComments() {
 		List<Comment> list = new ArrayList<Comment>();

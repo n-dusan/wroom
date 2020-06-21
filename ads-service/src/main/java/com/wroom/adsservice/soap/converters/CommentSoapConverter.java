@@ -8,13 +8,13 @@ public class CommentSoapConverter extends AbstractConverter {
 
     public static CommentSoap toSoapRequest(Comment entity) {
 		CommentSoap ret = new CommentSoap();
-		ret.setId(entity.getId() == null ? null : entity.getId());
-		ret.setLocalId(entity.getLocalId() == null ? null : entity.getLocalId());
+		ret.setId(entity.getId());
 		ret.setTitle(entity.getTitle() == null ? "" : entity.getTitle());
 		ret.setContent(entity.getContent());
 		ret.setCommentDate(entity.getCommentDate());
 		ret.setClientUsername(entity.getClientUsername());
 		ret.setClientId(entity.getClientId());
+		System.out.println("ad" + entity.getAd());
 		ret.setAdId(entity.getAd().getLocalId());
 		ret.setReplyId((entity.getReplyId() == null ? null : entity.getReplyId()));
 
@@ -27,6 +27,18 @@ public class CommentSoapConverter extends AbstractConverter {
     
     public static Comment fromSoapRequest(CommentSoap soap) {
     	Comment ret = new Comment();
+    	ret.setLocalId(soap.getId());
+    	ret.setTitle(soap.getTitle() == null ? null : soap.getTitle());
+    	ret.setContent(soap.getContent());
+    	ret.setCommentDate(soap.getCommentDate());
+    	ret.setDeleted(soap.isDeleted());
+    	ret.setApproved(soap.isApproved());
+    	ret.setRate(soap.getRate());
+    	ret.setClientUsername(soap.getClientUsername());
+//    	ret.setClientId(soap.getClientId());
+//    	ret.setAd(soap.getAdId());
+    	ret.setReply(soap.isReply());
+    	ret.setReplyId(soap.getReplyId() == null ? null : soap.getReplyId());	
     	
     	return ret;
     }

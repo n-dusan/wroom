@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="deleted" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;element name="approved" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;element name="rate" type="{http://ftn.com/wroom-agent/xsd}rate"/&gt;
- *         &lt;element name="replyId" type="{http://ftn.com/wroom-agent/xsd}replyId" minOccurs="0"/&gt;
+ *         &lt;element name="replyId" type="{http://ftn.com/wroom-agent/xsd}id" minOccurs="0"/&gt;
  *         &lt;element name="reply" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
  *         &lt;element name="adId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
  *         &lt;element name="clientId" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;

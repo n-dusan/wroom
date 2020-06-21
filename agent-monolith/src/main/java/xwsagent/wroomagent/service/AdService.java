@@ -166,6 +166,7 @@ public class AdService {
     }
     
     public Comment addReply(CommentDTO dto, Long id, Authentication auth) {
+    	// reply object
     	Comment comment = CommentConverter.toEntity(dto);
     	comment.setTitle(dto.getTitle());
     	comment.setContent(dto.getContent());
@@ -181,13 +182,14 @@ public class AdService {
     	comment.setReply(true);
     	Comment saved = commentRepository.save(comment);
     	
+    	// parent object
     	Comment c = findByCommentId(id);
     	c.setReplyId(comment.getId());
     	commentRepository.save(c);
     	
 //    	Send to wroom with soap
     	try {
-			this.commentsClient.reply(saved);
+			this.commentsClient.reply(saved, c.getId());
 		} catch (Exception e) {
 			System.err.println("Did not sync with wroom.");
 		}
