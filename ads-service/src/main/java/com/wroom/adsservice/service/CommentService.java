@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.wroom.adsservice.domain.Comment;
 import com.wroom.adsservice.repository.CommentRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CommentService {
@@ -42,6 +43,12 @@ public class CommentService {
 
 	public Double getAverage(Long vehicleId) {
 		return this.commentRepository.findAvgRating(vehicleId);
+	}
+
+
+	@Transactional
+	public List<Comment> findCommentsByOwnerEmail(String email) {
+		return this.commentRepository.findCommentsByOwnerEmail(email);
 	}
 	
 }

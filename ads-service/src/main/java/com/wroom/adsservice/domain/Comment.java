@@ -14,16 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter 
 @Setter 
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Comment {
 
 	@Id
@@ -55,7 +53,7 @@ public class Comment {
     @Column
     private Long clientId;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Ad ad;
 
     @Column

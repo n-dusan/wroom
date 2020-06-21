@@ -1,11 +1,14 @@
 package xwsagent.wroomagent.soap.converters;
 
+import xwsagent.wroomagent.converter.AbstractConverter;
 import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.soap.xsd.CommentSoap;
 
-public class CommentSoapConverter {
+public class CommentSoapConverter extends AbstractConverter {
+
 	public static CommentSoap toSoapRequest(Comment entity) {
 		CommentSoap ret = new CommentSoap();
+
 //		ret.setId(entity.getId());
 //		ret.setTitle(entity.getTitle());
 //		ret.setContent(entity.getContent());
@@ -19,21 +22,21 @@ public class CommentSoapConverter {
 	
 		return ret;
 	}
-	
+
 	public static Comment fromSoapRequest(CommentSoap soap) {
 		return new Comment(
-	            //null,
-//				soap.getTitle(),
-//				soap.getContent(),
-//				soap.getCommentDate(),
-//				soap.isDeleted(),
-//				soap.isApproved(),
-//				soap.isRate(),
-//				soap.getRequestedUserUsername(),
-//				soap.getClientId(),
-//				null,
-//				soap.getReplyId(),
-//				soap.isReply()
+				soap.getId(),
+				soap.getTitle(),
+				soap.getContent(),
+				soap.getCommentDate(),
+				soap.isDeleted(),
+				soap.isApproved(),
+				soap.getRate(),
+				soap.getClientUsername(),
+				soap.getClientId(),
+				null,
+				soap.getReplyId() == null ? null : new Long(soap.getReplyId()),
+				soap.isReply()
 		);
 	}
 }

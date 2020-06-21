@@ -96,8 +96,8 @@
 
         <!-- LOG "xwsagent.wroomagent*" at TRACE level -->
         <Logger name="xwsagent.wroomagent" level="trace"></Logger>
-        <Logger name="org.apache" level="fatal"></Logger>
-        <Logger name="org.hibernate" level="fatal"></Logger>
+<!--        <Logger name="org.apache" level="fatal"></Logger>-->
+<!--        <Logger name="org.hibernate" level="fatal"></Logger>-->
     </Loggers>
 
 </Configuration>

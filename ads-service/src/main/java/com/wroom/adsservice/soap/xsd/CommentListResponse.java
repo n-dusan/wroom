@@ -71,4 +71,8 @@ public class CommentListResponse {
         return this.comment;
     }
 
+    public void setComment(List<CommentSoap> commentSoapList) {
+      this.comment = commentSoapList;
+    }
+
 }
