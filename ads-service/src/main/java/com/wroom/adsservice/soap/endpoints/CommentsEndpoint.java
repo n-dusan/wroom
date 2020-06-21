@@ -72,4 +72,21 @@ public class CommentsEndpoint {
 		log.info("sync=comments action=ended");
 		return response;
 	}
+
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "CommentUpdateRequest")
+	@ResponsePayload
+	public CommentUpdateResponse updateId(@RequestPayload CommentUpdateRequest request) {
+		log.info("update=comments action=started");
+
+		this.commentService.updateLocalId(request.getId(), request.getLocalId());
+
+
+		CommentUpdateResponse response = new CommentUpdateResponse();
+		response.setId(request.getId());
+		response.setLocalId(request.getLocalId());
+
+		log.info("sync=comments action=ended");
+		return response;
+	}
 }

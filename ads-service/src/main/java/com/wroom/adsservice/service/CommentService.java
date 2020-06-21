@@ -3,6 +3,7 @@ package com.wroom.adsservice.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.wroom.adsservice.exception.GeneralException;
 import org.springframework.stereotype.Service;
 
 import com.wroom.adsservice.domain.Comment;
@@ -19,6 +20,11 @@ public class CommentService {
 		super();
 		this.commentRepository = commentRepository;
 		this.adService = adService;
+	}
+
+	public Comment findById(Long id) {
+		return commentRepository.findById(id)
+				.orElseThrow(() -> new GeneralException("Unable to find reference to " + id.toString() + " comment"));
 	}
 
 	/**
@@ -49,6 +55,15 @@ public class CommentService {
 	@Transactional
 	public List<Comment> findCommentsByOwnerEmail(String email) {
 		return this.commentRepository.findCommentsByOwnerEmail(email);
+	}
+
+	public Comment updateLocalId(Long commentId, Long localId) {
+		Comment commentForUpdate = findById(commentId);
+
+		commentForUpdate.setLocalId(localId);
+
+		return this.commentRepository.save(commentForUpdate);
+
 	}
 	
 }

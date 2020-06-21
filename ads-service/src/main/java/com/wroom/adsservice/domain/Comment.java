@@ -62,6 +62,8 @@ public class Comment {
     @Column(nullable = false)
     private boolean reply;		// Marks if a comment is a reply to another comment
 
+    @Column
+    private Long localId;
 
 
 }

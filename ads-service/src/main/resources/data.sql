@@ -35,11 +35,12 @@ values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00
 ----insert into comment (id, approved, client_username, content, deleted, title, ad_id, comment_date)
 ----values(1, false, 'Mila', 'Sadrzaj komentara', false, 'Naslov komentara', 1, '2020-08-15 00:00:00.000000')
 -- Comments
-insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
-values(1, true, 'This vehicle is great', '2020-06-05 11:00:00.000000', false, 9, 'Nice', 1, 1, 3, false, 'mila@maildrop.cc');
-insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply, client_username)
-values(2, true, 'Great service', '2020-06-08 12:00:00.000000', false, 8, 'OK', 1, 2, false, 'mila@maildrop.cc');
-insert into comment(id, content, approved, comment_date, deleted, ad_id, client_id, reply, client_username)
-values(3, 'Thank you very much' ,true, '2020-06-08 10:00:00.000000', false, 1, 2, true, 'zika@maildrop.cc');
-insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
-values(4, true, 'Not happy', '2020-06-04 12:00:00.000000', false, 8, 'As an admin im offended', 2, 3, null, false, 'grga@maildrop.cc');
+insert into comment(id, local_id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
+values(1, null, true, 'This vehicle is great', '2020-06-05 11:00:00.000000', false, 9, 'Nice', 1, 1, 3, false, 'mila@maildrop.cc');
+insert into comment(id, local_id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply, client_username)
+values(2, null, true, 'Great service', '2020-06-08 12:00:00.000000', false, 8, 'OK', 1, 2, false, 'mila@maildrop.cc');
+insert into comment(id, local_id, approved, content, comment_date, deleted, ad_id, client_id, reply, client_username)
+values(3, null, true, 'Thank you very much' , '2020-06-08 10:00:00.000000', false, 1, 2, true, 'zika@maildrop.cc');
+
+insert into comment(id, local_id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
+values(4, null, true, 'Not happy', '2020-06-04 12:00:00.000000', false, 8, 'As an admin im offended', 2, 3, null, false, 'grga@maildrop.cc');

@@ -71,7 +71,8 @@
 	<!-- Objects -->
 	<complexType name="CommentSoap">
 		<sequence>
-			<element name="id" type="tns:id"></element>
+			<element name="id" type="tns:id" minOccurs="0" maxOccurs="1"></element>
+			<element name="localId" type="tns:id" minOccurs="0" maxOccurs="1"></element>
 			<element name="title" type="tns:commentTitle"></element>
 			<element name="content" type="tns:commentContent"></element>
 			<element name="commentDate" type="tns:date"></element>
@@ -168,6 +169,24 @@
 		<complexType>
 			<sequence>
 				<element name="comment" type="tns:CommentSoap" maxOccurs="unbounded"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="CommentUpdateResponse">
+		<complexType>
+			<sequence>
+				<element name="id" type="long" minOccurs="0" maxOccurs="1"></element>
+				<element name="localId" type="long" minOccurs="0" maxOccurs="1"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="CommentUpdateRequest">
+		<complexType>
+			<sequence>
+				<element name="id" type="long" minOccurs="0" maxOccurs="1"></element>
+				<element name="localId" type="long" minOccurs="0" maxOccurs="1"></element>
 			</sequence>
 		</complexType>
 	</element>
