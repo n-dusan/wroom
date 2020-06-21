@@ -12,7 +12,9 @@ public class MessageConverter extends AbstractConverter {
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getFromUserId() == null ? null : entity.getFromUserId(),
-                entity.getDate()
+                entity.getDate(),
+                entity.getToUser() == null ? null : entity.getToUser(),
+                entity.getFromUser() == null ? null : entity.getFromUser()
         );
     }
 

@@ -171,23 +171,23 @@ services:
     networks:
       - xws-network
 
-  mysql:
-    image: mysql:8.0.19
-    container_name: mysql
-    restart: always
-    networks:
-      - xws-network
-    environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
-      MYSQL_ROOT_PASSWORD: root
-      #      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-    #      MYSQL_DATABASE: wroom
-    volumes:
-      - mysql-data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
-    ports:
-      - "3306:3306"
+  # mysql:
+  #   image: mysql:8.0.19
+  #   container_name: mysql
+  #   restart: always
+  #   networks:
+  #     - xws-network
+  #   environment:
+  #     MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+  #     MYSQL_ROOT_PASSWORD: root
+  #     #      MYSQL_USER: root
+  #     MYSQL_PASSWORD: root
+  #   #      MYSQL_DATABASE: wroom
+  #   volumes:
+  #     - mysql-data:/var/lib/mysql
+  #     - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  #   ports:
+  #     - "3306:3306"
 
 #  wroom-ui:
 #    build:
@@ -206,8 +206,6 @@ services:
 #    volumes:
 #      - ./pki/tingle/certificates:/etc/certificates
 #      - ./pki/tingle/.truststore:/etc
-
-
 
 #  agent:
 #    build:
@@ -245,8 +243,6 @@ services:
 #       - ./gps-service:/app
 #     depends_on:
 #       - rabbitmq-broker
-
-
 
 volumes:
   mysql-data:

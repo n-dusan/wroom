@@ -16,6 +16,8 @@ public class MessageDTO {
 	private String content;
 	private Long fromUserId;
 	private Date date;
+	private String toUser;
+	private String fromUser;
 	
 	
 }

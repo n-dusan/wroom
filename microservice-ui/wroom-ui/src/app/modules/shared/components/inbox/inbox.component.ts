@@ -35,14 +35,28 @@ export class InboxComponent implements OnInit {
         this.received.sort((a,b)=>{ return <any>new Date(a.date)- <any>new Date(b.date)}).reverse();
 
         for(let request of this.received) {
-          this.authService.get(request.fromUserId).subscribe(
-            data => {
-              request.fromUserNameSurname = data.name + ' ' + data.surname;
-            },
-            error => {
-              this.toastr.error('Unexpected error has ocurred', 'Error')
-            }
-          );
+
+          if(request.fromUserId) {
+            this.authService.get(request.fromUserId).subscribe(
+              data => {
+                request.fromUserNameSurname = data.name + ' ' + data.surname;
+              },
+              error => {
+                this.toastr.error('Unexpected error has ocurred', 'Error')
+              }
+            );
+          }
+          else if(request.fromUser) {
+            this.authService.getByUsername(request.fromUser).subscribe(
+              data => {
+                request.fromUserNameSurname = data.name + ' ' + data.surname;
+              },
+              error => {
+                this.toastr.error('Unexpected error has ocurred', 'Error')
+              }
+            );
+          }
+          
         }
 
         this.loaded = true;
@@ -63,14 +77,28 @@ export class InboxComponent implements OnInit {
         this.sent.sort((a,b)=>{ return <any>new Date(a.date)- <any>new Date(b.date)}).reverse();
 
         for(let request of this.sent) {
-          this.authService.get(request.toUserId).subscribe(
-            data => {
-              request.toUserNameSurname = data.name + ' ' + data.surname;
-            },
-            error => {
-              this.toastr.error('Unexpected error has ocurred', 'Error')
-            }
-          );
+          console.log(request)
+          if(request.toUserId) {
+            this.authService.get(request.toUserId).subscribe(
+              data => {
+                request.toUserNameSurname = data.name + ' ' + data.surname;
+              },
+              error => {
+                this.toastr.error('Unexpected error has ocurred', 'Error')
+              }
+            );
+          }
+          else if(request.toUser) {
+            this.authService.getByUsername(request.toUser).subscribe(
+              data => {
+                request.toUserNameSurname = data.name + ' ' + data.surname;
+              },
+              error => {
+                this.toastr.error('Unexpected error has ocurred', 'Error')
+              }
+            );
+          }
+          
         }
 
         this.loaded = true;
@@ -90,14 +118,28 @@ export class InboxComponent implements OnInit {
         this.received.sort((a,b)=>{ return <any>new Date(a.date)- <any>new Date(b.date)}).reverse();
 
         for(let request of this.received) {
-          this.authService.get(request.fromUserId).subscribe(
-            data => {
-              request.fromUserNameSurname = data.name + ' ' + data.surname;
-            },
-            error => {
-              this.toastr.error('Unexpected error has ocurred', 'Error')
-            }
-          );
+
+          if(request.fromUserId) {
+            this.authService.get(request.fromUserId).subscribe(
+              data => {
+                request.fromUserNameSurname = data.name + ' ' + data.surname;
+              },
+              error => {
+                this.toastr.error('Unexpected error has ocurred', 'Error')
+              }
+            );
+          }
+          else if(request.fromUser) {
+            this.authService.getByUsername(request.fromUser).subscribe(
+              data => {
+                request.fromUserNameSurname = data.name + ' ' + data.surname;
+              },
+              error => {
+                this.toastr.error('Unexpected error has ocurred', 'Error')
+              }
+            );
+          }
+          
         }
 
         this.loaded = true;

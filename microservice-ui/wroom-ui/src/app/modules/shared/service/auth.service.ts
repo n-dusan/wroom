@@ -79,4 +79,8 @@ export class AuthService {
   get(id: number): Observable<User> {
     return this.httpClient.get(this.userUrl + '/' + id);
   }
+  
+  getByUsername(username: string): Observable<User> {
+    return this.httpClient.get(this.userUrl + '/username/' + username);
+  }
 }

@@ -102,5 +102,10 @@ public class UserController {
     public ResponseEntity<UserDTO> findUser(@PathVariable("id") Long id) {
         return new ResponseEntity<>(UserConverter.fromEntity(this.userService.findById(id)), HttpStatus.OK);
     }
+    
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable("username") String username) {
+        return new ResponseEntity<>(UserConverter.fromEntity(this.userService.findByEmail(username)), HttpStatus.OK);
+    }
 
 }
