@@ -1,4 +1,4 @@
---delete from ad;
+-- delete from ad;
 --delete from comment;
 --delete from location;
 

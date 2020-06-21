@@ -6,11 +6,7 @@ import xwsagent.wroomagent.domain.BundledRequests;
 import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.soap.converters.BundledRequestsSoapConverter;
 import xwsagent.wroomagent.soap.converters.RentRequestSoapConverter;
-import xwsagent.wroomagent.soap.xsd.OperationRents;
-import xwsagent.wroomagent.soap.xsd.SendBundleRequest;
-import xwsagent.wroomagent.soap.xsd.SendBundleResponse;
-import xwsagent.wroomagent.soap.xsd.SendRentRequest;
-import xwsagent.wroomagent.soap.xsd.SendRentResponse;
+import xwsagent.wroomagent.soap.xsd.*;
 
 public class RentsClient extends WebServiceGatewaySupport {
 
@@ -35,6 +31,11 @@ public class RentsClient extends WebServiceGatewaySupport {
 		System.out.println(">>>>>> Sent");
 		
 		return response;
+	}
+
+
+	public BundledRequestsListSoapResponse syncBundles() {
+
 	}
 	
 }

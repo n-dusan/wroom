@@ -9,10 +9,8 @@ import xwsagent.wroomagent.repository.CommentRepository;
 import xwsagent.wroomagent.service.AdService;
 import xwsagent.wroomagent.service.CommentService;
 import xwsagent.wroomagent.soap.converters.CommentSoapConverter;
-import xwsagent.wroomagent.soap.converters.RentRequestSoapConverter;
 import xwsagent.wroomagent.soap.xsd.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -36,7 +34,7 @@ public class CommentsClient extends WebServiceGatewaySupport {
 		log.info(">>>>>> Sending comment to wroom");
 		CommentResponse response = (CommentResponse) getWebServiceTemplate().marshalSendAndReceive(request);
 		log.info(">>>>>> Sent");
-		
+
 		return response;
 	}
 
