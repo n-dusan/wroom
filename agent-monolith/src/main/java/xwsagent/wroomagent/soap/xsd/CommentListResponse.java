@@ -8,10 +8,9 @@
 
 package xwsagent.wroomagent.soap.xsd;
 
-import com.ftn.wroom_agent.xsd.CommentSoap;
-
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -70,7 +69,7 @@ public class CommentListResponse {
      * 
      * 
      */
-    public List<com.ftn.wroom_agent.xsd.CommentSoap> getComment() {
+    public List<CommentSoap> getComment() {
         if (comment == null) {
             comment = new ArrayList<CommentSoap>();
         }

@@ -48,7 +48,7 @@ export class RequestsOverviewComponent implements OnInit {
     private rentReportService: RentReportService) { }
 
   ngOnInit(): void {
-   this.refresh();
+    this.refresh();
   }
 
   sendMessage(request: RentRequest) {
@@ -65,7 +65,7 @@ export class RequestsOverviewComponent implements OnInit {
 
 
 
-  pricePerDay(request: RentRequest){
+  pricePerDay(request: RentRequest) {
     const priceList = this.priceListList.find(x => x.id == request.ad.priceListId);
 
     return priceList?.pricePerDay;
@@ -81,7 +81,7 @@ export class RequestsOverviewComponent implements OnInit {
     const priceList = this.priceListList.find(x => x.id == request.ad.priceListId);
     const vehicle = this.vehicleList.find(x => x.id == request.ad.vehicleId);
 
-    if(vehicle?.cdw) {
+    if (vehicle?.cdw) {
       return priceList?.priceCDW
     }
 
@@ -107,36 +107,45 @@ export class RequestsOverviewComponent implements OnInit {
     // To calculate the no. of days between two dates
     var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-    if(vehicle?.cdw) {
+    if (vehicle?.cdw) {
       let total = +Difference_In_Days * +priceList?.pricePerDay + priceList?.priceCDW
       return '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '</b>$ + <b>' + priceList?.priceCDW + '$</b> cdw = '
-      + '<b>' +  total + '$</b>';
+        + '<b>' + total + '$</b>';
     }
 
     let total = +Difference_In_Days * +priceList?.pricePerDay;
     return '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '$</b> = '
-      + '<b>' +  total + '$</b>';
+      + '<b>' + total + '$</b>';
   }
 
   vehicleName(request: RentRequest): String {
-    const vehicle = this.vehicleList.find(x => x.id == request.ad.vehicleId);
+    const vehicle = this.vehicleList.find(x => x.id == request?.ad.vehicleId);
     const modelType = vehicle?.modelType?.name;
     const brandType = vehicle?.brandType?.name;
     const ret = brandType + " " + modelType;
     return ret;
-}
+  }
 
   payRequest(request: RentRequest) {
-    if(request.bundleId) {
+    if (request.bundleId) {
       this.rentsService.payBundle(request.bundleId).subscribe((response: RentRequest[]) => {
         this.toastr.success('You did well', 'Congrats');
-        this.ngOnInit();
+        console.log('paid bundle', response)
+        for (let r of response) {
+          const paid = this.reserved.find(obj => { return obj.id === r?.id });
+          const i = this.reserved.indexOf(paid);
+          this.reserved.splice(i, 1);
+        }
+        this.refresh();
       }, error => this.toastr.error('Went wrong with payment', 'Payment'))
 
     } else {
       this.rentsService.payRequest(request.id).subscribe((response: RentRequest[]) => {
         this.toastr.success('You did well', 'Congrats');
-        this.ngOnInit();
+        const paid = this.reserved.find(obj => { return obj.id === response[0]?.id });
+        const i = this.reserved.indexOf(paid);
+        this.reserved.splice(i, 1);
+        this.refresh();
       }, error => this.toastr.error('Went wrong with payment', 'Payment'))
     }
   }
@@ -166,7 +175,7 @@ export class RequestsOverviewComponent implements OnInit {
             else if (request.status === 'CANCELED') {
               this.canceled.push(request);
             }
-            else if(request.status === 'COMPLETED') {
+            else if (request.status === 'COMPLETED') {
               this.completed.push(request);
             }
           }
@@ -193,7 +202,7 @@ export class RequestsOverviewComponent implements OnInit {
 
 
   cancelRequest(request: RentRequest) {
-    if(request.bundleId) {
+    if (request.bundleId) {
       this.rentsService.declineBundle(request.bundleId).subscribe((response: RentRequest[]) => {
         this.toastr.success('Woooohooo', 'Canceled le bundle')
         this.ngOnInit();
@@ -210,7 +219,7 @@ export class RequestsOverviewComponent implements OnInit {
   checkRequest(request: RentRequest) {
     let report = this.reportList.find(x => x.rentRequestId == request.id);
 
-    if(report) {
+    if (report) {
       return true;
     }
 
@@ -222,7 +231,7 @@ export class RequestsOverviewComponent implements OnInit {
     return 'Miles passed:' + '<b> ' + report.traveledMiles + '</b> <br/> Note: ' + '<b>' + (report.note ? report.note : 'unspecified') + '</b>'
   }
 
-  addComment(ad: Ad){
+  addComment(ad: Ad) {
     const dialogRef = this.dialog.open(NewCommentComponent, {
       width: '500px',
       height: '400px',
