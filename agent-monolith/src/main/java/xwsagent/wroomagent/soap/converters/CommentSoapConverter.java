@@ -34,7 +34,7 @@ public class CommentSoapConverter extends AbstractConverter {
 				soap.getClientUsername(),
 				soap.getClientId(),
 				null,
-				Long.valueOf(soap.getReplyId()),
+				soap.getReplyId() == null ? null : new Long(soap.getReplyId()),
 				soap.isReply()
 		);
 	}

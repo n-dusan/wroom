@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.wroom.adsservice.domain.Ad;
 import com.wroom.adsservice.domain.Comment;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
@@ -20,6 +21,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
 	/** used in syncs.
 	* */
-	@Query(value = "select c.* from comment c inner join ad a on c.ad_id = a.id inner join vehicle v on a.vehicle_id = v.id where v.owner_username = ?1", nativeQuery=true)
+	@Transactional
+	@Query(value = "select c.* from comment c inner join ad a on c.ad_id = a.id inner join vehicle v on a.vehicle_id = v.id where v.owner_username = ?1 and c.approved=1", nativeQuery=true)
 	List<Comment> findCommentsByOwnerEmail(String email);
 }

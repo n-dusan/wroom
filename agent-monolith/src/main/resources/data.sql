@@ -298,11 +298,11 @@ insert into message(id, content, date, rent_request_id, title, to_user, from_use
 values(2, 'Hello Ziko, good.', '2020-06-05 11:00:00.000000', 1, 'Hello-Reply', 'zika@maildrop.cc', 1);
 
 -- Comments
-insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
-values(1, true, 'This vehicle is great', '2020-06-05 11:00:00.000000', false, 9, 'Nice', 1, 1, 3, false, 'mila@maildrop.cc');
-insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply, client_username)
-values(2, true, 'Great service', '2020-06-08 12:00:00.000000', false, 8, 'OK', 1, 2, false, 'mila@maildrop.cc');
-insert into comment(id, content, approved, comment_date, deleted, ad_id, client_id, reply, client_username)
-values(3, 'Thank you very much' ,true, '2020-06-08 10:00:00.000000', false, 1, 2, true, 'zika@maildrop.cc');
-insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
-values(4, true, 'Not happy', '2020-06-04 12:00:00.000000', false, 8, 'As an admin im offended', 2, 3, null, false, 'grga@maildrop.cc');
+-- insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
+-- values(1, true, 'This vehicle is great', '2020-06-05 11:00:00.000000', false, 9, 'Nice', 1, 1, 3, false, 'mila@maildrop.cc');
+-- insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply, client_username)
+-- values(2, true, 'Great service', '2020-06-08 12:00:00.000000', false, 8, 'OK', 1, 2, false, 'mila@maildrop.cc');
+-- insert into comment(id, content, approved, comment_date, deleted, ad_id, client_id, reply, client_username)
+-- values(3, 'Thank you very much' ,true, '2020-06-08 10:00:00.000000', false, 1, 2, true, 'zika@maildrop.cc');
+-- insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
+-- values(4, true, 'Not happy', '2020-06-04 12:00:00.000000', false, 8, 'As an admin im offended', 2, 3, null, false, 'grga@maildrop.cc');

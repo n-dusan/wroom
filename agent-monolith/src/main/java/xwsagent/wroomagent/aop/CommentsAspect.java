@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.repository.CommentRepository;
+import xwsagent.wroomagent.service.AdService;
 import xwsagent.wroomagent.soap.clients.CommentsClient;
 
 import java.util.List;
