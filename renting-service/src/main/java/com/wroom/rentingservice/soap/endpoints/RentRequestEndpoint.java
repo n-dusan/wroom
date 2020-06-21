@@ -65,7 +65,7 @@ public class RentRequestEndpoint {
 		
 		if(request.getOperation() == OperationRents.OCCUPY) {
 			try {
-				this.rentsService.occupy(RentConverter.fromEntity(entity), null);
+				this.rentsService.occupy(entity);
 				System.out.println(">>>>>>> Occupied");
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -73,7 +73,7 @@ public class RentRequestEndpoint {
 		}
 		else if(request.getOperation() == OperationRents.ACCEPT) {
 			try {
-				this.rentsService.accept(entity.getId()); 
+				this.rentsService.accept(entity); 
 				System.out.println(">>>>>>> Accepted");
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -81,7 +81,7 @@ public class RentRequestEndpoint {
 		}
 		else if(request.getOperation() == OperationRents.DECLINE) {
 			try {
-				this.rentsService.decline(entity.getId());
+				this.rentsService.decline(entity);
 				System.out.println(">>>>>>> Declined");
 			} catch(Exception e) {
 				e.printStackTrace();

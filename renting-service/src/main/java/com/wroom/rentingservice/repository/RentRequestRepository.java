@@ -21,6 +21,9 @@ public interface RentRequestRepository extends JpaRepository<RentRequest, Long> 
 			"and rr2.from_date > ?3 and rr2.to_date <= ?4 and rr.id = rr2.id)", nativeQuery=true)
 	Integer findValidPendingRequests(Long userId, Long adId, Date fromDate, Date toDate);
 
+	@Query(value="select r.* from rent_request r where r.local_id=:id and r.owner_username=:username", nativeQuery=true)
+    RentRequest findByLocalId(Long id, String username);
+	
 //	@Query(value = "", nativeQuery=true)
 //	List<RentRequest> findReservedRequests();
 }

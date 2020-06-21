@@ -59,4 +59,9 @@ public class RentRequest {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private BundledRequests bundle;
 
+	@Column
+	private Long localId;
+	
+	@Column
+	private String ownerUsername;
 }

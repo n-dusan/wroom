@@ -56,6 +56,7 @@
 			<element name="ad" type="tns:id"></element>
 			<element name="rentReport" type="tns:id"></element>
 			<element name="bundle" type="tns:id"></element>
+			<element name="ownerUsername" type="string"></element>
 		</sequence>
 	</complexType>
 

@@ -80,6 +80,94 @@ public class RentsService {
 		
 		return this.bundleService.save(bundle);
 	}
+	
+	RentRequest findByLocalId(Long id, String username) {
+		try {
+			return rentRepository.findByLocalId(id, username);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * Used when the request comes from monolith
+	 * @param request
+	 * @return
+	 */
+	public boolean occupy(RentRequest rentRequest) {
+//		RentRequest rentRequest = findByLocalId(entity.getLocalId(), entity.getOwnerUsername());
+		Ad ad = rentRequest.getAd();
+		
+		if (ad.getAvailableFrom().after(rentRequest.getFromDate())
+				&& ad.getAvailableTo().before(rentRequest.getToDate())) {
+			return false;
+		}
+		if (ad.getAvailableFrom().after(rentRequest.getFromDate())
+				&& ad.getAvailableTo().after(rentRequest.getToDate())) {
+			return false;
+		}
+
+		if (ad.getAvailableFrom().before(rentRequest.getFromDate())
+				&& ad.getAvailableTo().before(rentRequest.getToDate())) {
+			return false;
+		}
+
+		List<RentRequest> rentList = rentRepository.findByAd(ad);
+		
+		if(rentList.size() == 0) {
+			rentRepository.save(rentRequest);
+			return true;
+		}
+		
+		for(RentRequest r : rentList) {
+			if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate()) ) {
+				if(r.getStatus() == RequestStatus.PENDING) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				} else {
+					return false;
+				}
+			}
+			if(r.getFromDate().after(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate())&& r.getFromDate().before(rentRequest.getToDate())) {
+				if(r.getStatus() == RequestStatus.PENDING) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				}else {
+					return false;
+				}
+			}
+				
+			if(r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().before(rentRequest.getToDate()) && r.getToDate().after(rentRequest.getFromDate())) {
+				if(r.getStatus() == RequestStatus.PENDING) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				}else {
+					return false;
+				}
+			}
+				
+			if(r.getFromDate().before(rentRequest.getFromDate()) && r.getToDate().after(rentRequest.getToDate()) ) {
+				if(r.getStatus() == RequestStatus.PENDING) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				}else {
+					return false;
+				}
+			}
+				
+			if(rentRequest.getFromDate().equals(r.getFromDate()) || rentRequest.getToDate().equals(r.getToDate())) {
+				if(r.getStatus() == RequestStatus.PENDING) {
+					r.setStatus(RequestStatus.CANCELED);
+					this.rentRepository.saveAndFlush(r);
+				}else {
+					return false;
+				}
+			}
+		}
+        rentRepository.save(rentRequest);
+        return true;
+	}
 
 	public boolean occupy(RentRequestDTO rentRequestDTO, Authentication auth) {
 		RentRequest rentRequest = RentConverter.toEntity(rentRequestDTO);
@@ -201,13 +289,24 @@ public class RentsService {
 
 	public RentRequest decline(Long id) {
 		RentRequest rentRequest = findById(id);
-
+		rentRequest.setStatus(RequestStatus.CANCELED);
+		return this.rentRepository.save(rentRequest);
+	}
+	
+	public RentRequest decline(RentRequest entity) {
+		RentRequest rentRequest = findByLocalId(entity.getLocalId(), entity.getOwnerUsername());
 		rentRequest.setStatus(RequestStatus.CANCELED);
 		return this.rentRepository.save(rentRequest);
 	}
 
 	public RentRequest accept(Long id) {
 		RentRequest rentRequest = findById(id);
+		rentRequest.setStatus(RequestStatus.RESERVED);
+		return this.rentRepository.save(rentRequest);
+	}
+	
+	public RentRequest accept(RentRequest entity) {
+		RentRequest rentRequest = findByLocalId(entity.getLocalId(), entity.getOwnerUsername());
 		rentRequest.setStatus(RequestStatus.RESERVED);
 		return this.rentRepository.save(rentRequest);
 	}
