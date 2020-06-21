@@ -72,13 +72,13 @@ public class VehicleService {
 	public Vehicle findByLocalId(Long id, String username) {
 		try {
 			return vehicleRepository.findByLocalId(id, username);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 	}
-	
+
 	public List<Vehicle> findAllActiveForUser(Long userId) {
 		return vehicleRepository.findAllActiveForUser(userId);
 	}
@@ -102,10 +102,10 @@ public class VehicleService {
 		try {
 			VehicleDTO dto = VehicleConverter.fromEntity(vehicle);
 			this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.DELETE));
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.err.println("Did not sync with search service.");
 		}
-		
+
 		return vehicle;
 	}
 
@@ -131,7 +131,7 @@ public class VehicleService {
 
 		return vehicle;
 	}
-	
+
 	public Vehicle update(Vehicle vehicle) {
 		if (vehicle == null) {
 			throw new GeneralException("Forwarded vehicle is null");
@@ -152,10 +152,10 @@ public class VehicleService {
 		try {
 			VehicleDTO dto = VehicleConverter.fromEntity(saved);
 			this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.UPDATE));
-		} catch(Exception e) {
+		} catch (Exception e) {
 			System.err.println("Did not sync with search service.");
 		}
-		
+
 		return saved;
 	}
 
@@ -177,10 +177,26 @@ public class VehicleService {
 		Vehicle vehicle = this.vehicleRepository.save(entity);
 
 		// Notify search service
-		VehicleDTO dto = VehicleConverter.fromEntity(vehicle);
-		this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.CREATE));
+		try {
+			VehicleDTO dto = VehicleConverter.fromEntity(vehicle);
+			this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.CREATE));
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
 
 		return vehicle;
+	}
+
+	public Vehicle save(Vehicle entity) {
+		Vehicle saved = this.vehicleRepository.save(entity);
+		// Notify search service
+		try {
+			VehicleDTO dto = VehicleConverter.fromEntity(saved);
+			this.vehicleProducer.send(AMQPVehicleConverter.toVehicleMessage(dto, OperationEnum.CREATE));
+		} catch (Exception e) {
+			System.err.println("Did not sync with search service");
+		}
+		return saved;
 	}
 
 	public List<byte[]> getFile(Long id) throws IOException {

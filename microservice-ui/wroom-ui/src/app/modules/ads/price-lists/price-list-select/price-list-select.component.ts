@@ -41,6 +41,7 @@ export class PriceListSelectComponent implements OnInit {
 
   fetch() {
     this.priceListService.findAllActive().pipe(takeUntil(this.ngUnsubscribe)).subscribe((result: PriceList[]) => {
+      console.log('all', result)
       this.dataSource.data = result;
     })
   }

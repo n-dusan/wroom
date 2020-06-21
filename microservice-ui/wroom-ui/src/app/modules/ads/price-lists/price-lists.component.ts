@@ -42,6 +42,7 @@ export class PriceListsComponent implements OnInit, OnDestroy {
 
   refresh() {
     this.priceListService.findAllActive().pipe(takeUntil(this.ngUnsubscribe)).subscribe((result: PriceList[]) => {
+      console.log('all',result);
       this.dataSource.data = result;
     })
   }

@@ -51,7 +51,7 @@ public class VehicleEndpoint {
 		entity.setGearboxType(this.gearboxTypeRepository.findByName(request.getVehicle().getGearboxType()));
 		 
 		if(request.getOperation() == Operation.CREATE) {
-			Vehicle saved = this.vehicleRepository.save(entity);
+			Vehicle saved = this.vehicleService.save(entity);
 			response.setVehicle(VehicleSoapConverter.toVehicleSoap(saved));
 		}
 		else if(request.getOperation() == Operation.DELETE) {
