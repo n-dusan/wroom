@@ -62,12 +62,22 @@ public class CommentsClient extends WebServiceGatewaySupport {
 			Comment comment = CommentSoapConverter.fromSoapRequest(commentSoap);
 			comment.setAd(adService.findById(commentSoap.getAdId()));
 			
+			if(comment.isReply()) {
+				comment.setId(commentSoap.getLocalId());
+				comment.setApproved(commentSoap.isApproved());
+				Comment saved = this.commentRepository.save(comment);
+				continue;
+			}
+			
 			Comment saved = this.commentRepository.save(comment);
 
-			if(commentSoap.getLocalId() == null) {
-				//notify microservice of new entry (set local id)
-				updateCommentId(commentSoap.getId(), saved.getId());
+			if(!comment.isReply()) {
+				if(commentSoap.getLocalId() == null) {
+					//notify microservice of new entry (set local id)
+					updateCommentId(commentSoap.getId(), saved.getId());
+				}
 			}
+			
         }
 	}
 

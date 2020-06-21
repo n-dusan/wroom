@@ -28,23 +28,21 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class CommentsEndpoint {
 
-	private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
-
+	private static final String NAMESPACE_URI = "http://ftn.com/wroom-agent/xsd";
 
 	@Autowired
 	private CommentService commentService;
 	@Autowired
 	private AdService adService;
 
-	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "CommentRequest")
 	@ResponsePayload
 	public CommentResponse sendComment(@RequestPayload CommentRequest request) {
 		log.info(">>>Received a comment");
-		
+
 		CommentResponse response = new CommentResponse();
-		
-		//reply
+
+		// reply
 //		try {
 //			Comment reply = this.adService.addReply(CommentSoapConverter.fromSoapRequest(request.getComment()));
 //			response.setComment(CommentSoapConverter.toSoapRequest(reply));
@@ -53,20 +51,21 @@ public class CommentsEndpoint {
 //		}
 
 		log.info(">>>Comment saved.");
-		
+
 		return response;
 	}
-	
+
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "CommentReplyRequest")
 	@ResponsePayload
 	public CommentResponse sendReply(@RequestPayload CommentReplyRequest request) {
 		log.info(">>>Received a comment");
-		
+
 		CommentResponse response = new CommentResponse();
-		
-		//reply
+
+		// reply
 		try {
 			Comment reply = CommentSoapConverter.fromSoapRequest(request.getComment());
+//			reply.setLocalId(null);
 			Comment saved = this.adService.reply(reply, request.getParentId());
 			response.setComment(CommentSoapConverter.toSoapRequest(saved));
 		} catch (Exception e) {
@@ -74,7 +73,7 @@ public class CommentsEndpoint {
 		}
 
 		log.info(">>>Comment saved.");
-		
+
 		return response;
 	}
 
@@ -89,9 +88,16 @@ public class CommentsEndpoint {
 
 		List<Comment> ret = new ArrayList<Comment>();
 		for (Comment comment : commentList) {
-			if(comment.getLocalId() != null) {
-				continue;
+			
+			if (comment.getLocalId() != null) {
+				if(!comment.isReply()) {
+					continue;
+				}
+				if (comment.isApproved() == false) {
+					continue;
+				}
 			}
+
 			ret.add(comment);
 //			response.getComment().add(CommentSoapConverter.toSoapRequest(comment));
 		}
@@ -103,14 +109,12 @@ public class CommentsEndpoint {
 		return response;
 	}
 
-
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "CommentUpdateRequest")
 	@ResponsePayload
 	public CommentUpdateResponse updateId(@RequestPayload CommentUpdateRequest request) {
 		log.info("update=comments action=started");
 
 		this.commentService.updateLocalId(request.getId(), request.getLocalId());
-
 
 		CommentUpdateResponse response = new CommentUpdateResponse();
 		response.setId(request.getId());
