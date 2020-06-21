@@ -148,7 +148,21 @@
 		</complexType>
 	</element>
 
-	<!-- Vehicles -->
+	<element name="CommentListRequest">
+		<complexType>
+			<sequence>
+				<element name="companyEmail" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="CommentListResponse">
+		<complexType>
+			<sequence>
+				<element name="comment" type="tns:CommentSoap" maxOccurs="unbounded"></element>
+			</sequence>
+		</complexType>
+	</element>
+
 	<element name="SendVehicleRequest">
 		<complexType>
 			<sequence>

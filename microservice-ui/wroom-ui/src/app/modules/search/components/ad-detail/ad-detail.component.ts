@@ -9,9 +9,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Vehicle } from '../../model/vehicle.model';
 import { PricelistDetailDialogData } from '../price-details/pricelist-dialog-data.model';
 import { SearchService } from '../../service/search.service';
+import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { CommentsService } from 'src/app/modules/shared/service/comments.service';
 import { AuthService } from 'src/app/modules/shared/service/auth.service';
-import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { NewReplyComponent } from 'src/app/modules/ads/comments/new-reply/new-reply.component';
 
 @Component({
@@ -145,7 +145,7 @@ export class AdDetailComponent implements OnInit {
               }
             }
           )
-          
+
         },
         error => {
           this.loaded = true;

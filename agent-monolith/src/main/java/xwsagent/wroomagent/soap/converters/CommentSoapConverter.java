@@ -21,9 +21,8 @@ public class CommentSoapConverter {
 	}
 	
 	public static Comment fromSoapRequest(CommentSoap soap) {
-		return new Comment();
-//		return new Comment(
-//				null,
+		return new Comment(
+	            //null,
 //				soap.getTitle(),
 //				soap.getContent(),
 //				soap.getCommentDate(),
@@ -35,6 +34,6 @@ public class CommentSoapConverter {
 //				null,
 //				soap.getReplyId(),
 //				soap.isReply()
-//		);
+		);
 	}
 }

@@ -22,8 +22,8 @@ export class BrandTypeService {
         return this.http.get(this.baseUrl);
     }
 
-    delete(name: string): Observable<any>{
-        return this.http.delete(`${this.baseUrl}/${name}`);
+    delete(id: number): Observable<any>{
+        return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
     update(id: number, value: any){

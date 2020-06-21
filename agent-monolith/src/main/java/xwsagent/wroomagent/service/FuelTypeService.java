@@ -50,8 +50,8 @@ public class FuelTypeService {
 		return ft;
 	}
 	
-	public void delete(String name) {
-		FuelType fuelType = findByName(name);
+	public void delete(Long id) {
+		FuelType fuelType = findById(id);
 		fuelType.setDeleted(true);
 		fuelTypeRepository.save(fuelType);
 			

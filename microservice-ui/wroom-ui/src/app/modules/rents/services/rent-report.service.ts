@@ -30,6 +30,10 @@ private baseUrl = environment.protocol
     return this.http.get<RentReport[]>(this.baseUrl).pipe(catchError(this.handleException));
   }
 
+  getForVehicle(vehicleId: number): Observable<RentReport[]> {
+    return this.http.get<RentReport[]>(this.baseUrl + '/chart/' + vehicleId).pipe(catchError(this.handleException));
+  }
+
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);
   }

@@ -37,6 +37,14 @@ public class CommentService {
 		}
 		return list;
 	}
+
+	public List<Comment> getVehicleComments(Long vehicleId) {
+		return this.commentRepository.findCommentsByVehicle(vehicleId);
+	}
+
+	public Double getAverage(Long vehicleId) {
+		return this.commentRepository.findAvgRating(vehicleId);
+	}
 	
 	
 }

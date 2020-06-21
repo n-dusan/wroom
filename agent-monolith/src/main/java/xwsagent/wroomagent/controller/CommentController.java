@@ -32,5 +32,18 @@ public class CommentController {
 		return new ResponseEntity<>(CommentConverter.fromEntityList(commentService.findByAd(adId), CommentConverter::fromEntity),
 				HttpStatus.OK);
 	}
+
+
+	@GetMapping(value = "/vehicle/{id}")
+	public ResponseEntity<List<CommentDTO>> getVehicleComments(@PathVariable("id") Long vehicleId) {
+		return new ResponseEntity<>(CommentConverter.fromEntityList(commentService.getVehicleComments(vehicleId), CommentConverter::fromEntity),
+				HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/vehicle/{id}/avg")
+	public ResponseEntity<Double> getVehicleAverage(@PathVariable("id") Long vehicleId) {
+		return new ResponseEntity<>(commentService.getAverage(vehicleId),
+				HttpStatus.OK);
+	}
 	
 }

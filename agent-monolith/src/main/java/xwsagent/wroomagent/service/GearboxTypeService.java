@@ -51,8 +51,8 @@ public class GearboxTypeService {
 		return gt;
 	}
 	
-	public void delete(String name) {
-		GearboxType gearboxType = findByName(name);
+	public void delete(Long id) {
+		GearboxType gearboxType = findById(id);
 		gearboxType.setDeleted(true);
 		gearboxTypeRepository.save(gearboxType);
 			

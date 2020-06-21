@@ -38,5 +38,11 @@ public class RentReportController {
 
     }
 
+    @GetMapping("/chart/{vehicle_id}")
+    public ResponseEntity<List<RentReportDTO>> getReportsForVehicle(@PathVariable("vehicle_id") Long id) {
+        return new ResponseEntity<>(RentReportConverter.fromEntityList(rentReportService.getReportsForVehicle(id), RentReportConverter::fromEntity),
+                HttpStatus.OK);
+    }
+
 
 }

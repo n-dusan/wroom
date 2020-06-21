@@ -51,12 +51,6 @@ public class FuelTypeController {
         }
     }
 
-//    @DeleteMapping(value = "/{name}")
-//    public ResponseEntity<Void> delete(@PathVariable("name") String name){
-//        fuelTypeService.delete(name);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-    
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable("id") Long id){
         fuelTypeService.deleteById(id);

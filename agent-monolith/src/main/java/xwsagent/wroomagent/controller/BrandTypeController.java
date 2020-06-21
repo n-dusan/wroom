@@ -63,9 +63,9 @@ public class BrandTypeController {
 	}
 
 	@PreAuthorize("hasAuthority('MANAGE_VEHICLE_FEATURES')")
-	@DeleteMapping(value = "/{name}")
-	public ResponseEntity<Void> delete(@PathVariable("name") String name){
-		brandTypeService.delete(name);
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable("id") Long id){
+		brandTypeService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

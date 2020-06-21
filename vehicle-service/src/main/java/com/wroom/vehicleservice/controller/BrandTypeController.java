@@ -51,12 +51,6 @@ public class BrandTypeController {
         }
     }
 
-//    @DeleteMapping(value = "/{name}")
-//    public ResponseEntity<Void> delete(@PathVariable("name") String name){
-//        brandTypeService.delete(name);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
-    
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable("id") Long id){
         brandTypeService.deleteById(id);

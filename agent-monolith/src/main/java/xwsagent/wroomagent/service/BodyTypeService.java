@@ -6,10 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.BodyType;
 import xwsagent.wroomagent.domain.ModelType;
 import xwsagent.wroomagent.domain.dto.FeatureDTO;
 import xwsagent.wroomagent.exception.InvalidDataException;
+import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.BodyTypeRepository;
 
 @Service
@@ -51,8 +53,9 @@ public class BodyTypeService {
 		return bt;
 	}
 	
-	public void delete(String name) {
-			BodyType bodyType = findByName(name);
+	
+	public void delete(Long id) {
+			BodyType bodyType = findById(id);
 			bodyType.setDeleted(true);
 			bodyTypeRepository.save(bodyType);
 			

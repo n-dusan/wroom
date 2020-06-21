@@ -1,6 +1,6 @@
 import { Component, OnInit, Optional, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { CommentModel } from 'src/app/modules/shared/models/comment-model.model';
+import { Comment } from 'src/app/modules/shared/models/comment.model';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AdsService } from '../../services/ads.service';
 import { ToastrService } from 'ngx-toastr';
@@ -13,13 +13,13 @@ import { ToastrService } from 'ngx-toastr';
 export class NewReplyComponent implements OnInit {
 
   addReply: FormGroup;
-  comment: CommentModel = new CommentModel();
+  comment: Comment = new Comment();
 
   constructor( @Optional() @Inject(MAT_DIALOG_DATA) public data: any,
                private formBuilder: FormBuilder,
                private adsService: AdsService,
-               private toastr: ToastrService) { 
-               
+               private toastr: ToastrService) {
+
                }
   local_data = this.data;
 
@@ -27,7 +27,7 @@ export class NewReplyComponent implements OnInit {
     this.addReply = this.formBuilder.group({
       content: new FormControl(null, Validators.required)
     });
-    
+
   }
 
   save() {
