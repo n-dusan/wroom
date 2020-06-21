@@ -1,18 +1,24 @@
 package com.wroom.adsservice.soap.endpoints;
 
-import com.wroom.adsservice.domain.Comment;
-import com.wroom.adsservice.repository.CommentRepository;
-import com.wroom.adsservice.service.CommentService;
-import com.wroom.adsservice.soap.converters.CommentSoapConverter;
-import com.wroom.adsservice.soap.xsd.*;
-import lombok.extern.log4j.Log4j2;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import java.util.List;
+import com.wroom.adsservice.domain.Comment;
+import com.wroom.adsservice.service.AdService;
+import com.wroom.adsservice.service.CommentService;
+import com.wroom.adsservice.soap.converters.CommentSoapConverter;
+import com.wroom.adsservice.soap.xsd.CommentListRequest;
+import com.wroom.adsservice.soap.xsd.CommentListResponse;
+import com.wroom.adsservice.soap.xsd.CommentRequest;
+import com.wroom.adsservice.soap.xsd.CommentResponse;
+import com.wroom.adsservice.soap.xsd.CommentSoap;
+
+import lombok.extern.log4j.Log4j2;
 
 @Endpoint
 @Log4j2
@@ -23,16 +29,25 @@ public class CommentsEndpoint {
 
 	@Autowired
 	private CommentService commentService;
+	@Autowired
+	private AdService adService;
 
 	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "CommentRequest")
 	@ResponsePayload
-	public CommentResponse sendMessageToService(@RequestPayload CommentRequest request) {
+	public CommentResponse sendComment(@RequestPayload CommentRequest request) {
 		log.info(">>>Received a comment");
 		
 		CommentResponse response = new CommentResponse();
-//		response.setMessage(MessagesConverter.toSoapMessage(this.messageRepository.save(MessagesConverter.fromSoapMessage(request.getMessage()))));
 		
+		//reply
+//		try {
+//			Comment reply = this.adService.addReply(CommentSoapConverter.fromSoapRequest(request.getComment()));
+//			response.setComment(CommentSoapConverter.toSoapRequest(reply));
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+
 		log.info(">>>Comment saved.");
 		
 		return response;

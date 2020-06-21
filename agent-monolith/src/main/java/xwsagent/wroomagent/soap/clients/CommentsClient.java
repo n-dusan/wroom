@@ -19,17 +19,17 @@ public class CommentsClient extends WebServiceGatewaySupport {
 
 	public static final String MONOLITH_USER_EMAIL = "zika@maildrop.cc";
 
-	public CommentResponse send(Comment entity) {
+	public CommentResponse reply(Comment entity) {
 		CommentRequest request = new CommentRequest();
-//		request.setComment(CommentSoapConverter.toSoapComment(entity));
+		request.setComment(CommentSoapConverter.toSoapRequest(entity));
 		
-		System.out.println(">>>>>> Sening comment to wroom");
+		System.out.println(">>>>>> Sening reply to wroom");
 		CommentResponse response = (CommentResponse) getWebServiceTemplate().marshalSendAndReceive(request);
 		System.out.println(">>>>>> Sent");
 		
 		return response;
 	}
-
+	
 	/**
 	 * sends owner_email
 	 * @return list of comments that belong to that user

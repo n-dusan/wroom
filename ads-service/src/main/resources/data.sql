@@ -21,7 +21,6 @@ insert into price_list(id, deleted, discount, pricecdw, price_per_day, price_per
 values(3, false, 25, 500, 35, 7, 1);
 
 ---- Ads
-
 insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id, local_id)
 values(1, 'Via del Corso 15', '2020-05-29 00:00:00.000000', '2020-07-16 00:00:00.000000', 0, 1, null, 0, '2020-05-28 17:20:12.039000', 4, 1, 1, 1);
 insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id, local_id)
@@ -42,6 +41,5 @@ insert into comment(id, approved, content, comment_date, deleted, rate, title, a
 values(2, true, 'Great service', '2020-06-08 12:00:00.000000', false, 8, 'OK', 1, 2, false, 'mila@maildrop.cc');
 insert into comment(id, content, approved, comment_date, deleted, ad_id, client_id, reply, client_username)
 values(3, 'Thank you very much' ,true, '2020-06-08 10:00:00.000000', false, 1, 2, true, 'zika@maildrop.cc');
-
 insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
 values(4, true, 'Not happy', '2020-06-04 12:00:00.000000', false, 8, 'As an admin im offended', 2, 3, null, false, 'grga@maildrop.cc');

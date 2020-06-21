@@ -8,9 +8,13 @@
 
 package com.wroom.adsservice.soap.xsd;
 
-import javax.xml.bind.annotation.*;
-import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Date;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
 
 
 /**
@@ -61,20 +65,31 @@ import java.util.Date;
 public class CommentSoap {
 
     protected long id;
+    
     @XmlElement(required = true)
     protected String title;
+    
     @XmlElement(required = true)
     protected String content;
+    
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
     protected Date commentDate;
+    
     protected boolean deleted;
+    
     protected boolean approved;
+    
     protected int rate;
-    protected Integer replyId;
+    
+    protected Long replyId;
+    
     protected Boolean reply;
+    
     protected long adId;
+    
     protected Long clientId;
+    
     @XmlElement(required = true)
     protected String clientUsername;
 
@@ -159,7 +174,7 @@ public class CommentSoap {
      * 
      * @param value
      *     allowed object is
-     *     {@link Date }
+     *     {@link XMLGregorianCalendar }
      *     
      */
     public void setCommentDate(Date value) {
@@ -222,7 +237,7 @@ public class CommentSoap {
      *     {@link Integer }
      *     
      */
-    public Integer getReplyId() {
+    public Long getReplyId() {
         return replyId;
     }
 
@@ -234,7 +249,7 @@ public class CommentSoap {
      *     {@link Integer }
      *     
      */
-    public void setReplyId(Integer value) {
+    public void setReplyId(Long value) {
         this.replyId = value;
     }
 

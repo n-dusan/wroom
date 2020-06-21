@@ -94,7 +94,7 @@ public class AdService {
 		Ad ad = AdConverter.toEntity(adDTO);
 		// ad.setVehicle(vehicleService.findById(adDTO.getVehicleId()));
 		ad.setVehicleId(adDTO.getVehicleId());
-		
+
 		ad.setPriceList(priceListRepository.findOneById(adDTO.getPriceListId()));
 		ad.setLocation(locationRepository.findOneById(adDTO.getLocationId()));
 		ad.setPublishDate(Calendar.getInstance().getTime());
@@ -141,27 +141,26 @@ public class AdService {
 		} catch (Exception e) {
 			System.err.println("Did not sync with search service");
 		}
-		
 
 		return entity;
 	}
-	
+
 	public Ad update(Ad ad) {
-		if(ad == null) {
+		if (ad == null) {
 			throw new GeneralException("Forwarded ad is null");
 		}
 		Ad entity = this.findByLocalId(ad.getLocalId(), ad.getOwnerUsername());
-		
+
 		try {
 			int size = entity.getComments().size();
 		} catch (Exception e) {
 			entity.setComments(null);
 		}
-		
+
 		entity.setPublishDate(ad.getPublishDate());
 		entity.setAvailableFrom(ad.getAvailableFrom());
 		entity.setAvailableTo(ad.getAvailableTo());
-		if(ad.getMileLimit() != null && ad.getMileLimit() != 0.0) {
+		if (ad.getMileLimit() != null && ad.getMileLimit() != 0.0) {
 			entity.setMileLimit(ad.getMileLimit());
 			entity.setMileLimitEnabled(true);
 		} else {
@@ -175,7 +174,7 @@ public class AdService {
 		entity.setLocation(this.locationRepository.findOneById(ad.getLocation().getId()));
 		entity.setOwnerUsername(ad.getOwnerUsername());
 		entity.setLocalId(ad.getLocalId());
-		
+
 		Ad saved = this.adRepository.save(entity);
 		try {
 			AdDTO adDTO = AdConverter.fromEntity(saved);
@@ -188,7 +187,7 @@ public class AdService {
 		} catch (Exception e) {
 			System.err.println("Did not sync with search service");
 		}
-		
+
 		return saved;
 	}
 
@@ -232,8 +231,8 @@ public class AdService {
 
 	public Ad deleteByLocalId(Long localId, String ownerUsername) {
 		Ad entity = this.findByLocalId(localId, ownerUsername);
-		
-		if(entity != null) {
+
+		if (entity != null) {
 			entity.setDeleted(true);
 			Ad saved = adRepository.save(entity);
 
@@ -241,25 +240,25 @@ public class AdService {
 			try {
 				AdDTO adDTO = AdConverter.fromEntity(saved);
 				AdsMessage message = AMQPAdConverter.toAdsMessage(adDTO, OperationEnum.DELETE);
-				message.setPriceList(
-						AMQPPriceListConverter.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
+				message.setPriceList(AMQPPriceListConverter
+						.toPriceListMessage(PriceListConverter.fromEntity(entity.getPriceList())));
 				message.setLocation(
 						AMQPLocationConverter.toLocationMessage(LocationConverter.fromEntity(entity.getLocation())));
 				this.adsProducer.send(message);
 			} catch (Exception e) {
 				System.err.println("Did not sync with search service");
 			}
-			
+
 			return saved;
 		}
-		
+
 		return entity;
 	}
-	
+
 	public Ad findByLocalId(Long id, String username) {
 		try {
 			return adRepository.findByLocalId(id, username);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -274,56 +273,59 @@ public class AdService {
 //    public UserDTO getOwner(Long ad_id) {
 //        return UserConverter.fromEntity(this.adRepository.findById(ad_id).get().getVehicle().getOwner());
 //    }
+
+	public Comment addComment(CommentDTO dto, Long id, Authentication auth) {
+		Comment comment = CommentConverter.toEntity(dto);
+		comment.setTitle(dto.getTitle());
+		comment.setContent(dto.getContent());
+		comment.setApproved(false);
+		comment.setDeleted(false);
+		// User user = userService.findByEmail(((UserPrincipal)
+		// auth.getPrincipal()).getUsername());
+		// comment.setClientUsername(user.getEmail());
+		// comment.setClientId(user.getId());
+		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		comment.setClientUsername(user.getUsername());
+		comment.setClientId(user.getId());
+		comment.setAd(findById(id));
+		comment.setRate(dto.getRate());
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		comment.setCommentDate(date);
+		commentRepository.save(comment);
+		return comment;
+	}
+
+	public Comment addReply(CommentDTO dto, Long id, Authentication auth) {
+		Comment comment = CommentConverter.toEntity(dto);
+		comment.setTitle(dto.getTitle());
+		comment.setContent(dto.getContent());
+		comment.setApproved(false);
+		comment.setDeleted(false);
+		// ------Ne znam kako da prilagodim ovo mikroservisima------//
+		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
+		comment.setClientUsername(user.getUsername());
+		comment.setClientId(user.getId());
+		comment.setAd(findByCommentId(id).getAd());
+		// ------------------------------------------------//
+		Calendar cal = Calendar.getInstance();
+		Date date = cal.getTime();
+		comment.setCommentDate(date);
+		comment.setReply(true);
+		commentRepository.save(comment);
+
+		Comment c = findByCommentId(id);
+		c.setReplyId(comment.getId());
+		commentRepository.save(c);
+
+		return comment;
+	}
 	
-	 public Comment addComment(CommentDTO dto, Long id, Authentication auth) {
-	    	Comment comment = CommentConverter.toEntity(dto);
-	    	comment.setTitle(dto.getTitle());
-	    	comment.setContent(dto.getContent());
-	    	comment.setApproved(false);
-	    	comment.setDeleted(false);
-	    	//User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
-	    	//comment.setClientUsername(user.getEmail());
-	    	//comment.setClientId(user.getId());
-		 	UserPrincipal user = (UserPrincipal) auth.getPrincipal();
-		 	comment.setClientUsername(user.getUsername());
-		 	comment.setClientId(user.getId());
-	    	comment.setAd(findById(id));
-	    	comment.setRate(dto.getRate());
-	    	Calendar cal = Calendar.getInstance();
-	    	Date date = cal.getTime();
-	    	comment.setCommentDate(date);
-	    	commentRepository.save(comment);
-	    	return comment;
-	    }
-	 
-	 public Comment addReply(CommentDTO dto, Long id, Authentication auth) {
-	    	Comment comment = CommentConverter.toEntity(dto);
-	    	comment.setTitle(dto.getTitle());
-	    	comment.setContent(dto.getContent());
-	    	comment.setApproved(false);
-	    	comment.setDeleted(false);
-	    	// ------Ne znam kako da prilagodim ovo mikroservisima------//
-		 	UserPrincipal user = (UserPrincipal) auth.getPrincipal();
-	    	comment.setClientUsername(user.getUsername());
-	    	comment.setClientId(user.getId());
-	    	comment.setAd(findByCommentId(id).getAd());
-	    	//------------------------------------------------//
-	    	Calendar cal = Calendar.getInstance();
-	    	Date date = cal.getTime();
-	    	comment.setCommentDate(date);
-	    	comment.setReply(true);
-	    	commentRepository.save(comment);
-	    	
-	    	Comment c = findByCommentId(id);
-	    	c.setReplyId(comment.getId());
-	    	commentRepository.save(c);
-	    	
-//	    	Send to wroom with soap
-	    	
-	    	return comment;
-	    }
-	
-	public List<Comment> getComments(){
+//	public Comment reply(Comment entity) {
+//		
+//	}
+
+	public List<Comment> getComments() {
 		List<Comment> list = new ArrayList<Comment>();
 		for (Comment c : commentRepository.findAll()) {
 			if (c.isApproved() == false && c.isDeleted() == false) {

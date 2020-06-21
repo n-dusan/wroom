@@ -26,6 +26,7 @@ import xwsagent.wroomagent.repository.LocationRepository;
 import xwsagent.wroomagent.repository.PriceListRepository;
 import xwsagent.wroomagent.repository.VehicleRepository;
 import xwsagent.wroomagent.soap.clients.AdsClient;
+import xwsagent.wroomagent.soap.clients.CommentsClient;
 import xwsagent.wroomagent.soap.xsd.Operation;
 
 @Service
@@ -38,6 +39,7 @@ public class AdService {
     private final UserService userService;
     private final CommentRepository commentRepository;
     private final AdsClient adsClient;
+    private final CommentsClient commentsClient;
 
     public AdService(LocationRepository locationRepository,
                      AdRepository adRepository,
@@ -46,7 +48,8 @@ public class AdService {
                      VehicleService vehicleService,
                      UserService userService,
                      CommentRepository commentRepository,
-                     AdsClient adsClient) {
+                     AdsClient adsClient,
+                     CommentsClient commentsClient) {
         this.locationRepository = locationRepository;
         this.adRepository = adRepository;
         this.priceListRepository = priceListRepository;
@@ -54,6 +57,7 @@ public class AdService {
         this.userService = userService;
         this.commentRepository = commentRepository;
         this.adsClient = adsClient;
+        this.commentsClient = commentsClient;
     }
 
     public List<Ad> findAll() {
@@ -175,13 +179,18 @@ public class AdService {
     	Date date = cal.getTime();
     	comment.setCommentDate(date);
     	comment.setReply(true);
-    	commentRepository.save(comment);
+    	Comment saved = commentRepository.save(comment);
     	
     	Comment c = findByCommentId(id);
     	c.setReplyId(comment.getId());
     	commentRepository.save(c);
     	
 //    	Send to wroom with soap
+    	try {
+			this.commentsClient.reply(saved);
+		} catch (Exception e) {
+			System.err.println("Did not sync with wroom.");
+		}
     	
     	return comment;
     }
