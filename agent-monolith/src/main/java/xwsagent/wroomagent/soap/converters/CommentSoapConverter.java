@@ -25,7 +25,7 @@ public class CommentSoapConverter extends AbstractConverter {
 
 	public static Comment fromSoapRequest(CommentSoap soap) {
 		return new Comment(
-				soap.getId(),
+				soap.getLocalId(),
 				soap.getTitle(),
 				soap.getContent(),
 				soap.getCommentDate(),

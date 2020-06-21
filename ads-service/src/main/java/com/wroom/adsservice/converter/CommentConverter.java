@@ -34,7 +34,8 @@ public class CommentConverter extends AbstractConverter{
 				dto.getClientId(),
 				null,
 				dto.getReplyId(),
-				dto.isReply()
+				dto.isReply(),
+				null
 		);
 	}
 }

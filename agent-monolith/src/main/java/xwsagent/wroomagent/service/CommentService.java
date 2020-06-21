@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.CommentRepository;
@@ -44,6 +45,11 @@ public class CommentService {
 
 	public Double getAverage(Long vehicleId) {
 		return this.commentRepository.findAvgRating(vehicleId);
+	}
+
+	public Comment findById(Long id) {
+		return commentRepository.findById(id)
+				.orElseThrow(() -> new InvalidReferenceException("Unable to find reference to " + id.toString() + " comment"));
 	}
 	
 	

@@ -48,6 +48,7 @@ public class AdConverter extends AbstractConverter {
         }
         ad.setAddress(dto.getAddress());
         ad.setGps(dto.isGps());
+
         if(dto.getLocalId() != null) {
         	ad.setLocalId(dto.getLocalId());
         }
