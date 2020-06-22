@@ -52,7 +52,7 @@ public class MessageController {
 		String logContent = String.format(LOG_GET_RECEIVED, principal.getUsername(),
 				requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		log.info(logContent);
-		return new ResponseEntity<>(MessageConverter.fromEntityList(this.messageService.getReceived(principal.getId()),
+		return new ResponseEntity<>(MessageConverter.fromEntityList(this.messageService.getReceived(principal.getUsername()),
 				MessageConverter::fromEntity), HttpStatus.CREATED);
 	}
 	
@@ -62,7 +62,7 @@ public class MessageController {
 		String logContent = String.format(LOG_GET_SENT, principal.getUsername(),
 				requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		log.info(logContent);
-		return new ResponseEntity<>(MessageConverter.fromEntityList(this.messageService.getSent(principal.getId()),
+		return new ResponseEntity<>(MessageConverter.fromEntityList(this.messageService.getSent(principal.getUsername()),
 				MessageConverter::fromEntity), HttpStatus.CREATED);
 	}
 	

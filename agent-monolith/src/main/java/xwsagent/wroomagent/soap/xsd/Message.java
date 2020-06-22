@@ -34,6 +34,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         &lt;element name="date" type="{http://ftn.com/renting-service/xsd}date"/&gt;
  *         &lt;element name="fromUser" type="{http://ftn.com/renting-service/xsd}username"/&gt;
  *         &lt;element name="toUser" type="{http://ftn.com/renting-service/xsd}username"/&gt;
+ *         &lt;element name="localId" type="{http://ftn.com/renting-service/xsd}id"/&gt;
+ *         &lt;element name="id" type="{http://ftn.com/renting-service/xsd}id"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -49,7 +51,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
     "content",
     "date",
     "fromUser",
-    "toUser"
+    "toUser",
+    "localId",
+    "id"
 })
 public class Message {
 
@@ -66,6 +70,10 @@ public class Message {
     protected String fromUser;
     @XmlElement(required = true)
     protected String toUser;
+    @XmlElement(required = true)
+    protected Long localId;
+    @XmlElement(required = true)
+    protected Long id;
 
     /**
      * Gets the value of the rentRequestId property.
@@ -202,5 +210,23 @@ public class Message {
     public void setToUser(String value) {
         this.toUser = value;
     }
+
+	public Long getLocalId() {
+		return localId;
+	}
+
+	public void setLocalId(Long localId) {
+		this.localId = localId;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+    
+    
 
 }

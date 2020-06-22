@@ -1,8 +1,9 @@
 package com.wroom.rentingservice.soap.converters;
 
+import com.wroom.rentingservice.converter.AbstractConverter;
 import com.wroom.rentingservice.soap.xsd.Message;
 
-public class MessagesConverter {
+public class MessagesConverter extends AbstractConverter {
 
 	public static com.wroom.rentingservice.domain.Message fromSoapMessage(com.wroom.rentingservice.soap.xsd.Message soap) {
 		return new com.wroom.rentingservice.domain.Message(
@@ -14,7 +15,8 @@ public class MessagesConverter {
 				soap.getContent(),
 				soap.getDate(),
 				soap.getFromUser(),
-				soap.getToUser()
+				soap.getToUser(),
+				soap.getId() == null ? null : soap.getId()
 		);
 	}
 	 
@@ -23,7 +25,10 @@ public class MessagesConverter {
 		ret.setContent(entity.getContent());
 		ret.setTitle(entity.getTitle());
 		ret.setDate(entity.getDate());
-//		ret.setFromUser(); set this in method calling this one
+		ret.setId(entity.getId());
+		ret.setFromUser(entity.getFromUser());
+		ret.setToUser(entity.getToUser());
+		ret.setRentRequestId(entity.getRentRequestId());
 		return ret;
 	}
 	

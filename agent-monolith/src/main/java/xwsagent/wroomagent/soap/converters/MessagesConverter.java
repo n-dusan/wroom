@@ -12,7 +12,7 @@ public class MessagesConverter {
 				soap.getContent(),
 				soap.getDate() == null ? null : soap.getDate(),
 				soap.getFromUser() == null ? null : soap.getFromUser(),
-				soap.getToUser() == null ? null : soap.getFromUser()
+				soap.getToUser() == null ? null : soap.getToUser()
 		);
 	}
 	
@@ -24,6 +24,8 @@ public class MessagesConverter {
 		ret.setFromUser(entity.getFromUser());
 		ret.setToUser(entity.getToUser());
 		ret.setDate(entity.getDate());
+//		ret.setLocalId(entity.getId());
+		ret.setId(entity.getId());
 		return ret;
 	}
 	

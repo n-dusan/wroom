@@ -293,10 +293,10 @@ insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_i
 values (6, '2020-06-27 00:00:00.000000', 1, 'PENDING', '2020-06-28 00:00:00.000000', 1, null, null);
 
 -- Messages
-insert into message(id, content, date, rent_request_id, title, from_user, to_user_id)
-values(1, 'Hello Monolith, how are you doing?', '2020-06-05 10:00:00.000000', 1, 'Hello', 'zika@maildrop.cc', 1);
-insert into message(id, content, date, rent_request_id, title, to_user, from_user_id)
-values(2, 'Hello Ziko, good.', '2020-06-05 11:00:00.000000', 1, 'Hello-Reply', 'zika@maildrop.cc', 1);
+--insert into message(id, content, date, rent_request_id, title, from_user, to_user_id)
+--values(1, 'Hello Monolith, how are you doing?', '2020-06-05 10:00:00.000000', 1, 'Hello', 'zika@maildrop.cc', 1);
+--insert into message(id, content, date, rent_request_id, title, to_user, from_user_id)
+--values(2, 'Hello Ziko, good.', '2020-06-05 11:00:00.000000', 1, 'Hello-Reply', 'zika@maildrop.cc', 1);
 
 -- Comments
 -- insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)
