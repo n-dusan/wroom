@@ -12,7 +12,8 @@ export class Vehicle {
         public bodyType?: VehicleFeature,
         public fuelType?: VehicleFeature,
         public gearboxType?: VehicleFeature,
-        public ownerId?: number
+        public ownerId?: number,
+        public ownerUsername?: string
     ) {}
 
 }

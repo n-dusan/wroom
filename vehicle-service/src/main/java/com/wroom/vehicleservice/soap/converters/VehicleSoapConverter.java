@@ -35,6 +35,7 @@ public class VehicleSoapConverter {
 		ret.setCdw(soap.isCdw());
 		ret.setDeleted(soap.isDeleted());
 		ret.setOwnerUsername(soap.getOwner());
+		ret.setOwnerId(soap.getOwnerId());
 		//Vehicle features are set in calling method
 		
 		return ret;

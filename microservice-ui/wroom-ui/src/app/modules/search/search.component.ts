@@ -118,8 +118,12 @@ export class SearchComponent implements OnInit {
           data => {
             // console.log('user', data)
             const id = data?.id;
+            // const username = data?.email;
+
             var notMyAds: Ad[] = [];
+
             notMyAds = this.ads.filter(obj => { return obj.vehicleObj?.ownerId !== id });
+            // notMyAds = this.ads.filter(obj => { return obj.vehicleObj?.ownerUsername !== username });
 
             this.ads = notMyAds;
             this.allAds = notMyAds;
