@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wroom.rentingservice.converter.MessageConverter;
 import com.wroom.rentingservice.domain.Message;
+import com.wroom.rentingservice.domain.RentRequest;
 import com.wroom.rentingservice.domain.dto.MessageDTO;
 import com.wroom.rentingservice.exception.GeneralException;
 import com.wroom.rentingservice.repository.MessageRepository;
@@ -16,10 +17,13 @@ import com.wroom.rentingservice.repository.MessageRepository;
 public class MessageService {
 
 	private final MessageRepository messageRepository;
+	private final RentsService rentsService;
 
-	public MessageService(MessageRepository messageRepository) {
+	public MessageService(MessageRepository messageRepository,
+			RentsService rentsService) {
 		super();
 		this.messageRepository = messageRepository;
+		this.rentsService = rentsService;
 	}
 
 	public Message findById(Long id) {
@@ -30,10 +34,11 @@ public class MessageService {
 	public Message send(MessageDTO dto, String username, Long senderId) {
 		Message entity = MessageConverter.toEntity(dto);
 		entity.setRentRequestId(dto.getRentRequestId());
-		entity.setFromUser(username);
 		entity.setToUser(dto.getToUser());
+		entity.setFromUser(username);
 		entity.setFromUserId(senderId);
 		entity.setDate(new Date());
+		
 		return this.messageRepository.save(entity);
 	}
 

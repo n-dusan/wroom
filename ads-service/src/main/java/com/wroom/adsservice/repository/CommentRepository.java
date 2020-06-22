@@ -19,6 +19,8 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 	@Query(value = "select avg(c.rate) from comment c inner join ad a on c.ad_id = a.id where a.vehicle_id = ?1", nativeQuery=true)
 	Double findAvgRating(Long vehicleId);
 
+	Comment findByLocalId(Long id);
+	
 	/** used in syncs.
 	* */
 	@Transactional

@@ -16,9 +16,16 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 	List<Message> findByToUser(String toUser);
 	List<Message> findByFromUser(String fromUser);
 	
-	/** used in syncs.
-	* */
+//	/** used in syncs.
+//	* */
+//	@Transactional
+//	@Query(value = "select m.* from message m inner join rent_request r on m.rent_request_id = r.id where r.owner_username = ?1", nativeQuery=true)
+//	List<Message> findMessagesByOwnerEmail(String email);
+
 	@Transactional
-	@Query(value = "select m.* from message m inner join rent_request r on m.rent_request_id = r.id where r.owner_username = ?1", nativeQuery=true)
+	@Query(value="select m.* from message m inner join rent_request r on m.rent_request_id = r.id " + 
+			"inner join ad a on r.ad_id = a.id " + 
+			"inner join vehicle v on a.vehicle_id = v.id " + 
+			"where v.owner_username = ?1", nativeQuery=true)
 	List<Message> findMessagesByOwnerEmail(String email);
 }

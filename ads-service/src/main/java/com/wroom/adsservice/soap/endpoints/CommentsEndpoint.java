@@ -65,8 +65,8 @@ public class CommentsEndpoint {
 		// reply
 		try {
 			Comment reply = CommentSoapConverter.fromSoapRequest(request.getComment());
-//			reply.setLocalId(null);
-			Comment saved = this.adService.reply(reply, request.getParentId());
+			Comment parent = this.commentService.findByLocalId(request.getParentId());
+			Comment saved = this.adService.reply(reply, parent.getId());
 			response.setComment(CommentSoapConverter.toSoapRequest(saved));
 		} catch (Exception e) {
 			e.printStackTrace();
