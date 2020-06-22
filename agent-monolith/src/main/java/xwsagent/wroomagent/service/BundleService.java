@@ -1,6 +1,7 @@
 package xwsagent.wroomagent.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import lombok.AllArgsConstructor;
@@ -16,21 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class BundleService {
 
 	//neophodan autowired ovde zbog circular bean dependencies
-	@Autowired
 	private BundleRepository bundleRepository;
-
-	@Autowired
 	private RentsService rentsService;
-
-	@Autowired
 	private AdService adService;
+	private RentRequestRepository rentRepository;
 
 	@Autowired
-	private RentRequestRepository rentRepository;
+	public BundleService(BundleRepository bundleRepository, @Lazy RentsService rentsService,
+						 AdService adService,
+						 RentRequestRepository rentRequestRepository) {
+		this.bundleRepository = bundleRepository;
+		this.rentsService = rentsService;
+		this.adService = adService;
+		this.rentRepository = rentRequestRepository;
+	}
 
 
 	public BundledRequests save(BundledRequests b) {

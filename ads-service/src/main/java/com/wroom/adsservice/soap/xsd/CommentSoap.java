@@ -16,6 +16,12 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
+
 
 /**
  * <p>Java class for CommentSoap complex type.
@@ -35,7 +41,7 @@ import java.util.Date;
  *         &lt;element name="deleted" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;element name="approved" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;element name="rate" type="{http://ftn.com/wroom-agent/xsd}rate"/&gt;
- *         &lt;element name="replyId" type="{http://ftn.com/wroom-agent/xsd}replyId" minOccurs="0"/&gt;
+ *         &lt;element name="replyId" type="{http://ftn.com/wroom-agent/xsd}id" minOccurs="0"/&gt;
  *         &lt;element name="reply" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/&gt;
  *         &lt;element name="adId" type="{http://www.w3.org/2001/XMLSchema}long"/&gt;
  *         &lt;element name="clientId" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/&gt;
@@ -70,18 +76,28 @@ public class CommentSoap {
     protected Long localId;
     @XmlElement(required = true)
     protected String title;
+    
     @XmlElement(required = true)
     protected String content;
+    
     @XmlElement(required = true)
     @XmlSchemaType(name = "date")
     protected Date commentDate;
+    
     protected boolean deleted;
+    
     protected boolean approved;
+    
     protected int rate;
-    protected Integer replyId;
+    
+    protected Long replyId;
+    
     protected Boolean reply;
+    
     protected long adId;
+    
     protected Long clientId;
+    
     @XmlElement(required = true)
     protected String clientUsername;
 
@@ -261,7 +277,7 @@ public class CommentSoap {
      *     {@link Integer }
      *     
      */
-    public Integer getReplyId() {
+    public Long getReplyId() {
         return replyId;
     }
 
@@ -273,7 +289,7 @@ public class CommentSoap {
      *     {@link Integer }
      *     
      */
-    public void setReplyId(Integer value) {
+    public void setReplyId(Long value) {
         this.replyId = value;
     }
 

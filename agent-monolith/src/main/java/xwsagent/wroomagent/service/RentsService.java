@@ -34,18 +34,18 @@ public class RentsService {
 	private final AdRepository adRepository;
 	private final AdService adService;
 	private final UserRepository userRepository;
-	private final RentsClient rentsClient;
+
+	@Autowired
+	private RentsClient rentsClient;
 
 	@Autowired
 	private BundleService bundleService;
 
-	public RentsService(RentRequestRepository rr, AdService a, AdRepository adRepository, UserRepository userRepository,
-			RentsClient rentsClient) {
+	public RentsService(RentRequestRepository rr, AdService a, AdRepository adRepository, UserRepository userRepository) {
 		this.rentRepository = rr;
 		this.adService = a;
 		this.adRepository = adRepository;
 		this.userRepository = userRepository;
-		this.rentsClient = rentsClient;
 	}
 
 	public List<RentRequest> findAll() {

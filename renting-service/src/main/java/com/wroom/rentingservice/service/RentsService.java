@@ -436,4 +436,14 @@ public class RentsService {
 		}
 	}
 
+
+	public RentRequest updateLocalId(Long requestId, Long localId) {
+
+		RentRequest forUpdate = findById(requestId);
+		forUpdate.setLocalId(localId);
+
+		return this.rentRepository.save(forUpdate);
+
+	}
+
 }

@@ -23,7 +23,7 @@ public class RentRequestSoapConverter {
 	
 	public static RentRequest fromSoapRequest(RentRequestSoap soap) {
 		return new RentRequest(
-				null,
+				soap.getLocalId(),
 				RequestStatus.valueOf(soap.getStatus().toString()),
 				soap.getFromDate(),
 				soap.getToDate(),

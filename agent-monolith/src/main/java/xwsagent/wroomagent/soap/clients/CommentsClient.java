@@ -1,17 +1,19 @@
 package xwsagent.wroomagent.soap.clients;
 
-import lombok.extern.log4j.Log4j2;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.client.core.support.WebServiceGatewaySupport;
 
+import lombok.extern.log4j.Log4j2;
 import xwsagent.wroomagent.domain.Comment;
 import xwsagent.wroomagent.repository.CommentRepository;
 import xwsagent.wroomagent.service.AdService;
 import xwsagent.wroomagent.service.CommentService;
 import xwsagent.wroomagent.soap.converters.CommentSoapConverter;
+
 import xwsagent.wroomagent.soap.xsd.*;
 
-import java.util.List;
 
 @Log4j2
 public class CommentsClient extends WebServiceGatewaySupport {
@@ -27,9 +29,10 @@ public class CommentsClient extends WebServiceGatewaySupport {
 
 	public static final String MONOLITH_USER_EMAIL = "zika@maildrop.cc";
 
-	public CommentResponse send(Comment entity) {
-		CommentRequest request = new CommentRequest();
-//		request.setComment(CommentSoapConverter.toSoapComment(entity));
+	public CommentResponse reply(Comment entity, Long parentId) {
+		CommentReplyRequest request = new CommentReplyRequest();
+		request.setComment(CommentSoapConverter.toSoapRequest(entity));
+		request.setParentId(parentId);
 		
 		log.info(">>>>>> Sending comment to wroom");
 		CommentResponse response = (CommentResponse) getWebServiceTemplate().marshalSendAndReceive(request);
@@ -37,7 +40,7 @@ public class CommentsClient extends WebServiceGatewaySupport {
 
 		return response;
 	}
-
+	
 	/**
 	 * sends owner_email
 	 * @return list of comments that belong to that user
@@ -50,17 +53,27 @@ public class CommentsClient extends WebServiceGatewaySupport {
 
 		List<CommentSoap> commentSoapList = response.getComment();
 
-
         for (CommentSoap commentSoap : commentSoapList) {
 
 			Comment comment = CommentSoapConverter.fromSoapRequest(commentSoap);
 			comment.setAd(adService.findById(commentSoap.getAdId()));
+			
+			if(comment.isReply()) {
+				comment.setId(commentSoap.getLocalId());
+				comment.setApproved(commentSoap.isApproved());
+				Comment saved = this.commentRepository.save(comment);
+				continue;
+			}
+			
 			Comment saved = this.commentRepository.save(comment);
 
-			if(commentSoap.getLocalId() == null) {
-				//notify microservice of new entry (set local id)
-				updateCommentId(commentSoap.getId(), saved.getId());
+			if(!comment.isReply()) {
+				if(commentSoap.getLocalId() == null) {
+					//notify microservice of new entry (set local id)
+					updateCommentId(commentSoap.getId(), saved.getId());
+				}
 			}
+			
         }
 	}
 

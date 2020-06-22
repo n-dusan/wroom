@@ -8,18 +8,17 @@ public class CommentSoapConverter extends AbstractConverter {
 
 	public static CommentSoap toSoapRequest(Comment entity) {
 		CommentSoap ret = new CommentSoap();
-
-//		ret.setId(entity.getId());
-//		ret.setTitle(entity.getTitle());
-//		ret.setContent(entity.getContent());
-//		ret.setCommentDate(entity.getCommentDate());
-//		ret.setRequestedUserUsername(entity.getClientUsername());
-//		ret.setClientId(entity.getClientId());
-//		ret.setAd(entity.getAd().getId());
-//		ret.setReplyId(entity.getReplyId());
-//		ret.setApproved(entity.isApproved());
-//		ret.setDeleted(entity.isDeleted());
-	
+		ret.setId(entity.getId());
+		ret.setTitle(entity.getTitle());
+		ret.setContent(entity.getContent());
+		ret.setCommentDate(entity.getCommentDate());
+		ret.setClientId(entity.getClientId());
+		ret.setClientUsername(entity.getClientUsername());
+		ret.setDeleted(entity.isDeleted());
+		ret.setApproved(entity.isApproved());
+		ret.setReply(true);
+		ret.setReplyId(entity.getReplyId() == null ? null : entity.getReplyId());
+		ret.setAdId(entity.getAd().getId());
 		return ret;
 	}
 

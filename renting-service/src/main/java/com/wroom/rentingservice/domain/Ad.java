@@ -62,6 +62,9 @@ public class Ad {
 	@Column
 	private Long locationId;
 
+	@Column
+	private Long localId;
+
 //	@OneToMany(mappedBy = "ad")
 //	private Set<Rate> rates;
 }

@@ -3,6 +3,8 @@ package com.wroom.rentingservice.soap.endpoints;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.wroom.rentingservice.soap.xsd.*;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -19,14 +21,9 @@ import com.wroom.rentingservice.repository.RentRequestRepository;
 import com.wroom.rentingservice.service.RentsService;
 import com.wroom.rentingservice.soap.converters.BundledRequestsSoapConverter;
 import com.wroom.rentingservice.soap.converters.RentRequestSoapConverter;
-import com.wroom.rentingservice.soap.xsd.OperationRents;
-import com.wroom.rentingservice.soap.xsd.RentRequestSoap;
-import com.wroom.rentingservice.soap.xsd.SendBundleRequest;
-import com.wroom.rentingservice.soap.xsd.SendBundleResponse;
-import com.wroom.rentingservice.soap.xsd.SendRentRequest;
-import com.wroom.rentingservice.soap.xsd.SendRentResponse;
 
 @Endpoint
+@Log4j2
 public class RentRequestEndpoint {
 
 	private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
@@ -118,6 +115,22 @@ public class RentRequestEndpoint {
 		System.out.println(">>>>>>> Saved a Bundle");
 		
 		response.setBundle(BundledRequestsSoapConverter.toSoapBundle(entity));
+		return response;
+	}
+
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "RentRequestUpdateRequest")
+	@ResponsePayload
+	public RentRequestUpdateResponse updateId(@RequestPayload RentRequestUpdateRequest request) {
+		log.info("update=bundles action=started");
+
+		this.rentsService.updateLocalId(request.getId(), request.getLocalId());
+
+		RentRequestUpdateResponse response = new RentRequestUpdateResponse();
+		response.setId(request.getId());
+		response.setLocalId(request.getLocalId());
+
+		log.info("sync=bundles action=ended");
 		return response;
 	}
 	

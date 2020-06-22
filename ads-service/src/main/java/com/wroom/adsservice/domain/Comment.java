@@ -53,7 +53,7 @@ public class Comment {
     @Column
     private Long clientId;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Ad ad;
 
     @Column

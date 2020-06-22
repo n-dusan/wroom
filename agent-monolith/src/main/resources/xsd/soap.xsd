@@ -79,7 +79,7 @@
 			<element name="deleted" type="boolean"></element>
 			<element name="approved" type="boolean"></element>
 			<element name="rate" type="tns:rate"></element>
-			<element name="replyId" minOccurs='0' type="tns:replyId"></element>
+			<element name="replyId" minOccurs='0' type="tns:id"></element>
 			<element name="reply" minOccurs='0' type="boolean"></element>
 			<element name="adId" type="long"></element>
 			<element name="clientId" minOccurs='0' type="long"></element>
@@ -105,30 +105,28 @@
 
 	<complexType name="RentRequestSoap">
 		<sequence>
-			<element name="id" type="tns:id"></element>
+			<element name="id" type="tns:id" minOccurs="0" maxOccurs="1"></element>
+			<element name="localId" type="tns:id" minOccurs="0" maxOccurs="1"></element>
+			<element name="requestedUserId" type="tns:id" minOccurs="0" maxOccurs="1"></element>
 			<element name="status" type="tns:status"></element>
 			<element name="fromDate" type="tns:date"></element>
 			<element name="toDate" type="tns:date"></element>
 			<element name="requestedUserUsername" type="string"></element>
-			<element name="ad" type="tns:id"></element>
-			<element name="rentReport" type="tns:id"></element>
-			<element name="bundle" type="tns:id"></element>
+			<element name="ad" type="tns:id" minOccurs="0" maxOccurs="1"></element>
+			<element name="rentReport" type="tns:id" minOccurs="0" maxOccurs="1"></element>
+			<element name="bundle" type="tns:id" minOccurs="0" maxOccurs="1"></element>
 			<element name="ownerUsername" type="string"></element>
 		</sequence>
 	</complexType>
 
 	<complexType name="BundledRequestsSoap">
 		<sequence>
-			<element name="id" type="tns:id"></element>
+			<element name="id" type="tns:id" minOccurs="0" maxOccurs="1"></element>
+			<element name="localId" type="tns:id" minOccurs="0" maxOccurs="1"></element>
 			<element name="requests" type="tns:RentRequestSoap"  maxOccurs="unbounded"></element>
 		</sequence>
 	</complexType>
 
-	<complexType name="BundledRequestsListSoap">
-		<sequence>
-			<element name="requests" type="tns:BundledRequestsSoap"  maxOccurs="unbounded"></element>
-		</sequence>
-	</complexType>
 
 
 	<complexType name="AdSoap">
@@ -231,7 +229,25 @@
 			</sequence>
 		</complexType>
 	</element>
-	
+
+	<element name="RentRequestUpdateRequest">
+		<complexType>
+			<sequence>
+				<element name="id" type="long" minOccurs="0" maxOccurs="1"></element>
+				<element name="localId" type="long" minOccurs="0" maxOccurs="1"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="RentRequestUpdateResponse">
+		<complexType>
+			<sequence>
+				<element name="id" type="long" minOccurs="0" maxOccurs="1"></element>
+				<element name="localId" type="long" minOccurs="0" maxOccurs="1"></element>
+			</sequence>
+		</complexType>
+	</element>
+
 	<!-- Bundles -->
 	<element name="SendBundleRequest">
 		<complexType>
@@ -261,6 +277,32 @@
 		<complexType>
 			<sequence>
 				<element name="companyEmail" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="BundledRequestsListSoap">
+		<complexType >
+			<sequence>
+				<element name="requests" type="tns:BundledRequestsSoap"  maxOccurs="unbounded"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="BundleUpdateResponse">
+		<complexType>
+			<sequence>
+				<element name="id" type="long" minOccurs="0" maxOccurs="1"></element>
+				<element name="localId" type="long" minOccurs="0" maxOccurs="1"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="BundleUpdateRequest">
+		<complexType>
+			<sequence>
+				<element name="id" type="long" minOccurs="0" maxOccurs="1"></element>
+				<element name="localId" type="long" minOccurs="0" maxOccurs="1"></element>
 			</sequence>
 		</complexType>
 	</element>

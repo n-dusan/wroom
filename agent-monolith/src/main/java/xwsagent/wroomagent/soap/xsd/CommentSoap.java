@@ -78,7 +78,7 @@ public class CommentSoap {
     protected boolean deleted;
     protected boolean approved;
     protected int rate;
-    protected Integer replyId;
+    protected Long replyId;
     protected Boolean reply;
     protected long adId;
     protected Long clientId;
@@ -261,7 +261,7 @@ public class CommentSoap {
      *     {@link Integer }
      *     
      */
-    public Integer getReplyId() {
+    public Long getReplyId() {
         return replyId;
     }
 
@@ -273,7 +273,7 @@ public class CommentSoap {
      *     {@link Integer }
      *     
      */
-    public void setReplyId(Integer value) {
+    public void setReplyId(Long value) {
         this.replyId = value;
     }
 

@@ -1,16 +1,14 @@
 package xwsagent.wroomagent.aop;
 
-import lombok.extern.log4j.Log4j2;
+import java.util.List;
+
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
-import xwsagent.wroomagent.domain.Comment;
-import xwsagent.wroomagent.repository.CommentRepository;
-import xwsagent.wroomagent.service.CommentService;
-import xwsagent.wroomagent.soap.clients.CommentsClient;
 
-import java.util.List;
+import lombok.extern.log4j.Log4j2;
+import xwsagent.wroomagent.soap.clients.CommentsClient;
 
 @Component
 @Aspect
@@ -18,13 +16,10 @@ import java.util.List;
 public class CommentsAspect {
 
     private final CommentsClient commentsClient;
-    private final CommentRepository commentRepository;
-    private final CommentService commentService;
 
-    public CommentsAspect(CommentsClient commentsClient, CommentRepository commentRepository, CommentService commentService) {
+    public CommentsAspect(CommentsClient commentsClient) {
         this.commentsClient = commentsClient;
-        this.commentRepository = commentRepository;
-        this.commentService = commentService;
+
     }
 
     /**

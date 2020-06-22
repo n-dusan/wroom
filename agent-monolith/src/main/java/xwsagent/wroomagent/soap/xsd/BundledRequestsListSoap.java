@@ -13,17 +13,16 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for anonymous complex type.
+ * <p>Java class for BundledRequestsListSoap complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType&gt;
+ * &lt;complexType name="BundledRequestsListSoap"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
@@ -37,11 +36,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
+@XmlType(name = "BundledRequestsListSoap", propOrder = {
     "requests"
 })
-@XmlRootElement(name = "BundledRequestsListSoapResponse")
-public class BundledRequestsListSoapResponse {
+public class BundledRequestsListSoap {
 
     @XmlElement(required = true)
     protected List<BundledRequestsSoap> requests;
@@ -73,10 +71,6 @@ public class BundledRequestsListSoapResponse {
             requests = new ArrayList<BundledRequestsSoap>();
         }
         return this.requests;
-    }
-
-    public void setRequests(List<BundledRequestsSoap> bundledRequestsSoaps) {
-        this.requests = bundledRequestsSoaps;
     }
 
 }
