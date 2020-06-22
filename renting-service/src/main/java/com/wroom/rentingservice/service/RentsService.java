@@ -81,9 +81,9 @@ public class RentsService {
 		return this.bundleService.save(bundle);
 	}
 	
-	RentRequest findByLocalId(Long id, String username) {
+	RentRequest findByLocalId(Long id) {
 		try {
-			return rentRepository.findByLocalId(id, username);
+			return rentRepository.findByLocalId(id);
 		} catch(Exception e) {
 			e.printStackTrace();
 			return null;
@@ -294,7 +294,7 @@ public class RentsService {
 	}
 	
 	public RentRequest decline(RentRequest entity) {
-		RentRequest rentRequest = findByLocalId(entity.getLocalId(), entity.getOwnerUsername());
+		RentRequest rentRequest = findByLocalId(entity.getLocalId());
 		rentRequest.setStatus(RequestStatus.CANCELED);
 		return this.rentRepository.save(rentRequest);
 	}
@@ -306,7 +306,7 @@ public class RentsService {
 	}
 	
 	public RentRequest accept(RentRequest entity) {
-		RentRequest rentRequest = findByLocalId(entity.getLocalId(), entity.getOwnerUsername());
+		RentRequest rentRequest = findByLocalId(entity.getLocalId());
 		rentRequest.setStatus(RequestStatus.RESERVED);
 		return this.rentRepository.save(rentRequest);
 	}

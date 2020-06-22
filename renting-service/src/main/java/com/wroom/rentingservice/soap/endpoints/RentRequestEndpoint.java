@@ -1,6 +1,7 @@
 package com.wroom.rentingservice.soap.endpoints;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import com.wroom.rentingservice.soap.xsd.*;
@@ -131,6 +132,25 @@ public class RentRequestEndpoint {
 		response.setLocalId(request.getLocalId());
 
 		log.info("sync=bundles action=ended");
+		return response;
+	}
+
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "SendRentListRequest")
+	@ResponsePayload
+	public SendRentListResponse sync(@RequestPayload SendRentListRequest request) {
+		log.info("sync=rent_requests action=started");
+
+		List<RentRequest> rentRequests = this.rentsRepository.findRentRequestsByVehicleOwnerEmail(request.getCompanyEmail());
+		SendRentListResponse response = new SendRentListResponse();
+
+		List<RentRequestSoap> rentRequestSoaps = RentRequestSoapConverter.toEntityList(
+				rentRequests, RentRequestSoapConverter::toSoapRequest
+		);
+
+		response.setRentRequest(rentRequestSoaps);
+
+		log.info("sync=rent_requests action=completed");
 		return response;
 	}
 	

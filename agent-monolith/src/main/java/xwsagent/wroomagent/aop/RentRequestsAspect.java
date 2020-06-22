@@ -25,7 +25,9 @@ public class RentRequestsAspect {
         //sync bundles
         this.rentsClient.syncBundles();
         //sync reports
+
         //sync requests
+        this.rentsClient.syncRents();
 
         log.info("sync=rents, action=complete");
     }

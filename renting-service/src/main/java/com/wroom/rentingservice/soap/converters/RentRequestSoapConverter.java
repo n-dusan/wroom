@@ -1,11 +1,12 @@
 package com.wroom.rentingservice.soap.converters;
 
+import com.wroom.rentingservice.converter.AbstractConverter;
 import com.wroom.rentingservice.domain.RentRequest;
 import com.wroom.rentingservice.domain.enums.RequestStatus;
 import com.wroom.rentingservice.soap.xsd.RentRequestSoap;
 import com.wroom.rentingservice.soap.xsd.Status;
 
-public class RentRequestSoapConverter {
+public class RentRequestSoapConverter extends AbstractConverter {
 
 	public static RentRequestSoap toSoapRequest(RentRequest entity) {
 		RentRequestSoap ret = new RentRequestSoap();

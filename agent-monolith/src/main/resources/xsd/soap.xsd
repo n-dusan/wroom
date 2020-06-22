@@ -230,6 +230,22 @@
 		</complexType>
 	</element>
 
+	<element name="SendRentListResponse">
+		<complexType>
+			<sequence>
+				<element name="rentRequest" type="tns:RentRequestSoap" maxOccurs="unbounded"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="SendRentListRequest">
+		<complexType>
+			<sequence>
+				<element name="companyEmail" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+
 	<element name="RentRequestUpdateRequest">
 		<complexType>
 			<sequence>

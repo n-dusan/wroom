@@ -14,10 +14,11 @@ public class RentRequestSoapConverter {
 		ret.setFromDate(entity.getFromDate());
 		ret.setToDate(entity.getToDate());
 		ret.setRequestedUserUsername(entity.getRequestedUser().getEmail());
+		ret.setRequestedUserId(entity.getRequestedUser() == null ? null : entity.getRequestedUser().getId());
 		ret.setAd(entity.getAd().getId());
 		ret.setOwnerUsername(entity.getAd().getVehicle().getOwner().getEmail());
-//		ret.setRentReport(entity.getRentReport() == null ? null : entity.getRentReport().getId());
-//		ret.setBundle(entity.getBundle() == null ? null : entity.getBundle().getId());
+		ret.setRentReport(entity.getRentReport() == null ? null : entity.getRentReport().getId());
+		ret.setBundle(entity.getBundle() == null ? null : entity.getBundle().getId());
 		return ret;
 	}
 	

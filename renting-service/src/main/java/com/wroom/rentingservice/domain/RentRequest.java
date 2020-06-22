@@ -26,7 +26,6 @@ import lombok.ToString;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@ToString
 public class RentRequest {
 
 	@Id
@@ -53,10 +52,10 @@ public class RentRequest {
 	@ManyToOne
 	private Ad ad;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private RentReport rentReport;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private BundledRequests bundle;
 
 	@Column

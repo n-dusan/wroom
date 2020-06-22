@@ -279,18 +279,18 @@ values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00
 -- Rent Requests
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
 --values(1, '2020-06-05 00:00:00.000000', 'PAID', '2020-06-07 00:00:00.000000', null, 1, 1); --Opel Astra iz Wuhana
-insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
-values(1, '2020-06-23 00:00:00.000000', 'COMPLETED', '2020-06-23 00:00:00.000000', null, 1, 1);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (2, '2020-06-04 00:00:00.000000', 1, 'RESERVED', '2020-06-15 00:00:00.000000', 1, null, null);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (3, '2020-05-29 00:00:00.000000', 1, 'COMPLETED', '2020-06-01 00:00:00.000000', 1, null, null);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (4, '2020-06-01 00:00:00.000000', 1, 'COMPLETED', '2020-06-03 00:00:00.000000', 1, null, null);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (5, '2020-06-29 00:00:00.000000', 1, 'PENDING', '2020-06-30 00:00:00.000000', 1, null, null);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (6, '2020-06-27 00:00:00.000000', 1, 'PENDING', '2020-06-28 00:00:00.000000', 1, null, null);
+-- insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
+-- values(1, '2020-06-23 00:00:00.000000', 'COMPLETED', '2020-06-23 00:00:00.000000', null, 1, 1);
+-- insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+-- values (2, '2020-06-04 00:00:00.000000', 1, 'RESERVED', '2020-06-15 00:00:00.000000', 1, null, null);
+-- insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+-- values (3, '2020-05-29 00:00:00.000000', 1, 'COMPLETED', '2020-06-01 00:00:00.000000', 1, null, null);
+-- insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+-- values (4, '2020-06-01 00:00:00.000000', 1, 'COMPLETED', '2020-06-03 00:00:00.000000', 1, null, null);
+-- insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+-- values (5, '2020-06-29 00:00:00.000000', 1, 'PENDING', '2020-06-30 00:00:00.000000', 1, null, null);
+-- insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+-- values (6, '2020-06-27 00:00:00.000000', 1, 'PENDING', '2020-06-28 00:00:00.000000', 1, null, null);
 
 -- Messages
 insert into message(id, content, date, rent_request_id, title, from_user, to_user_id)

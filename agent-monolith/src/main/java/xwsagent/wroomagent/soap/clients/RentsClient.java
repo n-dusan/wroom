@@ -74,7 +74,7 @@ public class RentsClient extends WebServiceGatewaySupport {
 
 
 	public void syncBundles() {
-
+		log.info("sync=bundles action=started");
 		BundledRequestsListSoapRequest request = new BundledRequestsListSoapRequest();
 
 		request.setCompanyEmail(MONOLITH_USER_EMAIL);
@@ -124,10 +124,47 @@ public class RentsClient extends WebServiceGatewaySupport {
 
 			saved.setRequests(requestsToSaveToBundle);
 			saved = this.bundleRepository.save(bundledRequests);
-
+			log.info("sync=bundles action=ended");
 		}
 
 
+	}
+
+
+	public void syncRents() {
+		log.info("sync=rent_requests action=started");
+
+		SendRentListRequest request = new SendRentListRequest();
+		request.setCompanyEmail(MONOLITH_USER_EMAIL);
+
+		SendRentListResponse response = (SendRentListResponse) getWebServiceTemplate().marshalSendAndReceive(request);
+		
+		List<RentRequestSoap> soapedResponse = response.getRentRequest();
+
+		for (RentRequestSoap rentRequestSoap : soapedResponse) {
+
+			RentRequest rentRequest = RentRequestSoapConverter.fromSoapRequest(rentRequestSoap);
+
+			rentRequest.setAd(adService.findById(rentRequestSoap.getAd()));
+			if(rentRequestSoap.getBundle() != null) {
+				rentRequest.setBundle(bundleService.findById(rentRequestSoap.getBundle()));
+			}
+			if(rentRequestSoap.getRentReport() != null) {
+				rentRequest.setRentReport(rentReportService.findById(rentRequestSoap.getRentReport()));
+			}
+			rentRequest.setRequestedUser(userService.findById(rentRequestSoap.getRequestedUserId()));
+
+			RentRequest savedRequest = this.rentRequestRepository.save(rentRequest);
+
+			if(rentRequestSoap.getLocalId() == null) {
+				//update wroom
+				System.out.println("Time to update wroom rent request");
+				updateRequestId(rentRequestSoap.getId(), savedRequest.getId());
+			}
+
+		}
+		
+		log.info("sync=rent_requests action=ended");
 	}
 
 
