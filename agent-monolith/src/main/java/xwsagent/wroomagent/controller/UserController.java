@@ -9,12 +9,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import xwsagent.wroomagent.config.EndpointConfig;
+import xwsagent.wroomagent.converter.FuelTypeConverter;
 import xwsagent.wroomagent.converter.UserConverter;
+import xwsagent.wroomagent.domain.auth.RoleName;
+import xwsagent.wroomagent.domain.dto.FeatureDTO;
+import xwsagent.wroomagent.domain.dto.RoleDTO;
 import xwsagent.wroomagent.domain.dto.UserDTO;
+import xwsagent.wroomagent.exception.APIError;
+import xwsagent.wroomagent.jwt.UserPrincipal;
 import xwsagent.wroomagent.service.UserService;
 import xwsagent.wroomagent.util.RequestCounter;
 
+import java.util.Collections;
 import java.util.List;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping(value = EndpointConfig.USER_BASE_URL)
@@ -24,6 +33,7 @@ public class UserController {
 	private static final String LOG_ACTIVATE = "action=activate user=%s times=%s details=%s";
 	private static final String LOG_LOCK_USER = "action=lock user=%s times=%s details=%s";
 	private static final String LOG_UNLOCK_USER = "action=unlock user=%s times=%s details=%s";
+	private static final String LOG_CREATE = null;
 
 	private final UserService userService;
 	private final RequestCounter requestCounter;
@@ -92,6 +102,17 @@ public class UserController {
 	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
 		userService.delete(id);
 		return new ResponseEntity<>("User successfully deleted!", HttpStatus.OK);
+	}
+	
+	
+	@PostMapping(value = "/{id}", consumes = "application/json")
+	public ResponseEntity<?> addPermissions(@PathVariable("id")Long id, @RequestBody List<String> list)  {
+		System.out.println(list);
+		userService.addPermissions(id, list);
+		return new ResponseEntity<>(
+				HttpStatus.CREATED
+		);
+		
 	}
 	
 }

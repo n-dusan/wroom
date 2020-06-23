@@ -28,6 +28,9 @@ export class UserService {
     return this.http.delete(this.userUrl + '/' + id, { responseType: 'text' }).pipe(catchError(this.handleException));
   }
 
+  permissions(list:string[], id: number): Observable<any> {
+    return this.http.post(this.userUrl + '/' + id, list);
+}
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);

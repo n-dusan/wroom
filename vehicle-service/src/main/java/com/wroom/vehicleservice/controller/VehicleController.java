@@ -60,7 +60,7 @@ public class VehicleController {
 	 * @return newly created vehicle
 	 */
 	@PostMapping(consumes = "application/json")
-	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
+	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('ROLE_CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<VehicleDTO> create(@Valid @RequestBody VehicleDTO vehicleDTO, Authentication auth,
 			HttpServletRequest httpServletRequest) {
 		System.out.println("DTO" + vehicleDTO);
@@ -88,7 +88,7 @@ public class VehicleController {
 	 */
 	// TODO: Change path to "/image/upload/{id}"
 	@PostMapping(value = "/upload/{id}")
-	@PreAuthorize("hasAuthority('UPLOAD_IMAGES') || hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
+	@PreAuthorize("hasAuthority('UPLOAD_IMAGES') || hasAuthority('ROLE_CRUD_VEHICLE') || hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<?> postImage(@RequestParam("file") List<MultipartFile> files, @PathVariable("id") Long id,
 			Authentication auth, HttpServletRequest httpServletRequest) {
 		Vehicle vehicle = vehicleService.findById(id);
@@ -151,7 +151,7 @@ public class VehicleController {
 	 * @return
 	 */
 	@DeleteMapping(value = "/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
-	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
+	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('ROLE_CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
 //		Vehicle vehicle = vehicleService.findById(id);
 		// **** MORA DA KOMUNCIIRA SA AD SERVISOM
@@ -217,7 +217,7 @@ public class VehicleController {
 	 * @return
 	 */
 	@PutMapping(value = "/{id}", produces = "application/json")
-	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
+	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('ROLE_CRUD_VEHICLE')  || hasAuthority('COMPLETE_ACCESS')")
 	public ResponseEntity<VehicleDTO> update(@RequestBody VehicleDTO vehicleDTO, @PathVariable("id") Long id,
 			Authentication auth, HttpServletRequest httpServletRequest) {
 		String logContent = String.format(LOG_UPDATE, auth.getName(), httpServletRequest.getRemoteAddr(),

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,6 +6,8 @@ import { User } from '../../model/user.model';
 import { UserService } from '../../services/user.service';
 import { takeUntil } from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { PermissionsComponent } from '../permissions/permissions.component';
 
 @Component({
   selector: 'app-manage-users',
@@ -25,7 +27,9 @@ export class ManageUsersComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -41,6 +45,17 @@ export class ManageUsersComponent implements OnInit {
     })
   }
 
+  onPermissionsClick(user: User){
+    console.log('Let see permissions' + user)
+    const dialogRef = this.dialog.open(PermissionsComponent, {
+      width: '500px',
+      height: '320px',
+      data: user
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      
+    });
+  }
 
   onLockUserClick(data: User ) {
     console.log('lock data', data)

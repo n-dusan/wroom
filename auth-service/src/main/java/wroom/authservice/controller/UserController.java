@@ -11,7 +11,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -107,5 +109,15 @@ public class UserController {
     public ResponseEntity<UserDTO> findByUsername(@PathVariable("username") String username) {
         return new ResponseEntity<>(UserConverter.fromEntity(this.userService.findByEmail(username)), HttpStatus.OK);
     }
+    
+    @PostMapping(value = "/{id}", consumes = "application/json")
+	public ResponseEntity<?> addPermissions(@PathVariable("id")Long id, @RequestBody List<String> list)  {
+		System.out.println(list);
+		userService.addPermissions(id, list);
+		return new ResponseEntity<>(
+				HttpStatus.CREATED
+		);
+		
+	}
 
 }

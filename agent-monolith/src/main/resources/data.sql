@@ -26,16 +26,18 @@ insert into roles(id, name)
 values (2, 'ROLE_AGENT');
 insert into roles(id, name)
 values (3, 'ROLE_ADMIN');
---insert into roles(id, name)
---values (4, 'ROLE_BANNED_USER');
 insert into roles(id, name)
---values (5, 'ROLE_VEHICLE');
---insert into roles(id, name)
+values (4, 'ROLE_CRUD_VEHICLE');
+insert into roles(id, name)
+values (5, 'ROLE_CRUD_AD');
+insert into roles(id, name)
 values (6, 'ROLE_CHATTING_USER');
 insert into roles(id, name)
 values (7, 'ROLE_RENTING_USER');
 insert into roles(id, name)
 values (8, 'ROLE_RATING_COMMENTING_USER');
+insert into roles(id, name)
+values (9, 'ROLE_PHYSICALLY_RESERVE');
 
 ----------- PERMISIJE ----------------
 insert into permission(id, name)
@@ -180,15 +182,50 @@ values (3, 'grga@maildrop.cc', 'Svetislav', '$2a$10$JOsaxc.iuu8Pw.Wlbdfci.dl7xP9
 insert into user_roles(user_id, role_id)
 values (1, 1);
 insert into user_roles(user_id, role_id)
+values (1, 4);
+insert into user_roles(user_id, role_id)
+values (1, 5);
+insert into user_roles(user_id, role_id)
+values (1, 6);
+insert into user_roles(user_id, role_id)
 values (1, 7);
+insert into user_roles(user_id, role_id)
+values (1, 8);
+insert into user_roles(user_id, role_id)
+values (1, 9);
 
 --zika agent
 insert into user_roles(user_id, role_id)
 values (2, 2);
+insert into user_roles(user_id, role_id)
+values (2, 4);
+insert into user_roles(user_id, role_id)
+values (2, 5);
+insert into user_roles(user_id, role_id)
+values (2, 6);
+insert into user_roles(user_id, role_id)
+values (2, 7);
+insert into user_roles(user_id, role_id)
+values (2, 8);
+insert into user_roles(user_id, role_id)
+values (2, 9);
+
 
 --grga admin
 insert into user_roles(user_id, role_id)
 values (3, 3);
+insert into user_roles(user_id, role_id)
+values (3, 4);
+insert into user_roles(user_id, role_id)
+values (3, 5);
+insert into user_roles(user_id, role_id)
+values (3, 6);
+insert into user_roles(user_id, role_id)
+values (3, 7);
+insert into user_roles(user_id, role_id)
+values (3, 8);
+insert into user_roles(user_id, role_id)
+values (3, 9);
 
 
 
