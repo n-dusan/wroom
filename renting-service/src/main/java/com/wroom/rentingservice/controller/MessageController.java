@@ -43,7 +43,7 @@ public class MessageController {
 		String logContent = String.format(LOG_SEND_MESSAGE, principal.getUsername(),
 				requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		log.info(logContent);
-		return new ResponseEntity<>(MessageConverter.fromEntity(this.messageService.send(dto, principal.getId())),
+		return new ResponseEntity<>(MessageConverter.fromEntity(this.messageService.send(dto,principal.getUsername(), principal.getId())),
 				HttpStatus.CREATED);
 	}
 

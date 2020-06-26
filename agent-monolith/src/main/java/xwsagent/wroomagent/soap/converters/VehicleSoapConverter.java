@@ -21,7 +21,7 @@ public class VehicleSoapConverter {
 		ret.setFuelType(entity.getFuelType().getName());
 		ret.setBodyType(entity.getBodyType().getName());
 		ret.setGearboxType(entity.getGearboxType().getName());
-		
+		ret.setOwnerId(entity.getOwner().getId());
 		//TODO: Images
 		
 		return ret;

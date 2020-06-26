@@ -26,16 +26,18 @@ insert into roles(id, name)
 values (2, 'ROLE_AGENT');
 insert into roles(id, name)
 values (3, 'ROLE_ADMIN');
---insert into roles(id, name)
---values (4, 'ROLE_BANNED_USER');
 insert into roles(id, name)
---values (5, 'ROLE_VEHICLE');
---insert into roles(id, name)
+values (4, 'ROLE_CRUD_VEHICLE');
+insert into roles(id, name)
+values (5, 'ROLE_CRUD_AD');
+insert into roles(id, name)
 values (6, 'ROLE_CHATTING_USER');
 insert into roles(id, name)
 values (7, 'ROLE_RENTING_USER');
 insert into roles(id, name)
 values (8, 'ROLE_RATING_COMMENTING_USER');
+insert into roles(id, name)
+values (9, 'ROLE_PHYSICALLY_RESERVE');
 
 ----------- PERMISIJE ----------------
 insert into permission(id, name)
@@ -180,15 +182,50 @@ values (3, 'grga@maildrop.cc', 'Svetislav', '$2a$10$JOsaxc.iuu8Pw.Wlbdfci.dl7xP9
 insert into user_roles(user_id, role_id)
 values (1, 1);
 insert into user_roles(user_id, role_id)
+values (1, 4);
+insert into user_roles(user_id, role_id)
+values (1, 5);
+insert into user_roles(user_id, role_id)
+values (1, 6);
+insert into user_roles(user_id, role_id)
 values (1, 7);
+insert into user_roles(user_id, role_id)
+values (1, 8);
+insert into user_roles(user_id, role_id)
+values (1, 9);
 
 --zika agent
 insert into user_roles(user_id, role_id)
 values (2, 2);
+insert into user_roles(user_id, role_id)
+values (2, 4);
+insert into user_roles(user_id, role_id)
+values (2, 5);
+insert into user_roles(user_id, role_id)
+values (2, 6);
+insert into user_roles(user_id, role_id)
+values (2, 7);
+insert into user_roles(user_id, role_id)
+values (2, 8);
+insert into user_roles(user_id, role_id)
+values (2, 9);
+
 
 --grga admin
 insert into user_roles(user_id, role_id)
 values (3, 3);
+insert into user_roles(user_id, role_id)
+values (3, 4);
+insert into user_roles(user_id, role_id)
+values (3, 5);
+insert into user_roles(user_id, role_id)
+values (3, 6);
+insert into user_roles(user_id, role_id)
+values (3, 7);
+insert into user_roles(user_id, role_id)
+values (3, 8);
+insert into user_roles(user_id, role_id)
+values (3, 9);
 
 
 
@@ -293,10 +330,10 @@ values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00
 -- values (6, '2020-06-27 00:00:00.000000', 1, 'PENDING', '2020-06-28 00:00:00.000000', 1, null, null);
 
 -- Messages
-insert into message(id, content, date, rent_request_id, title, from_user, to_user_id)
-values(1, 'Hello Monolith, how are you doing?', '2020-06-05 10:00:00.000000', 1, 'Hello', 'zika@maildrop.cc', 1);
-insert into message(id, content, date, rent_request_id, title, to_user, from_user_id)
-values(2, 'Hello Ziko, good.', '2020-06-05 11:00:00.000000', 1, 'Hello-Reply', 'zika@maildrop.cc', 1);
+--insert into message(id, content, date, rent_request_id, title, from_user, to_user_id)
+--values(1, 'Hello Monolith, how are you doing?', '2020-06-05 10:00:00.000000', 1, 'Hello', 'zika@maildrop.cc', 1);
+--insert into message(id, content, date, rent_request_id, title, to_user, from_user_id)
+--values(2, 'Hello Ziko, good.', '2020-06-05 11:00:00.000000', 1, 'Hello-Reply', 'zika@maildrop.cc', 1);
 
 -- Comments
 -- insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)

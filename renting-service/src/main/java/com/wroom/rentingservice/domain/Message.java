@@ -47,5 +47,8 @@ public class Message {
 	
 	@Column(nullable = true)
 	private String toUser;
+	
+	@Column
+	private Long localId;
 
 }

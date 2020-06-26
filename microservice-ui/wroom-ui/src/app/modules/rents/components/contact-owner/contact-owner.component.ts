@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { RentRequest } from 'src/app/modules/shared/models/rent-request';
 import { VehicleService } from 'src/app/modules/shared/service/vehicle.service';
 import { Message } from 'src/app/modules/shared/models/message.model';
+import { AuthService } from 'src/app/modules/shared/service/auth.service';
 
 @Component({
   selector: 'app-contact-owner',
@@ -18,6 +19,7 @@ export class ContactOwnerComponent implements OnInit {
   request: RentRequest;
   form: FormGroup;
   ownerId: number;
+  ownerUsername: string;
 
   loaded: boolean = false;
 
@@ -27,6 +29,7 @@ export class ContactOwnerComponent implements OnInit {
     private messageService: MessageService,
     private rentService: RentsService,
     private vehicleService: VehicleService,
+    private authService: AuthService,
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
@@ -34,15 +37,25 @@ export class ContactOwnerComponent implements OnInit {
     this.request = this.data.request;
 
     this.form = this.formBuilder.group({
-      'title' : new FormControl(null, [Validators.required]),
-      'content' : new FormControl(null, [Validators.required])
+      'title': new FormControl(null, [Validators.required]),
+      'content': new FormControl(null, [Validators.required])
     });
 
     console.log(this.request)
     this.vehicleService.get(this.request?.ad?.vehicleId).subscribe(
       data => {
         this.ownerId = data.ownerId;
-        this.loaded = true;
+        this.authService.get(this.ownerId).subscribe(
+          data => {
+            this.loaded = true;
+            this.ownerUsername = data.email;
+          },
+          error => {
+            this.loaded = true;
+            console.log('error');
+          }
+        );
+
       },
       error => {
         this.loaded = true;
@@ -54,18 +67,19 @@ export class ContactOwnerComponent implements OnInit {
   }
 
   send() {
-    const message = new Message(this.ownerId,this.request.id,
+    const message = new Message(this.ownerId, this.request.id,
       this.form.value.title, this.form.value.content);
+    message.toUser = this.ownerUsername;
 
-      this.messageService.send(message).subscribe(
-        data => {
-          this.toastr.success('Your message is sent to owner.', 'Success')
-          this.dialogRef.close();
-        },
-        error => {
-          this.toastr.error('Unexpected error has ocurred', 'Error')
-        }
-      );
+    this.messageService.send(message).subscribe(
+      data => {
+        this.toastr.success('Your message is sent to owner.', 'Success')
+        this.dialogRef.close();
+      },
+      error => {
+        this.toastr.error('Unexpected error has ocurred', 'Error')
+      }
+    );
 
   }
 

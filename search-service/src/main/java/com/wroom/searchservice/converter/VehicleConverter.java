@@ -19,7 +19,8 @@ public class VehicleConverter extends AbstractConverter {
 				new FeatureDTO(entity.getBodyType().getId(), entity.getBodyType().getName(), null),
 				new FeatureDTO(entity.getFuelType().getId(), entity.getFuelType().getName(), null),
 				new FeatureDTO(entity.getGearboxType().getId(), entity.getGearboxType().getName(), null),
-				entity.getOwner().getId()
+				entity.getOwner().getId() == null ? null : entity.getOwner().getId(),
+				entity.getOwner().getEmail() == null? null : entity.getOwner().getEmail()
 		);
 	}
 	

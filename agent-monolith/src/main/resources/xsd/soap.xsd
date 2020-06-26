@@ -37,6 +37,18 @@
 		<restriction base="long"></restriction>
 	</simpleType>
 
+	<simpleType name="title">
+		<restriction base="string"></restriction>
+	</simpleType>
+	
+	<simpleType name="content">
+		<restriction base="string"></restriction>
+	</simpleType>
+	
+	<simpleType name="username">
+		<restriction base="string"></restriction>
+	</simpleType>
+
 	<simpleType name="commentTitle">
 		<restriction base="string"></restriction>
 	</simpleType>
@@ -143,6 +155,17 @@
 			<element name="priceListId" type="tns:id"></element>
 			<element name="locationId" type="tns:id"></element>
 			<element name="ownerUsername" type="string"></element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="Message">
+		<sequence>
+			<element name="rentRequestId" type="tns:id"></element>
+			<element name="title" type="tns:title"></element>
+			<element name="content" type="tns:content"></element>
+			<element name="date" type="tns:date"></element>
+			<element name="fromUser" type="tns:username"></element>
+			<element name="toUser" type="tns:username"></element>
 		</sequence>
 	</complexType>
 
@@ -336,6 +359,54 @@
 		<complexType>
 			<sequence>
 				<element name="ad" type="tns:AdSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<!-- Messages -->
+	<element name="SendMessageRequest">
+		<complexType>
+			<sequence>
+				<element name="message" type="tns:Message"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SendMessageResponse">
+		<complexType>
+			<sequence>
+				<element name="message" type="tns:Message"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="MessageListRequest">
+		<complexType>
+			<sequence>
+				<element name="companyEmail" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="MessageListResponse">
+		<complexType>
+			<sequence>
+				<element name="messages" type="tns:Message" maxOccurs="unbounded"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
+	<element name="MessageUpdateResponse">
+		<complexType>
+			<sequence>
+				<element name="id" type="long" minOccurs="0" maxOccurs="1"></element>
+				<element name="localId" type="long" minOccurs="0" maxOccurs="1"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="MessageUpdateRquest">
+		<complexType>
+			<sequence>
+				<element name="id" type="long" minOccurs="0" maxOccurs="1"></element>
+				<element name="localId" type="long" minOccurs="0" maxOccurs="1"></element>
 			</sequence>
 		</complexType>
 	</element>

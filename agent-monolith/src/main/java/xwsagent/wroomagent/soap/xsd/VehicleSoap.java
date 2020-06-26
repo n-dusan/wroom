@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="cdw" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;element name="deleted" type="{http://www.w3.org/2001/XMLSchema}boolean"/&gt;
  *         &lt;element name="owner" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="ownerId" type="{http://www.w3.org/2001/XMLSchema}id"/&gt;
  *         &lt;element name="modelType" type="{http://ftn.com/wroom-agent/xsd}modelType"/&gt;
  *         &lt;element name="fuelType" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
  *         &lt;element name="bodyType" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
@@ -53,6 +54,7 @@ import javax.xml.bind.annotation.XmlType;
     "cdw",
     "deleted",
     "owner",
+    "ownerId",
     "modelType",
     "fuelType",
     "bodyType",
@@ -73,6 +75,9 @@ public class VehicleSoap {
     
     @XmlElement(required = true)
     protected String owner;
+    
+    @XmlElement(required = true)
+    protected Long ownerId;
     
     @XmlElement(required = true)
     protected ModelType modelType;
@@ -316,5 +321,15 @@ public class VehicleSoap {
         }
         return this.images;
     }
+
+	public Long getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(Long ownerId) {
+		this.ownerId = ownerId;
+	}
+    
+    
 
 }

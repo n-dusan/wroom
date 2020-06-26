@@ -187,4 +187,20 @@ public class ObjectFactory {
     public SendAdResponse createSendAdResponse() {
         return new SendAdResponse();
     }
+    
+    /**
+     * Create an instance of {@link MessageListRequest }
+     * 
+     */
+    public MessageListRequest createMessageListRequest() {
+        return new MessageListRequest();
+    }
+
+    /**
+     * Create an instance of {@link MessageListResponse }
+     * 
+     */
+    public MessageListResponse createMessageListResponse() {
+        return new MessageListResponse();
+    }
 }

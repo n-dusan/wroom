@@ -8,6 +8,7 @@ import { AdminComponent } from './admin.component';
 import { AdminWelcomeComponent } from './components/admin-welcome/admin-welcome.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { RegisterCompanyComponent } from './components/register-company/register-company.component';
+import { PermissionsComponent } from './components/permissions/permissions.component';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { RegisterCompanyComponent } from './components/register-company/register
     AdminComponent,
     AdminWelcomeComponent,
     ManageUsersComponent,
-    RegisterCompanyComponent
+    RegisterCompanyComponent,
+    PermissionsComponent
   ],
   imports: [
     AdminRoutingModule,

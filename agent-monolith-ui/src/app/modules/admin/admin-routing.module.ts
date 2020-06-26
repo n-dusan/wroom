@@ -3,13 +3,15 @@ import { NgModule } from '@angular/core';
 import { AdminWelcomeComponent } from './components/admin-welcome/admin-welcome.component';
 import { ManageUsersComponent } from './components/manage-users/manage-users.component';
 import { RegisterCompanyComponent } from './components/register-company/register-company.component';
+import { PermissionsComponent } from './components/permissions/permissions.component';
 
 const routes: Routes = [
   { path: '',
     children: [
       { path: '', component: AdminWelcomeComponent },
       { path: 'users', component: ManageUsersComponent },
-      { path: 'register', component: RegisterCompanyComponent }
+      { path: 'register', component: RegisterCompanyComponent },
+      { path: 'permissions', component: PermissionsComponent }
   ]},
   { path: 'vehicles', loadChildren: () => import('../../modules/vehicles/vehicles.module').then(mod => mod.VehiclesModule)},
   { path: 'ads', loadChildren: () => import('../../modules/ads/ads.module').then(mod => mod.AdsModule)}

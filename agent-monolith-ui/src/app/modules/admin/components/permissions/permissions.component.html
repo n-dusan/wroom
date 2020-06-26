@@ -1,0 +1,36 @@
+<section fxFlex="100%" fxLayout="column" fxLayoutAlign="center center">
+
+    <h1>Permissions</h1>
+
+    <hr>
+
+    <form [formGroup]="permissionsForm" fxFlex fxLayout="row" fxLayoutAlign="center center" style="font-size:20px" >
+        <div>
+            <mat-checkbox [checked]="checked" formControlName="crudVehicle">Add, delete, edit vehicle
+            </mat-checkbox> <br>
+            <mat-checkbox [checked]="checked" formControlName="crudAd">Add, delete, edit ad
+            </mat-checkbox> <br>
+            <mat-checkbox [checked]="checked" formControlName="physicallyReserve">Physically reserve vehicle</mat-checkbox>
+            <br>
+            <mat-checkbox [checked]="checked" formControlName="rent">Rent </mat-checkbox>
+            <br>
+        </div>
+        <div style="width: 50px;"></div>
+        <div>
+            <mat-checkbox [checked]="checked" formControlName="chat">Chat</mat-checkbox>
+            <br>
+            <mat-checkbox [checked]="checked" formControlName="commentAndRate">Comment, rate</mat-checkbox> 
+            <br>
+
+        </div>
+
+    </form>
+
+
+    <div fxLayoutAlign="center center">
+        &nbsp;
+        <br>
+        <button mat-raised-button color="accent" (click)="onSubmit()">Done</button>
+    </div>
+
+</section>

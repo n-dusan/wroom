@@ -27,6 +27,10 @@ public class CommentService {
 				.orElseThrow(() -> new GeneralException("Unable to find reference to " + id.toString() + " comment"));
 	}
 
+	public Comment findByLocalId(Long id) {
+		return commentRepository.findByLocalId(id);
+	}
+	
 	/**
 	 * Returns all comments that are approved and NOT deleted for a given ad.
 	 * @param adId
