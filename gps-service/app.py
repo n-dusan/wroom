@@ -18,7 +18,7 @@ def index():
 def add(cmd):
 
     #send a message
-    message = { 'id': 1, 'name': cmd}
+    message = { 'token': 1, 'name': cmd}
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_name))
     channel = connection.channel()

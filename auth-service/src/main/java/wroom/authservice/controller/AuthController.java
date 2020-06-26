@@ -1,7 +1,5 @@
 package wroom.authservice.controller;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +14,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -60,17 +57,6 @@ public class AuthController {
 	public AuthController(AuthenticationService authenticationService, RequestCounter requestCounter) {
 		this.authenticationService = authenticationService;
 		this.requestCounter = requestCounter;
-	}
-
-
-	@GetMapping("/hello")
-	public ResponseEntity<?> get(Authentication auth) throws UnknownHostException {
-		System.out.println("I am reached.");
-		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
-		System.out.println("Principal" + user.getUsername());
-		System.out.println("I am reached.");
-		String ip = InetAddress.getLocalHost().getHostAddress();
-		return new ResponseEntity<>(String.format("Hello from auth service with ip address %s", ip), HttpStatus.OK);
 	}
 
 
