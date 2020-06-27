@@ -209,7 +209,7 @@ export class VehicleOccupancyListComponent implements OnInit {
             this.reservedList.push(r);
           } else if (r.status == 'PHYSICALLY_RESERVED'){
             this.physicallyReservedList.push(r);
-          } else {
+          } else if (r.status == 'COMPLETED') {
             this.completedList.push(r);
           }
         }
