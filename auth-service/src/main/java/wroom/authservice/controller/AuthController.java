@@ -167,7 +167,7 @@ public class AuthController {
 		} catch(TokenExpiredException e) {
 			System.out.println("Token expired");
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}catch(Exception e) {
+		} catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		

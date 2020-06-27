@@ -15,6 +15,7 @@ import xwsagent.wroomagent.service.BundleService;
 import xwsagent.wroomagent.service.RentReportService;
 import xwsagent.wroomagent.service.UserService;
 import xwsagent.wroomagent.soap.converters.BundledRequestsSoapConverter;
+import xwsagent.wroomagent.soap.converters.RentReportSoapConverter;
 import xwsagent.wroomagent.soap.converters.RentRequestSoapConverter;
 import xwsagent.wroomagent.soap.xsd.*;
 
@@ -106,7 +107,10 @@ public class RentsClient extends WebServiceGatewaySupport {
 				rentRequest.setBundle(bundleService.findById(saved.getId()));
 
 				if(bundledRequestsSoapRequest.getRentReport() != null) {
-					rentRequest.setRentReport(rentReportService.findById(bundledRequestsSoapRequest.getRentReport()));
+					RentReport report = rentReportRepository.findById(bundledRequestsSoapRequest.getRentReport()).orElse(null);
+					if(report != null) {
+						rentRequest.setRentReport(rentReportService.findById(bundledRequestsSoapRequest.getRentReport()));
+					}
 				}
 
 				rentRequest.setRequestedUser(userService.findById(bundledRequestsSoapRequest.getRequestedUserId()));
@@ -117,7 +121,7 @@ public class RentsClient extends WebServiceGatewaySupport {
 
 				if(bundledRequestsSoapRequest.getLocalId() == null) {
 					//update wroom
-					System.out.println("Time to update wroom rent request");
+					System.out.println("Time to update wroom bundle request");
 					updateRequestId(bundledRequestsSoapRequest.getId(), savedRequest.getId());
 				}
 			}
@@ -128,6 +132,36 @@ public class RentsClient extends WebServiceGatewaySupport {
 		}
 
 
+	}
+
+	public void syncReports() {
+		log.info("sync=rent_report action=started");
+
+		RentReportListSoapRequest request = new RentReportListSoapRequest();
+		request.setCompanyEmail(MONOLITH_USER_EMAIL);
+
+		RentReportListSoapResponse response = (RentReportListSoapResponse) getWebServiceTemplate().marshalSendAndReceive(request);
+
+		List<RentReportSoap> reportSoaps = response.getRentReport();
+
+		for (RentReportSoap reportSoap : reportSoaps) {
+
+			if(reportSoap.getLocalId() != null) {
+				RentReport report = rentReportService.findById(reportSoap.getLocalId());
+				report.setDate(reportSoap.getDate());
+				report.setNote(reportSoap.getNote());
+				report.setTraveledMiles(reportSoap.getTraveledMiles());
+				this.rentReportRepository.save(report);
+				continue;
+			}
+			RentReport newReport = RentReportSoapConverter.fromSoap(reportSoap);
+
+			newReport = rentReportRepository.save(newReport);
+			System.out.println("Time to update wroom rent report");
+			updateReportId(newReport.getId(), reportSoap.getId());
+		}
+
+		log.info("sync=rent_report action=ended");
 	}
 
 
@@ -148,6 +182,7 @@ public class RentsClient extends WebServiceGatewaySupport {
 			rentRequest.setAd(adService.findById(rentRequestSoap.getAd()));
 			if(rentRequestSoap.getBundle() != null) {
 				rentRequest.setBundle(bundleService.findById(rentRequestSoap.getBundle()));
+				continue;
 			}
 			if(rentRequestSoap.getRentReport() != null) {
 				rentRequest.setRentReport(rentReportService.findById(rentRequestSoap.getRentReport()));
@@ -175,7 +210,7 @@ public class RentsClient extends WebServiceGatewaySupport {
 		request.setLocalId(localId);
 
 		BundleUpdateResponse response = (BundleUpdateResponse) getWebServiceTemplate().marshalSendAndReceive(request);
-		log.info("Updated a comment with " + response.getId() + "id and  " + response.getLocalId() + " local id");
+		log.info("Updated a bundle with " + response.getId() + "id and  " + response.getLocalId() + " local id");
 	}
 
 	public void updateRequestId(Long id, Long localId) {
@@ -185,7 +220,18 @@ public class RentsClient extends WebServiceGatewaySupport {
 		request.setLocalId(localId);
 
 		RentRequestUpdateResponse response = (RentRequestUpdateResponse) getWebServiceTemplate().marshalSendAndReceive(request);
-		log.info("Updated a comment with " + response.getId() + "id and  " + response.getLocalId() + " local id");
+		log.info("Updated a request with " + response.getId() + "id and  " + response.getLocalId() + " local id");
+	}
+
+
+	public void updateReportId(Long id, Long localId) {
+		log.info("Updating microservice entry with " + id + " local: " + localId);
+		RentReportUpdateRequestResponse request = new RentReportUpdateRequestResponse();
+		request.setId(id);
+		request.setLocalId(localId);
+
+		RentReportUpdateRequestResponse response = (RentReportUpdateRequestResponse) getWebServiceTemplate().marshalSendAndReceive(request);
+		log.info("Updated a report with " + response.getId() + "id and  " + response.getLocalId() + " local id");
 	}
 
 }

@@ -51,4 +51,11 @@ public class RentReportService {
     public List<RentReport> getReportsForVehicle(Long vehicleId) {
         return this.rentReportRepository.findAllByVehicle(vehicleId);
     }
+
+    public RentReport updateLocalId(Long id, Long localId) {
+        RentReport forUpdate = findById(id);
+        forUpdate.setLocalId(localId);
+
+        return this.rentReportRepository.save(forUpdate);
+    }
 }
