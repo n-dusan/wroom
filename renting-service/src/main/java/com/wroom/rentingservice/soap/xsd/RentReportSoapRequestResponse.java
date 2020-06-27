@@ -32,21 +32,47 @@ import javax.xml.bind.annotation.*;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "rentReport"
+        "requestLocalId",
+        "rentReport"
 })
 @XmlRootElement(name = "RentReportSoapRequestResponse")
 public class RentReportSoapRequestResponse {
 
+    protected Long requestLocalId;
     @XmlElement(required = true)
     protected RentReportSoap rentReport;
 
     /**
+     * Gets the value of the requestLocalId property.
+     *
+     * @return
+     *     possible object is
+     *     {@link Long }
+     *
+     */
+    public Long getRequestLocalId() {
+        return requestLocalId;
+    }
+
+    /**
+     * Sets the value of the requestLocalId property.
+     *
+     * @param value
+     *     allowed object is
+     *     {@link Long }
+     *
+     */
+    public void setRequestLocalId(Long value) {
+        this.requestLocalId = value;
+    }
+
+    /**
      * Gets the value of the rentReport property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link RentReportSoap }
-     *     
+     *
      */
     public RentReportSoap getRentReport() {
         return rentReport;
@@ -54,11 +80,11 @@ public class RentReportSoapRequestResponse {
 
     /**
      * Sets the value of the rentReport property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link RentReportSoap }
-     *     
+     *
      */
     public void setRentReport(RentReportSoap value) {
         this.rentReport = value;

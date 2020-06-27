@@ -92,8 +92,8 @@ public class RentsService {
 	
 	/**
 	 * Used when the request comes from monolith
-	 * @param request
-	 * @return
+	 * @param
+	 * * @return
 	 */
 	public boolean occupy(RentRequest rentRequest) {
 //		RentRequest rentRequest = findByLocalId(entity.getLocalId(), entity.getOwnerUsername());

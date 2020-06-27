@@ -9,6 +9,7 @@ import xwsagent.wroomagent.domain.dto.RentReportDTO;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.repository.RentReportRepository;
 import xwsagent.wroomagent.repository.RentRequestRepository;
+import xwsagent.wroomagent.soap.clients.RentsClient;
 
 import java.util.List;
 
@@ -18,11 +19,14 @@ public class RentReportService {
     private final RentReportRepository rentReportRepository;
     private final RentsService rentsService;
     private final RentRequestRepository rentRequestRepository;
+    private final RentsClient rentsClient;
 
-    public RentReportService(RentReportRepository rentReportRepository, RentsService rentsService, RentRequestRepository rentRequestRepository) {
+    public RentReportService(RentReportRepository rentReportRepository, RentsService rentsService, RentRequestRepository rentRequestRepository,
+                             RentsClient rentsClient) {
         this.rentReportRepository = rentReportRepository;
         this.rentsService = rentsService;
         this.rentRequestRepository = rentRequestRepository;
+        this.rentsClient = rentsClient;
     }
 
     public RentReport findById(Long id) {
@@ -37,7 +41,6 @@ public class RentReportService {
 
 
     public RentReport save(RentReportDTO dto) {
-        System.out.println("Zes" + dto);
         RentReport rentReport = RentReportConverter.toEntity(dto);
         //rentReport.setRentRequest(rentsService.findById(dto.getRentRequestId()));
         RentReport saved = rentReportRepository.save(rentReport);
@@ -45,7 +48,7 @@ public class RentReportService {
         RentRequest rentRequest = rentsService.findById(dto.getRentRequestId());
         rentRequest.setRentReport(saved);
         rentRequestRepository.save(rentRequest);
-
+        this.rentsClient.sendReport(saved);
         return saved;
     }
 

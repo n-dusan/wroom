@@ -73,6 +73,20 @@ public class RentsClient extends WebServiceGatewaySupport {
 		return response;
 	}
 
+	public RentReportSoapRequestResponse sendReport(RentReport entity) {
+		log.info("send=rent_report action=started");
+		RentReportSoapRequestResponse request = new RentReportSoapRequestResponse();
+		request.setRentReport(RentReportSoapConverter.toSoap(entity));
+
+
+		RentRequest rentRequest = rentRequestRepository.findByRentReportId(entity.getId());
+		request.setRequestLocalId(rentRequest.getId());
+
+		RentReportSoapRequestResponse response = (RentReportSoapRequestResponse) getWebServiceTemplate().marshalSendAndReceive(request);
+		log.info("send=rent_report action=ended");
+		return response;
+	}
+
 
 	public void syncBundles() {
 		log.info("sync=bundles action=started");

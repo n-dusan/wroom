@@ -21,8 +21,8 @@ public class RentRequestsAspect {
     @Before("execution(* xwsagent.wroomagent.service.RentsService.occupyList(..))")
     public void syncComments(JoinPoint joinPoint) throws Throwable {
         log.info("sync=rents, action=started");
-        //sync reports
-        this.rentsClient.syncReports();
+//        //sync reports
+//        this.rentsClient.syncReports();
 
         //sync bundles
         this.rentsClient.syncBundles();

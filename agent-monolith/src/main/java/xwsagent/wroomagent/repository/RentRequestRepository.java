@@ -22,4 +22,7 @@ public interface RentRequestRepository extends JpaRepository<RentRequest, Long> 
 			"and rr2.from_date > ?3 and rr2.to_date <= ?4 and rr.id = rr2.id)", nativeQuery=true)
 	Integer findValidPendingRequests(Long userId, Long adId, Date fromDate, Date toDate);
 
+	@Query(value = "select rr.* from rent_request rr where rr.rent_report_id = ?1", nativeQuery=true)
+	RentRequest findByRentReportId(Long id);
+
 }

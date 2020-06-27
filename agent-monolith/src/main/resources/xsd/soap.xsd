@@ -377,6 +377,7 @@
 	<element name="RentReportSoapRequestResponse">
 		<complexType>
 			<sequence>
+				<element name="requestLocalId" type="long" minOccurs="0" maxOccurs="1"></element>
 				<element name="rentReport" type="tns:RentReportSoap"></element>
 			</sequence>
 		</complexType>

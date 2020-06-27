@@ -1,8 +1,12 @@
 package com.wroom.rentingservice.soap.endpoints;
 
 import com.wroom.rentingservice.domain.RentReport;
+import com.wroom.rentingservice.domain.RentRequest;
 import com.wroom.rentingservice.repository.RentReportRepository;
+import com.wroom.rentingservice.repository.RentRequestRepository;
 import com.wroom.rentingservice.service.RentReportService;
+import com.wroom.rentingservice.service.RentsService;
+import com.wroom.rentingservice.soap.converters.MessagesConverter;
 import com.wroom.rentingservice.soap.converters.RentReportSoapConverter;
 import com.wroom.rentingservice.soap.xsd.*;
 
@@ -24,6 +28,9 @@ public class RentReportEndpoint {
 
     @Autowired
     private RentReportService rentReportService;
+
+    @Autowired
+    private RentRequestRepository rentRequestRepository;
 
     private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
 
@@ -57,6 +64,25 @@ public class RentReportEndpoint {
         response.setLocalId(request.getLocalId());
 
         log.info("update=rent_report action=ended");
+        return response;
+    }
+
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "RentReportSoapRequestResponse")
+    @ResponsePayload
+    public RentReportSoapRequestResponse receiveReport(@RequestPayload RentReportSoapRequestResponse request) {
+        log.info("receive=rent_report action=started");
+
+        RentReportSoapRequestResponse response = new RentReportSoapRequestResponse();
+
+        RentRequest rentRequest = this.rentRequestRepository.findByLocalId(request.getRequestLocalId());
+        RentReport report = this.rentReportRepository.save(RentReportSoapConverter.fromSoap(request.getRentReport()));
+        rentRequest.setRentReport(report);
+        this.rentRequestRepository.save(rentRequest);
+
+        response.setRentReport(RentReportSoapConverter.toSoap(report));
+
+        log.info("receive=rent_report action=ended");
         return response;
     }
 }
