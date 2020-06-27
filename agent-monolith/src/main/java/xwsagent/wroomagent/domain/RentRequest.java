@@ -48,10 +48,11 @@ public class RentRequest {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Ad ad;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	//esoteric java programming, you are not expected to understand this
+	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
 	private RentReport rentReport;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.REMOVE})
 	private BundledRequests bundle;
 
 

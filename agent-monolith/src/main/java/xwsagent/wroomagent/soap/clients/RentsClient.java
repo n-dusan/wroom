@@ -196,7 +196,7 @@ public class RentsClient extends WebServiceGatewaySupport {
 			rentRequest.setAd(adService.findById(rentRequestSoap.getAd()));
 			if(rentRequestSoap.getBundle() != null) {
 				rentRequest.setBundle(bundleService.findById(rentRequestSoap.getBundle()));
-				continue;
+				//continue;
 			}
 			if(rentRequestSoap.getRentReport() != null) {
 				rentRequest.setRentReport(rentReportService.findById(rentRequestSoap.getRentReport()));
