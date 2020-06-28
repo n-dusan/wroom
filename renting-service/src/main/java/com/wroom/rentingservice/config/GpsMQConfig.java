@@ -1,4 +1,4 @@
-package wroom.authservice.config;
+package com.wroom.rentingservice.config;
 
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 @Configuration
-public class ReplicateRabbitMQConfig {
+public class GpsMQConfig {
 
     @Autowired
     RabbitMQConfig rabbitMQConfig;

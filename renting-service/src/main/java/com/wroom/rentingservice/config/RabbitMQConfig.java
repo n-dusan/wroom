@@ -1,4 +1,4 @@
-package wroom.authservice.config;
+package com.wroom.rentingservice.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -19,9 +19,9 @@ public class RabbitMQConfig {
 
     public static final String EXCHANGE_NAME = "tips_tx";
     public static final String ROUTING_KEY = "tips";
-    public static final String AUTH_ROUTING_KEY = "auth_key";
+    public static final String GPS_ROUTING_KEY = "gps_key";
     public static final String MAIL_QUEUE_NAME = "mail";
-    public static final String REPLICATE_QUEUE_NAME = "auth";
+    public static final String GPS_QUEUE_NAME = "gps";
 
     @Bean
     public Queue mail_queue() {
@@ -29,8 +29,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public Queue replicate_queue() {
-        return new Queue(REPLICATE_QUEUE_NAME, false);
+    public Queue gps_queue() {
+        return new Queue(GPS_QUEUE_NAME, false);
     }
 
     @Bean
@@ -47,14 +47,14 @@ public class RabbitMQConfig {
     @Bean
     List<Binding> bindings() {
         return Arrays.asList(BindingBuilder.bind(mail_queue()).to(tipsExchange()).with(ROUTING_KEY),
-                BindingBuilder.bind(replicate_queue()).to(tipsExchange()).with(AUTH_ROUTING_KEY));
+                BindingBuilder.bind(gps_queue()).to(tipsExchange()).with(GPS_ROUTING_KEY));
     }
 
     @Bean(name = "messageConverter")
     public Jackson2JsonMessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
     }
-//
+    //
     @Bean(name = "emailConnectionFactory")
 //    @Primary
     public ConnectionFactory connectionFactoryEmail() {

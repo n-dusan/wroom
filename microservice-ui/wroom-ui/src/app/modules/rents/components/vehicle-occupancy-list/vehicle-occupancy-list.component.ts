@@ -18,6 +18,7 @@ import { NewCommentComponent } from 'src/app/modules/ads/comments/new-comment/ne
 
 import { RentReport } from 'src/app/modules/shared/models/rent-report.model';
 import { RentReportService } from '../../services/rent-report.service';
+import { YandexMapComponent } from '../yandex-map/yandex-map.component';
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -262,6 +263,14 @@ export class VehicleOccupancyListComponent implements OnInit {
   showReport(request: RentRequest) {
     let report = this.reportList.find(x => x.rentRequestId == request.id);
     return 'Miles passed:' + '<b> ' + report.traveledMiles + '</b> <br/> Note: ' + '<b>' + (report.note ? report.note : 'unspecified') + '</b>'
+  }
+
+  viewMap(request: RentRequest) {
+    let dialogRef = this.dialog.open(YandexMapComponent, {
+      data: {
+        request: request
+      }
+    });
   }
 
 }

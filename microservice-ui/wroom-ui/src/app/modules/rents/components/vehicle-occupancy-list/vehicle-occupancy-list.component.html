@@ -218,6 +218,12 @@
                 <mat-card-title>{{vehicleName(request)}}
                 </mat-card-title>
               </div>
+
+              <div fxFlex="15%" *ngIf="request.bundleId">
+                <button mat-mini-fab color="accent" matTooltip="Track your vehicle" (click)="viewMap(request)">
+                  <mat-icon>gps_fixed</mat-icon>
+                </button>
+              </div>
             </mat-card-header>
 
             <mat-divider horizontal style="height:100px;"></mat-divider>

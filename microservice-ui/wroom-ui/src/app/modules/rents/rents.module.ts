@@ -10,6 +10,7 @@ import { ContactOwnerComponent } from './components/contact-owner/contact-owner.
 import { BundleDialogComponent } from './components/bundle-dialog/bundle-dialog.component';
 import { RentReportDialogComponent } from './components/rent-report-dialog/rent-report-dialog.component';
 import { StatisticsComponent } from './components/statistics/statistics.component';
+import { YandexMapComponent } from './components/yandex-map/yandex-map.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
     ContactOwnerComponent,
     BundleDialogComponent,
     RentReportDialogComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    YandexMapComponent
   ],
   imports: [
     RentsRoutingModule,

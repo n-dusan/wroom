@@ -3,6 +3,7 @@ package com.wroom.rentingservice.service;
 import java.util.Date;
 import java.util.List;
 
+import com.wroom.rentingservice.producer.MailProducer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,12 +19,14 @@ public class MessageService {
 
 	private final MessageRepository messageRepository;
 	private final RentsService rentsService;
+	private final MailProducer mailProducer;
 
 	public MessageService(MessageRepository messageRepository,
-			RentsService rentsService) {
+			RentsService rentsService, MailProducer mailProducer) {
 		super();
 		this.messageRepository = messageRepository;
 		this.rentsService = rentsService;
+		this.mailProducer = mailProducer;
 	}
 
 	public Message findById(Long id) {
@@ -38,6 +41,9 @@ public class MessageService {
 		entity.setFromUser(username);
 		entity.setFromUserId(senderId);
 		entity.setDate(new Date());
+
+		//send email
+		this.mailProducer.sendNewMessageEmail(dto.getToUser(), username, dto.getContent());
 		
 		return this.messageRepository.save(entity);
 	}
