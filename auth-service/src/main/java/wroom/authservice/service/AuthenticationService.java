@@ -197,7 +197,10 @@ public class AuthenticationService {
 	
 	public User registerCompany(CompanyDTO companyDTO) {
 		User entity = UserConverter.toEntity(companyDTO);
-		
+
+		//send email
+		this.mailProducer.registerCompanyEmail(companyDTO.getEmail());
+
 		return userRepository.save(entity);
 	}
 }

@@ -53,4 +53,16 @@ public class MailProducer {
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
         log.info("Sent a message to >"+mailMessage.getRecipient());
     }
+
+    public void registerCompanyEmail(String email) {
+        log.info("Sending a message>>> ... ");
+        MailMessage mailMessage = new MailMessage(email,
+                "Registration",
+                "Greetings yung tryhard company. \n\n You are among the lucky ones to be part of this big great COVID19 family."
+                        + "\nPlease, rent more cars and sync your database with us ASAP."
+                        + "\n\nKind regards,\nWroom");
+
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
+        log.info("Sent a message to >"+mailMessage.getRecipient());
+    }
 }
