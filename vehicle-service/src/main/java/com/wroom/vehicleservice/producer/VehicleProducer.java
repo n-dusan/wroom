@@ -24,7 +24,7 @@ public class VehicleProducer {
         String logContent = String.format(LOG_SEND, message.getOperation().toString(), message.getEntity().toString());
         log.info(logContent);
 
-        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, message);
+        rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.VEHICLE_ROUTING_KEY, message);
     }
     
 }

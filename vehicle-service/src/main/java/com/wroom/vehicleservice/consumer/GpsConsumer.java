@@ -1,7 +1,6 @@
-package com.wroom.rentingservice.consumer;
+package com.wroom.vehicleservice.consumer;
 
-import com.wroom.rentingservice.config.RabbitMQConfig;
-import com.wroom.rentingservice.consumer.message.GPSCoordinates;
+import com.wroom.vehicleservice.config.RabbitMQConfig;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class GpsConsumer {
 
     @RabbitListener(queues = RabbitMQConfig.GPS_QUEUE_NAME)
-    public void gpsListen(byte[] message) {
+    public void gpsListen(GPSCoordinates message) {
         log.info("Recieved message" + message);
     }
 }

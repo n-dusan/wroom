@@ -1,4 +1,4 @@
-package com.wroom.rentingservice.consumer.message;
+package com.wroom.vehicleservice.consumer;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;

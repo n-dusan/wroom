@@ -60,6 +60,9 @@ public class MailProducer {
                 "Registration",
                 "Greetings yung tryhard company. \n\n You are among the lucky ones to be part of this big great COVID19 family."
                         + "\nPlease, rent more cars and sync your database with us ASAP."
+                        + "\nOur APIs are: \nfor vehicle = http://localhost:8073/ws\n" +
+                        "for renting = http://localhost:8075/ws\n" +
+                        "for ads = http://localhost:8074/ws\n"
                         + "\n\nKind regards,\nWroom");
 
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
