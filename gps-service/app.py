@@ -1,11 +1,15 @@
 from flask import Flask
+from flask import Response
 import pika
 import os
 import json
+import requests
 
 app = Flask(__name__)
 
 host_name = os.getenv("RMQ_HOST")
+
+url = 'http://localhost:8073/gps'
 
 @app.route('/')
 def index():
@@ -14,13 +18,22 @@ def index():
     return 'Couldn\'t grab host_name'
 
 
+@app.route('/generate/<id>')
+def generate_jwt(id):
+    request = requests.get(url)
+    print(request.text)
+    return Response(
+        request.text,
+        status=request.status_code,
+        content_type=request.headers['content-type'],
+        mimetype='application/json'
+    )
+
 @app.route('/test/<cmd>')
 def add(cmd):
 
     #send a message
     message = { 'token': '322323', 'name': cmd}
-
-
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=host_name))
     channel = connection.channel()
