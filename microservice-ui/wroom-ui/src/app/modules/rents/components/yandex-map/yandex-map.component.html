@@ -4,7 +4,12 @@
     [zoom]="12"
     (load)="onLoad($event)">
     <!-- <angular-yandex-placemark [geometry]="geometry"></angular-yandex-placemark> -->
-    <angular-yandex-geoobject *ngFor="let point of points"
+    <!-- <angular-yandex-geoobject *ngFor="let point of points"
+      [feature]="point.feature"
+      [options]="point.options"
+    ></angular-yandex-geoobject> -->
+
+     <angular-yandex-geoobject *ngFor="let point of points"
       [feature]="point.feature"
       [options]="point.options"
     ></angular-yandex-geoobject>

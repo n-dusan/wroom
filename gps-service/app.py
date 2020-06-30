@@ -30,7 +30,7 @@ def generate_jwt(id):
     session.mount('http://', adapter)
     session.mount('https://', adapter)
     data = '''{
-    
+                
               }
             '''
     request = session.post(url, headers = headers, json = data)
