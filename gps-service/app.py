@@ -6,12 +6,26 @@ import json
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+import threading
+import time
+import random
 
 app = Flask(__name__)
-
 host_name = os.getenv("RMQ_HOST")
-
 url = 'http://192.168.0.15:8073/gps'
+
+token = ''
+coordinates = []
+
+def interval_coordinates():
+    while True:
+        time.sleep(3)
+        global coordinates
+        coordinates = [ random.randint(0,100), random.randint(0,100) ]
+        app.logger.info('Coordinates %s' % coordinates)
+
+thread = threading.Thread(name='interval_coordinates', target=interval_coordinates)
+thread.setDaemon(True)
 
 @app.route('/')
 def index():
@@ -33,7 +47,14 @@ def generate_jwt(id):
                 
               }
             '''
-    request = session.post(url, headers = headers, json = data)
+    request = session.post(url + '/' + id, headers = headers, json = data)
+
+    global token
+    token = request.text
+    app.logger.info('and JWT is %s' % token)
+    #start daemon
+    thread.start()
+
     return Response(
         request.text,
         status=request.status_code,
