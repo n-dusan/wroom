@@ -16,11 +16,13 @@ public class GPSController {
 
     @PostMapping
     public ResponseEntity<String> generate() {
+        log.info("POST reached");
         return new ResponseEntity<>("Generated jwt!", HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<String> hello() {
+        log.info("GET reached");
         return new ResponseEntity<>("Hello from gps!", HttpStatus.OK);
     }
 }

@@ -4,12 +4,14 @@ import pika
 import os
 import json
 import requests
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 app = Flask(__name__)
 
 host_name = os.getenv("RMQ_HOST")
 
-url = 'http://localhost:8073/gps'
+url = 'http://192.168.0.15:8073/gps'
 
 @app.route('/')
 def index():
@@ -20,8 +22,18 @@ def index():
 
 @app.route('/generate/<id>')
 def generate_jwt(id):
-    request = requests.get(url)
-    print(request.text)
+
+    headers = {'content-type': 'application/json; charset=UTF-8'}
+    session = requests.Session()
+    retry = Retry(connect=3, backoff_factor=0.5)
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
+    data = '''{
+    
+              }
+            '''
+    request = session.post(url, headers = headers, json = data)
     return Response(
         request.text,
         status=request.status_code,

@@ -1,4 +1,4 @@
-version: "3"
+version: "3.4"
 services:
   #  eureka:
   #    build:
@@ -231,10 +231,12 @@ services:
     build:
       context: ./gps-service
       dockerfile: Dockerfile
+      network: host
     image: xws:gps
     container_name: gps
-    networks:
-      - xws-network
+#    networks:
+#      - flask-network
+    network_mode: host
     ports:
       - 5000:5000
     environment:
