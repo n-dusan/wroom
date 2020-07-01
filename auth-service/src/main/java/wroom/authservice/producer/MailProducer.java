@@ -1,5 +1,6 @@
 package wroom.authservice.producer;
 
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -11,9 +12,8 @@ import wroom.authservice.config.RabbitMQConfig;
 import wroom.authservice.producer.messages.MailMessage;
 
 @Service
+@Log4j2
 public class MailProducer {
-
-    private static final Logger log = LoggerFactory.getLogger(MailProducer.class);
 
     @Autowired
     @Qualifier("rabbitTemplateEmail")

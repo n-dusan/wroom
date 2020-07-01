@@ -1,5 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ILoadEvent } from 'angular8-yandex-maps';
+import * as SockJS from 'sockjs-client';
+import * as Stomp from 'stompjs';
+import { environment } from 'src/environments/environment';
 
 
 class Point {
@@ -33,10 +36,11 @@ class Point {
 export class YandexMapComponent implements OnInit {
 
   private _map;
+  private stompClient;
 
   geometry: number[] = [44.665446, 20.191443]
   point: Point = new Point(44.665446, 20.191443);
-  points: Point[] = [] ;
+  points: Point[] = [];
 
   constructor(private _changeDetectorRef: ChangeDetectorRef) { }
 
@@ -45,15 +49,23 @@ export class YandexMapComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setInterval(()=> {
-      console.log('my geom', this.geometry)
 
-       this.point = new Point(this.point.lat + 0.01, this.point.long + 0.01);
-       this.points.push(new Point(this.point.lat, this.point.long))
-      //  this._map.setCenter([this.point.lat, this.point.long]);
-       this._map.panTo([this.point.lat, this.point.long])
-      this._changeDetectorRef.detectChanges();
-    }, 5000)
+    const serverUrl = environment.gpsSocketService;
+
+    const ws = new SockJS(serverUrl);
+    this.stompClient = Stomp.over(ws);
+    const that = this;
+    this.stompClient.connect({}, () => {
+      that.stompClient.subscribe('/gps', (message) => {
+        if (message.body) {
+         let parsedMessage = JSON.parse(message.body);
+
+         that.point = new Point(parsedMessage.latitude,  parsedMessage.longitude);
+         that.points.push(new Point(this.point.lat, this.point.long));
+        //  that._map.panTo([this.point.lat, this.point.long])
+         that._changeDetectorRef.detectChanges();
+        }
+      });
+    });
   }
-
 }
