@@ -13,7 +13,8 @@ export const environment = {
   adsService: '/ads-service',
   vehicleService: '/vehicle-service',
   rentingService: '/renting-service',
-  gpsSocketService: 'http://localhost:8073/socket'
+  gpsSocketService: 'http://localhost:8073/socket',
+  gpsService: 'http://localhost:5000'
 };
 
 /*

@@ -233,7 +233,7 @@ services:
       dockerfile: Dockerfile
       network: host
     image: xws:gps
-    container_name: gps
+    container_name: flask-gps
     networks:
       - xws-network
     ports:

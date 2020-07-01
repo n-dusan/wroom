@@ -14,8 +14,6 @@ import { GearboxType } from '../../shared/models/gearbox-type.model';
 import { FuelType } from '../../shared/models/fuel-type.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { VehicleListComponent } from '../vehicle-list/vehicle-list.component';
 
 class ImageSnippet {
   pending: boolean = false;
@@ -78,7 +76,7 @@ export class NewVehicleComponent implements OnInit {
       this.fourthFormGroup = this.formBuilder.group({
         file: ['']
       });
-      
+
       this.modelService.getModelTypes().subscribe(
         data => {
           this.modelListAll = data;
@@ -124,12 +122,12 @@ export class NewVehicleComponent implements OnInit {
         this.toastr.error('Valid types are: .png, .jpg and .jpeg', 'Please upload valid file type')
         return;
       }
-      if(file.size >= 8000000) { 
+      if(file.size >= 8000000) {
         this.toastr.error('File size limit is 8MB', 'File too big')
         return;
       }
     }
-    
+
     if (event.target.files && event.target.files[0]) {
       var filesAmount = event.target.files.length;
       for (let i = 0; i < filesAmount; i++) {
@@ -148,11 +146,11 @@ export class NewVehicleComponent implements OnInit {
   save(vehicle: Vehicle) {
     this.vehicleService.create(vehicle).subscribe(
       data => {
+        console.log('data is', data)
         this.toastr.success('You have successfully added a vehicle!', 'Success')
         this.newVehicle = data;
         this.vehicleService.upload(this.selectedFiles, this.newVehicle.id).subscribe(
           data => {
-            //after finishing vehicle creation, redirect to table overview
             this.router.navigate(['../overview'], { relativeTo: this.activatedRoute });
           });
       },
@@ -169,7 +167,6 @@ export class NewVehicleComponent implements OnInit {
 
     const modelType = this.firstFormGroup.value.selectModel;
     const mType = this.modelList.find(x => x.id == modelType);
-    console.log(mType + 'Izabrani model')
 
     const brandType = this.firstFormGroup.value.selectBrand;
     const brType = this.brandList.find(x => x.id == brandType);

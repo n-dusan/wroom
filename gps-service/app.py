@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import Response
+from flask_cors import CORS
 import pika
 import os
 import json
@@ -11,6 +12,7 @@ import time
 import random
 
 app = Flask(__name__)
+CORS(app)
 
 host_name = os.getenv("RMQ_HOST")
 
@@ -44,11 +46,8 @@ def interval_coordinates():
         time.sleep(5)
         global coordinates
         try:
-            #todo change 0 to chosen_city
             coords = coordinates.get(cities[chosen_city])[idx]
             idx = idx + 1
-            app.logger.info('index coords %s' % coords)
-            app.logger.info('index is %s' % index)
         except IndexError as e:
             idx = 0
             coords = coordinates.get(cities[chosen_city])[idx]

@@ -14,11 +14,13 @@ import { PriceList } from 'src/app/modules/search/model/price-list.model';
 import { PriceListService } from 'src/app/modules/ads/services/price-list.service';
 import { RentReportDialogComponent } from '../rent-report-dialog/rent-report-dialog.component';
 import { Ad } from 'src/app/modules/shared/models/ad.model';
+// import { Ad as AdModel } from '../../../ads/model/ad.model';
 import { NewCommentComponent } from 'src/app/modules/ads/comments/new-comment/new-comment.component';
 
 import { RentReport } from 'src/app/modules/shared/models/rent-report.model';
 import { RentReportService } from '../../services/rent-report.service';
 import { YandexMapComponent } from '../yandex-map/yandex-map.component';
+import { AdsService } from 'src/app/modules/ads/services/ads.service';
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -46,7 +48,7 @@ export class VehicleOccupancyListComponent implements OnInit {
   reservedList: RentRequest[] = [];
   physicallyReservedList: RentRequest[] = [];
   completedList: RentRequest[] = [];
-
+  // adList: AdModel[] = [];
 
   reportList: RentReport[] = [];
 
@@ -59,7 +61,8 @@ export class VehicleOccupancyListComponent implements OnInit {
     private dialog: MatDialog,
     private priceListService: PriceListService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private rentReportService: RentReportService) { }
+    private rentReportService: RentReportService,
+    private adsService: AdsService) { }
 
   ngOnInit(): void {
     this.refresh();
@@ -187,6 +190,7 @@ export class VehicleOccupancyListComponent implements OnInit {
         this.reportList = data;
       })
 
+
       this.rentService.getAllActiveForUser(this.loggedUser.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe((data: RentRequest[]) => {
         this.requestList = data;
 
@@ -271,6 +275,10 @@ export class VehicleOccupancyListComponent implements OnInit {
         request: request
       }
     });
+  }
+
+  checkGps(request: RentRequest) {
+    return request.ad.gps
   }
 
 }

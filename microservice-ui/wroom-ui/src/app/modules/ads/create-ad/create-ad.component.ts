@@ -12,7 +12,7 @@ import { Vehicle } from '../../shared/models/vehicle.model';
 import { Ad } from '../model/ad.model';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import { isNumber } from 'util';
+import { GpsService } from '../../shared/service/gps.service';
 
 @Component({
   selector: 'app-create-ad',
@@ -36,7 +36,8 @@ export class CreateAdComponent implements OnInit {
     private adsService: AdsService,
     private toastr: ToastrService,
     private router: Router,
-    private activatedRoute: ActivatedRoute) { }
+    private activatedRoute: ActivatedRoute,
+    private gpsService: GpsService) { }
 
   ngOnInit(): void {
 
@@ -170,6 +171,12 @@ export class CreateAdComponent implements OnInit {
       if(!this.updateRegime) {
         this.adsService.createAd(ad).subscribe((result:Ad) => {
           console.log(result)
+          if(ad.gps) {
+            this.gpsService.generateJWT(ad.vehicleId).subscribe(response => {
+              console.log('yaay', response)
+              localStorage.setItem(ad.vehicleId.toString(), response);
+            });
+          }
           this.toastr.success('Ya did it.', 'Aww yeah')
           this.router.navigate(['../overview'], { relativeTo: this.activatedRoute });
         }, error => {
