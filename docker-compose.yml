@@ -234,9 +234,8 @@ services:
       network: host
     image: xws:gps
     container_name: gps
-#    networks:
-#      - flask-network
-    network_mode: host
+    networks:
+      - xws-network
     ports:
       - 5000:5000
     environment:

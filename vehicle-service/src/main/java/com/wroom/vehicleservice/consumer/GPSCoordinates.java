@@ -10,13 +10,16 @@ import lombok.ToString;
 public class GPSCoordinates {
 
     private String token;
-    private String name;
+    private String latitude;
+    private String longitude;
 
     @JsonCreator
     public GPSCoordinates(@JsonProperty("token") String token,
-                          @JsonProperty("name") String name) {
+                          @JsonProperty("latitude") String latitude,
+                          @JsonProperty("longitude") String longitude) {
         this.token = token;
-        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public String getToken() {
@@ -27,12 +30,19 @@ public class GPSCoordinates {
         this.token = token;
     }
 
-    public String getName() {
-        return name;
+    public String getLatitude() {
+        return latitude;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
 }

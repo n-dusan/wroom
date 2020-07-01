@@ -42,16 +42,16 @@ export class YandexMapComponent implements OnInit {
 
   public onLoad(event: ILoadEvent) {
     this._map = event.instance;
-    // this._map.setCenter([52.483521, -1.904100]);
   }
 
   ngOnInit(): void {
     setInterval(()=> {
       console.log('my geom', this.geometry)
 
-       this.point = new Point(this.point.lat + 1, this.point.long + 1);
-       this.points.push(new Point(this.point.lat + 0.1, this.point.long + 0.1))
-       //this._map.setCenter([this.point.lat, this.point.long]);
+       this.point = new Point(this.point.lat + 0.01, this.point.long + 0.01);
+       this.points.push(new Point(this.point.lat, this.point.long))
+      //  this._map.setCenter([this.point.lat, this.point.long]);
+       this._map.panTo([this.point.lat, this.point.long])
       this._changeDetectorRef.detectChanges();
     }, 5000)
   }

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { AngularYandexMapsModule, IConfig } from 'angular8-yandex-maps';
 import { ControlMessagesComponent } from './control-messages/control-messages.component';
 import { HomeComponent } from './components/home/home.component';
 import { MaterialModule } from './material.module';
@@ -17,12 +17,12 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-// const mapConfig: IConfig = {
-//   apikey: 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e',
-//   lang: 'en_US',
-// };
+const mapConfig: IConfig = {
+  apikey: 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e',
+  lang: 'en_US',
+};
 
-const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
+// const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
 
 @NgModule({
   declarations: [
@@ -39,7 +39,7 @@ const YANDEX_API_KEY = 'fb79ab56-36e3-4d30-90f0-fb48b2249b8e';
   ],
   imports: [
     CommonModule,
-    AngularYandexMapsModule.forRoot(YANDEX_API_KEY),
+    AngularYandexMapsModule.forRoot(mapConfig),
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
