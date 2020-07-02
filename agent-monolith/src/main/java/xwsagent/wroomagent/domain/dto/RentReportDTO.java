@@ -16,5 +16,7 @@ public class RentReportDTO {
     private String note;
     private Long rentRequestId;
     private Date date;
+    
+    
 
 }

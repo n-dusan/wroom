@@ -184,5 +184,10 @@ public class RentRequestController {
 		return this.rentsService.findByAd(id);
 	}
 	
+	@GetMapping("/allRequests")
+	public ResponseEntity<List<RentRequestDTO>> getAll() {
+		return new ResponseEntity<>(RentConverter.fromEntityList(rentsService.findAll(), RentConverter::fromEntity),
+				HttpStatus.OK);
+	}
 
 }
