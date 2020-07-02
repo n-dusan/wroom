@@ -66,6 +66,7 @@ export class SearchComponent implements OnInit {
     { name: 'Mileage', icon: 'trending_down', asc: false }
   ];
   s: any = null;
+  sortedByRateDesc: boolean = false;
 
   constructor(private adService: AdService,
     private vehicleService: VehicleService,
@@ -365,7 +366,6 @@ export class SearchComponent implements OnInit {
 
   sortClick() {
     const sortBy = this.s.name;
-
     if (sortBy === 'Price') {
       this.sortByPrice();
     }
@@ -398,10 +398,16 @@ export class SearchComponent implements OnInit {
 
   sortByRate() {
     if (this.s.asc) {
-      this.ads.sort((a, b) => a.averageRate - a.averageRate);
+      this.ads.sort((a, b) => a.averageRate - a.averageRate).reverse();
+      // this.sortedByRateDesc = false;
     }
     else {
-      this.ads.sort((a, b) => a.averageRate - a.averageRate).reverse();
+      // if(!this.sortedByRateDesc) {
+        this.ads.sort((a, b) => a.averageRate - a.averageRate).reverse();
+      //   this.sortedByRateDesc = true;
+      // }
+      
+      console.log('after desc sort', this.ads)
     }
   }
 
