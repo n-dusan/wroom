@@ -1,3 +1,4 @@
+![Image](./logo.png?raw=true)
 # Wro(oooo)om
 XWS course project rent-a-car application.
 
