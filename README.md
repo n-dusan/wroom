@@ -1,17 +1,12 @@
-![Image](./logo.png?raw=true)
-
 # Wro(oooo)om
-XWS, rent-a-car solution.
+XWS course project rent-a-car application.
 
 
-# Architecture 
+# Microservice architecture 
 
-[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFJcblBbUEtJXVxuTU9OT1tNb25vbGl0aF1cblZbVmVoaWNsZV1cbk9bQWRzXVxuU1tTZWFyY2hdXG5SW1JlbnRzXVxuV1tDbGllbnRdXG5ae1p1dWx9XG5cblogLS0-IFZcblogLS0-IFNcblogLS0-IFJcblogLS0-IE9cblogLS0-IEFbQXV0aF1cblogLS0-IEdbR1BTXVxuVyAtLT4gWlxuTyAtLSByZXBsaWNhdGVzIGRhdGEgLS0-IFExKChBTVFQKSlcblYgLS0gcmVwbGljYXRlcyBkYXRhLS0-IFExXG5BIC0tIHJlcGxpY2F0ZXMgZGF0YS0tPiBRMVxuTyAtLSBzeW5jLS0-IFZcblMgLS0gc3luYyAtLT4gUlxuRyAtLT4gUTIoKEFNUVApKVxuUTIgLS0gZ3BzIGNvb3JkLS0-IE9cblExIC0tIGZvcndhcmRzLS0-IFMiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ)](https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoiZ3JhcGggTFJcblBbUEtJXVxuTU9OT1tNb25vbGl0aF1cblZbVmVoaWNsZV1cbk9bQWRzXVxuU1tTZWFyY2hdXG5SW1JlbnRzXVxuV1tDbGllbnRdXG5ae1p1dWx9XG5cblogLS0-IFZcblogLS0-IFNcblogLS0-IFJcblogLS0-IE9cblogLS0-IEFbQXV0aF1cblogLS0-IEdbR1BTXVxuVyAtLT4gWlxuTyAtLSByZXBsaWNhdGVzIGRhdGEgLS0-IFExKChBTVFQKSlcblYgLS0gcmVwbGljYXRlcyBkYXRhLS0-IFExXG5BIC0tIHJlcGxpY2F0ZXMgZGF0YS0tPiBRMVxuTyAtLSBzeW5jLS0-IFZcblMgLS0gc3luYyAtLT4gUlxuRyAtLT4gUTIoKEFNUVApKVxuUTIgLS0gZ3BzIGNvb3JkLS0-IE9cblExIC0tIGZvcndhcmRzLS0-IFMiLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ)
-
+[![](https://mermaid.ink/img/eyJjb2RlIjoiZ3JhcGggTFJcblZbVmVoaWNsZV1cbk9bQWRzXVxuU1tTZWFyY2hdXG5SW1JlbnRzXVxuV1tDbGllbnRdXG5NW01haWxdXG5ae1p1dWx9XG5cblogLS0-IFZcblogLS0-IFNcblogLS0-IFJcblogLS0-IE9cblogLS0-IEFbQXV0aF1cblogLS0-IEdbR1BTXVxuVyAtLT4gWlxuTyAtLSByZXBsaWNhdGVzIGRhdGEgLS0-IFExKChBTVFQKSlcblYgLS0gcmVwbGljYXRlcyBkYXRhLS0-IFExXG5TIC0tIHN5bmMgLS0-IFJcbkcgLS0-IFEyKChBTVFQKSlcblEyIC0tIGdwcyBjb29yZC0tPiBWXG5RMSAtLSBmb3J3YXJkcy0tPiBTXG5BIC0tIG1haWwgLS0-IFEzKChDbG91ZEFNUVApKVxuUiAtLSBtYWlsIC0tPiBRMygoQ2xvdWRBTVFQKSlcblEzIC0tPiBNIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0)](https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoiZ3JhcGggTFJcblZbVmVoaWNsZV1cbk9bQWRzXVxuU1tTZWFyY2hdXG5SW1JlbnRzXVxuV1tDbGllbnRdXG5NW01haWxdXG5ae1p1dWx9XG5cblogLS0-IFZcblogLS0-IFNcblogLS0-IFJcblogLS0-IE9cblogLS0-IEFbQXV0aF1cblogLS0-IEdbR1BTXVxuVyAtLT4gWlxuTyAtLSByZXBsaWNhdGVzIGRhdGEgLS0-IFExKChBTVFQKSlcblYgLS0gcmVwbGljYXRlcyBkYXRhLS0-IFExXG5TIC0tIHN5bmMgLS0-IFJcbkcgLS0-IFEyKChBTVFQKSlcblEyIC0tIGdwcyBjb29yZC0tPiBWXG5RMSAtLSBmb3J3YXJkcy0tPiBTXG5BIC0tIG1haWwgLS0-IFEzKChDbG91ZEFNUVApKVxuUiAtLSBtYWlsIC0tPiBRMygoQ2xvdWRBTVFQKSlcblEzIC0tPiBNIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0)
 
 ## Installation
-
-
 
 ### Clone
 
@@ -37,10 +32,6 @@ $ docker image prune
 
 ## Features
 
----
-
-## Security
-> Coming soon
 
 ## Contributing
 
@@ -49,7 +40,7 @@ $ docker image prune
 ### Step 1
 
 - **Option 1**
-    -  Fork this repo!
+    -  Fork this repo.
 
 - **Option 2**
     -  Clone this repo to your local machine using `https://github.com/n-dusan/wroom.git`
@@ -61,6 +52,3 @@ $ docker image prune
 ### Step 3
 
 -  Create a new pull request using `https://github.com/n-dusan/wroom.git`
-
-
----
