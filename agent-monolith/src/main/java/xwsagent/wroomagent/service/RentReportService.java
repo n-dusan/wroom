@@ -83,14 +83,14 @@ public class RentReportService {
     	}
     	
     	RentRequest r = rentRequestRepository.findByReportId(reportNew.getId());
-    	
+    	User user = r.getRequestedUser();
     	Ad ad = r.getAd();
     	if(ad.getMileLimit() < report.getTraveledMiles()) {
     		Debt debt = new Debt();
     		debt.setMiles(report.getTraveledMiles()-ad.getMileLimit());
     		debt.setPriceListId(ad.getPriceList().getId());
     		debt.setRentRequestId(r.getId());
-    		User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
+    		//User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
     		debt.setUser(user);
     		debt.setStatus(DebtStatus.UNPAID);
     		debtRepository.save(debt);

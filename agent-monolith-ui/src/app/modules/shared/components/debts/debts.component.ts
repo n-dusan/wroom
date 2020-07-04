@@ -8,6 +8,8 @@ import { LoggedUser } from 'src/app/modules/auth/model/logged-user.model';
 import { RentsService } from 'src/app/modules/rents/services/rents.service';
 import { RentRequest } from '../../models/rent-request.model';
 import { ToastrService } from 'ngx-toastr';
+import { PriceListService } from 'src/app/modules/ads/services/price-list.service';
+import { PriceList } from '../../models/price-list.model';
 
 @Component({
   selector: 'app-debts',
@@ -17,17 +19,19 @@ import { ToastrService } from 'ngx-toastr';
 export class DebtsComponent implements OnInit {
   debts: Debt[] = [];
   listAds: Ad[] = [];
+  priceLists: PriceList[]= [];
   loggedUser: LoggedUser;
   requestsList: any[] = [];
   ad: Ad;
   constructor(private rentReportService: RentReportService, private adsService: AdsService,
     private authService: AuthService, private rentsService: RentsService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService, private priceListService: PriceListService) { }
 
   ngOnInit(): void {
     this.loadAds();
     this.loadDebts();
     this.loadRequests();
+    this.loadPriceLists();
   }
 
   loadAds() {
@@ -65,6 +69,15 @@ export class DebtsComponent implements OnInit {
     )
   }
 
+  loadPriceLists(){
+    this.priceListService.findAllActive().subscribe(
+      data => {
+        this.priceLists = data;
+        console.log(this.priceLists + 'list')
+      }
+    )
+  }
+
   showMileLimit(debt: Debt) {
 
     const request = this.requestsList.find(x => x.id == debt.rentRequestId);
@@ -89,6 +102,11 @@ export class DebtsComponent implements OnInit {
         this.toastr.error('Error!', 'Error');
       }
     )
+  }
+
+  showPrice(debt: Debt){
+    const price = this.priceLists.find(x => x.id == debt.priceListId);
+    return debt.miles * price.pricePerMile;
   }
 
 }
