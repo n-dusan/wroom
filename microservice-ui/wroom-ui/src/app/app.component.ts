@@ -108,4 +108,8 @@ export class AppComponent {
     })
   }
 
+  debtsClick() {
+    this.router.navigateByUrl('/debts');
+  }
+
 }

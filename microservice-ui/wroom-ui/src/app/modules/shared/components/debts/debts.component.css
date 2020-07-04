@@ -1,0 +1,14 @@
+mat-card {
+    margin-top: 20px;
+    width:500px;
+    height:200px;
+    display: flex;
+    justify-content: center;
+    margin-left:600px;
+    margin-right:600px;
+}
+
+mat-card-content {
+    margin-top: 10px;
+    padding-left: 20px;
+}

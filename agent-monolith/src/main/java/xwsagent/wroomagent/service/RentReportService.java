@@ -90,7 +90,6 @@ public class RentReportService {
     		debt.setMiles(report.getTraveledMiles()-ad.getMileLimit());
     		debt.setPriceListId(ad.getPriceList().getId());
     		debt.setRentRequestId(r.getId());
-    		//User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
     		debt.setUser(user);
     		debt.setStatus(DebtStatus.UNPAID);
     		debtRepository.save(debt);
