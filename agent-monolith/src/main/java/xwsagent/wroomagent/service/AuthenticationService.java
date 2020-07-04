@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.converter.UserConverter;
+import xwsagent.wroomagent.domain.Debt;
 import xwsagent.wroomagent.domain.PasswordResetToken;
 import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.domain.Vehicle;
@@ -110,7 +111,7 @@ public class AuthenticationService {
 		User user = new User(
 				null, request.getName(), request.getSurname(), request.getEmail(), encoder.encode(request.getPassword()),
 				new HashSet<RentRequest>(), new HashSet<Vehicle>(), roleList,
-				false,false, null, null, null
+				false,false, null, null, null, new HashSet<Debt>()
 		);
 		
 		user.setEnabled(false);

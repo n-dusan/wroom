@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.wroom.rentingservice.domain.Ad;
 import com.wroom.rentingservice.domain.RentRequest;
@@ -28,4 +29,13 @@ public interface RentRequestRepository extends JpaRepository<RentRequest, Long> 
 			"inner join ad a on rr.ad_id = a.id " +
 			"inner join vehicle v on a.vehicle_id = v.id where v.owner_username = ?1", nativeQuery=true)
 	List<RentRequest> findRentRequestsByVehicleOwnerEmail(String email);
+	
+	@Query(value = "SELECT r FROM RentRequest r WHERE (r.rentReport.id = :id)")
+	RentRequest findByReportId(@Param("id") Long id);
+	
+	@Query(value = "SELECT r FROM RentRequest r WHERE (r.ad.id = :id)")
+	Ad findByAdId(@Param("id") Long id);
+	
+//	@Query(value = "", nativeQuery=true)
+//	List<RentRequest> findReservedRequests();
 }

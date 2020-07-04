@@ -14,7 +14,7 @@ public class RentReportConverter extends AbstractConverter {
                 entity.getTraveledMiles(),
                 entity.getNote(),
                 entity.getRentRequest() == null ? null : entity.getRentRequest().getId(),
-                entity.getDate()
+                entity.getDateReport()
         );
     }
 
@@ -22,7 +22,7 @@ public class RentReportConverter extends AbstractConverter {
         RentReport rentReport = new RentReport();
 
         if(dto.getDate() == null) {
-            rentReport.setDate(Calendar.getInstance().getTime());
+            rentReport.setDateReport(Calendar.getInstance().getTime());
         }
 
         if(dto.getId() != null) {

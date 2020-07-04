@@ -3,6 +3,7 @@ package xwsagent.wroomagent.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import xwsagent.wroomagent.domain.auth.User;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -23,8 +24,11 @@ public class RentReport {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Date date;
+    private Date dateReport;
 
     @OneToOne(mappedBy = "rentReport", cascade = CascadeType.ALL)
     private RentRequest rentRequest;
+    
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private User user;
 }

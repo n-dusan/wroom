@@ -13,10 +13,12 @@ import { CreateAdGuard } from './modules/ads/guards/create-ad.guard';
 import { SharedModule } from './modules/shared/shared.module';
 import { AdminGuard } from './modules/shared/guards/admin.guard';
 import { AppRoutingModule } from './app-routing.module';
+import { DebtsComponent } from './modules/shared/components/debts/debts.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DebtsComponent
   ],
   imports: [
     BrowserModule,

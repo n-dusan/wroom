@@ -27,7 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import xwsagent.wroomagent.domain.Comment;
+import xwsagent.wroomagent.domain.Debt;
 import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.domain.Vehicle;
 
@@ -82,6 +82,7 @@ public class User {
 	@Column
 	private String address;
 
-
+	@OneToMany(mappedBy = "user")
+	private Set<Debt> debts;
 	
 }

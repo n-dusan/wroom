@@ -15,9 +15,11 @@ import xwsagent.wroomagent.converter.AdConverter;
 import xwsagent.wroomagent.converter.RentConverter;
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.BundledRequests;
+import xwsagent.wroomagent.domain.Debt;
 import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.dto.RentRequestDTO;
+import xwsagent.wroomagent.domain.enums.DebtStatus;
 import xwsagent.wroomagent.domain.enums.RequestStatus;
 import xwsagent.wroomagent.exception.InvalidReferenceException;
 import xwsagent.wroomagent.jwt.UserPrincipal;
@@ -62,52 +64,76 @@ public class RentsService {
 	}
 
 	public RentRequest sendRequest(RentRequestDTO dto, Long requestedUserID) {
-		RentRequest entity = RentConverter.toEntity(dto);
-		// entity.setRequestedUserId(dto.getRequestedUserId());
-		entity.setRequestedUser(this.userRepository.findById(requestedUserID).get());
-		entity.setStatus(RequestStatus.PENDING);
-		entity.setAd(this.adService.findById(dto.getAd().getId()));
+		User user = this.userRepository.findById(requestedUserID).get();
+		List<Debt> debts = new ArrayList<Debt>();
+		for(Debt debt : user.getDebts()) {
+			if(debt.getStatus() == DebtStatus.UNPAID) {
+				debts.add(debt);
+			}
+		}
 		
-		RentRequest saved = this.rentRepository.save(entity);
+		if(debts.isEmpty()) {
+			RentRequest entity = RentConverter.toEntity(dto);
+			// entity.setRequestedUserId(dto.getRequestedUserId());
+			entity.setRequestedUser(this.userRepository.findById(requestedUserID).get());
+			entity.setStatus(RequestStatus.PENDING);
+			entity.setAd(this.adService.findById(dto.getAd().getId()));
+			
+			RentRequest saved = this.rentRepository.save(entity);
+			
+	//		No need to send this to wroom
+	//		try {
+	//			this.rentsClient.send(entity, OperationRents.);
+	//		} catch(Exception e) {
+	//			System.out.println("Error during soap sending");
+	//			e.printStackTrace();
+	//		}
+			return saved;
+		}else {
+			return null;
+		}
 		
-//		No need to send this to wroom
-//		try {
-//			this.rentsClient.send(entity, OperationRents.);
-//		} catch(Exception e) {
-//			System.out.println("Error during soap sending");
-//			e.printStackTrace();
-//		}
-		
-		return saved;
 	}
 
 	public BundledRequests sendBundleRequest(RentRequestDTO[] dtos, Long requestedUserID) {
-		BundledRequests bundle = new BundledRequests();
-		BundledRequests saved = this.bundleService.save(bundle);
-
-		Set<RentRequest> requests = new HashSet<RentRequest>();
-		for (RentRequestDTO requestDTO : dtos) {
-			RentRequest newRequest = RentConverter.toEntity(requestDTO);
-			newRequest.setStatus(RequestStatus.PENDING);
-
-			// newRequest.setRequestedUserId(requestDTO.getRequestedUserId());
-			newRequest.setRequestedUser(this.userRepository.findById(requestedUserID).get());
-			newRequest.setAd(this.adService.findById(requestDTO.getAd().getId()));
-
-			newRequest.setBundle(saved);
-			requests.add(newRequest);
-		}
-		bundle.setRequests(requests);
-
-		BundledRequests entity = this.bundleService.save(bundle);
-		try {
-			this.rentsClient.sendBundle(entity);
-		} catch(Exception e) {
-			System.out.println("Error during soap sending");
-			e.printStackTrace();
+		User user = this.userRepository.findById(requestedUserID).get();
+		List<Debt> debts = new ArrayList<Debt>();
+		for(Debt debt : user.getDebts()) {
+			if(debt.getStatus() == DebtStatus.UNPAID) {
+				debts.add(debt);
+			}
 		}
 		
-		return entity;
+		if(debts.isEmpty()) {
+			BundledRequests bundle = new BundledRequests();
+			BundledRequests saved = this.bundleService.save(bundle);
+	
+			Set<RentRequest> requests = new HashSet<RentRequest>();
+			for (RentRequestDTO requestDTO : dtos) {
+				RentRequest newRequest = RentConverter.toEntity(requestDTO);
+				newRequest.setStatus(RequestStatus.PENDING);
+	
+				// newRequest.setRequestedUserId(requestDTO.getRequestedUserId());
+				newRequest.setRequestedUser(this.userRepository.findById(requestedUserID).get());
+				newRequest.setAd(this.adService.findById(requestDTO.getAd().getId()));
+	
+				newRequest.setBundle(saved);
+				requests.add(newRequest);
+			}
+			bundle.setRequests(requests);
+	
+			BundledRequests entity = this.bundleService.save(bundle);
+			try {
+				this.rentsClient.sendBundle(entity);
+			} catch(Exception e) {
+				System.out.println("Error during soap sending");
+				e.printStackTrace();
+			}
+			
+			return entity;
+		}else {
+			return null;
+		}
 	}
 
 	public boolean occupy(RentRequestDTO rentRequestDTO, Authentication auth) {

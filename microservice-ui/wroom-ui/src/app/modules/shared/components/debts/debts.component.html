@@ -1,0 +1,40 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <mat-card fxFlex *ngFor="let debt of debts">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex>
+                <mat-card-header fxLayout="row" fxLayoutAlign="center center">
+                    <mat-card-title>Debt</mat-card-title>
+                    <mat-card-subtitle>{{showAd(debt)}}</mat-card-subtitle>
+                    <button mat-icon-button (click)="payDebt(debt.id)"><mat-icon  color="accent" class="example-tab-icon">credit_card</mat-icon>
+                    </button>
+                </mat-card-header>
+
+                <mat-divider horizontal style="height:100px;"></mat-divider>
+
+                <mat-card-content fxLayout="row" fxLayoutAlign="center center">
+                    <table fxFlex>
+                        <tbody>
+                            <tr>
+                                <th style="text-align: end;">Exceeded : </th>
+                                <td>{{debt.miles}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: end;">Max limit : </th>
+                                <td>{{showMileLimit(debt)}}</td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: end;">Price : </th>
+                                <td>{{showPrice(debt)}}</td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+
+                </mat-card-content>
+            </div>
+        </div>
+
+    </mat-card>
+</div>

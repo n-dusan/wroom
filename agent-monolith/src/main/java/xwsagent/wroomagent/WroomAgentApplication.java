@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import xwsagent.wroomagent.domain.Message;
+import xwsagent.wroomagent.service.RentReportService;
 import xwsagent.wroomagent.soap.clients.MessagesClient;
 import xwsagent.wroomagent.soap.xsd.SendMessageResponse;
 
@@ -28,6 +29,7 @@ public class WroomAgentApplication {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
+		
 
 		SpringApplication.run(WroomAgentApplication.class, args);
 		System.out.println("Agent monolith is running");
