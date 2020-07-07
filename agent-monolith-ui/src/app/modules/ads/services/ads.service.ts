@@ -72,7 +72,7 @@ export class AdsService {
   }
 
   addComment(comment: CommentModel, id: number) : Observable<CommentModel> {
-    return this.http.post<CommentModel>(`${this.adsUrl}/comment/` + id, comment);
+    return this.http.post<CommentModel>(`${this.adsUrl}/comment/` + id, comment).pipe(catchError(this.handleException));
   }
 
   getAllComments() : Observable<CommentModel[]> {
@@ -92,7 +92,7 @@ export class AdsService {
   }
 
   addReply(comment: CommentModel, id:number) : Observable<CommentModel> {
-    return this.http.post<CommentModel>(`${this.adsUrl}/reply/` + id, comment);
+    return this.http.post<CommentModel>(`${this.adsUrl}/reply/` + id, comment).pipe(catchError(this.handleException));
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {
