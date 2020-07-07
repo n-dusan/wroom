@@ -313,8 +313,8 @@ insert into ad (id, address, available_from, available_to, deleted, gps, mile_li
 values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00:00.000000', 0, 1, null, 0, '2020-05-15 17:20:12.039000', 2, 3, 4);
 
 --Rent Report
-insert into rent_report(id, date_report, note, traveled_miles, user_id)
-values(1, '2020-06-29 00:00:00.000000', 'Ovo je izvestaj', 60000, 1);
+-- insert into rent_report(id, date_report, note, traveled_miles, user_id)
+-- values(1, '2020-06-29 00:00:00.000000', 'Ovo je izvestaj', 60000, 1);
 
 -- Rent Requests
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)

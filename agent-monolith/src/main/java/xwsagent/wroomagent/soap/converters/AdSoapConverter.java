@@ -1,9 +1,10 @@
 package xwsagent.wroomagent.soap.converters;
 
+import xwsagent.wroomagent.converter.AbstractConverter;
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.soap.xsd.AdSoap;
 
-public class AdSoapConverter {
+public class AdSoapConverter extends AbstractConverter {
 
 	public static AdSoap toAdSoap(Ad entity) {
 		AdSoap ret = new AdSoap();

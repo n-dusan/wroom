@@ -246,6 +246,15 @@
 			</sequence>
 		</complexType>
 	</element>
+
+	<element name="SendVehicleListRequestResponse">
+		<complexType>
+			<sequence>
+				<element name="vehicle" type="tns:VehicleSoap" maxOccurs="unbounded"></element>
+				<element name="companyEmail" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
 	
 	<!-- RentRequests -->
 	<element name="SendRentRequest">
@@ -406,6 +415,15 @@
 		<complexType>
 			<sequence>
 				<element name="ad" type="tns:AdSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name="SendAdListRequestResponse">
+		<complexType>
+			<sequence>
+				<element name="ad" type="tns:AdSoap" maxOccurs="unbounded"></element>
+				<element name="companyEmail" type="string"></element>
 			</sequence>
 		</complexType>
 	</element>

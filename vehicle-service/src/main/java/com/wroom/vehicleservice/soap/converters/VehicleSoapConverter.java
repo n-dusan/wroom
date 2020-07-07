@@ -1,10 +1,11 @@
 package com.wroom.vehicleservice.soap.converters;
 
+import com.wroom.vehicleservice.converter.AbstractConverter;
 import com.wroom.vehicleservice.domain.Vehicle;
 import com.wroom.vehicleservice.soap.xsd.ModelType;
 import com.wroom.vehicleservice.soap.xsd.VehicleSoap;
 
-public class VehicleSoapConverter {
+public class VehicleSoapConverter extends AbstractConverter {
 
 	public static VehicleSoap toVehicleSoap(Vehicle entity) {
 		VehicleSoap ret = new VehicleSoap();
