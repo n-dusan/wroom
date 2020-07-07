@@ -81,7 +81,7 @@ public class VehicleController {
 	}
 
 	@PostMapping(value = "/upload/{id}")
-	@PreAuthorize("hasAuthority('UPLOAD_IMAGES') || hasAuthority('ROLE_CRUD_VEHICLE') || hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
+	@PreAuthorize("(hasAuthority('UPLOAD_IMAGES') || hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')) && hasAuthority('ROLE_CRUD_VEHICLE')")
 	public ResponseEntity<?> postImage(@RequestParam("file") List<MultipartFile> files, @PathVariable("id") Long id,
 			Authentication auth, HttpServletRequest httpServletRequest) {
 		Vehicle vehicle = vehicleService.findById(id);
@@ -112,7 +112,7 @@ public class VehicleController {
 	}
 
 	@DeleteMapping(value = "/{id}", produces = MediaType.TEXT_PLAIN_VALUE)
-	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('ROLE_CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
+	@PreAuthorize("(hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')) && hasAuthority('ROLE_CRUD_VEHICLE')")
 	public ResponseEntity<String> delete(@PathVariable("id") Long id) {
 		Vehicle vehicle = vehicleService.findById(id);
 		List<Ad> ads = vehicleRepository.findByVehicleId(vehicle);
@@ -158,7 +158,7 @@ public class VehicleController {
 	}
 
 	@PutMapping(value = "/{id}", produces = "application/json")
-	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('ROLE_CRUD_VEHICLE')  || hasAuthority('COMPLETE_ACCESS')")
+	@PreAuthorize("(hasAuthority('CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')) && hasAuthority('ROLE_CRUD_VEHICLE')")
 	public ResponseEntity<VehicleDTO> update(@RequestBody VehicleDTO vehicleDTO, @PathVariable("id") Long id,
 			Authentication auth, HttpServletRequest httpServletRequest) {
 		Vehicle vehicle = vehicleService.findById(id);

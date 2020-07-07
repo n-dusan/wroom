@@ -42,7 +42,7 @@ export class NewCommentComponent implements OnInit {
     },
 
     error => {
-      this.toastr.error('Error!', 'Error')
+      this.toastr.error('Insufficient rights, please contact admin', 'Error')
     });
   }
 

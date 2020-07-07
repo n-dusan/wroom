@@ -76,6 +76,9 @@ export class AdsOverviewComponent implements OnInit {
     console.log('delete ad', ad)
     this.adsService.deleteAd(ad.id).subscribe(response => {
       this.refresh()
+    },
+    error => {
+      this.toastr.error('Insufficient rights, please contact admin', 'Error')
     })
   }
 
