@@ -10,7 +10,7 @@ public class RentReportSoapConverter extends AbstractConverter  {
         RentReportSoap ret = new RentReportSoap();
 
         ret.setLocalId(entity.getId());
-        ret.setDate(entity.getDate());
+        ret.setDate(entity.getDateReport());
         ret.setNote(entity.getNote());
         ret.setTraveledMiles(entity.getTraveledMiles());
 
@@ -23,7 +23,7 @@ public class RentReportSoapConverter extends AbstractConverter  {
         ret.setId(soap.getLocalId() == null ? null : soap.getLocalId());
         ret.setTraveledMiles(soap.getTraveledMiles());
         ret.setNote(soap.getNote());
-        ret.setDate(soap.getDate());
+        ret.setDateReport(soap.getDate());
 
         return ret;
     }

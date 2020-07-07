@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
       this.user = data;
       if (this.user == null) {
         this.authService.reauthenticate();
+        console.log('my user', this.user);
       }
     });
 
@@ -51,6 +52,7 @@ export class AppComponent implements OnInit {
     if (this.user == null) {
       this.authService.loggedUserSubject.subscribe(
         data => {
+          console.log('my user', this.user);
           this.user = data;
         }
       )

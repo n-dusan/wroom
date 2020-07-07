@@ -162,7 +162,7 @@ public class RentsClient extends WebServiceGatewaySupport {
 
 			if(reportSoap.getLocalId() != null) {
 				RentReport report = rentReportService.findById(reportSoap.getLocalId());
-				report.setDate(reportSoap.getDate());
+				report.setDateReport(reportSoap.getDate());
 				report.setNote(reportSoap.getNote());
 				report.setTraveledMiles(reportSoap.getTraveledMiles());
 				this.rentReportRepository.save(report);

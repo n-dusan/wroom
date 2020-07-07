@@ -31,25 +31,25 @@ export class RentReportService {
   }
 
   debts(report: RentReport): Observable<RentReport>{
-    return this.http.post<RentReport>(this.baseUrl + '/debts', report);
+    return this.http.post<RentReport>(this.baseUrl + '/debts', report).pipe(catchError(this.handleException));;
   }
 
   alldebts(): Observable<Debt[]> {
-    return this.http.get<Debt[]>(this.baseUrl + '/alldebts');
+    return this.http.get<Debt[]>(this.baseUrl + '/alldebts').pipe(catchError(this.handleException));;
   }
 
   payDebt(id: number): Observable<Debt[]> {
-    return this.http.put<Debt[]>(this.baseUrl + '/pay/' + id, {});
+    return this.http.put<Debt[]>(this.baseUrl + '/pay/' + id, {}).pipe(catchError(this.handleException));;
   }
 
   checkDebts(){
-    return this.http.get(this.baseUrl + '/checkDebts');
+    return this.http.get(this.baseUrl + '/checkDebts').pipe(catchError(this.handleException));;
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {
     return throwError(err.error);
   }
 
-  
+
 
 }

@@ -26,7 +26,7 @@ public class CommentsAspect {
      *  when loading ad-overview component on ui, sync comments (wroom -> monolith)
      */
     @Before("execution(* xwsagent.wroomagent.service.AdService.findAllActiveForUser(..))")
-    public void syncComments(JoinPoint joinPoint) throws Throwable {
+    public void sync(JoinPoint joinPoint) throws Throwable {
         log.info("sync=comment, action=started");
 
         this.commentsClient.syncComments();

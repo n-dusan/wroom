@@ -63,7 +63,7 @@ public class VehicleController {
 	 * @return newly created vehicle
 	 */
 	@PostMapping(consumes = "application/json")
-	@PreAuthorize("hasAuthority('CRUD_VEHICLE') || hasAuthority('ROLE_CRUD_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
+	@PreAuthorize("(hasAuthority('CRUD_VEHICLE')  || hasAuthority('COMPLETE_ACCESS'))&& hasAuthority('ROLE_CRUD_VEHICLE')")
 	public ResponseEntity<VehicleDTO> create(@Valid @RequestBody VehicleDTO vehicleDTO, Authentication auth,
 			HttpServletRequest httpServletRequest) {
 				

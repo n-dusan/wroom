@@ -26,7 +26,7 @@ public class MessagesAspect {
      *  when loading inbox component on ui, sync messages (wroom -> monolith)
      */
     @Before("execution(* xwsagent.wroomagent.service.MessageService.getReceived(..))")
-    public void syncComments(JoinPoint joinPoint) throws Throwable {
+    public void sync(JoinPoint joinPoint) throws Throwable {
         log.info("sync=messages, action=started");
 
         this.messagesClient.syncMessages();

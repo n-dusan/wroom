@@ -78,7 +78,7 @@ export class NewVehicleComponent implements OnInit {
       this.fourthFormGroup = this.formBuilder.group({
         file: ['']
       });
-      
+
       this.modelService.getModelTypes().subscribe(
         data => {
           this.modelListAll = data;
@@ -118,14 +118,14 @@ export class NewVehicleComponent implements OnInit {
   urls = [];
 
   onSelectFile(event) {
-    
+
     var files = event.target.files;
     for(let file of files) {
       if(file.type !== 'image/png' && file.type !=='image/jpg' && file.type !=='image/jpeg') {
         this.toastr.error('Valid types are: .png, .jpg and .jpeg', 'Please upload valid file type')
         return;
       }
-      if(file.size >= 8000000) { 
+      if(file.size >= 8000000) {
         this.toastr.error('File size limit is 8MB', 'File too big')
         return;
       }
@@ -158,7 +158,7 @@ export class NewVehicleComponent implements OnInit {
           });
       },
       error => {
-        this.toastr.error('Error !', 'Error')
+        this.toastr.error('Insufficient rights, please contact admin', 'Error')
         console.log(error)
       }
     );
