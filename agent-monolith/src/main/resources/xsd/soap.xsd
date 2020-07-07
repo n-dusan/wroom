@@ -418,6 +418,15 @@
 			</sequence>
 		</complexType>
 	</element>
+
+	<element name="SendAdListRequestResponse">
+		<complexType>
+			<sequence>
+				<element name="ad" type="tns:AdSoap" maxOccurs="unbounded"></element>
+				<element name="companyEmail" type="string"></element>
+			</sequence>
+		</complexType>
+	</element>
 	
 	<!-- Messages -->
 	<element name="SendMessageRequest">
