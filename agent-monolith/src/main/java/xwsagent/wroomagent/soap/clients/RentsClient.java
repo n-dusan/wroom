@@ -25,6 +25,9 @@ import java.util.*;
 public class RentsClient extends WebServiceGatewaySupport {
 
 
+	public static final String MONOLITH_USER_EMAIL = "zika@maildrop.cc";
+
+
 	@Autowired
 	private BundleRepository bundleRepository;
 
@@ -46,9 +49,6 @@ public class RentsClient extends WebServiceGatewaySupport {
 	@Autowired
 	private RentReportRepository rentReportRepository;
 
-
-
-	public static final String MONOLITH_USER_EMAIL = "zika@maildrop.cc";
 
 	public SendRentResponse send(RentRequest entity, OperationRents operation) {
 		SendRentRequest request = new SendRentRequest();

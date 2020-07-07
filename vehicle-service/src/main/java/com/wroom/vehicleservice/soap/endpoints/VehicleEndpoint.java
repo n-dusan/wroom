@@ -1,5 +1,7 @@
 package com.wroom.vehicleservice.soap.endpoints;
 
+import com.wroom.vehicleservice.soap.xsd.*;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -14,11 +16,11 @@ import com.wroom.vehicleservice.repository.ModelTypeRepository;
 import com.wroom.vehicleservice.repository.VehicleRepository;
 import com.wroom.vehicleservice.service.VehicleService;
 import com.wroom.vehicleservice.soap.converters.VehicleSoapConverter;
-import com.wroom.vehicleservice.soap.xsd.Operation;
-import com.wroom.vehicleservice.soap.xsd.SendVehicleRequest;
-import com.wroom.vehicleservice.soap.xsd.SendVehicleResponse;
+
+import java.util.List;
 
 @Endpoint
+@Log4j2
 public class VehicleEndpoint {
 
 	private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
@@ -40,7 +42,7 @@ public class VehicleEndpoint {
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "SendVehicleRequest")
 	@ResponsePayload
 	public SendVehicleResponse sendVehicle(@RequestPayload SendVehicleRequest request) {
-		System.out.println(">>>>>>>>>>> Received a Vehicle!");
+		log.info("action=receive-vehicle status=started");
 		
 		SendVehicleResponse response = new SendVehicleResponse();
 		
@@ -62,9 +64,36 @@ public class VehicleEndpoint {
 			Vehicle updated = this.vehicleService.update(entity);
 			response.setVehicle(VehicleSoapConverter.toVehicleSoap(updated));
 		}
-		
-		
-		System.out.println(">>>>>>>>>>> Success!");
+
+
+		log.info("action=receive-vehicle status=ended");
+		return response;
+	}
+
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "SendVehicleListRequestResponse")
+	@ResponsePayload
+	public SendVehicleListRequestResponse sendVehicle(@RequestPayload SendVehicleListRequestResponse request) {
+		log.info("action=sync-vehicles status=started");
+
+		SendVehicleListRequestResponse response = new SendVehicleListRequestResponse();
+
+		List<VehicleSoap> soapList = request.getVehicle();
+		for (VehicleSoap vehicleSoap : soapList) {
+			Vehicle vehicle = this.vehicleRepository.findByLocalId(vehicleSoap.getId(), request.getCompanyEmail());
+
+			if(vehicle == null) {
+				Vehicle entityToSave = VehicleSoapConverter.fromVehicleSoap(vehicleSoap);
+
+				entityToSave.setModelType(this.modelTypeRepository.findByName(vehicleSoap.getModelType().getModelName()));
+				entityToSave.setBodyType(this.bodyTypeRepository.findOneByName(vehicleSoap.getBodyType()));
+				entityToSave.setFuelType(this.fuelTypeRepository.findByName(vehicleSoap.getFuelType()));
+				entityToSave.setGearboxType(this.gearboxTypeRepository.findByName(vehicleSoap.getGearboxType()));
+
+				this.vehicleRepository.save(entityToSave);
+			}
+		}
+		log.info("action=sync-vehicles status=ended");
 		return response;
 	}
 }

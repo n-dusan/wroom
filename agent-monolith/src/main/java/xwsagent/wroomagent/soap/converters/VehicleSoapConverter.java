@@ -1,13 +1,15 @@
 package xwsagent.wroomagent.soap.converters;
 
+import xwsagent.wroomagent.converter.AbstractConverter;
 import xwsagent.wroomagent.domain.Vehicle;
 import xwsagent.wroomagent.soap.xsd.ModelType;
 import xwsagent.wroomagent.soap.xsd.VehicleSoap;
 
-public class VehicleSoapConverter {
+public class VehicleSoapConverter extends AbstractConverter  {
 
 	public static VehicleSoap toVehicleSoap(Vehicle entity) {
 		VehicleSoap ret = new VehicleSoap();
+
 		ret.setId(entity.getId());
 		ret.setMileage(entity.getMileage());
 		ret.setChildSeats(entity.getChildSeats());
