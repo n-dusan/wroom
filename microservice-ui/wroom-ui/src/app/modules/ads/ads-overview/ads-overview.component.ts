@@ -40,7 +40,8 @@ export class AdsOverviewComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private priceListService: PriceListService) { }
+    private priceListService: PriceListService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.authService.whoami().subscribe(data => {
@@ -76,9 +77,12 @@ export class AdsOverviewComponent implements OnInit {
     console.log('delete ad', ad)
     this.adsService.deleteAd(ad.id).subscribe(() => {
       this.refresh()
+    },
+    error => {
+      this.toastr.error('Insufficient rights, please contact admin', 'Error')
     })
   }
-
+s
 
   viewDetails(ad: Ad) {
     let dialogPriceList: PriceList;

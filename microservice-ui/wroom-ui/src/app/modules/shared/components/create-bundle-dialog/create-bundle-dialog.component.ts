@@ -76,7 +76,11 @@ export class CreateBundleDialogComponent implements OnInit {
           },
           error => {
             console.log(error);
-            this.toastr.error('An unexpected error ocurred', 'Error')
+            if(error.status == 403){
+              this.toastr.error('Insufficient rights, please contact admin', 'Error')
+            }else{
+              this.toastr.error('You have to pay your debts first', 'Error')
+            }
           }
         );
       } else {
@@ -88,7 +92,11 @@ export class CreateBundleDialogComponent implements OnInit {
             },
             error => {
               console.log(error);
-              this.toastr.error('An unexpected error ocurred', 'Error')
+              if(error.status == 403){
+                this.toastr.error('Insufficient rights, please contact admin', 'Error')
+              }else{
+                this.toastr.error('You have to pay your debts first', 'Error')
+              }
             }
           );
         }
@@ -105,7 +113,11 @@ export class CreateBundleDialogComponent implements OnInit {
         },
         error => {
           console.log(error);
-          this.toastr.error('An unexpected error ocurred', 'Error')
+          if(error.status == 403){
+            this.toastr.error('Insufficient rights, please contact admin', 'Error')
+          }else{
+            this.toastr.error('You have to pay your debts first', 'Error')
+          }
         }
       );
     }

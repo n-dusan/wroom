@@ -101,7 +101,7 @@ export class VehicleListComponent implements OnInit {
         this.toastr.success('You have successfully deleted Vehicle!', 'Success')
     }, error => {
       
-      this.toastr.error('There is an ad with this vehicle!', 'Error')
+      this.toastr.error('Insufficient rights, please contact admin', 'Error')
     })
   }
 

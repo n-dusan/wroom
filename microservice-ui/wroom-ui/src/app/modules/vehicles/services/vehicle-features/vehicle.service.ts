@@ -55,11 +55,11 @@ export class VehicleService {
   }
 
   delete(id: number): Observable<string> {
-    return this.http.delete(this.baseUrl + '/' + id, { responseType: 'text' });
+    return this.http.delete(this.baseUrl + '/' + id, { responseType: 'text' }).pipe(catchError(this.handleException));
   }
 
   update(id: number, value: any) {
-    return this.http.put(`${this.baseUrl}/${id}`, value);
+    return this.http.put(`${this.baseUrl}/${id}`, value).pipe(catchError(this.handleException));
   }
 
   public getVehicleImage(): Observable<VehicleImage[]> {
