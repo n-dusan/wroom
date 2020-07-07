@@ -7,12 +7,13 @@ import { ShoppingCartComponent } from './modules/shared/components/shopping-cart
 import { AdminGuard } from './modules/shared/guards/admin.guard';
 import { InboxComponent } from './modules/shared/components/inbox/inbox.component';
 import { ResetPasswordComponent } from './modules/shared/components/reset-password/reset-password.component';
-
+import { DebtsComponent } from './modules/shared/components/debts/debts.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'cart', component: ShoppingCartComponent },
+  { path: 'debts', component: DebtsComponent },
   { path: 'inbox', component: InboxComponent },
   { path: 'reset-password/:token', component: ResetPasswordComponent },
   { path: 'confirm/:token', component: EmailConfirmationComponent },
