@@ -66,14 +66,10 @@ public class VehicleController {
 		System.out.println("DTO" + vehicleDTO);
 		String logContent = String.format(LOG_CREATE, auth.getName(), httpServletRequest.getRemoteAddr(),
 				requestCounter.get(EndpointConfig.VEHICLE_BASE_URL));
-		try {
-			log.info(logContent);
-			return new ResponseEntity<>(VehicleConverter.fromEntity(vehicleService.save(vehicleDTO, auth)),
-					HttpStatus.OK);
-		} catch (Exception e) {
-			log.error(logContent + "General exception");
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
+		
+		log.info(logContent);
+		return new ResponseEntity<>(VehicleConverter.fromEntity(vehicleService.save(vehicleDTO, auth)), HttpStatus.OK);
+		
 
 	}
 
