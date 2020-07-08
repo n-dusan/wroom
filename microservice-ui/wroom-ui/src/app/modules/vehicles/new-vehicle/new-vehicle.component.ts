@@ -155,8 +155,11 @@ export class NewVehicleComponent implements OnInit {
           });
       },
       error => {
-        this.toastr.error('Error !', 'Error')
-        console.log(error)
+        if(error.status == 403){
+          this.toastr.error('Insufficient rights, please contact admin', 'Error')
+        }else{
+          this.toastr.error('childSeats: must be less than or equal to 4', 'Error')
+        }
       }
     );
 
