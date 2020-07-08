@@ -24,7 +24,6 @@ public class VehicleSoapConverter extends AbstractConverter  {
 		ret.setBodyType(entity.getBodyType().getName());
 		ret.setGearboxType(entity.getGearboxType().getName());
 		ret.setOwnerId(entity.getOwner().getId());
-		//TODO: Images
 		
 		return ret;
 	}

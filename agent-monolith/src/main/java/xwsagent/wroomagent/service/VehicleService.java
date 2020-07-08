@@ -187,6 +187,15 @@ public class VehicleService {
 			image.setUrlPath(newFile.getAbsolutePath());
 			image.setVehicle(vehicle);
 			Image im = imageService.save(image);
+			
+			// Send to wroom
+			try {
+				this.vehicleClient.sendImage(im);
+			} catch (Exception e) {
+				System.err.println("Did not send an image to wroom.");
+			}
+			
+			
 			images.add(im);
 		}
 	}

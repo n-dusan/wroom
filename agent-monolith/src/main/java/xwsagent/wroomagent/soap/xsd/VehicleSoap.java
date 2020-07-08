@@ -329,6 +329,10 @@ public class VehicleSoap {
 	public void setOwnerId(Long ownerId) {
 		this.ownerId = ownerId;
 	}
+
+	public void setImages(List<byte[]> images) {
+		this.images = images;
+	}
     
     
 

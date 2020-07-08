@@ -170,7 +170,7 @@ export class NewVehicleComponent implements OnInit {
 
     const modelType = this.firstFormGroup.value.selectModel;
     const mType = this.modelList.find(x => x.id == modelType);
-    console.log(mType + 'Izabrani model')
+    // console.log(mType + 'Izabrani model')
 
     const brandType = this.firstFormGroup.value.selectBrand;
     const brType = this.brandList.find(x => x.id == brandType);
@@ -198,7 +198,7 @@ export class NewVehicleComponent implements OnInit {
   }
 
   brandClicked(brand: BrandType) {
-    console.log(brand)
+    this.modelList = [];
     for (let m of this.modelListAll) {
       if (m.brandId === brand.id) {
         this.modelList.push(m);

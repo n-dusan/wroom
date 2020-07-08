@@ -19,6 +19,6 @@ public class Image {
     @Column(name = "urlPath", nullable = false)
     private String urlPath;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Vehicle vehicle;
 }

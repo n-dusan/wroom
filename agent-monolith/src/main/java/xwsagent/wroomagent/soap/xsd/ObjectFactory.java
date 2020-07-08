@@ -189,6 +189,30 @@ public class ObjectFactory {
     }
     
     /**
+     * Create an instance of {@link ImageSoap }
+     * 
+     */
+    public ImageSoap createImageSoap() {
+        return new ImageSoap();
+    }
+    
+    /**
+     * Create an instance of {@link SendImageResponse }
+     * 
+     */
+    public SendImageResponse createSendImageResponse() {
+        return new SendImageResponse();
+    }
+    
+    /**
+     * Create an instance of {@link SendImageRequest }
+     * 
+     */
+    public SendImageRequest createSendImageRequest() {
+        return new SendImageRequest();
+    }
+    
+    /**
      * Create an instance of {@link MessageListRequest }
      * 
      */

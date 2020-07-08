@@ -114,6 +114,14 @@
 			<element name="images" type="tns:image" maxOccurs="unbounded"></element>
 		</sequence>
 	</complexType>
+	
+	<complexType name="ImageSoap">
+		<sequence>
+			<element name="id" type="tns:id"></element>
+			<element name="base64string" type="tns:image"></element>
+			<element name="vehicleId" type="tns:id"></element>
+		</sequence>
+	</complexType>
 
 	<complexType name="RentRequestSoap">
 		<sequence>
@@ -255,6 +263,23 @@
 			</sequence>
 		</complexType>
 	</element>
+	
+	<!-- Images -->
+	<element name="SendImageRequest">
+		<complexType>
+			<sequence>
+				<element name="image" type="tns:ImageSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="SendImageResponse">
+		<complexType>
+			<sequence>
+				<element name="image" type="tns:ImageSoap"></element>
+			</sequence>
+		</complexType>
+	</element>
+	
 	
 	<!-- RentRequests -->
 	<element name="SendRentRequest">

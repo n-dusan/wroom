@@ -68,4 +68,28 @@ public class ObjectFactory {
     public ModelType createModelType() {
         return new ModelType();
     }
+    
+    /**
+     * Create an instance of {@link ImageSoap }
+     * 
+     */
+    public ImageSoap createImageSoap() {
+        return new ImageSoap();
+    }
+    
+    /**
+     * Create an instance of {@link SendImageResponse }
+     * 
+     */
+    public SendImageResponse createSendImageResponse() {
+        return new SendImageResponse();
+    }
+    
+    /**
+     * Create an instance of {@link SendImageRequest }
+     * 
+     */
+    public SendImageRequest createSendImageRequest() {
+        return new SendImageRequest();
+    }
 }
