@@ -9,6 +9,7 @@ import { PriceListService } from 'src/app/modules/ads/services/price-list.servic
 import { Debt } from '../../models/debt.model';
 import { Ad } from 'src/app/modules/ads/model/ad.model';
 import { RentsService } from 'src/app/modules/rents/services/rents.service';
+import { RentRequest } from '../../models/rent-request.model';
 
 @Component({
   selector: 'app-debts',
@@ -19,9 +20,9 @@ export class DebtsComponent implements OnInit {
 
   debts: Debt[] = [];
   listAds: Ad[] = [];
-  priceLists: PriceList[]= [];
+  priceLists: PriceList[] = [];
   loggedUser: LoggedUser;
-  requestsList: any[] = [];
+  requestsList: RentRequest[] = [];
   ad: Ad;
   constructor(private rentReportService: RentReportService, private adsService: AdsService,
     private authService: AuthService, private rentsService: RentsService,
@@ -37,11 +38,11 @@ export class DebtsComponent implements OnInit {
   loadAds() {
     this.authService.whoami().subscribe(data => {
       this.loggedUser = data;
-      console.log(this.loggedUser)
+      // console.log(this.loggedUser)
       this.adsService.getAllActiveForUser(this.loggedUser.id).subscribe(
         data => {
           this.listAds = data;
-          console.log(this.listAds)
+          console.log('ADS', this.listAds)
         }
       )
 
@@ -57,6 +58,7 @@ export class DebtsComponent implements OnInit {
     this.rentReportService.alldebts().subscribe(
       data => {
         this.debts = data;
+        console.log('DEBTS', this.debts);
       }
     )
   }
@@ -65,15 +67,23 @@ export class DebtsComponent implements OnInit {
     this.rentsService.getAll().subscribe(
       data => {
         this.requestsList = data;
+        console.log('REQUESTS', this.requestsList);
+
+        for(let debt of this.debts) {
+          const rr: RentRequest = this.requestsList.find(x => {return x.id === debt.rentRequestId});
+          if(rr != null) {
+            debt.adObj = rr.ad;
+          }
+        }
       }
     )
   }
 
-  loadPriceLists(){
+  loadPriceLists() {
     this.priceListService.findAllActive().subscribe(
       data => {
         this.priceLists = data;
-        console.log(this.priceLists + 'list')
+        console.log('PRICELISTS',this.priceLists)
       }
     )
   }
@@ -87,7 +97,7 @@ export class DebtsComponent implements OnInit {
   }
 
   showAd(debt: Debt) {
-    
+
     const request = this.requestsList.find(x => x.id == debt.rentRequestId);
     const ad = this.listAds.find(x => x.id == request.ad.id);
     return this.ad?.address;
@@ -104,9 +114,9 @@ export class DebtsComponent implements OnInit {
     )
   }
 
-  showPrice(debt: Debt){
+  showPrice(debt: Debt) {
     const price = this.priceLists.find(x => x.id == debt.priceListId);
-    return debt.miles * price.pricePerMile;
+    return debt.miles * price?.pricePerMile;
   }
 
 }

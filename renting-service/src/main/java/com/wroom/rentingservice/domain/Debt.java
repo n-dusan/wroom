@@ -35,6 +35,8 @@ public class Debt {
 	
 	//@ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     //private User user;
+	@Column
+	private Long userId;
 	
 	@Column
 	private DebtStatus status;

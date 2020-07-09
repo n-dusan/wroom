@@ -7,8 +7,11 @@ import com.wroom.rentingservice.domain.dto.RentRequestDTO;
 public class RentConverter extends AbstractConverter{
 
 	public static RentRequestDTO fromEntity(RentRequest entity) {
+		if(entity == null) {
+			return null;
+		}
         return new RentRequestDTO(
-                entity.getId(),
+                entity.getId() == null ? null : entity.getId(),
                 entity.getStatus(),
                 entity.getFromDate(),
                 entity.getToDate(),

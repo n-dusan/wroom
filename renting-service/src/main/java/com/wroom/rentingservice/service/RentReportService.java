@@ -8,12 +8,14 @@ import com.wroom.rentingservice.domain.RentRequest;
 import com.wroom.rentingservice.domain.dto.RentReportDTO;
 import com.wroom.rentingservice.domain.enums.DebtStatus;
 import com.wroom.rentingservice.exception.GeneralException;
+import com.wroom.rentingservice.jwt.UserPrincipal;
 import com.wroom.rentingservice.repository.DebtRepository;
 import com.wroom.rentingservice.repository.RentReportRepository;
 import com.wroom.rentingservice.repository.RentRequestRepository;
 
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -84,27 +86,28 @@ public class RentReportService {
     	}
     	
     	RentRequest r = rentRequestRepository.findByReportId(reportNew.getId());
-    	//User user = r.getRequestedUser();
     	Ad ad = r.getAd();
+    	
     	if(ad.getMileLimit() < report.getTraveledMiles()) {
     		Debt debt = new Debt();
     		debt.setMiles(report.getTraveledMiles()-ad.getMileLimit());
     		debt.setPriceListId(ad.getPriceListId());
     		debt.setRentRequestId(r.getId());
-    		//debt.setUser(user);
+    		debt.setUserId(r.getRequestedUserId());
     		debt.setStatus(DebtStatus.UNPAID);
     		debtRepository.save(debt);
     	}
     }
     
     public List<Debt> getDebts(Authentication auth){
-    	//User user = userService.findByEmail(((UserPrincipal) auth.getPrincipal()).getUsername());
-    	List<Debt> all = this.debtRepository.findAll();
+    	UserPrincipal principal = (UserPrincipal) auth.getPrincipal();
+    	List<Debt> byUser = this.debtRepository.findByUserId(principal.getId());
+    	
     	List<Debt> debts = new ArrayList<Debt>();
-    	for(Debt d : all) {
-//    		if(d.getUser() == user && d.getStatus() == DebtStatus.UNPAID) {
-//    			debts.add(d);
-//    		}
+    	for(Debt d : byUser) {
+    		if(d.getStatus() == DebtStatus.UNPAID) {
+    			debts.add(d);
+    		}
     	}
     	return debts;
     }

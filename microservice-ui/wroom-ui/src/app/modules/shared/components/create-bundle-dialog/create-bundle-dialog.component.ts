@@ -85,6 +85,7 @@ export class CreateBundleDialogComponent implements OnInit {
         );
       } else {
         for(let req of forSending) {
+          console.log('request', req);
           this.requestService.send(req).subscribe(
             data=> {
               console.log(data);
@@ -105,9 +106,14 @@ export class CreateBundleDialogComponent implements OnInit {
 
     } else {
       // Obican
+      console.log('sent request',forSending[0]);
       this.requestService.send(forSending[0]).subscribe(
         data=> {
-          console.log(data);
+          console.log('sent request',data);
+          if(data == null) {
+            this.toastr.error('You have to pay your debts first', 'Error')
+            return;
+          }
           this.toastr.success('Your request is sent to owner. Please wait untill it is processed', 'Success')
           this.dialogRef.close({ data: forSending });
         },
