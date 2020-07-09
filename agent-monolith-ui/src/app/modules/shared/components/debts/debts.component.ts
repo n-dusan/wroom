@@ -41,7 +41,7 @@ export class DebtsComponent implements OnInit {
       this.adsService.getAllActiveForUser(this.loggedUser.id).subscribe(
         data => {
           this.listAds = data;
-          console.log(this.listAds)
+          console.log('ADS',this.listAds)
         }
       )
 
@@ -65,6 +65,13 @@ export class DebtsComponent implements OnInit {
     this.rentsService.getAll().subscribe(
       data => {
         this.requestsList = data;
+        
+        for(let debt of this.debts) {
+          const rr: RentRequest = this.requestsList.find(x => {return x.id === debt.rentRequestId});
+          if(rr != null) {
+            debt.adObj = rr.ad;
+          }
+        }
       }
     )
   }
@@ -73,15 +80,22 @@ export class DebtsComponent implements OnInit {
     this.priceListService.findAllActive().subscribe(
       data => {
         this.priceLists = data;
-        console.log(this.priceLists + 'list')
+
+        for(let debt of this.debts) {
+          const plo = this.priceLists.find(x => {return x.id === debt.priceListId});
+          if(plo != null) {
+            debt.priceListObj = plo;
+          }
+        }
       }
     )
   }
 
   showMileLimit(debt: Debt) {
-
-    const request = this.requestsList.find(x => x.id == debt.rentRequestId);
-    const ad = this.listAds.find(x => x.id == request.ad.id);
+    const request: RentRequest = this.requestsList.find(x => x.id === debt.rentRequestId);
+    console.log('request iz debta', request)
+    const ad = this.listAds.find(x => x.id === request.ad.id);
+    console.log('ad iz debta', ad)
 
     return this.ad?.mileLimit;
   }
@@ -106,7 +120,7 @@ export class DebtsComponent implements OnInit {
 
   showPrice(debt: Debt){
     const price = this.priceLists.find(x => x.id == debt.priceListId);
-    return debt.miles * price.pricePerMile;
+    return debt.miles * price?.pricePerMile;
   }
 
 }
