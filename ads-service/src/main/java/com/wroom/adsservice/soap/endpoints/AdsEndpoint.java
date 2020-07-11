@@ -23,6 +23,7 @@ import java.util.List;
 public class AdsEndpoint {
 
 	private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
+	private static final String MONOLITH_EMAIL = "zika@maildrop.cc";
 
 	@Autowired
 	private LocationRepository locationRepository;
@@ -47,7 +48,7 @@ public class AdsEndpoint {
 			try {
 				Ad saved = this.adService.save(AdConverter.fromEntity(entity));
 				response.setAd(AdSoapConverter.toAdSoap(saved));
-				System.out.println(">>>>>>>>>>> Ad saved!");
+				log.info(">Ad saved");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -55,12 +56,12 @@ public class AdsEndpoint {
 		else if(request.getOperation() == Operation.DELETE) {
 			Ad deleted = this.adService.deleteByLocalId(entity.getLocalId(), entity.getOwnerUsername());
 			response.setAd(AdSoapConverter.toAdSoap(deleted));
-			System.out.println(">>>>>>>>>>> Ad deleted!");
+			log.info(">Ad deleted");
 		}
 		else if(request.getOperation() == Operation.UPDATE) {
 			Ad updated = this.adService.update(entity);
 			response.setAd(AdSoapConverter.toAdSoap(updated));
-			System.out.println(">>>>>>>>>>> Ad updated!");
+			log.info(">Ad updated");
 		}
 
 		log.info("action=receive-ad status=ended");
@@ -72,6 +73,10 @@ public class AdsEndpoint {
 	@ResponsePayload
 	public SendAdListRequestResponse sync(@RequestPayload SendAdListRequestResponse request) {
 		log.info("action=sync-ads status=started");
+
+		if(!request.getCompanyEmail().equals(MONOLITH_EMAIL)) {
+			return null;
+		}
 
 		SendAdListRequestResponse response = new SendAdListRequestResponse();
 

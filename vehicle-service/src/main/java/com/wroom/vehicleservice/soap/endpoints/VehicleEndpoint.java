@@ -3,12 +3,8 @@ package com.wroom.vehicleservice.soap.endpoints;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Random;
-
-import org.bouncycastle.crypto.prng.RandomGenerator;
 import java.util.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -41,6 +37,7 @@ import lombok.extern.log4j.Log4j2;
 public class VehicleEndpoint {
 
 	private static final String NAMESPACE_URI ="http://ftn.com/wroom-agent/xsd";
+	private static final String MONOLITH_EMAIL = "zika@maildrop.cc";
 	
 	@Autowired
 	private VehicleRepository vehicleRepository;
@@ -132,8 +129,12 @@ public class VehicleEndpoint {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "SendVehicleListRequestResponse")
 	@ResponsePayload
-	public SendVehicleListRequestResponse sendVehicle(@RequestPayload SendVehicleListRequestResponse request) {
+	public SendVehicleListRequestResponse syncVehicles(@RequestPayload SendVehicleListRequestResponse request) {
 		log.info("action=sync-vehicles status=started");
+
+		if(!request.getCompanyEmail().equals(MONOLITH_EMAIL)) {
+			return null;
+		}
 
 		SendVehicleListRequestResponse response = new SendVehicleListRequestResponse();
 
