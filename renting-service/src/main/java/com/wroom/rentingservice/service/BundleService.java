@@ -135,4 +135,13 @@ public class BundleService {
 
 		return requestList;
 	}
+
+	public BundledRequests updateLocalId(Long bundleId, Long localId) {
+
+		BundledRequests forUpdate = findById(bundleId);
+		forUpdate.setLocalId(localId);
+
+		return this.bundleRepository.save(forUpdate);
+
+	}
 }

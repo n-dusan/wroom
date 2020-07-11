@@ -28,7 +28,8 @@ public class MessageConverter extends AbstractConverter {
     			dto.getContent(),
     			dto.getDate(),
     			null,
-    			null);
+    			null,
+    			null);	//localId
     }
 	
 }

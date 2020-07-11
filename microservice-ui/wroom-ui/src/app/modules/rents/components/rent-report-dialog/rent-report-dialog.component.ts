@@ -28,7 +28,7 @@ export class RentReportDialogComponent implements OnInit {
     console.log('data', this.data.request)
 
     this.form = this.formBuilder.group({
-      'miles': new FormControl(null , [Validators.required]),
+      'miles': new FormControl(null, [Validators.required]),
       'notes': new FormControl(null, [Validators.required])
     });
   }
@@ -36,7 +36,7 @@ export class RentReportDialogComponent implements OnInit {
 
   onFormSubmit() {
 
-    if(this.form.valid) {
+    if (this.form.valid) {
       console.log('valid')
       console.log('miles  ', this.form.get('miles').value)
       console.log('notes  ', this.form.get('notes').value)
@@ -47,11 +47,16 @@ export class RentReportDialogComponent implements OnInit {
         this.form.get('miles').value,
         this.form.get('notes').value,
         this.data.request.id,
-        null );
+        null);
 
-      this.rentReportService.create(report).subscribe( (report: RentReport) => {
+      this.rentReportService.create(report).subscribe((report: RentReport) => {
         this.toastr.success('Done.', 'Report')
         this.dialogRef.close();
+        this.rentReportService.debts(report).subscribe(
+          data => {
+            console.log(data);
+          }
+        );
       }, error => this.toastr.error('Went wrong with making a report', 'Report'))
 
     }

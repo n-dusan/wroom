@@ -147,15 +147,16 @@ export class VehicleOccupancyListComponent implements OnInit {
     // To calculate the no. of days between two dates
     var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-    if(vehicle?.cdw) {
-      let total = +Difference_In_Days * +priceList?.pricePerDay + priceList?.priceCDW
-      return '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '</b>$ + <b>' + priceList?.priceCDW + '$</b> cdw = '
-      + '<b>' +  total + '$</b>';
-    }
+    let total =  +Difference_In_Days * +priceList?.pricePerDay;
 
-    let total = +Difference_In_Days * +priceList?.pricePerDay;
-    return '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '$</b> = '
-      + '<b>' +  total + '$</b>';
+    let response = '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '$</b> = '
+    + '<b>' +  total + '$</b>';
+
+    if(Difference_In_Days > 30) {
+      let total =  +Difference_In_Days * +priceList?.pricePerDay * +priceList?.discount/100;
+      response += '<br> <b>total after discount </b> <b>' +  total + '$</b>';
+    }
+    return response;
   }
 
   refresh() {
@@ -206,7 +207,7 @@ export class VehicleOccupancyListComponent implements OnInit {
             this.reservedList.push(r);
           } else if (r.status == 'PHYSICALLY_RESERVED'){
             this.physicallyReservedList.push(r);
-          } else {
+          } else if(r.status == 'COMPLETED') {
             this.completedList.push(r);
           }
         }

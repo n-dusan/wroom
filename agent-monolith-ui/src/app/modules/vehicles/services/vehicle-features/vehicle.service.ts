@@ -34,7 +34,7 @@ export class VehicleService {
 
     }
 
-    return this.http.post(`${this.baseUrl}/upload/` + id, formData);
+    return this.http.post(`${this.baseUrl}/upload/` + id, formData).pipe(catchError(this.handleException));
   }
 
   getVehicles(): Observable<Vehicle[]> {
@@ -54,7 +54,7 @@ export class VehicleService {
   }
 
   delete(id: number): Observable<string> {
-    return this.http.delete(this.baseUrl + '/' + id, { responseType: 'text' });
+    return this.http.delete(this.baseUrl + '/' + id, { responseType: 'text' }).pipe(catchError(this.handleException));
   }
 
   update(id: number, value: any) {

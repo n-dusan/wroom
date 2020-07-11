@@ -1,11 +1,13 @@
 package xwsagent.wroomagent.service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -18,9 +20,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import xwsagent.wroomagent.converter.UserConverter;
+import xwsagent.wroomagent.domain.Debt;
 import xwsagent.wroomagent.domain.PasswordResetToken;
 import xwsagent.wroomagent.domain.RentRequest;
 import xwsagent.wroomagent.domain.Vehicle;
+import xwsagent.wroomagent.domain.auth.Role;
 import xwsagent.wroomagent.domain.auth.RoleName;
 import xwsagent.wroomagent.domain.auth.User;
 import xwsagent.wroomagent.domain.auth.VerificationToken;
@@ -95,11 +99,19 @@ public class AuthenticationService {
 		if (userRepository.existsByEmail(request.getEmail())) {
 			throw new UsernameAlreadyExistsException("Username already exists!");
 		}
+		Set<Role> roleList = new HashSet<Role>();
+		roleList.add(roleRepository.findByName(RoleName.ROLE_USER));
+		roleList.add(roleRepository.findByName(RoleName.ROLE_CHATTING_USER));
+		roleList.add(roleRepository.findByName(RoleName.ROLE_CRUD_AD));
+		roleList.add(roleRepository.findByName(RoleName.ROLE_CRUD_VEHICLE));
+		roleList.add(roleRepository.findByName(RoleName.ROLE_PHYSICALLY_RESERVE));
+		roleList.add(roleRepository.findByName(RoleName.ROLE_RATING_COMMENTING_USER));
+		roleList.add(roleRepository.findByName(RoleName.ROLE_RENTING_USER));
 
 		User user = new User(
 				null, request.getName(), request.getSurname(), request.getEmail(), encoder.encode(request.getPassword()),
-				new HashSet<RentRequest>(), new HashSet<Vehicle>(), Collections.singleton(roleRepository.findByName(RoleName.ROLE_USER)),
-				false,false, null, null, null
+				new HashSet<RentRequest>(), new HashSet<Vehicle>(), roleList,
+				false,false, null, null, null, new HashSet<Debt>()
 		);
 		
 		user.setEnabled(false);

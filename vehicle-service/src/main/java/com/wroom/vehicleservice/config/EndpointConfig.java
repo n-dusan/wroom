@@ -8,5 +8,6 @@ public class EndpointConfig {
     public static final String GEARBOX_TYPE_BASE_URL = "/gearbox-type";
     public static final String MODEL_TYPE_BASE_URL = "/model-type";
     public static final String VEHICLE_BASE_URL = "/vehicle";
+    public static final String GPS_BASE_URL = "/gps";
 }
 

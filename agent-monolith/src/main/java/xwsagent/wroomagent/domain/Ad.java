@@ -56,7 +56,7 @@ public class Ad {
 	@Column
 	private String address;
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Vehicle vehicle;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

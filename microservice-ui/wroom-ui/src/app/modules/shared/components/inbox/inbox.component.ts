@@ -33,20 +33,11 @@ export class InboxComponent implements OnInit {
         this.received = data;
         console.log('messages', this.received)
         this.received.sort((a,b)=>{ return <any>new Date(a.date)- <any>new Date(b.date)}).reverse();
+        this.received = [...new Set(this.received)];
 
         for(let request of this.received) {
 
-          if(request.fromUserId) {
-            this.authService.get(request.fromUserId).subscribe(
-              data => {
-                request.fromUserNameSurname = data.name + ' ' + data.surname;
-              },
-              error => {
-                this.toastr.error('Unexpected error has ocurred', 'Error')
-              }
-            );
-          }
-          else if(request.fromUser) {
+          if(request.fromUser) {
             this.authService.getByUsername(request.fromUser).subscribe(
               data => {
                 request.fromUserNameSurname = data.name + ' ' + data.surname;

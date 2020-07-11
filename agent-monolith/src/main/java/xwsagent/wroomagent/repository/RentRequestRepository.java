@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import xwsagent.wroomagent.domain.Ad;
 import xwsagent.wroomagent.domain.RentRequest;
 
@@ -22,4 +24,14 @@ public interface RentRequestRepository extends JpaRepository<RentRequest, Long> 
 			"and rr2.from_date > ?3 and rr2.to_date <= ?4 and rr.id = rr2.id)", nativeQuery=true)
 	Integer findValidPendingRequests(Long userId, Long adId, Date fromDate, Date toDate);
 
+	@Query(value = "select rr.* from rent_request rr where rr.rent_report_id = ?1", nativeQuery=true)
+	RentRequest findByRentReportId(Long id);
+
+	@Query(value = "SELECT r FROM RentRequest r WHERE (r.rentReport.id = :id)")
+	RentRequest findByReportId(@Param("id") Long id);
+	
+	@Query(value = "SELECT r FROM RentRequest r WHERE (r.ad.id = :id)")
+	Ad findByAdId(@Param("id") Long id);
+	
+	
 }

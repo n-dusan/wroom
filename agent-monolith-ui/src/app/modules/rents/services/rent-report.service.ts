@@ -4,6 +4,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { RentReport } from '../../shared/models/rent-report.model';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Debt } from '../../shared/models/debt.model';
+import { User } from '../../shared/models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +28,22 @@ export class RentReportService {
 
   getForVehicle(vehicleId: number): Observable<RentReport[]> {
     return this.http.get<RentReport[]>(this.baseUrl + '/chart/' + vehicleId).pipe(catchError(this.handleException));
+  }
+
+  debts(report: RentReport): Observable<RentReport>{
+    return this.http.post<RentReport>(this.baseUrl + '/debts', report).pipe(catchError(this.handleException));;
+  }
+
+  alldebts(): Observable<Debt[]> {
+    return this.http.get<Debt[]>(this.baseUrl + '/alldebts').pipe(catchError(this.handleException));;
+  }
+
+  payDebt(id: number): Observable<Debt[]> {
+    return this.http.put<Debt[]>(this.baseUrl + '/pay/' + id, {}).pipe(catchError(this.handleException));;
+  }
+
+  checkDebts(){
+    return this.http.get(this.baseUrl + '/checkDebts').pipe(catchError(this.handleException));;
   }
 
   private handleException(err: HttpErrorResponse): Observable<never> {

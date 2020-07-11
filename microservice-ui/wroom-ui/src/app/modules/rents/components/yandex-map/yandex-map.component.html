@@ -1,0 +1,12 @@
+<div class="container">
+  <angular-yandex-map
+    [center]="geometry"
+    [zoom]="11"
+    (load)="onLoad($event)">
+
+     <angular-yandex-geoobject *ngFor="let point of points"
+      [feature]="point.feature"
+      [options]="point.options"
+    ></angular-yandex-geoobject>
+  </angular-yandex-map>
+</div>

@@ -14,12 +14,20 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     public static final String EXCHANGE_NAME = "tips_tx";
-    public static final String ROUTING_KEY = "vehicle_key";
-    public static final String QUEUE_NAME = "vehicle";
+    public static final String GPS_EXCHANGE_NAME = "gps_tx";
+    public static final String VEHICLE_ROUTING_KEY = "vehicle_key";
+    public static final String GPS_ROUTING_KEY = "gps_key";
+    public static final String VEHICLE_QUEUE_NAME = "vehicle";
+    public static final String GPS_QUEUE_NAME = "gps";
 
     @Bean
     public Queue queue() {
-        return new Queue(QUEUE_NAME, false);
+        return new Queue(VEHICLE_QUEUE_NAME, false);
+    }
+
+    @Bean
+    public Queue gps_queue() {
+        return new Queue(GPS_QUEUE_NAME, false);
     }
 
     @Bean
@@ -28,8 +36,18 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public TopicExchange gpsExchange() {
+        return new TopicExchange(GPS_EXCHANGE_NAME);
+    }
+
+    @Bean
     public Binding queueToExchangeBinding() {
-        return BindingBuilder.bind(queue()).to(tipsExchange()).with(ROUTING_KEY);
+        return BindingBuilder.bind(queue()).to(tipsExchange()).with(VEHICLE_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding gpsBinding() {
+        return BindingBuilder.bind(gps_queue()).to(gpsExchange()).with(GPS_ROUTING_KEY);
     }
 
     @Bean

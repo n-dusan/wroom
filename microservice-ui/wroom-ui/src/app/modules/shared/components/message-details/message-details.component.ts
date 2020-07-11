@@ -42,8 +42,9 @@ export class MessageDetailsComponent implements OnInit {
     console.log(this.form.value.title)
     const title = this.message.title.includes('Reply') ? this.message.title : this.message.title + ' - Reply';
     const reply = new Message(this.message.fromUserId, this.message.rentRequestId, title,
-    this.form.value.content, this.message.toUserId, null, this.message.fromUserNameSurname);
+    this.form.value.content, this.message.toUserId, null, this.message.fromUser);
 
+    console.log('reply',reply)
     this.messageService.send(reply).subscribe(
       data => {
         console.log('sent', data);

@@ -51,7 +51,8 @@ public class RentRequestController {
 		this.requestCounter = requestCounter;
 	}
 
-
+	
+	@PreAuthorize("hasAuthority('ROLE_RENTING_USER')")
 	@PostMapping
 	public ResponseEntity<?> sendRequest(@RequestBody RentRequestDTO dto, Authentication auth) {
 		String logContent = String.format(LOG_SEND_REQUEST, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
@@ -69,6 +70,7 @@ public class RentRequestController {
 
 	}
 
+	@PreAuthorize("hasAuthority('ROLE_RENTING_USER')")
 	@PostMapping(value="/bundle")
 	public ResponseEntity<?> sendBundledRequest(@RequestBody RentRequestDTO[] dto, Authentication auth) {
 		String logContent = String.format(LOG_SEND_BUNDLED_REQUEST, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
@@ -87,7 +89,7 @@ public class RentRequestController {
 	}
 
 	@PostMapping(value = "/occupy")
-	@PreAuthorize("hasAuthority('PHYSICALLY_RESERVE_VEHICLE') || hasAuthority('COMPLETE_ACCESS')")
+	@PreAuthorize("(hasAuthority('PHYSICALLY_RESERVE_VEHICLE') || hasAuthority('COMPLETE_ACCESS')) && hasAuthority('ROLE_PHYSICALLY_RESERVE')")
 	public ResponseEntity<?> occupy(@RequestBody RentRequestDTO rentRequestDTO, Authentication auth) {
 		String logContent = String.format(LOG_OCCUPY, auth.getName(), requestCounter.get(EndpointConfig.RENT_BASE_URL));
 		if (rentsService.occupy(rentRequestDTO, auth)) {
@@ -182,5 +184,10 @@ public class RentRequestController {
 		return this.rentsService.findByAd(id);
 	}
 	
+	@GetMapping("/allRequests")
+	public ResponseEntity<List<RentRequestDTO>> getAll() {
+		return new ResponseEntity<>(RentConverter.fromEntityList(rentsService.findAll(), RentConverter::fromEntity),
+				HttpStatus.OK);
+	}
 
 }

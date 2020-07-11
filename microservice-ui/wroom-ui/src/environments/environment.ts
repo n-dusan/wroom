@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  protocol: 'https',
+  protocol: 'http',
   domain: 'localhost',
   port: '8752',
   api: '/api',
@@ -12,7 +12,9 @@ export const environment = {
   searchService: '/search-service',
   adsService: '/ads-service',
   vehicleService: '/vehicle-service',
-  rentingService: '/renting-service'
+  rentingService: '/renting-service',
+  gpsSocketService: 'http://localhost:8073/socket',
+  gpsService: 'http://localhost:5000'
 };
 
 /*

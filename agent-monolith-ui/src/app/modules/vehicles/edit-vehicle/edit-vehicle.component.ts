@@ -103,8 +103,10 @@ export class EditVehicleComponent implements OnInit {
         this.new.cdw = this.vehicleUpdateForm.value.cdw;
         this.toastr.success('You have successfully added Body Type!', 'Success')
       },
-      error => this.toastr.success('Error!', 'Error')
-    )
+      error => {
+        this.toastr.error('Insufficient rights, please contact admin', 'Error')
+      }
+      )
   }
 
   vehicleUpdateForm = new FormGroup({

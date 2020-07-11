@@ -52,8 +52,14 @@ export class RentReportDialogComponent implements OnInit {
       this.rentReportService.create(report).subscribe( (report: RentReport) => {
         this.toastr.success('Done.', 'Report')
         this.dialogRef.close();
+        this.rentReportService.debts(report).subscribe(
+        data=>{
+          console.log(data);
+        }
+      )
       }, error => this.toastr.error('Went wrong with making a report', 'Report'))
 
+      
     }
   }
 

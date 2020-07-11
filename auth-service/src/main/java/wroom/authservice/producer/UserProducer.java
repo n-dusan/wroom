@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import lombok.extern.log4j.Log4j2;
 import wroom.authservice.config.RabbitMQConfig;
 import wroom.authservice.producer.messages.UserMessage;
-import wroom.authservice.producer.messages.UserOperationEnum;
 
 
 @Component

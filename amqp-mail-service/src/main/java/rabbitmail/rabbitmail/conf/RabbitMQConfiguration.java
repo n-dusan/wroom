@@ -41,9 +41,7 @@ public class RabbitMQConfiguration {
 
     @Bean
     public ConnectionFactory connectionFactory() {
-        System.out.println("AAAAAAAA");
         String uri = System.getenv("CLOUDAMQP_URL");
-        System.out.println("TELL ME WHAT IT IS " + uri);
         if (uri == null) {
             uri = "amqp://guest:guest@localhost";
         }

@@ -26,16 +26,18 @@ insert into roles(id, name)
 values (2, 'ROLE_AGENT');
 insert into roles(id, name)
 values (3, 'ROLE_ADMIN');
---insert into roles(id, name)
---values (4, 'ROLE_BANNED_USER');
 insert into roles(id, name)
---values (5, 'ROLE_VEHICLE');
---insert into roles(id, name)
+values (4, 'ROLE_CRUD_VEHICLE');
+insert into roles(id, name)
+values (5, 'ROLE_CRUD_AD');
+insert into roles(id, name)
 values (6, 'ROLE_CHATTING_USER');
 insert into roles(id, name)
 values (7, 'ROLE_RENTING_USER');
 insert into roles(id, name)
 values (8, 'ROLE_RATING_COMMENTING_USER');
+insert into roles(id, name)
+values (9, 'ROLE_PHYSICALLY_RESERVE');
 
 ----------- PERMISIJE ----------------
 insert into permission(id, name)
@@ -156,16 +158,6 @@ values (3, 16); --MANAGE_RATES_AND_COMMENTS
 insert into role_permissions(role_id, permission_id)
 values (3, 24); --MANAGE_VEHICLE_FEATURES
 
---insert into role_permissions(role_id, permission_id)
---values (3, 25); --MANAGE_COMMENTS
-
-------------------------------------------
-
------------- Permisije vozila ------------
---insert into role_permissions(role_id, permission_id)
---values (3, 15); --SEND_LOCATION
-------------------------------------------
-
 
 ------------------ KORISNICI ---------------------
 -- sifre svih usera su <<user>>123, npr mila123
@@ -180,15 +172,50 @@ values (3, 'grga@maildrop.cc', 'Svetislav', '$2a$10$JOsaxc.iuu8Pw.Wlbdfci.dl7xP9
 insert into user_roles(user_id, role_id)
 values (1, 1);
 insert into user_roles(user_id, role_id)
+values (1, 4);
+insert into user_roles(user_id, role_id)
+values (1, 5);
+insert into user_roles(user_id, role_id)
+values (1, 6);
+insert into user_roles(user_id, role_id)
 values (1, 7);
+insert into user_roles(user_id, role_id)
+values (1, 8);
+insert into user_roles(user_id, role_id)
+values (1, 9);
 
 --zika agent
 insert into user_roles(user_id, role_id)
 values (2, 2);
+insert into user_roles(user_id, role_id)
+values (2, 4);
+insert into user_roles(user_id, role_id)
+values (2, 5);
+insert into user_roles(user_id, role_id)
+values (2, 6);
+insert into user_roles(user_id, role_id)
+values (2, 7);
+insert into user_roles(user_id, role_id)
+values (2, 8);
+insert into user_roles(user_id, role_id)
+values (2, 9);
+
 
 --grga admin
 insert into user_roles(user_id, role_id)
 values (3, 3);
+insert into user_roles(user_id, role_id)
+values (3, 4);
+insert into user_roles(user_id, role_id)
+values (3, 5);
+insert into user_roles(user_id, role_id)
+values (3, 6);
+insert into user_roles(user_id, role_id)
+values (3, 7);
+insert into user_roles(user_id, role_id)
+values (3, 8);
+insert into user_roles(user_id, role_id)
+values (3, 9);
 
 
 
@@ -266,7 +293,7 @@ values (4, 0, 4, 0, 90000, 1, 3, 1, 3, 1);
 
 -- Ads
 insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id)
-values(1, 'Via del Corso 15', '2020-05-29 00:00:00.000000', '2020-07-16 00:00:00.000000', 0, 1, null, 0, '2020-05-28 17:20:12.039000', 4, 1, 1);
+values(1, 'Via del Corso 15', '2020-05-29 00:00:00.000000', '2020-07-16 00:00:00.000000', 0, 1, 30, 0, '2020-05-28 17:20:12.039000', 4, 1, 1);
 insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id)
 values(2, 'Via del Corso 156', '2020-05-15 00:00:00.000000', '2020-07-25 00:00:00.000000', 0, 1, null, 0, '2020-05-28 17:20:12.039000', 4, 2, 2);
 
@@ -275,28 +302,33 @@ values(3, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-07-25 00:00
 insert into ad (id, address, available_from, available_to, deleted, gps, mile_limit, mile_limit_enabled, publish_date, location_id, price_list_id, vehicle_id)
 values(4, 'Calle de Toledo 101', '2020-05-29 00:00:00.000000', '2020-08-15 00:00:00.000000', 0, 1, null, 0, '2020-05-15 17:20:12.039000', 2, 3, 4);
 
+--Rent Report
+-- insert into rent_report(id, date_report, note, traveled_miles, user_id)
+-- values(1, '2020-06-29 00:00:00.000000', 'Ovo je izvestaj', 60000, 1);
 
 -- Rent Requests
 --insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
 --values(1, '2020-06-05 00:00:00.000000', 'PAID', '2020-06-07 00:00:00.000000', null, 1, 1); --Opel Astra iz Wuhana
-insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
-values(1, '2020-06-23 00:00:00.000000', 'COMPLETED', '2020-06-23 00:00:00.000000', null, 1, 1);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (2, '2020-06-04 00:00:00.000000', 1, 'RESERVED', '2020-06-15 00:00:00.000000', 1, null, null);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (3, '2020-05-29 00:00:00.000000', 1, 'COMPLETED', '2020-06-01 00:00:00.000000', 1, null, null);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (4, '2020-06-01 00:00:00.000000', 1, 'COMPLETED', '2020-06-03 00:00:00.000000', 1, null, null);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (5, '2020-06-29 00:00:00.000000', 1, 'PENDING', '2020-06-30 00:00:00.000000', 1, null, null);
-insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
-values (6, '2020-06-27 00:00:00.000000', 1, 'PENDING', '2020-06-28 00:00:00.000000', 1, null, null);
+-- insert into rent_request(id, from_date, status, to_date, rent_report_id, requested_user_id, ad_id)
+-- values(1, '2020-06-23 00:00:00.000000', 'COMPLETED', '2020-06-23 00:00:00.000000', null, 1, 1);
+-- insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+-- values (2, '2020-06-04 00:00:00.000000', 1, 'RESERVED', '2020-06-15 00:00:00.000000', 1, null, null);
+-- insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+-- values (3, '2020-05-29 00:00:00.000000', 1, 'COMPLETED', '2020-06-01 00:00:00.000000', 1, null, null);
+--insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+--values (1, '2020-06-01 00:00:00.000000', 1, 'COMPLETED', '2020-06-03 00:00:00.000000', 1, null, null);
+-- insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+-- values (5, '2020-06-29 00:00:00.000000', 1, 'PENDING', '2020-06-30 00:00:00.000000', 1, null, null);
+-- insert into rent_request(id, from_date, requested_user_id, status, to_date, ad_id, bundle_id, rent_report_id)
+-- values (6, '2020-06-27 00:00:00.000000', 1, 'PENDING', '2020-06-28 00:00:00.000000', 1, null, null);
+
+
 
 -- Messages
-insert into message(id, content, date, rent_request_id, title, from_user, to_user_id)
-values(1, 'Hello Monolith, how are you doing?', '2020-06-05 10:00:00.000000', 1, 'Hello', 'zika@maildrop.cc', 1);
-insert into message(id, content, date, rent_request_id, title, to_user, from_user_id)
-values(2, 'Hello Ziko, good.', '2020-06-05 11:00:00.000000', 1, 'Hello-Reply', 'zika@maildrop.cc', 1);
+--insert into message(id, content, date, rent_request_id, title, from_user, to_user_id)
+--values(1, 'Hello Monolith, how are you doing?', '2020-06-05 10:00:00.000000', 1, 'Hello', 'zika@maildrop.cc', 1);
+--insert into message(id, content, date, rent_request_id, title, to_user, from_user_id)
+--values(2, 'Hello Ziko, good.', '2020-06-05 11:00:00.000000', 1, 'Hello-Reply', 'zika@maildrop.cc', 1);
 
 -- Comments
 -- insert into comment(id, approved, content, comment_date, deleted, rate, title, ad_id, client_id, reply_id, reply, client_username)

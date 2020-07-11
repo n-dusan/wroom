@@ -27,4 +27,7 @@ public class RentReport {
 
     @OneToOne(mappedBy = "rentReport", cascade = CascadeType.ALL)
     private RentRequest rentRequest;
+
+    @Column
+    private Long localId;
 }

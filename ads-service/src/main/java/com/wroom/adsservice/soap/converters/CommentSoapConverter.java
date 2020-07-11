@@ -9,6 +9,8 @@ public class CommentSoapConverter extends AbstractConverter {
     public static CommentSoap toSoapRequest(Comment entity) {
 		CommentSoap ret = new CommentSoap();
 		ret.setId(entity.getId());
+		ret.setLocalId(entity.getLocalId() == null ? null : entity.getLocalId());
+		
 		ret.setTitle(entity.getTitle() == null ? "" : entity.getTitle());
 		ret.setContent(entity.getContent());
 		ret.setCommentDate(entity.getCommentDate());
@@ -17,7 +19,7 @@ public class CommentSoapConverter extends AbstractConverter {
 		System.out.println("ad" + entity.getAd());
 		ret.setAdId(entity.getAd().getLocalId());
 		ret.setReplyId((entity.getReplyId() == null ? null : entity.getReplyId()));
-
+		
 		ret.setApproved(entity.isApproved());
 		ret.setDeleted(entity.isDeleted());
         ret.setRate((entity.getRate() == null ? 0 : entity.getRate().intValue()));

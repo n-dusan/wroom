@@ -1,4 +1,4 @@
-package com.wroom.zuulapigateway.config;
+package wroom.authservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -14,10 +14,13 @@ import { PriceList } from 'src/app/modules/search/model/price-list.model';
 import { PriceListService } from 'src/app/modules/ads/services/price-list.service';
 import { RentReportDialogComponent } from '../rent-report-dialog/rent-report-dialog.component';
 import { Ad } from 'src/app/modules/shared/models/ad.model';
+// import { Ad as AdModel } from '../../../ads/model/ad.model';
 import { NewCommentComponent } from 'src/app/modules/ads/comments/new-comment/new-comment.component';
 
 import { RentReport } from 'src/app/modules/shared/models/rent-report.model';
 import { RentReportService } from '../../services/rent-report.service';
+import { YandexMapComponent } from '../yandex-map/yandex-map.component';
+import { AdsService } from 'src/app/modules/ads/services/ads.service';
 
 @Component({
   selector: 'app-vehicle-occupancy-list',
@@ -45,7 +48,7 @@ export class VehicleOccupancyListComponent implements OnInit {
   reservedList: RentRequest[] = [];
   physicallyReservedList: RentRequest[] = [];
   completedList: RentRequest[] = [];
-
+  // adList: AdModel[] = [];
 
   reportList: RentReport[] = [];
 
@@ -58,7 +61,8 @@ export class VehicleOccupancyListComponent implements OnInit {
     private dialog: MatDialog,
     private priceListService: PriceListService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private rentReportService: RentReportService) { }
+    private rentReportService: RentReportService,
+    private adsService: AdsService) { }
 
   ngOnInit(): void {
     this.refresh();
@@ -148,15 +152,18 @@ export class VehicleOccupancyListComponent implements OnInit {
     // To calculate the no. of days between two dates
     var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
 
-    if(vehicle?.cdw) {
-      let total = +Difference_In_Days * +priceList?.pricePerDay + priceList?.priceCDW
-      return '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '</b>$ + <b>' + priceList?.priceCDW + '$</b> cdw = '
-      + '<b>' +  total + '$</b>';
-    }
 
-    let total = +Difference_In_Days * +priceList?.pricePerDay;
-    return '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '$</b> = '
-      + '<b>' +  total + '$</b>';
+
+    let total =  +Difference_In_Days * +priceList?.pricePerDay;
+
+    let response = '<b>' + Difference_In_Days + '</b> d x ' + '<b>' + priceList?.pricePerDay + '$</b> = '
+    + '<b>' +  total + '$</b>';
+
+    if(Difference_In_Days > 30) {
+      let total =  +Difference_In_Days * +priceList?.pricePerDay * +priceList?.discount/100;
+      response += '<br> <b>total after discount </b> <b>' +  total + '$</b>';
+    }
+    return response;
   }
 
   refresh() {
@@ -186,6 +193,7 @@ export class VehicleOccupancyListComponent implements OnInit {
         this.reportList = data;
       })
 
+
       this.rentService.getAllActiveForUser(this.loggedUser.id).pipe(takeUntil(this.ngUnsubscribe)).subscribe((data: RentRequest[]) => {
         this.requestList = data;
 
@@ -209,7 +217,7 @@ export class VehicleOccupancyListComponent implements OnInit {
             this.reservedList.push(r);
           } else if (r.status == 'PHYSICALLY_RESERVED'){
             this.physicallyReservedList.push(r);
-          } else {
+          } else if (r.status == 'COMPLETED') {
             this.completedList.push(r);
           }
         }
@@ -262,6 +270,18 @@ export class VehicleOccupancyListComponent implements OnInit {
   showReport(request: RentRequest) {
     let report = this.reportList.find(x => x.rentRequestId == request.id);
     return 'Miles passed:' + '<b> ' + report.traveledMiles + '</b> <br/> Note: ' + '<b>' + (report.note ? report.note : 'unspecified') + '</b>'
+  }
+
+  viewMap(request: RentRequest) {
+    let dialogRef = this.dialog.open(YandexMapComponent, {
+      data: {
+        request: request
+      }
+    });
+  }
+
+  checkGps(request: RentRequest) {
+    return request.ad.gps
   }
 
 }

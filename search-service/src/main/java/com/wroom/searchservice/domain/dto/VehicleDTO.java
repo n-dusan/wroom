@@ -43,5 +43,6 @@ public class VehicleDTO {
 	private FeatureDTO gearboxType;
 	
 	private Long ownerId;
+	private String ownerUsername;
 
 }

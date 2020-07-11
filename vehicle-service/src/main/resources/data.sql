@@ -57,11 +57,11 @@ values (2, false, 'Automatic');
 --------------------------------------------
 
 -- Vehicle
-insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id, owner_username)
-values (1, 1, 0, 0, 50000, 4, 3, 1, 2, 2, 'zika@maildrop.cc');
-insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id, owner_username)
-values (2, 0, 0, 0, 70000, 3, 3, 1, 3, 2, 'zika@maildrop.cc');
-insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id, owner_username)
-values (3, 1, 3, 0, 100000, 1, 2, 2, 4, 1, 'mila@maildrop.cc');
-insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id, owner_username)
-values (4, 0, 4, 0, 90000, 1, 3, 1, 3, 1, 'mila@maildrop.cc');
+insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id, owner_username, local_id)
+values (1, 1, 0, 0, 50000, 4, 3, 1, 2, 2, 'zika@maildrop.cc', 1);
+insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id, owner_username, local_id)
+values (2, 0, 0, 0, 70000, 3, 3, 1, 3, 2, 'zika@maildrop.cc', 2);
+insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id, owner_username, local_id)
+values (3, 1, 3, 0, 100000, 1, 2, 2, 4, 1, 'mila@maildrop.cc', 3);
+insert into vehicle(id, cdw, child_seats, deleted, mileage, body_type_id, fuel_type_id, gearbox_type_id, model_type_id, owner_id, owner_username, local_id)
+values (4, 0, 4, 0, 90000, 1, 3, 1, 3, 1, 'mila@maildrop.cc', 4);

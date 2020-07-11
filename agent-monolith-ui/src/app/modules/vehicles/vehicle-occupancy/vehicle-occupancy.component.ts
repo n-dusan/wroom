@@ -82,7 +82,15 @@ export class VehicleOccupancyComponent implements OnInit {
 
       },
       error => {
-        this.toastr.error('Please enter a valid date according to the ad and pre-existing requests', 'Choosen date not valid')
+        
+        console.log(error)
+        if(error == null){
+          this.toastr.error('Please enter a valid date according to the ad and pre-existing requests', 'Choosen date not valid')  
+        }
+        if(error.status == 403){
+          this.toastr.error('Insufficient rights, please contact admin', 'Error')
+        }
+        
       }
     );
   }

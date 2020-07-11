@@ -11,13 +11,9 @@ import xwsagent.wroomagent.repository.CommentRepository;
 import xwsagent.wroomagent.service.AdService;
 import xwsagent.wroomagent.service.CommentService;
 import xwsagent.wroomagent.soap.converters.CommentSoapConverter;
-import xwsagent.wroomagent.soap.xsd.CommentListRequest;
-import xwsagent.wroomagent.soap.xsd.CommentListResponse;
-import xwsagent.wroomagent.soap.xsd.CommentReplyRequest;
-import xwsagent.wroomagent.soap.xsd.CommentResponse;
-import xwsagent.wroomagent.soap.xsd.CommentSoap;
-import xwsagent.wroomagent.soap.xsd.CommentUpdateRequest;
-import xwsagent.wroomagent.soap.xsd.CommentUpdateResponse;
+
+import xwsagent.wroomagent.soap.xsd.*;
+
 
 @Log4j2
 public class CommentsClient extends WebServiceGatewaySupport {
@@ -41,7 +37,7 @@ public class CommentsClient extends WebServiceGatewaySupport {
 		log.info(">>>>>> Sending comment to wroom");
 		CommentResponse response = (CommentResponse) getWebServiceTemplate().marshalSendAndReceive(request);
 		log.info(">>>>>> Sent");
-		
+
 		return response;
 	}
 	
@@ -62,12 +58,22 @@ public class CommentsClient extends WebServiceGatewaySupport {
 			Comment comment = CommentSoapConverter.fromSoapRequest(commentSoap);
 			comment.setAd(adService.findById(commentSoap.getAdId()));
 			
+			if(comment.isReply()) {
+				comment.setId(commentSoap.getLocalId());
+				comment.setApproved(commentSoap.isApproved());
+				Comment saved = this.commentRepository.save(comment);
+				continue;
+			}
+			
 			Comment saved = this.commentRepository.save(comment);
 
-			if(commentSoap.getLocalId() == null) {
-				//notify microservice of new entry (set local id)
-				updateCommentId(commentSoap.getId(), saved.getId());
+			if(!comment.isReply()) {
+				if(commentSoap.getLocalId() == null) {
+					//notify microservice of new entry (set local id)
+					updateCommentId(commentSoap.getId(), saved.getId());
+				}
 			}
+			
         }
 	}
 

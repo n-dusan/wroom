@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  protocol: 'https',
+  protocol: 'http',
   domain: 'localhost',
   port: '8051',
   api: '/api',

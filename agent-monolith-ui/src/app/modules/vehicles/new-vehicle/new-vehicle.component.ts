@@ -78,7 +78,7 @@ export class NewVehicleComponent implements OnInit {
       this.fourthFormGroup = this.formBuilder.group({
         file: ['']
       });
-      
+
       this.modelService.getModelTypes().subscribe(
         data => {
           this.modelListAll = data;
@@ -118,14 +118,14 @@ export class NewVehicleComponent implements OnInit {
   urls = [];
 
   onSelectFile(event) {
-    
+
     var files = event.target.files;
     for(let file of files) {
       if(file.type !== 'image/png' && file.type !=='image/jpg' && file.type !=='image/jpeg') {
         this.toastr.error('Valid types are: .png, .jpg and .jpeg', 'Please upload valid file type')
         return;
       }
-      if(file.size >= 8000000) { 
+      if(file.size >= 8000000) {
         this.toastr.error('File size limit is 8MB', 'File too big')
         return;
       }
@@ -158,7 +158,13 @@ export class NewVehicleComponent implements OnInit {
           });
       },
       error => {
-        this.toastr.error('Error !', 'Error')
+       
+        if(error.status == 403){
+          this.toastr.error('Insufficient rights, please contact admin', 'Error')
+        }else{
+          this.toastr.error('childSeats: must be less than or equal to 4', 'Error')
+        }
+        
         console.log(error)
       }
     );
@@ -170,7 +176,7 @@ export class NewVehicleComponent implements OnInit {
 
     const modelType = this.firstFormGroup.value.selectModel;
     const mType = this.modelList.find(x => x.id == modelType);
-    console.log(mType + 'Izabrani model')
+    // console.log(mType + 'Izabrani model')
 
     const brandType = this.firstFormGroup.value.selectBrand;
     const brType = this.brandList.find(x => x.id == brandType);
@@ -198,7 +204,7 @@ export class NewVehicleComponent implements OnInit {
   }
 
   brandClicked(brand: BrandType) {
-    console.log(brand)
+    this.modelList = [];
     for (let m of this.modelListAll) {
       if (m.brandId === brand.id) {
         this.modelList.push(m);

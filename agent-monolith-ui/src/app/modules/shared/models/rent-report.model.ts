@@ -4,6 +4,6 @@ export class RentReport {
     public traveledMiles?: number,
     public note?: string,
     public rentRequestId?: number,
-    public date?: Date
+    public dateReport?: Date
 ) { }
 }

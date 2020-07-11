@@ -4,6 +4,7 @@ import { AuthService } from './modules/auth/service/auth.service';
 import { LoggedUser } from './modules/auth/model/logged-user.model';
 import { Router } from '@angular/router';
 import { ShoppingCartService } from './modules/shared/service/shopping-cart.service';
+import { RentReportService } from './modules/rents/services/rent-report.service';
 
 @Component({
   selector: 'app-root',
@@ -14,13 +15,14 @@ export class AppComponent implements OnInit {
   title = 'Monolith';
 
   user: LoggedUser;
-
+  debts: any;
   cartItemsNum: number = 0;
 
   constructor(private http: HttpClient,
     private authService: AuthService,
     private router: Router,
-    private shoppingCartService: ShoppingCartService) { }
+    private shoppingCartService: ShoppingCartService,
+    private rentReportService: RentReportService) { }
 
   ngOnInit(): void {
     // console.log('Greetings! Attempting to establish http communication with monolith back-end...');
@@ -37,6 +39,7 @@ export class AppComponent implements OnInit {
       this.user = data;
       if (this.user == null) {
         this.authService.reauthenticate();
+        console.log('my user', this.user);
       }
     });
 
@@ -49,6 +52,7 @@ export class AppComponent implements OnInit {
     if (this.user == null) {
       this.authService.loggedUserSubject.subscribe(
         data => {
+          console.log('my user', this.user);
           this.user = data;
         }
       )
@@ -64,6 +68,10 @@ export class AppComponent implements OnInit {
 
   shoppingCartClick() {
     this.router.navigateByUrl('/cart');
+  }
+
+  debtsClick() {
+    this.router.navigateByUrl('/debts');
   }
 
 }
