@@ -31,9 +31,6 @@ $ docker image prune
 
 ---
 
-## Features
-
-
 ## Contributing
 
 > To get started...
