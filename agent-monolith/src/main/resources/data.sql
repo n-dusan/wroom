@@ -158,16 +158,6 @@ values (3, 16); --MANAGE_RATES_AND_COMMENTS
 insert into role_permissions(role_id, permission_id)
 values (3, 24); --MANAGE_VEHICLE_FEATURES
 
---insert into role_permissions(role_id, permission_id)
---values (3, 25); --MANAGE_COMMENTS
-
-------------------------------------------
-
------------- Permisije vozila ------------
---insert into role_permissions(role_id, permission_id)
---values (3, 15); --SEND_LOCATION
-------------------------------------------
-
 
 ------------------ KORISNICI ---------------------
 -- sifre svih usera su <<user>>123, npr mila123

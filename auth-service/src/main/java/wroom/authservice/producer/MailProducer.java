@@ -35,7 +35,7 @@ public class MailProducer {
         MailMessage mailMessage = new MailMessage(email, 
         		"E-Mail Confirmation", 
         		"Hello, \n\n Please confirm your E-Mail Adress by clicking to following link:"
-        		+ "\n https://localhost:4200/#/confirm/" + token
+        		+ "\n https://localhost:4204/#/confirm/" + token
         		+ "\n\nKind regards,\nMonolith");
 
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);
@@ -47,7 +47,7 @@ public class MailProducer {
     	MailMessage mailMessage = new MailMessage(email, 
         		"Password Reset", 
         		"Hello, \n\n You can change your password following this link:"
-        		+ "\n https://localhost:4200/#/reset-password/" + guid
+        		+ "\n https://localhost:4204/#/reset-password/" + guid
         		+ "\n\nKind regards,\nMonolith");
 
         rabbitTemplate.convertAndSend(RabbitMQConfig.EXCHANGE_NAME, RabbitMQConfig.ROUTING_KEY, mailMessage);

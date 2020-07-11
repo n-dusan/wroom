@@ -35,7 +35,6 @@ import wroom.authservice.exception.APIError;
 import wroom.authservice.exception.PasswordTokenAlreadyUsed;
 import wroom.authservice.exception.TokenExpiredException;
 import wroom.authservice.exception.UsernameAlreadyExistsException;
-import wroom.authservice.jwt.UserPrincipal;
 import wroom.authservice.service.AuthenticationService;
 import wroom.authservice.util.RequestCounter;
 
@@ -47,7 +46,6 @@ public class AuthController {
 
 	private static final String LOG_LOGIN = "action=login user=%s ip_address=%s times=%s ";
 	private static final String LOG_SIGN_UP= "action=signup user=%s ip_address=%s times=%s ";
-	private static final String LOG_CONFIRM = "action=confirm user=%s ip_address=%s times=%s";
 	private static final String LOG_FORGOT_PASSWORD = "action=forgot_password email=%s ip_address=%s times=%s";
 	private static final String LOG_RESET_PASSWORD = "action=reset_password token=%s ip_address=%s times=%s";
 	
@@ -111,8 +109,6 @@ public class AuthController {
 	}
 
 
-//	Do we need to preauthorize whoami?
-	//@PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_AGENT') or hasAuthority('ROLE_ADMIN')")
 	@GetMapping("/whoami")
 	public ResponseEntity<?> whoami(Authentication auth) {
 		try {
@@ -126,11 +122,7 @@ public class AuthController {
 	 * Endpoint for e-mail confirmation
 	 */
 	@PutMapping("/confirm")
-	public ResponseEntity<?> emailConfirmation(@RequestBody String token, Authentication auth, HttpServletRequest httpServletRequest) {
-		UserPrincipal user = (UserPrincipal) auth.getPrincipal();
-		String logContent = String.format(LOG_CONFIRM, user.getUsername(), httpServletRequest.getRemoteAddr(), requestCounter.get(EndpointConfig.AUTH_BASE_URL));
-		log.info(logContent);
-
+	public ResponseEntity<?> emailConfirmation(@RequestBody String token) {
 		return new ResponseEntity<>(this.authenticationService.confirm(token), HttpStatus.OK);
 	}
 	

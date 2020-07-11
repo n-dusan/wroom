@@ -21,7 +21,7 @@ export class ManageUsersComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   isLoadingResults: boolean = true;
-  displayedColumns: string[] = ['email', 'name', 'surname', 'user-type', 'account-locked', 'lock', 'delete'];
+  displayedColumns: string[] = ['email', 'name', 'surname', 'user-type', 'account-locked', 'permissions', 'lock', 'delete'];
 
   dataSource: MatTableDataSource<User> = new MatTableDataSource;
 
@@ -53,7 +53,7 @@ export class ManageUsersComponent implements OnInit {
       data: user
     });
     dialogRef.afterClosed().subscribe(result => {
-      
+
     });
   }
 

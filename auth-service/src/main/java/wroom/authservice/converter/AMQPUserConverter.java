@@ -8,6 +8,7 @@ public class AMQPUserConverter {
 
     public static UserMessage toFeatureMessage(UserDTO dto, UserOperationEnum operationEnum) {
         UserMessage message = new UserMessage();
+
         message.setSurname(dto.getSurname());
         message.setNonLocked(dto.getNonLocked());
         message.setName(dto.getName());
@@ -15,6 +16,7 @@ public class AMQPUserConverter {
         message.setEmail(dto.getEmail());
         message.setId(dto.getId());
         message.setOperation(operationEnum);
+
         return message;
     }
 }

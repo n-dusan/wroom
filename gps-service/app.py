@@ -43,7 +43,7 @@ cities = {
 def interval_coordinates():
     idx = 0
     while True:
-        time.sleep(5)
+        time.sleep(10)
         global coordinates
         try:
             coords = coordinates.get(cities[chosen_city])[idx]
